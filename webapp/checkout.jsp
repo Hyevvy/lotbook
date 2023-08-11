@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -29,101 +31,46 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Humberger Begin -->
-    <div class="humberger__menu__overlay"></div>
-    <div class="humberger__menu__wrapper">
-        <div class="humberger__menu__logo">
-            <a href="#"><img src="img/logo.png" alt=""></a>
-        </div>
-        <div class="humberger__menu__cart">
-            <ul>
-                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
-            </ul>
-            <div class="header__cart__price">item: <span>$150.00</span></div>
-        </div>
-        <nav class="humberger__menu__nav mobile-menu">
-            <ul>
-                <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="./shop-grid.html">Shop</a></li>
-                <li><a href="#">Pages</a>
-                    <ul class="header__menu__dropdown">
-                        <li><a href="./shop-details.html">Shop Details</a></li>
-                        <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                        <li><a href="./checkout.html">Check Out</a></li>
-                        <li><a href="./blog-details.html">Blog Details</a></li>
-                    </ul>
-                </li>
-                <li><a href="./blog.html">Blog</a></li>
-                <li><a href="./contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div id="mobile-menu-wrap"></div>
-        <div class="humberger__menu__contact">
-            <ul>
-                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                <li>Free Shipping for all Order of $99</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Humberger End -->
-
     <!-- Header Section Begin -->
     <header class="header">
         <div class="header__top">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="header__top__left">
-                            <ul>
-                                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                <li>Free Shipping for all Order of $99</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="header__top__right">
-                            <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <nav class="header__menu header__top__right mobile-menu">
+			        <ul>
+			          	<li class="active">
+                            <a href="#"><i class="fa fa-user"></i> 로그인</a>
+                        </li>
+                        <li class="">
+                            <a href="#"><i class="fa fa-user"></i> 회원가입</a>
+                        </li>
+			        </ul>
+			    </nav>
             </div>
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="./shop-grid.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
+                            <li><a href="./index.jsp">Home</a></li>
+                            <li><a href="./shop-grid.jsp">Shop</a></li>
+                            <li class="active"><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a href="./shop-details.jsp">Shop Details</a></li>
+                                    <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
+                                    <li class="active"><a href="./checkout.jsp">Check Out</a></li>
+                                    
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
+                            
+                            <li><a href="./contact.jsp">Contact</a></li>
                         </ul>
                     </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="header__cart">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
-                        </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
-                    </div>
                 </div>
             </div>
             <div class="humberger__open">
@@ -163,21 +110,11 @@
                         <div class="hero__search__form">
                             <form action="#">
                                 <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
+                                    통합 검색
                                 </div>
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
+                                <input type="text" placeholder="검색어를 입력해주세요">
+                                <button type="submit" class="site-btn">검색</button>
                             </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
-                                <span>support 24/7 time</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -194,7 +131,7 @@
                     <div class="breadcrumb__text">
                         <h2>Checkout</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
+                            <a href="./index.jsp">Home</a>
                             <span>Checkout</span>
                         </div>
                     </div>
@@ -210,42 +147,42 @@
             <div class="row">
             </div>
             <div class="checkout__form">
-                <h4>결제 확인서</h4>
+                <h4>ê²°ì  íì¸ì</h4>
                 <form action="#">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>받는 분 성함<span>*</span></p>
+                                        <p>ë°ë ë¶ ì±í¨<span>*</span></p>
                                         <input type="text">
                                     </div>
                                 </div>
                             </div>
                             <div class="checkout__input">
-                                <p>이메일(청구서 수신용)<span>*</span></p>
+                                <p>ì´ë©ì¼(ì²­êµ¬ì ìì ì©)<span>*</span></p>
                                 <input type="tel" required>
                             </div>
                             <div class="checkout__input">
-                                <p>주소<span>*</span></p>
+                                <p>ì£¼ì<span>*</span></p>
                                 <input type="text">
                             </div>
                             <div class="checkout__input">
-                                <p>연락처<span>*</span></p>
+                                <p>ì°ë½ì²<span>*</span></p>
                                 <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
-                                <h4>주문 내역</h4>
-                                <div class="checkout__order__products">상품 목록 <span>금액</span></div>
+                                <h4>ì£¼ë¬¸ ë´ì­</h4>
+                                <div class="checkout__order__products">ìí ëª©ë¡ <span>ê¸ì¡</span></div>
                                 <ul>
-                                    <li>Vegetable’s Package <span>$75.99</span></li>
+                                    <li>Vegetableâs Package <span>$75.99</span></li>
                                     <li>Fresh Vegetable <span>$151.99</span></li>
                                     <li>Organic Bananas <span>$53.99</span></li>
                                 </ul>
-                                <div class="checkout__order__total">적립 예정 포인트 <span>$10.99</span></div>
-                                <div class="checkout__order__total">총 금액 <span>$750.99</span></div>
+                                <div class="checkout__order__total">ì ë¦½ ìì  í¬ì¸í¸ <span>$10.99</span></div>
+                                <div class="checkout__order__total">ì´ ê¸ì¡ <span>$750.99</span></div>
  
                                 <div class="checkout__input__checkbox">
                                     <label for="paypal">
@@ -254,7 +191,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <button type="submit" class="site-btn">주문하기</button>
+                                <button type="submit" class="site-btn">ì£¼ë¬¸íê¸°</button>
                             </div>
                         </div>
                     </div>
@@ -265,10 +202,10 @@
     <!-- Checkout Section End -->
 
     <!-- Footer Section Begin -->
-    <footer class="footer spad">
+     <footer class="footer spad">
         <div class="container">
             <div class="row">
-             <div class="col-lg-3 col-md-6 col-sm-6">
+             <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
                             <a href="./index.html"><img src="img/logo.png" alt=""></a>
@@ -292,6 +229,7 @@
         </div>
     </footer>
     <!-- Footer Section End -->
+
 
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>

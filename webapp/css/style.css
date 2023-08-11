@@ -408,7 +408,9 @@ ol {
 }
 
 .header__logo {
+	width: 80%;
 	padding: 15px 0;
+	margin-left: 20px;
 }
 
 .header__logo a {
@@ -727,10 +729,9 @@ ol {
 }
 
 .hero__item {
-	height: 431px;
+	width: 100%;
 	display: flex;
 	align-items: center;
-	padding-left: 75px;
 }
 
 .hero__text span {

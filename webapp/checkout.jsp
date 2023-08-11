@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="icon" href="img/favicon.ico">
 </head>
 
 <body>
@@ -208,7 +209,7 @@
              <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                            <a href="./index.html"><img src="img/logo.png" alt="" styles></a>
                         </div>
                         <ul>
                             <li>주소: 서울특별시 서초구 서초대로74길 33</li>

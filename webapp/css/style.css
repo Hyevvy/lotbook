@@ -2630,7 +2630,8 @@ ol {
 	list-style: none;
 }
 
-.footer__about__logo {
+.footer__about__logo img {
+	height: 50px;
 	margin-bottom: 15px;
 }
 

@@ -142,49 +142,49 @@
     </section>
     <!-- Breadcrumb Section End -->
 
-    <!-- Checkout Section Begin -->
+   <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">
             <div class="row">
             </div>
             <div class="checkout__form">
-                <h4>ê²°ì  íì¸ì</h4>
+                <h4>결제 확인서</h4>
                 <form action="#">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>ë°ë ë¶ ì±í¨<span>*</span></p>
+                                        <p>받는 분 성함<span>*</span></p>
                                         <input type="text">
                                     </div>
                                 </div>
                             </div>
                             <div class="checkout__input">
-                                <p>ì´ë©ì¼(ì²­êµ¬ì ìì ì©)<span>*</span></p>
+                                <p>이메일(청구서 수신용)<span>*</span></p>
                                 <input type="tel" required>
                             </div>
                             <div class="checkout__input">
-                                <p>ì£¼ì<span>*</span></p>
+                                <p>주소<span>*</span></p>
                                 <input type="text">
                             </div>
                             <div class="checkout__input">
-                                <p>ì°ë½ì²<span>*</span></p>
+                                <p>연락처<span>*</span></p>
                                 <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
-                                <h4>ì£¼ë¬¸ ë´ì­</h4>
-                                <div class="checkout__order__products">ìí ëª©ë¡ <span>ê¸ì¡</span></div>
+                                <h4>주문 내역</h4>
+                                <div class="checkout__order__products">상품 목록 <span>금액</span></div>
                                 <ul>
-                                    <li>Vegetableâs Package <span>$75.99</span></li>
+                                    <li>Vegetable’s Package <span>$75.99</span></li>
                                     <li>Fresh Vegetable <span>$151.99</span></li>
                                     <li>Organic Bananas <span>$53.99</span></li>
                                 </ul>
-                                <div class="checkout__order__total">ì ë¦½ ìì  í¬ì¸í¸ <span>$10.99</span></div>
-                                <div class="checkout__order__total">ì´ ê¸ì¡ <span>$750.99</span></div>
- 
+                                <div class="checkout__order__total">적립 예정 포인트 <span>$10.99</span></div>
+                                <div class="checkout__order__total">총 금액 <span>$750.99</span></div>
+
                                 <div class="checkout__input__checkbox">
                                     <label for="paypal">
                                         Paypal
@@ -192,7 +192,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <button type="submit" class="site-btn">ì£¼ë¬¸íê¸°</button>
+                                <button type="submit" class="site-btn">주문하기</button>
                             </div>
                         </div>
                     </div>
@@ -201,7 +201,6 @@
         </div>
     </section>
     <!-- Checkout Section End -->
-
     <!-- Footer Section Begin -->
      <footer class="footer spad">
         <div class="container">

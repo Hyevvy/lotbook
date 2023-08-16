@@ -42,26 +42,26 @@ public class MainServlet extends HttpServlet {
 
 	private void build(HttpServletRequest request,
 			String view){
-		if(view.equals("register")){
-			request.setAttribute("center", "register");
-			request.setAttribute("navi", Navi.register);
-		}else if(view.equals("login")){
-			request.setAttribute("center", "login");
-			request.setAttribute("navi", Navi.login);
+		if(view.equals("signup")){
+			request.setAttribute("center", "signup");
+		}else if(view.equals("signin")){
+			request.setAttribute("center", "signin");
 		}else if(view.equals("loginimpl")) {
 			String id = request.getParameter("id");
 			String pwd = request.getParameter("pwd");
-			if(id.equals("aa") && pwd.equals("11")) {
-				HttpSession session = request.getSession();
-				Cust cust = new Cust("id01", "pwd01", "james");
-				session.setAttribute("logincust",cust);
-			}
-		}else if(view.equals("custadd")){
-			request.setAttribute("center", "cust/register");
-		}else if(view.equals("productadd")){
-			request.setAttribute("center", "product/register");
-		}else if(view.equals("chart")){
-			request.setAttribute("center", "chart/chart");
+			// 로그인 기능 구현
+		}else if(view.equals("mypage")){
+			request.setAttribute("center", "mypage");
+		}else if(view.equals("checkout")){
+			request.setAttribute("center", "checkout");
+		}else if(view.equals("contact")){
+			request.setAttribute("center", "contact");
+		}else if(view.equals("shop-details")){
+			request.setAttribute("center", "shop-details");
+		}else if(view.equals("shop-grid")){
+			request.setAttribute("center", "shop-grid");
+		}else if(view.equals("shoping-cart")){
+			request.setAttribute("center", "shoping-cart");
 		}
 		
 	}

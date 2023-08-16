@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -39,7 +40,7 @@
                 <nav class="header__menu header__top__right mobile-menu" style="padding: 5px 0">
 			        <ul>
 			          	<li class="active">
-                            <a href="#"><i class="fa fa-user"></i> 로그인</a>
+                            <a href="./login.jsp"><i class="fa fa-user"></i> 로그인</a>
                         </li>
                         <li class="">
                             <a href="#"><i class="fa fa-user"></i> 회원가입</a>

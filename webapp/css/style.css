@@ -140,10 +140,7 @@ ol {
 	background-position: top center;
 }
 
-.spad {
-	padding-top: 100px;
-	padding-bottom: 100px;
-}
+
 
 .text-white h1,
 .text-white h2,
@@ -556,6 +553,15 @@ ol {
 
 .humberger__open {
 	display: none;
+}
+
+/*---------------------
+  Login & Logout
+-----------------------*/
+.register-login div {
+	width: 200px;
+	background-color: gray;
+	margin: auto;
 }
 
 /*---------------------
@@ -2069,6 +2075,12 @@ ol {
   Checkout
 -----------------------*/
 
+.my-button-secondary {
+	background: #E70012;
+	color: white;
+	border: 0;
+}
+
 .checkout {
 	padding-top: 80px;
 	padding-bottom: 60px;
@@ -2078,9 +2090,8 @@ ol {
 	color: #999999;
 	text-align: center;
 	background: #f5f5f5;
-	border-top: 1px solid #6AB963;
+	border-top: 1px solid #E70012;
 	padding: 12px 0 12px;
-	margin-bottom: 75px;
 }
 
 .checkout h6 span {

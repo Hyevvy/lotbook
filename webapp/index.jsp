@@ -10,7 +10,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <title>LOTBOOK | Template</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="icon" href="img/favicon.ico">
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	
 </head>
 
 <body>
@@ -32,7 +35,6 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
-	
 	<c:choose>
 		<c:when test="${center != null }">
 			<jsp:include page="${center }.jsp"/>
@@ -81,9 +83,6 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-
-
-
 </body>
 
 </html>

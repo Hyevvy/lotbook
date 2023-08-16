@@ -25,6 +25,10 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="icon" href="img/favicon.ico">
+	
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+   	<script defer src="js/signup.js"></script>
+	
 </head>
 
 <body>
@@ -32,7 +36,6 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
-	
 	<c:choose>
 		<c:when test="${center != null }">
 			<jsp:include page="${center }.jsp"/>
@@ -81,9 +84,6 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-
-
-
 </body>
 
 </html>

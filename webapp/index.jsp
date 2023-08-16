@@ -26,7 +26,8 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="icon" href="img/favicon.ico">
 	
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+   	<script defer src="js/signup.js"></script>
 	
 </head>
 

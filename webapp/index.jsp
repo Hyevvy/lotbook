@@ -40,7 +40,7 @@
                 <nav class="header__menu header__top__right mobile-menu" style="padding: 5px 0">
 			        <ul>
 			          	<li class="active">
-                            <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 로그인</a>
+                            <a href="main.bit?view=login"><i class="fa fa-user"></i> 로그인</a>
                         </li>
                         <li class="">
                             <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 회원가입</a>

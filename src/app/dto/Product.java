@@ -1,5 +1,6 @@
 package app.dto;
 
+import app.enums.ProductStateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class Product {
 	private double pointAccumulationRate;
 	private double discountRate;
 	private long salesCount;
-	private int status;
+	private ProductStateEnum state;
 	
 	// FK
 	private int authorSequence;

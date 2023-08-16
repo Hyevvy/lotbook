@@ -1,6 +1,6 @@
 package app.dto;
 
-import app.enums.OrderStatusEnum;
+import app.enums.OrderStateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class OrderDetail {
 	private int count;
 	private int productPrice;
 	private int productPoint;
-	private OrderStatusEnum status;
+	private OrderStateEnum state;
 	
 	private long orderSequence;
 	private long productSequence;

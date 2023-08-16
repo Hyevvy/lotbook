@@ -74,7 +74,7 @@
         </div>
     </header>
     <!-- Header Section End -->
-<div class="checkout__form mb-12">
+<div class="checkout__form">
 	<form action="#">
 		<div class="row">
 			<div class="col-lg-8 col-md-6 m-auto">

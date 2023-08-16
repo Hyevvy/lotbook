@@ -10,26 +10,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import app.dto.Member;
 import app.mem.MemServiceImpl;
 import web.dispatcher.Navi;
 
 /**
- * Servlet implementation class CustServlet
- */
-@WebServlet({"/main"})
-public class MainServlet extends HttpServlet {
+* Servlet implementation class CustServlet
+*/
+@WebServlet({"/mem"})
+public class MemServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private MemServiceImpl memServiceImpl;
 	
-    public MainServlet() {
+	private MemServiceImpl memServiceImpl;
+	private Logger user_log = Logger.getLogger("user");
+	
+    public MemServlet() {
         super();
         // TODO Auto-generated constructor stub
         memServiceImpl = new MemServiceImpl();
     }
-
-
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String next = "index.jsp";
 		String view = request.getParameter("view");
 
@@ -41,9 +44,8 @@ public class MainServlet extends HttpServlet {
 		request.getRequestDispatcher(next);
 		rd.forward(request, response);
 	}
-
-
-	private void build(HttpServletRequest request,
+    
+    private void build(HttpServletRequest request,
 			String view){
 		if(view.equals("register")){
 			request.setAttribute("center", "register");
@@ -62,6 +64,7 @@ public class MainServlet extends HttpServlet {
 			
 			try {
 				Member loginUser = memServiceImpl.get(loginInfo);
+				user_log.debug(""+loginUser.toString());
 				if((loginUser.getEmail()).equals(email)) {
 					HttpSession session = request.getSession();
 					session.setAttribute("logincust",loginUser);
@@ -73,17 +76,6 @@ public class MainServlet extends HttpServlet {
 				request.setAttribute("center", "signin");
 				request.setAttribute("errMsg", "email 또는 password가 일치하지 않습니다.");
 			}
-//			if(email.equals("aa") && password.equals("11")) {
-//				HttpSession session = request.getSession();
-//				Cust cust = new Cust("id01", "pwd01", "james");
-//				session.setAttribute("logincust",cust);
-//			}
-		}else if(view.equals("custadd")){
-			request.setAttribute("center", "cust/register");
-		}else if(view.equals("productadd")){
-			request.setAttribute("center", "product/register");
-		}else if(view.equals("chart")){
-			request.setAttribute("center", "chart/chart");
 		}
 		
 	}

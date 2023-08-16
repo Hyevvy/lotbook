@@ -74,7 +74,8 @@
 	<!-- Header Section End -->
 	
 		<div class="checkout__form">
-			<form action="#">
+			<form action="mem.bit" method="post">
+				<input type="hidden" name="view" value="loginimpl">
 				<div class="row">
 					<div class="col-lg-8 col-md-6 m-auto">
 
@@ -83,7 +84,7 @@
 								<p>
 									아이디(이메일)<span>*</span>
 								</p>
-								<input type="email">
+								<input type="email" name="email">
 							</div>
 
 
@@ -93,7 +94,7 @@
 								<p>
 									비밀번호<span>*</span>
 								</p>
-								<input type="password" required>
+								<input type="password" required name="password">
 							</div>
 							<button type="submit" class="site-btn auto-btn">로그인</button>
 						</div>

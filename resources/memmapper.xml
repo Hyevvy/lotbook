@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<resultMap type="mem" id="memberMap">
+		<result property="hashedPwd" column="hashed_pwd"/>
+		<result property="streetAddress" column="street_address"/>
+		<result property="addressDetail" column="address_detail"/>
+		<result property="accumulatedPoint" column="accumulated_point"/>
+		<result property="createdAt" column="created_at"/>
+		<result property="lastLoginAt" column="last_login_at"/>
+		<result property="isDormant" column="is_dormant"/>
+		<result property="isAdmin" column="is_admin"/>
+		<result property="memberPhone" column="member_phone"/>
+	</resultMap>
+
+	<select id="select" parameterType="mem" resultMap="memberMap">
+		SELECT * FROM member WHERE email=#{email} AND hashed_pwd=#{hashedPwd}
+	</select>
+	
+	
+	
+	
+</mapper>

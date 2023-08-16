@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 <properties resource="mysql.properties" />
 	<typeAliases>
 		<typeAlias type="app.dto.Cust" alias="cust"/>
+		<typeAlias type="app.dto.Member" alias="mem"/>		
 	</typeAliases>
 	<environments default="">
 		<environment id="">
@@ -20,6 +21,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 	</environments>
 	<mappers>
 		<mapper resource="custmapper.xml"/>
+		<mapper resource="memmapper.xml"/>		
 	</mappers>
 </configuration>
 

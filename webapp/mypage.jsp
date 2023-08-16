@@ -2,49 +2,73 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<!-- Header Section Begin -->
-	<header class="header">
-		<div class="header__top">
-			<div class="container">
-				<nav class="header__menu header__top__right mobile-menu">
-					<ul>
-						<li class="active"><a href="#"><i class="fa fa-user"></i>
-								마이페이지</a></li>
-						<li class=""><a href="#"><i class="fa fa-user"></i> 로그아웃</a>
-						</li>
+<header class="header">
+	<div class="header__top">
+		<div class="container">
+			<nav class="header__menu header__top__right mobile-menu"
+				style="padding: 5px 0">
+				<ul>
+					<c:choose>
+						<c:when test="${logincust != null }">
+							<li class="active"><a href="/lotbook/signin.jsp"><i
+									class="fa fa-user"></i> 마이페이지</a></li>
+							<li class=""><a href="/lotbook/signup.jsp"><i
+									class="fa fa-user"></i> 로그아웃</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="active"><a href="main.bit?view=signin"><i
+									class="fa fa-user"></i> 로그인</a></li>
+							<li class=""><a href="main.bit?view=signup"><i
+									class="fa fa-user"></i> 회원가입</a></li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="header__logo">
+					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<nav class="header__menu">
+					<ul id="header__menus">
+						<li><a href="./index.jsp">Home</a></li>
+						<li><a href="main.bit?view=shop-grid">Shop</a></li>
+						<li><a href="#">Pages</a>
+							<ul class="header__menu__dropdown">
+								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
+								<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
+								<li><a href="main.bit?view=checkout">Check Out</a></li>
+
+							</ul></li>
+						<li><a href="main.bit?view=contact">Contact</a></li>
 					</ul>
 				</nav>
 			</div>
-		</div>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3">
-					<div class="header__logo">
-						<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+			<c:choose>
+				<c:when test="${logincust != null }">
+					<div class="col-lg-3">
+						<div class="header__cart">
+							<ul>
+								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="col-lg-6">
-					<nav class="header__menu">
-						<ul>
-							<li><a href="./index.jsp">Home</a></li>
-							<li><a href="main.bit?view=shop-grid">Shop</a></li>
-							<li><a href="#">Pages</a>
-								<ul class="header__menu__dropdown">
-									<li><a href="main.bit?view=shop-details">Shop Details</a></li>
-									<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
-									<li><a href="main.bit?view=checkout">Check Out</a></li>
-
-								</ul></li>
-							<li><a href="main.bit?view=contact">Contact</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-			<div class="humberger__open">
-				<i class="fa fa-bars"></i>
-			</div>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
+			</c:choose>
 		</div>
-	</header>
-	<!-- Header Section End -->
+		<div class="humberger__open">
+			<i class="fa fa-bars"></i>
+		</div>
+	</div>
+</header>
+<!-- Header Section End -->
 
 	<!-- Hero Section Begin -->
 	<section class="hero hero-normal">

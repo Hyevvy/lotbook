@@ -25,7 +25,6 @@
 		                        </li>
 							</c:otherwise>
 						</c:choose>
-			          	
 			        </ul>
 			    </nav>
             </div>

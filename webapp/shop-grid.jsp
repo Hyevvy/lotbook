@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+
+
     <!-- Header Section Begin -->
     <header class="header">
         <div class="header__top">
             <div class="container">
                 <nav class="header__menu header__top__right mobile-menu" style="padding: 5px 0">
 			        <ul>
+
 			        	<c:choose>
 							<c:when test="${logincust != null }">
 								<li class="active">
@@ -24,8 +26,7 @@
 		                            <a href="main.bit?view=signup"><i class="fa fa-user"></i> 회원가입</a>
 		                        </li>
 							</c:otherwise>
-						</c:choose>
-			          	
+						</c:choose> 
 			        </ul>
 			    </nav>
             </div>

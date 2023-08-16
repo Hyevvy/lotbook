@@ -1,5 +1,12 @@
 package app.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+@AllArgsConstructor
 public class Product {
 	private long sequence;
 	private String productImgurl;

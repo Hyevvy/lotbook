@@ -108,5 +108,6 @@
 		<input type="text" id="sample6_address" placeholder="주소"><br>
 		<input type="text" id="sample6_detailAddress" placeholder="상세주소">
 		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-
 	</div>
+	</div>
+

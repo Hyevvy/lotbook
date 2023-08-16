@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
     <!-- Header Section Begin -->
     <header class="header">
@@ -8,10 +9,10 @@
                 <nav class="header__menu header__top__right mobile-menu">
 			        <ul>
 			          	<li class="active">
-                            <a href="#"><i class="fa fa-user"></i> 로그인</a>
+                            <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 로그인</a>
                         </li>
                         <li class="">
-                            <a href="#"><i class="fa fa-user"></i> 회원가입</a>
+                            <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 회원가입</a>
                         </li>
 			        </ul>
 			    </nav>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
     <!-- Header Section Begin -->
     <header class="header">
@@ -7,6 +8,7 @@
             <div class="container">
                 <nav class="header__menu header__top__right mobile-menu" style="padding: 5px 0">
 			        <ul>
+
 			        	<c:choose>
 							<c:when test="${logincust != null }">
 								<li class="active">
@@ -25,7 +27,6 @@
 		                        </li>
 							</c:otherwise>
 						</c:choose>
-			          	
 			        </ul>
 			    </nav>
             </div>

@@ -51,7 +51,7 @@
                                     
                                 </ul>
                             </li>
-                            <li ><a href="main.bit?view=contact" onclick=li_click(3)>Contact</a></li>
+                            <li><a href="main.bit?view=contact">Contact</a></li>
                         </ul>
                     </nav>
                 </div>

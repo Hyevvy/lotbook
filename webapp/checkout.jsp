@@ -6,14 +6,26 @@
     <header class="header">
         <div class="header__top">
             <div class="container">
-                <nav class="header__menu header__top__right mobile-menu">
+                <nav class="header__menu header__top__right mobile-menu" style="padding: 5px 0">
 			        <ul>
-			          	<li class="active">
-                            <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 로그인</a>
-                        </li>
-                        <li class="">
-                            <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 회원가입</a>
-                        </li>
+			        	<c:choose>
+							<c:when test="${logincust != null }">
+								<li class="active">
+			                        <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 마이페이지</a>
+			                    </li>
+		                        <li class="">
+		                            <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 로그아웃</a>
+		                        </li>
+							</c:when>
+							<c:otherwise>
+								<li class="active">
+		                            <a href="main.bit?view=signin"><i class="fa fa-user"></i> 로그인</a>
+		                        </li>
+		                        <li class="">
+		                            <a href="main.bit?view=signup"><i class="fa fa-user"></i> 회원가입</a>
+		                        </li>
+							</c:otherwise>
+						</c:choose>
 			        </ul>
 			    </nav>
             </div>
@@ -27,22 +39,34 @@
                 </div>
                 <div class="col-lg-6">
                     <nav class="header__menu">
-                        <ul>
+                        <ul id="header__menus">
                             <li><a href="./index.jsp">Home</a></li>
-                            <li><a href="./shop-grid.jsp">Shop</a></li>
+                            <li><a href="main.bit?view=shop-grid">Shop</a></li>
                             <li class="active"><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.jsp">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                                    <li class="active"><a href="./checkout.jsp">Check Out</a></li>
+                                    <li><a href="main.bit?view=shop-details">Shop Details</a></li>
+                                    <li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
+                                    <li><a href="main.bit?view=checkout">Check Out</a></li>
                                     
                                 </ul>
                             </li>
-                            
-                            <li><a href="./contact.jsp">Contact</a></li>
+                            <li><a href="main.bit?view=contact" onclick=li_click(3)>Contact</a></li>
                         </ul>
                     </nav>
                 </div>
+                <c:choose>
+					<c:when test="${logincust != null }">
+						<div class="col-lg-3">
+                    <div class="header__cart">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
             </div>
             <div class="humberger__open">
                 <i class="fa fa-bars"></i>

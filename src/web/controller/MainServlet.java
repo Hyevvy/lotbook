@@ -8,7 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import app.dto.Cust;
 import web.dispatcher.Navi;
 
 /**
@@ -46,6 +48,14 @@ public class MainServlet extends HttpServlet {
 		}else if(view.equals("login")){
 			request.setAttribute("center", "login");
 			request.setAttribute("navi", Navi.login);
+		}else if(view.equals("loginimpl")) {
+			String id = request.getParameter("id");
+			String pwd = request.getParameter("pwd");
+			if(id.equals("aa") && pwd.equals("11")) {
+				HttpSession session = request.getSession();
+				Cust cust = new Cust("id01", "pwd01", "james");
+				session.setAttribute("logincust",cust);
+			}
 		}else if(view.equals("custadd")){
 			request.setAttribute("center", "cust/register");
 		}else if(view.equals("productadd")){

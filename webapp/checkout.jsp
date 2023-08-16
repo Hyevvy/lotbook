@@ -158,14 +158,27 @@
                                 <p>이메일(청구서 수신용)<span>*</span></p>
                                 <input type="tel" required>
                             </div>
-                            <div class="checkout__input">
-                                <p>주소<span>*</span></p>
-                                <input type="text">
-                            </div>
+                            
                             <div class="checkout__input">
                                 <p>연락처<span>*</span></p>
                                 <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
                             </div>
+                            <div class="checkout__input">
+		                        <p>
+		                           우편 번호<span>*</span>
+		                        </p>
+		                        <input type="text" id="sample6_postcode" placeholder="우편번호">
+		                        <input type="button" onclick="getAddress()" value="우편번호 찾기"><br>
+		                     </div>
+		                     <div class="checkout__input">
+								<p>
+		                           주소<span>*</span>
+		                        </p>
+		                        <input type="text" id="sample6_address" placeholder="주소"><br>
+		                        <input type="text" id="sample6_detailAddress" placeholder="상세주소">
+		                        <input type="text" id="sample6_extraAddress" placeholder="배송 메세지">
+		                     </div>
+                            
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">

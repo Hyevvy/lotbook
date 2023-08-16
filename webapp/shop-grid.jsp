@@ -8,12 +8,11 @@
 			<nav class="header__menu header__top__right mobile-menu"
 				style="padding: 5px 0">
 				<ul>
-
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="/lotbook/signin.jsp"><i
+							<li class="active"><a href="main.bit?view=mypage"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
-							<li class=""><a href="/lotbook/signup.jsp"><i
+							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
 						</c:when>
 						<c:otherwise>

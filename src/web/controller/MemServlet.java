@@ -61,10 +61,10 @@ public class MemServlet extends HttpServlet {
 					.email(email)
 					.hashedPwd(password)
 					.build();
-			
+
 			try {
 				Member loginUser = memServiceImpl.get(loginInfo);
-				user_log.debug(""+loginUser.toString());
+				user_log.debug("로그인된 이메일 정보: "+loginUser.getEmail());
 				if((loginUser.getEmail()).equals(email)) {
 					HttpSession session = request.getSession();
 					session.setAttribute("logincust",loginUser);

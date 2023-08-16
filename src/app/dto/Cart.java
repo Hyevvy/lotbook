@@ -8,8 +8,9 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class Cart {
-	private long productSequence; //FK
-	private long memberSequence; //FK
+	private long sequence;
+	private long productSequence; //FKs as composite Key
+	private long memberSequence; //FKs as composite Key
 	
 	private int count;
 	private int updatedAt;

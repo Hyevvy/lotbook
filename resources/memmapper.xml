@@ -4,7 +4,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 	<resultMap type="mem" id="memberMap">
+		<result property="email" column="email"/>
 		<result property="hashedPwd" column="hashed_pwd"/>
+		<result property="name" column="name"/>
+		<result property="zipcode" column="zipcode"/>
 		<result property="streetAddress" column="street_address"/>
 		<result property="addressDetail" column="address_detail"/>
 		<result property="accumulatedPoint" column="accumulated_point"/>

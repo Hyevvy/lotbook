@@ -9,7 +9,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <title>LOTBOOk | Checkout</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -39,10 +39,10 @@
                 <nav class="header__menu header__top__right mobile-menu">
 			        <ul>
 			          	<li class="active">
-                            <a href="#"><i class="fa fa-user"></i> 로그인</a>
+                            <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 로그인</a>
                         </li>
                         <li class="">
-                            <a href="#"><i class="fa fa-user"></i> 회원가입</a>
+                            <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 회원가입</a>
                         </li>
 			        </ul>
 			    </nav>

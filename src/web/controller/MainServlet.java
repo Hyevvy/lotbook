@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import app.cust.CustServiceImpl;
 import app.dto.Cust;
-import web.dispatcher.Navi;
 
 /**
  * Servlet implementation class CustServlet
@@ -19,10 +19,11 @@ import web.dispatcher.Navi;
 @WebServlet({"/main"})
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	CustServiceImpl custService;
+	
     public MainServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        custService = new CustServiceImpl();
     }
 
 
@@ -49,7 +50,7 @@ public class MainServlet extends HttpServlet {
 		}else if(view.equals("loginimpl")) {
 			String id = request.getParameter("id");
 			String pwd = request.getParameter("pwd");
-			// 로그인 기능 구현
+			// 로그인
 		}else if(view.equals("mypage")){
 			request.setAttribute("center", "mypage");
 		}else if(view.equals("checkout")){

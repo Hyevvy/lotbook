@@ -50,7 +50,7 @@
                                     
                                 </ul>
                             </li>
-                            <li><a href="main.bit?view=contact" onclick=li_click(3)>Contact</a></li>
+                            <li><a href="main.bit?view=contact">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -75,7 +75,8 @@
     </header>
     <!-- Header Section End -->
 <div class="checkout__form">
-	<form action="#">
+	<form action="main.bit" method="post">
+		<input type="hidden" name="view" value="loginimpl">
 		<div class="row">
 			<div class="col-lg-8 col-md-6 m-auto">
 
@@ -84,7 +85,7 @@
 						<p>
 							아이디(이메일)<span>*</span>
 						</p>
-						<input type="email">
+						<input type="email" class="form-control" id="id" name="id">
 					</div>
 
 
@@ -94,7 +95,7 @@
 						<p>
 							비밀번호<span>*</span>
 						</p>
-						<input type="password" required>
+						<input type="password" class="form-control" required id="pwd" name="pwd">
 					</div>
 					<button type="submit" class="site-btn auto-btn">로그인</button>
 				</div>

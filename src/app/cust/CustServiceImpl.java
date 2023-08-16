@@ -61,11 +61,15 @@ public class CustServiceImpl implements ServiceFrame<String, Cust>{
 
 	@Override
 	public Cust get(String k) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+
 		Cust cust = null;
 		try {
 			cust = dao.select(k, session);
-		} catch(Exception e) {
+		}catch(Exception e) {
 			throw new Exception("ER0003");
+		}finally {
+			session.close();
 		}
 		return cust;
 	}

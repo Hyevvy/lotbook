@@ -15,8 +15,8 @@ public class Product {
 	private int price;
 	private String content;
 	private int stock;
-	private String created_at;
-	private String updated_at;
+	private String createdAt;
+	private String updatedAt;
 	private double pointAccumulationRate;
 	private double discountRate;
 	private long salesCount;

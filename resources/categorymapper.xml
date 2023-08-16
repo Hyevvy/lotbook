@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+	<resultMap type="productdto" id="productmapper">
+		<result property="sequence" column="sequence"/>
+		<result property="productImgurl" column="product_imgurl"/>
+		<result property="name" column="name"/>
+		<result property="price" column="price"/>
+		<result property="content" column="content"/>
+		<result property="stock" column="stock"/>
+		<result property="createdAt" column="created_at"/>
+		<result property="updatedAt" column="updated_at"/>
+		<result property="pointAccumulationRate" column="point_accumulation_rate"/>
+		<result property="discountRate" column="discount_rate"/>
+		<result property="salesCount" column="sales_count"/>
+		<result property="state" column="state"/>
+		<result property="authorSequence" column="author_sequence"/>
+		<result property="publisherSequence" column="publisher_sequence"/>
+		<result property="categorySequence" column="category_sequence"/>
+	</resultMap>
+	<resultMap type="categorydto" id="categorymapper">
+		<result property="sequence" column="sequence"/>
+		<result property="name" column="name"/>
+		<result property="level" column="level"/>
+		<result property="state" column="state"/>
+		<result property="parentCategory" column="parent_category"/>
+	</resultMap>
+
+	
+	<select id="findDescendantCategories" resultType="int">
+        WITH RECURSIVE CategoryHierarchy AS (
+            SELECT sequence
+            FROM category
+            WHERE sequence = #{parentSequence}
+            UNION ALL
+            SELECT c.sequence
+            FROM category c
+            INNER JOIN CategoryHierarchy ch ON c.parent_category = ch.sequence
+        )
+        SELECT sequence
+        FROM CategoryHierarchy
+    </select>
+    
+    <select id="findBooksByCategories" resultType="product">
+        SELECT p.*
+        FROM product p
+        INNER JOIN category c ON p.category_sequence = c.sequence
+        WHERE c.sequence IN (
+            SELECT sequence
+            FROM category
+            WHERE sequence IN (
+                <include refid="categorymapper.findDescendantCategories"/>
+            )
+        )
+    </select>
+    
+    <select id="findTop6BestSellingBooksByCategory" resultType="product">
+        SELECT p.*
+        FROM product p
+        INNER JOIN category c ON p.category_sequence = c.sequence
+        WHERE c.sequence IN (
+            SELECT sequence
+            FROM category
+            WHERE sequence IN (
+                <include refid="categorymapper.findDescendantCategories"/>
+            )
+        )
+        ORDER BY p.sales_count DESC
+        LIMIT 6
+    </select>
+    
+    
+		
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productdetail">
+	<resultMap type="productdetail" id="productdetailmapper">
+		<result property="productName" column="name"/>
+		<result property="ratingAvg" column="rating_avg"/>
+		<result property="price" column="price"/>
+		<result property="content" column="content"/>
+		<result property="categorySequence" column="category_sequence"/>
+		
+	</resultMap>
+	<resultMap type="categorydto" id="categorymapper">
+		
+		<result property="parentCategory" column="parent_category"/>
+	</resultMap>
+
+	
+    
+    <select id="findBookDetailAndReviewsBySequence" resultType="product">
+        SELECT p.*
+        FROM product p
+        INNER JOIN category c ON p.category_sequence = c.sequence
+        WHERE c.sequence IN (
+            SELECT sequence
+            FROM category
+            WHERE sequence IN (
+                <include refid="categorymapper.findDescendantCategories"/>
+            )
+        )
+    </select>
+    
+    <select id="findTop6BestSellingBooksByCategory" resultType="product">
+        SELECT p.*
+        FROM product p
+        INNER JOIN category c ON p.category_sequence = c.sequence
+        WHERE c.sequence IN (
+            SELECT sequence
+            FROM category
+            WHERE sequence IN (
+                <include refid="categorymapper.findDescendantCategories"/>
+            )
+        )
+        ORDER BY p.sales_count DESC
+        LIMIT 6
+    </select>
+    
+    
+		
+</mapper>

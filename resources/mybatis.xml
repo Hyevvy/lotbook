@@ -1,46 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration
-PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-<properties resource="mysql.properties" />
+	<properties resource="mysql.properties" />
 	<typeAliases>
-		<typeAlias type="app.dto.Cust" alias="cust"/>
-		<typeAlias type="app.dto.Category" alias="category"/>
-		<typeAlias type="app.dto.Cart" alias="cart"/>
-		<typeAlias type="app.dto.Member" alias="member"/>		
-		<typeAlias type="app.dto.Order" alias="order"/>
-		<typeAlias type="app.dto.OrderDetail" alias="orderdetail"/>
-		<typeAlias type="app.dto.Product" alias="product"/>
-		<typeAlias type="app.dto.Review" alias="review"/>
+		<typeAlias type="app.dto.entity.Cust" alias="cust" />
+		<typeAlias type="app.dto.entity.Category" alias="category" />
+		<typeAlias type="app.dto.entity.Cart" alias="cart" />
+		<typeAlias type="app.dto.entity.Member" alias="member" />
+		<typeAlias type="app.dto.entity.Order" alias="order" />
+		<typeAlias type="app.dto.entity.OrderDetail" alias="orderdetail" />
+		<typeAlias type="app.dto.entity.Product" alias="product" />
+		<typeAlias type="app.dto.entity.Review" alias="review" />
 	</typeAliases>
 	<environments default="">
 		<environment id="">
-			<transactionManager type="JDBC"/>
+			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
-				<property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-				<property name="url" value="${url}"/>
-				<property name="username" value="${user}"/>
-				<property name="password" value="${password}"/>
+				<property name="driver" value="com.mysql.cj.jdbc.Driver" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
 			</dataSource>
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="custmapper.xml"/>
-		<mapper resource="mapper/CartMapper.xml"/> 
-		<mapper resource="mapper/CategoryMapper.xml"/>
-		<mapper resource="mapper/MemberMapper.xml"/> 
-		<mapper resource="mapper/OrderDetailMapper.xml"/>
-		<mapper resource="mapper/OrderMapper.xml"/> 
-		<mapper resource="mapper/ProductDetailMapper.xml"/>
-		<mapper resource="mapper/ReviewMapper.xml"/>
-		<mapper resource="mapper/SearchbarMapper.xml"/>
+		<mapper resource="custmapper.xml" />
+		<mapper resource="mapper/CartMapper.xml" />
+		<mapper resource="mapper/CategoryMapper.xml" />
+		<mapper resource="mapper/MemberMapper.xml" />
+		<!-- <mapper resource="mapper/OrderDetailMapper.xml" /> -->
+		<!-- <mapper resource="mapper/OrderMapper.xml" /> -->
+		<mapper resource="mapper/ProductDetailMapper.xml" />
+		<!-- <mapper resource="mapper/ReviewMapper.xml" /> -->
+		<mapper resource="mapper/SearchbarMapper.xml" />
 	</mappers>
 </configuration>
-
-
-
-
-
-
-

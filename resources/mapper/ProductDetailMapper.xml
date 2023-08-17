@@ -1,51 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productdetail">
-	<resultMap type="productdetail" id="productdetailmapper">
-		<result property="productName" column="name"/>
-		<result property="ratingAvg" column="rating_avg"/>
-		<result property="price" column="price"/>
-		<result property="content" column="content"/>
-		<result property="categorySequence" column="category_sequence"/>
-		
-	</resultMap>
-	<resultMap type="categorydto" id="categorymapper">
-		
-		<result property="parentCategory" column="parent_category"/>
+	<resultMap id="ProductDetailWithReviews" type="app.dto.response.ProductDetailWithReviews">
+		<id property="sequence" column="product_sequence" />
+		<result property="name" column="product_name" />
+		<collection property="reviews" ofType="your.package.Review" resultMap="ReviewMap" />
 	</resultMap>
 
-	
-    
-    <select id="findBookDetailAndReviewsBySequence" resultType="product">
-        SELECT p.*
-        FROM product p
-        INNER JOIN category c ON p.category_sequence = c.sequence
-        WHERE c.sequence IN (
-            SELECT sequence
-            FROM category
-            WHERE sequence IN (
-                <include refid="categorymapper.findDescendantCategories"/>
-            )
-        )
-    </select>
-    
-    <select id="findTop6BestSellingBooksByCategory" resultType="product">
-        SELECT p.*
-        FROM product p
-        INNER JOIN category c ON p.category_sequence = c.sequence
-        WHERE c.sequence IN (
-            SELECT sequence
-            FROM category
-            WHERE sequence IN (
-                <include refid="categorymapper.findDescendantCategories"/>
-            )
-        )
-        ORDER BY p.sales_count DESC
-        LIMIT 6
-    </select>
-    
-    
-		
+	<resultMap id="ReviewMap" type="app.dto.entity.Review">
+		<id property="sequence" column="review_sequence" />
+		<result property="content" column="review_content" />
+		<result property="productSequence" column="product_sequence" />
+	</resultMap>
+
+
+	<select id="selectProductWithReviews" resultMap="ProductWithReviewsMap">
+    	SELECT P.sequence AS product_sequence, P.name AS product_name, 
+           	R.sequence AS review_sequence, R.content AS review_content, R.product_sequence
+    	FROM product P
+    		LEFT JOIN review R ON P.sequence = R.product_sequence
+	</select>
+
+
 </mapper>

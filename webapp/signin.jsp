@@ -50,7 +50,7 @@
                                     
                                 </ul>
                             </li>
-                            <li><a href="main.bit?view=contact" onclick=li_click(3)>Contact</a></li>
+                            <li><a href="main.bit?view=contact">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -85,7 +85,7 @@
 						<p>
 							아이디(이메일)<span>*</span>
 						</p>
-						<input type="email" name="email">
+						<input type="email" class="form-control" name="email" id="email">
 					</div>
 
 
@@ -95,7 +95,7 @@
 						<p>
 							비밀번호<span>*</span>
 						</p>
-						<input type="password" required name="password">
+						<input type="password" required name="password" id="password">
 					</div>
 					<button type="submit" class="site-btn auto-btn">로그인</button>
 				</div>

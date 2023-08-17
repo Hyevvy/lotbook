@@ -8,6 +8,10 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="app.dto.Cust" alias="cust"/>
 		<typeAlias type="app.dto.Member" alias="member"/>		
 		<typeAlias type="app.dto.Product" alias="product"/>
+		<typeAlias type="app.dto.Cart" alias="cart"/>
+		<typeAlias type="app.dto.Order" alias="order"/>
+		<typeAlias type="app.dto.OrderDetail" alias="orderdetail"/>
+		<typeAlias type="app.dto.Review" alias="review"/>
 	</typeAliases>
 	<environments default="">
 		<environment id="">
@@ -23,6 +27,11 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="custmapper.xml"/>
 		<mapper resource="mapper/MemberMapper.xml"/> 
+		<mapper resource="mapper/CartMapper.xml"/> 
+		<mapper resource="mapper/CartMapper.xml"/> 
+		<mapper resource="mapper/OrderMapper.xml"/> 
+		<mapper resource="mapper/OrderDetailMapper.xml"/>
+		<mapper resource="mapper/ReviewMapper.xml"/>
 		<mapper resource="searchbarmapper.xml"/>
 	</mappers>
 </configuration>

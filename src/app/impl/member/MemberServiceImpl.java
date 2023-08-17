@@ -21,20 +21,20 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 	}
 
 	@Override
-	public void register(Member v) throws Exception {
-		// TODO Auto-generated method stub
+	public int register(Member v) throws Exception {
+		return 0;
 		
 	}
 
 	@Override
-	public void modify(Member v) throws Exception {
-		// TODO Auto-generated method stub
+	public int modify(Member v) throws Exception {
+		return 0;
 		
 	}
 
 	@Override
-	public void remove(Member k) throws Exception {
-		// TODO Auto-generated method stub
+	public int remove(Member k) throws Exception {
+		return 0;
 		
 	}
 

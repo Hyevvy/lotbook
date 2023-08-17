@@ -14,23 +14,8 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	
 	<!-- 장바구니에 책 담기 -->
 	<insert id="addToCart" parameterType="cart">
-		INSERT INTO `CART` (count, memberSequence, productSequence) values(${count}, ${memberSequence}, ${productSequence}); 
+		INSERT INTO `CART` (count, member_sequence, product_sequence) values(#{count}, #{memberSequence}, #{productSequence}) 
 	</insert>
 	
-	<!-- 내 장바구니 전체 조회 -->
-	<select id="selectCartAll" parameterType="long" resultMap="cartMap">
-		SELECT * FROM `cart` WHERE member_sequence = ${memberSequence};
-	</select>
-	<!-- 장바구니 개별 상세 조회 -->
 	
-	<!-- 장바구니 상품 수량 변경 -->
-	
-	<!-- 장바구니에서 구매 -->
-	
-	<!-- 장바구니 상품 상태 변경 -->
-	<!-- 장바구니에서 주문(판매량 & 재고 변경) -->
-	<!-- 주문 상세 추가 -->
-	
-	<!-- 장바구니 삭제 -->
-	<!-- 장바구니 상품 상태 변경 -->
 </mapper>

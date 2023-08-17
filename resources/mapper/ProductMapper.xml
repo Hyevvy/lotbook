@@ -21,8 +21,9 @@
 	</resultMap>
 
 	<select id="selectProduct" resultMap="productResultMap" parameterType="app.dto.entity.Product">
-        SELECT sequence, product_imgurl, name, price, content, stock, created_at, updated_at, point_accumulation_rate, discount_rate, sales_count, state, author_sequence, publisher_sequence, category_sequence
+        SELECT sequence, product_imgurl, name, price, content, stock, created_at, updated_at, point_accumulation_rate, discount_rate, sales_count,  author_sequence, publisher_sequence, category_sequence
         FROM product
         WHERE sequence = #{sequence}
+        <!-- TODO: state복구 state 임시 제거 된 상태 -->
     </select>
 </mapper>

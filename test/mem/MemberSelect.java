@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import app.dto.Member;
-import app.mem.MemServiceImpl;
+import app.impl.member.MemberServiceImpl;
 
-public class MemSelect {
+public class MemberSelect {
 	@Test
 	public void test() {
-		MemServiceImpl service;
-		service = new MemServiceImpl();
+		MemberServiceImpl service;
+		service = new MemberServiceImpl();
 		
 		Member member = Member.builder()
 					.email("w@gmail.com")

@@ -1,4 +1,4 @@
-package app.mem;
+package app.impl.member;
 
 import java.util.List;
 
@@ -9,15 +9,15 @@ import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 
-public class MemServiceImpl implements ServiceFrame<Member, Member>{
+public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 	DaoFrame<Member, Member> dao;
 	SqlSession session;
 	
 	
 	
-	public MemServiceImpl() {
+	public MemberServiceImpl() {
 		super();
-		dao = new MemDaoImpl();
+		dao = new MemberDaoImpl();
 	}
 
 	@Override

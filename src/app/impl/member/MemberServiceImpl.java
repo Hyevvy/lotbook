@@ -14,7 +14,6 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 	SqlSession session;
 	
 	
-	
 	public MemberServiceImpl() {
 		super();
 		dao = new MemberDaoImpl();
@@ -23,13 +22,24 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 	@Override
 	public int register(Member v) throws Exception {
 		return 0;
-		
 	}
 
 	@Override
 	public int modify(Member v) throws Exception {
-		return 0;
+		session = GetSessionFacroty.getInstance().openSession();
 		
+		int result = 0;
+		try {
+			result = dao.update(v, session);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER1001");
+		} finally {
+			session.close();
+		}
+		
+		return result;
 	}
 
 	@Override

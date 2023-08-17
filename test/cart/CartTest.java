@@ -5,11 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import app.dto.Cart;
-import app.frame.ServiceFrame;
 import app.impl.cart.CartServiceImpl;
 
 public class CartTest {
-	ServiceFrame<Cart, Cart> service;
+	CartServiceImpl service;
 	
 	@Before
 	public void before() throws Exception {
@@ -26,6 +25,19 @@ public class CartTest {
 		
 		try {
 			int result = service.register(cart);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void getAllTest() {
+		Cart cart = Cart.builder().
+				memberSequence(1).build();
+		
+		try {
+			service.getAll(cart);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

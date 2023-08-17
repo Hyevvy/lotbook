@@ -1,4 +1,4 @@
-package app.dto;
+package app.dto.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,5 @@
-package app.dto;
+package app.dto.entity;
 
-import app.enums.OrderStateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

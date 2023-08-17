@@ -1,4 +1,4 @@
-package app.dto;
+package app.dto.entity;
 
 import app.enums.ProductStateEnum;
 import lombok.AllArgsConstructor;

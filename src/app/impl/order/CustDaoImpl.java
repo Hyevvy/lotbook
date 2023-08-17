@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.Cust;
+import app.dto.entity.Cust;
 import app.frame.DaoFrame;
 
 public class CustDaoImpl implements DaoFrame<String, Cust> {

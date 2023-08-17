@@ -1,4 +1,4 @@
-package app.dto;
+package app.dto.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Author {
-	private int sequence;
+public class Cust {
+	private String id;
+	private String pwd;
 	private String name;
-
 }

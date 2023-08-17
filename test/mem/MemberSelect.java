@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import app.dto.Member;
+import app.dto.entity.Member;
 import app.impl.member.MemberServiceImpl;
 
 public class MemberSelect {

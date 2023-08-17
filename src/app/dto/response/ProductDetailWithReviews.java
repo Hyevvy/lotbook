@@ -24,8 +24,7 @@ public class ProductDetailWithReviews {
 	private int stock;
 	private String createdAt;
 
-	private double pointAccumulationRate;
-	private double discountRate;
+	private int pointAccumulation;
 	private long salesCount;
 	private ProductStateEnum state;
 	
@@ -33,6 +32,10 @@ public class ProductDetailWithReviews {
 	private int authorSequence;
 	private int publisherSequence;
 	private int categorySequence;
+	private String authorName;
+	private String publisherName;
+	private String categoryName;
+	
 	
 	private List<Review> reviews;
 

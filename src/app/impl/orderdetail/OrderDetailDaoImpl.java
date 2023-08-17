@@ -5,38 +5,39 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import app.dto.Cust;
+import app.dto.OrderDetail;
 import app.frame.DaoFrame;
 
-public class CustDaoImpl implements DaoFrame<String, Cust> {
+public class OrderDetailDaoImpl implements DaoFrame<OrderDetail, OrderDetail> {
 
 	@Override
-	public int insert(Cust v, SqlSession session) throws Exception {
+	public int insert(OrderDetail v, SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
-		return session.insert("cust.insert", v);
+		return session.insert("orderdetail.insert", v);
 	}
 
 	@Override
-	public int update(Cust v, SqlSession session) throws Exception {
+	public int update(OrderDetail v, SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
-		return session.insert("cust.update", v);
+		return session.insert("orderdetail.updateOrderDetailState", v);
 	}
 
 	@Override
-	public int delete(String k, SqlSession session) throws Exception {
-		// TODO Auto-generated method stub
-		return session.insert("cust.delete", k);
+	public int delete(OrderDetail k, SqlSession session) throws Exception {
+		// 현재는 구현 x
+		return 0;
 	}
 
 	@Override
-	public Cust select(String k, SqlSession session) throws Exception {
+	public OrderDetail select(OrderDetail k, SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne("cust.select", k);
+		return session.selectOne("orderdetail.selectOne", k);
 	}
 
 	@Override
-	public List<Cust> select(SqlSession session) throws Exception {
+	public List<OrderDetail> select(SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("cust.selectall");
+		return session.selectList("orderdetail.selectAllOrderDetailByOrderSequence");
 	}
 
 }

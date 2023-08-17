@@ -66,10 +66,10 @@ public class MemberServlet extends HttpServlet {
 
 			try {
 				Member loginUser = memServiceImpl.get(loginInfo);
-				user_log.debug("로그인된 이메일 정보: "+loginUser);
-				if(loginUser!=null) {
+				user_log.debug("로그인된 이메일 정보: "+loginUser.getEmail());
+				if(bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
 					HttpSession session = request.getSession();
-					session.setAttribute("logincust",loginUser);
+					session.setAttribute("logincust", loginUser);
 				} else {
 					request.setAttribute("center", "signin");
 					request.setAttribute("errMsg", "email 또는 password가 일치하지 않습니다.");

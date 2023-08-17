@@ -28,10 +28,10 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<mapper resource="custmapper.xml"/>
 		<mapper resource="mapper/MemberMapper.xml"/> 
 		<mapper resource="mapper/CartMapper.xml"/> 
-		<mapper resource="mapper/CartMapper.xml"/> 
+		<mapper resource="mapper/ProductMapper.xml"/> 
 		<mapper resource="mapper/OrderMapper.xml"/> 
 		<mapper resource="mapper/OrderDetailMapper.xml"/>
-		<mapper resource="mapper/ReviewMapper.xml"/>
+		<mapper resource="mapper/ReviewMapper.xml"/>  
 		<mapper resource="searchbarmapper.xml"/>
 	</mappers>
 </configuration>

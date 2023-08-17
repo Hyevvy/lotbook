@@ -1,4 +1,4 @@
-package app.mem;
+package app.impl.member;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import app.dto.Member;
 import app.frame.DaoFrame;
 
-public class MemDaoImpl implements DaoFrame<Member, Member> {
+public class MemberDaoImpl implements DaoFrame<Member, Member> {
 
 	@Override
 	public int insert(Member v, SqlSession session) throws Exception {

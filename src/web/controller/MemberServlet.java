@@ -11,25 +11,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import app.dto.Member;
-import app.mem.MemServiceImpl;
+import app.impl.member.MemberServiceImpl;
 import web.dispatcher.Navi;
 
 /**
 * Servlet implementation class CustServlet
 */
-@WebServlet({"/mem"})
-public class MemServlet extends HttpServlet {
+@WebServlet({"/member"})
+public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	private MemServiceImpl memServiceImpl;
+	private MemberServiceImpl memServiceImpl;
 	private Logger user_log = Logger.getLogger("user");
 	
-    public MemServlet() {
+    public MemberServlet() {
         super();
-        // TODO Auto-generated constructor stub
-        memServiceImpl = new MemServiceImpl();
+        memServiceImpl = new MemberServiceImpl();
+        bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
     
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,17 +66,16 @@ public class MemServlet extends HttpServlet {
 
 			try {
 				Member loginUser = memServiceImpl.get(loginInfo);
-				user_log.debug("로그인된 이메일 정보: "+loginUser.getEmail());
-				if((loginUser.getEmail()).equals(email)) {
+				user_log.debug("로그인된 이메일 정보: "+loginUser);
+				if(loginUser!=null) {
 					HttpSession session = request.getSession();
 					session.setAttribute("logincust",loginUser);
 				} else {
-					throw new Exception();
+					request.setAttribute("center", "signin");
+					request.setAttribute("errMsg", "email 또는 password가 일치하지 않습니다.");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("center", "signin");
-				request.setAttribute("errMsg", "email 또는 password가 일치하지 않습니다.");
 			}
 		}
 		

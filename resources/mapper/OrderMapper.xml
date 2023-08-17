@@ -3,5 +3,28 @@
 PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">
-	
+	<resultMap type="order" id="orderMap">
+		<result property="zipcode" column="zipcode" />
+		<result property="createdAt" column="created_at" />
+		<result property="vendorMessage" column="vendor_message" />
+		<result property="streetAddress" column="street_address" />
+		<result property="addressDetail" column="address_detail" />
+		<result property="receiverName" column="receiver_name" />
+		<result property="orderPhone" column="order_phone" />
+		<result property="memberSequence" column="member_sequence" />
+	</resultMap>
+
+	<!-- id에 해당하는 주문 내역만 조회 -->
+	<select id="select" parameterType="order" resultMap="orderMap">
+		SELECT *
+		FROM `ORDER` WHERE sequence=#{sequence}
+	</select>
+
+	<!-- 상품 구매 -->
+	<insert id="insert" parameterType="order">
+		INSERT INTO `ORDER`
+		(ZIPCODE, receiver_name , STREET_ADDRESS, ORDER_PHONE, MEMBER_SEQUENCE, VENDOR_MESSAGE) 
+		VALUES (#{zipcode}, #{receiverName}, #{streetAddress}, #{orderPhone}, #{memberSequence}, #{vendorMessage})
+	</insert>
+   
 </mapper>

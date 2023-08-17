@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 <properties resource="mysql.properties" />
 	<typeAliases>
 		<typeAlias type="app.dto.Cust" alias="cust"/>
+		<typeAlias type="app.dto.Member" alias="member"/>		
 		<typeAlias type="app.dto.Product" alias="product"/>
 		<typeAlias type="app.dto.Category" alias="category"/>
 		<typeAlias type="app.dto.Review" alias="review"/>
@@ -23,6 +24,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 	</environments>
 	<mappers>
 		<mapper resource="custmapper.xml"/>
+		<mapper resource="mapper/MemberMapper.xml"/> 
 		<mapper resource="searchbarmapper.xml"/>
 		<mapper resource="categorymapper.xml"/>
 		<mapper resource="productdetailmapper.xml"/>

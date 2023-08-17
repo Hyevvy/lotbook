@@ -1,4 +1,4 @@
-package app.cust;
+package app.impl.product;
 
 import java.util.List;
 

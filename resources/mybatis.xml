@@ -24,6 +24,7 @@
 		</environment>
 	</environments>
 	<mappers>
+<<<<<<< HEAD
 		<mapper resource="custmapper.xml" />
 		<mapper resource="mapper/CartMapper.xml" />
 		<mapper resource="mapper/CategoryMapper.xml" />
@@ -33,5 +34,15 @@
 		<mapper resource="mapper/ProductDetailMapper.xml" />
 		<!-- <mapper resource="mapper/ReviewMapper.xml" /> -->
 		<mapper resource="mapper/SearchbarMapper.xml" />
+=======
+		<mapper resource="custmapper.xml"/>
+		<mapper resource="mapper/MemberMapper.xml"/> 
+		<mapper resource="mapper/CartMapper.xml"/> 
+		<mapper resource="mapper/ProductMapper.xml"/> 
+		<mapper resource="mapper/OrderMapper.xml"/> 
+		<mapper resource="mapper/OrderDetailMapper.xml"/>
+		<mapper resource="mapper/ReviewMapper.xml"/>  
+		<mapper resource="searchbarmapper.xml"/>
+>>>>>>> aae61cc5a7315913440f8184d156302cea9053d6
 	</mappers>
 </configuration>

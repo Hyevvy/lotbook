@@ -12,8 +12,9 @@
 
 	<!-- 장바구니에 책 담기 -->
 	<insert id="addToCart" parameterType="cart">
-		INSERT INTO `CART` (count, memberSequence, productSequence) values(${count}, ${memberSequence}, ${productSequence}); 
+		INSERT INTO `CART` (count, member_sequence, product_sequence) values(#{count}, #{memberSequence}, #{productSequence}) 
 	</insert>
+<<<<<<< HEAD
 
 	<!-- 내 장바구니 전체 조회 -->
 	<select id="selectCartAll" parameterType="long" resultMap="cartMap">
@@ -32,3 +33,8 @@
 	<!-- 장바구니 삭제 -->
 	<!-- 장바구니 상품 상태 변경 -->
 </mapper>
+=======
+	
+	
+</mapper>
+>>>>>>> aae61cc5a7315913440f8184d156302cea9053d6

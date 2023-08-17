@@ -1,74 +1,76 @@
-package app.impl.member;
+package app.impl.order;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.entity.Member;
+import app.dto.Member;
+import app.dto.Order;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 
-public class MemberServiceImpl implements ServiceFrame<Member, Member>{
-	DaoFrame<Member, Member> dao;
+public class OrderServiceImpl implements ServiceFrame<Order, Order> {
+	DaoFrame<Order, Order> dao;
 	SqlSession session;
-	
-	
-	public MemberServiceImpl() {
+
+	public OrderServiceImpl() {
 		super();
-		dao = new MemberDaoImpl();
+		dao = new OrderDaoImpl();
 	}
 
 	@Override
-	public int register(Member v) throws Exception {
-		return 0;
-	}
-
-	@Override
-	public int modify(Member v) throws Exception {
+	public int register(Order v) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
-		
+
 		int result = 0;
 		try {
-			result = dao.update(v, session);
+			result = dao.insert(v, session);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			session.rollback();
 			throw new Exception("ER1001");
 		} finally {
 			session.close();
 		}
-		
 		return result;
+
 	}
 
 	@Override
-	public int remove(Member k) throws Exception {
-		return 0;
-		
+	public void modify(Order v) throws Exception {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public Member get(Member k) throws Exception {
+	public void remove(Order k) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Order get(Order k) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
-		
-		Member mem = null;
-		
+
+		Order order = null;
+
 		try {
-			mem = dao.select(k, session);
+			order = dao.select(k, session);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("ER1001");
 		} finally {
 			session.close();
 		}
-		
-		return mem;
+
+		return order;
 	}
 
 	@Override
-	public List<Member> get() throws Exception {
+	public List<Order> get() throws Exception {
 		return null;
 	}
-	
+
 }

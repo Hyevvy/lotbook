@@ -1,50 +1,40 @@
-package app.impl.member;
+package app.order;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.entity.Member;
+import app.dto.Member;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 
-public class MemberServiceImpl implements ServiceFrame<Member, Member>{
+public class OrderServiceImpl implements ServiceFrame<Member, Member>{
 	DaoFrame<Member, Member> dao;
 	SqlSession session;
 	
 	
-	public MemberServiceImpl() {
+	
+	public OrderServiceImpl() {
 		super();
-		dao = new MemberDaoImpl();
+		dao = new OrderDaoImpl();
 	}
 
 	@Override
-	public int register(Member v) throws Exception {
-		return 0;
-	}
-
-	@Override
-	public int modify(Member v) throws Exception {
-		session = GetSessionFacroty.getInstance().openSession();
+	public void register(Member v) throws Exception {
+		// TODO Auto-generated method stub
 		
-		int result = 0;
-		try {
-			result = dao.update(v, session);
-			session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("ER1001");
-		} finally {
-			session.close();
-		}
-		
-		return result;
 	}
 
 	@Override
-	public int remove(Member k) throws Exception {
-		return 0;
+	public void modify(Member v) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void remove(Member k) throws Exception {
+		// TODO Auto-generated method stub
 		
 	}
 

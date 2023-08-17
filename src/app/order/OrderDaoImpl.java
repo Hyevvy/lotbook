@@ -1,13 +1,13 @@
-package app.impl.member;
+package app.order;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.entity.Member;
+import app.dto.Member;
 import app.frame.DaoFrame;
 
-public class MemberDaoImpl implements DaoFrame<Member, Member> {
+public class OrderDaoImpl implements DaoFrame<Member, Member> {
 
 	@Override
 	public int insert(Member v, SqlSession session) throws Exception {
@@ -17,7 +17,8 @@ public class MemberDaoImpl implements DaoFrame<Member, Member> {
 
 	@Override
 	public int update(Member v, SqlSession session) throws Exception {
-		return session.update("member.update", v);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override

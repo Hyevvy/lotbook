@@ -70,6 +70,7 @@ public class MemberServlet extends HttpServlet {
 				if(bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
 					HttpSession session = request.getSession();
 					session.setAttribute("logincust", loginUser);
+					memServiceImpl.modify(loginUser); 
 				} else {
 					request.setAttribute("center", "signin");
 					request.setAttribute("errMsg", "email 또는 password가 일치하지 않습니다.");

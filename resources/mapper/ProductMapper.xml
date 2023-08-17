@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
-	
+	<resultMap id="productResultMap" type="app.dto.entity.Product">
+		<id property="sequence" column="sequence" />
+		<result property="productImgurl" column="product_imgurl" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="content" column="content" />
+		<result property="stock" column="stock" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="pointAccumulationRate" column="point_accumulation_rate" />
+		<result property="discountRate" column="discount_rate" />
+		<result property="salesCount" column="sales_count" />
+			<!-- TODO: ENUM 타입 핸들러 만들고 처리 -->
+			<!-- <result property="state" column="state" typeHandler="app.mybatis.handler.ProductStateEnumTypeHandler"/> -->
+		<result property="authorSequence" column="author_sequence" />
+		<result property="publisherSequence" column="publisher_sequence" />
+		<result property="categorySequence" column="category_sequence" />
+	</resultMap>
+
+	<select id="selectProduct" resultMap="productResultMap" parameterType="app.dto.entity.Product">
+        SELECT sequence, product_imgurl, name, price, content, stock, created_at, updated_at, point_accumulation_rate, discount_rate, sales_count, state, author_sequence, publisher_sequence, category_sequence
+        FROM product
+        WHERE sequence = #{sequence}
+    </select>
 </mapper>

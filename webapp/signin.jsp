@@ -75,7 +75,7 @@
     </header>
     <!-- Header Section End -->
 <div class="checkout__form">
-	<form action="mem.bit" method="post">
+	<form action="member.bit" method="post">
 		<input type="hidden" name="view" value="loginimpl">
 		<div class="row">
 			<div class="col-lg-8 col-md-6 m-auto">

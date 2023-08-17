@@ -26,4 +26,5 @@ public class Product {
 	private int authorSequence;
 	private int publisherSequence;
 	private int categorySequence;
+	
 }

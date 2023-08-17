@@ -1,7 +1,6 @@
 package app.impl.cart;
 
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -32,7 +31,13 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 				throw new Exception("ER2002 - 재고 부족");
 			}
 			
-			result = dao.insert(v, session);
+			int dupSeq = dao.checkDuplicatedProduct(v, session);
+			if (dupSeq == 0) { // 중복 상품 없음
+				result = dao.insert(v, session);
+			} else if (dupSeq >= 1) { // 중복 상품 있음
+				v.setSequence(dupSeq);
+				result = dao.updateDuplicatedProduct(v, session);
+			}
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,17 +74,18 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 	
 	public List<Cart> getAll(Cart v) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
+		List<Cart> cart = new ArrayList<>();
 		try {
-			List<Cart> cart = dao.selectAllMyCart(v, session);
-			for (int i = 0; i < cart.size(); i++) {
-				System.out.println(cart.get(i));
-			}
+			cart = dao.selectAllMyCart(v, session);
+//			for (int i = 0; i < cart.size(); i++) {
+//				System.out.println(cart.get(i));
+//			}
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception("ER2000 - 장바구니 에러");
 		} finally {
 			session.close();
 		}
-		return null;
+		return cart;
 	}
 }

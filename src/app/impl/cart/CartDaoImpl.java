@@ -15,6 +15,21 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 	public int checkProductStock(Cart v, SqlSession session) throws Exception {
 		return session.selectOne("cart.checkProductStock", v);
 	}
+	
+	/**
+	 * 중복 상품 판별
+	 */
+	public int checkDuplicatedProduct(Cart v, SqlSession session) throws Exception {
+		return session.selectOne("cart.checkDuplicatedProduct", v);
+	}
+	
+	/**
+	 * 중복 상품 장바구니 개수 증가
+	 */
+	public int updateDuplicatedProduct(Cart v, SqlSession session) throws Exception {
+		return session.update("cart.updateDuplicatedProduct", v);
+	}
+	
 	/**
 	 * 장바구니 담기
 	 */

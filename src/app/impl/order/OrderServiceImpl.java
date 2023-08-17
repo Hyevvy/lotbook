@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.Member;
 import app.dto.Order;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
+import app.impl.order.OrderDaoImpl;
 
 public class OrderServiceImpl implements ServiceFrame<Order, Order> {
 	DaoFrame<Order, Order> dao;
@@ -39,14 +39,14 @@ public class OrderServiceImpl implements ServiceFrame<Order, Order> {
 	}
 
 	@Override
-	public void modify(Order v) throws Exception {
-		// TODO Auto-generated method stub
+	public int modify(Order v) throws Exception {
+		return 0;
 
 	}
 
 	@Override
-	public void remove(Order k) throws Exception {
-		// TODO Auto-generated method stub
+	public int remove(Order k) throws Exception {
+		return 0;
 
 	}
 

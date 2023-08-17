@@ -14,30 +14,19 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		<result property="memberSequence" column="member_sequence" />
 	</resultMap>
 
-	<!-- id에 해당하는 주문 내역만 조회  -->
-	<select id="select" parameterType="String" resultType="order">
+	<!-- id에 해당하는 주문 내역만 조회 -->
+	<select id="select" parameterType="order" resultMap="orderMap">
 		SELECT *
-		FROM `ORDER` WHERE id=#{id}
+		FROM `ORDER` WHERE sequence=#{sequence}
 	</select>
 
-	<!-- 주문 내역 전체 조회 -->	
-	<select id="selectall" resultType="order">
-		SELECT * FROM `ORDER`
-	</select>
-	
-	
-	<!-- 주문 확정으로 인한 order state update -->
-	<update id="update" parameterType="order">
-		UPDATE `ORDER` SET ORDER_STATE = #{orderState} WHERE ORDER_KEY= #{orderKey}; 
-	</update>
-	
 	<!-- 상품 구매 -->
 	<insert id="insert" parameterType="order">
 		INSERT INTO `ORDER`
-		VALUES (0, #{streetAddr}, #{orderPhone}, #{memberKey})
+		(ZIPCODE, receiver_name , STREET_ADDRESS, ORDER_PHONE, MEMBER_SEQUENCE, VENDOR_MESSAGE) 
+		VALUES (#{zipcode}, #{receiverName}, #{streetAddress}, #{orderPhone}, #{memberSequence}, #{vendorMessage})
 	</insert>
-
-
+   
 </mapper>
 
 

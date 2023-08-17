@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productdetail">
-	<resultMap id="ProductDetailWithReviews" type="app.dto.response.ProductDetailWithReviews">
+	<resultMap id="ProductDetailWithReviewsMap" type="app.dto.response.ProductDetailWithReviews">
 		<id property="sequence" column="product_sequence" />
 		<result property="name" column="product_name" />
-		<collection property="reviews" ofType="your.package.Review" resultMap="ReviewMap" />
+		<collection property="reviews" ofType="app.dto.entity.Review" resultMap="ReviewMap" />
 	</resultMap>
 
 	<resultMap id="ReviewMap" type="app.dto.entity.Review">
-		<id property="sequence" column="review_sequence" />
-		<result property="content" column="review_content" />
+		<id property="sequence" column="sequence" />
+		<result property="rating" column="rating" />
+		<result property="comment" column="comment" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="isDeleted" column="is_deleted" />
 		<result property="productSequence" column="product_sequence" />
+		<result property="productSequence" column="product_sequence" />
+		<!--TODO: memberSequence, productSequence 별도의 처리 아직 안하고 있음. -->
 	</resultMap>
-
-
+	
 	<select id="selectProductWithReviews" resultMap="ProductWithReviewsMap">
     	SELECT P.sequence AS product_sequence, P.name AS product_name, 
-           	R.sequence AS review_sequence, R.content AS review_content, R.product_sequence
-    	FROM product P
-    		LEFT JOIN review R ON P.sequence = R.product_sequence
+            R.sequence as review_sequence, R.content AS review_content, R.rating AS rating, R.created_at, R.updated_at, R.is_deleted, R.product_sequence
+        FROM product P
+            LEFT JOIN review R ON P.sequence = R.product_sequence
 	</select>
 
 

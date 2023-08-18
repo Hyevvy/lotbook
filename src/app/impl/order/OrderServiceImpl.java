@@ -8,7 +8,6 @@ import app.dto.Order;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
-import app.impl.order.OrderDaoImpl;
 
 public class OrderServiceImpl implements ServiceFrame<Order, Order> {
 	DaoFrame<Order, Order> dao;

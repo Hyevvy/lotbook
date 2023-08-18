@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import app.dto.Product;
+
 public interface DaoFrame<K,V> {
 	public int insert(V v, SqlSession session) throws Exception;
 	public int update(V v, SqlSession session) throws Exception;

@@ -169,7 +169,8 @@
 							</div>
 						</div>
 					</div>
-					<a href="#" class="primary-btn">ADD TO CARD</a>
+					<a href="#" class="primary-btn">장바구니에 담기</a>
+					<a href="main.bit?view=checkoutbuynow&count=${2}&productId=${3}" class="primary-btn">바로 구매</a>
 					<ul>
 						<li><b>구매가능 여부</b> <span>{ 구매가능? "구매가능" : "품절"}</span></li>
 						<li><b>작가</b> <span>작가 이름</span></li>

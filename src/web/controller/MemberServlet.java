@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import app.dto.Member;
+import app.dto.entity.Member;
 import app.impl.member.MemberServiceImpl;
 import web.dispatcher.Navi;
 

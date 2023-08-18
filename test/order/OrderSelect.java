@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import app.dto.Order;
+import app.dto.entity.Order;
 import app.impl.order.OrderServiceImpl;
 
 public class OrderSelect {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.Cart;
+import app.dto.entity.Cart;
 import app.frame.DaoFrame;
 
 public class CartDaoImpl implements DaoFrame<Cart, Cart> {

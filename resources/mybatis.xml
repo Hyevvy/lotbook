@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration
-PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<properties resource="mysql.properties" />
 	<typeAliases>
-		<typeAlias type="app.dto.Cust" alias="cust" />
-		<typeAlias type="app.dto.Member" alias="member" />
-		<typeAlias type="app.dto.Product" alias="product" />
-		<typeAlias type="app.dto.Cart" alias="cart" />
-		<typeAlias type="app.dto.Order" alias="order" />
-		<typeAlias type="app.dto.OrderDetail" alias="orderdetail" />
-		<typeAlias type="app.dto.Review" alias="review" />
+		<typeAlias type="app.dto.entity.Cust" alias="cust" />
+		<typeAlias type="app.dto.entity.Category" alias="category" />
+		<typeAlias type="app.dto.entity.Cart" alias="cart" />
+		<typeAlias type="app.dto.entity.Member" alias="member" />
+		<typeAlias type="app.dto.entity.Order" alias="order" />
+		<typeAlias type="app.dto.entity.OrderDetail" alias="orderdetail" />
+		<typeAlias type="app.dto.entity.Product" alias="product" />
+		<typeAlias type="app.dto.entity.Review" alias="review" />
 	</typeAliases>
+	<typeHandlers>
+		<typeHandler javaType="boolean" jdbcType="TINYINT" handler="org.apache.ibatis.type.BooleanTypeHandler" />
+	</typeHandlers>
 	<environments default="">
 		<environment id="">
 			<transactionManager type="JDBC" />
@@ -25,20 +27,17 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		</environment>
 	</environments>
 	<mappers>
+
 		<mapper resource="custmapper.xml" />
-		<mapper resource="mapper/MemberMapper.xml" />
 		<mapper resource="mapper/CartMapper.xml" />
-		<mapper resource="mapper/ProductMapper.xml" />
+		<mapper resource="mapper/CategoryMapper.xml" />
+		<mapper resource="mapper/MemberMapper.xml" />
+		<!-- <mapper resource="mapper/OrderDetailMapper.xml" /> -->
 		<mapper resource="mapper/OrderMapper.xml" />
-		<mapper resource="mapper/OrderDetailMapper.xml" />
+		<!-- <mapper resource="mapper/ProductDetailMapper.xml" /> -->
+		<mapper resource="mapper/ProductMapper.xml" />
 		<mapper resource="mapper/ReviewMapper.xml" />
-		<mapper resource="searchbarmapper.xml" />
+		<mapper resource="mapper/SearchbarMapper.xml" />
+
 	</mappers>
 </configuration>
-
-
-
-
-
-
-

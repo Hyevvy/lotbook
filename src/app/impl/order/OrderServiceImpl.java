@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.Order;
+import app.dto.entity.Order;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;

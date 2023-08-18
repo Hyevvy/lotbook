@@ -1,35 +1,35 @@
-package app.dto;
+package app.dto.entity;
 
 import app.enums.ProductStateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor; // 추가
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-
-@NoArgsConstructor // 추가
-
+@NoArgsConstructor
 public class Product {
-    private long sequence;
-    private String productImgurl;
-    private String name;
-    private int price;
-    private String content;
-    private int stock;
-    private String created_at;
-    private String updated_at;
-    private double pointAccumulationRate;
-    private double discountRate;
-    private long salesCount;
-    private String state;
-    
-    // FK
-    private int authorSequence;
-    private int publisherSequence;
-    private int categorySequence;
-    
+	private long sequence;
+	private String productImgurl;
+	private String name;
+	private int price;
+	private String content;
+	private int stock;
+	private String createdAt;
+	private String updatedAt;
+	private double pointAccumulationRate;
+	private double discountRate;
+	private long salesCount;
+	//	private ProductStateEnum state;
+	private String state;
+	
+	// FK
+	private int authorSequence;
+	private int publisherSequence;
+	private int categorySequence;
+	
+
     public Product(
         long sequence,
         String productImgurl,
@@ -37,8 +37,8 @@ public class Product {
         int price,
         String content,
         int stock,
-        String created_at,
-        String updated_at,
+        String createdAt,
+        String updatedAt,
         double pointAccumulationRate,
         double discountRate,
         long salesCount,
@@ -53,8 +53,8 @@ public class Product {
         this.price = price;
         this.content = content;
         this.stock = stock;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.pointAccumulationRate = pointAccumulationRate;
         this.discountRate = discountRate;
         this.salesCount = salesCount;

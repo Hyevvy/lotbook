@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import app.cust.CustServiceImpl;
-import app.dto.Cust;
+import app.dto.entity.Cust;
 import web.dispatcher.Navi;
 
 /**

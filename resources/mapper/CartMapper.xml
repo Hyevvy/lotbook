@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
 	<resultMap type="cart" id="cartMap">
-		<result property="sequence" column="sequence"/>
-		<result property="productSequence" column="product_sequence"/>
-		<result property="memberSequence" column="member_sequence"/>
-		<result property="count" column="count"/>
-		<result property="updatedAt" column="updated_at"/>
-		<result property="isDeleted" column="is_deleted"/>
+		<result property="sequence" column="sequence" />
+		<result property="productSequence" column="product_sequence" />
+		<result property="memberSequence" column="member_sequence" />
+		<result property="count" column="count" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="isDeleted" column="is_deleted" />
 	</resultMap>
 	
 	<!-- 재고 확인 -->

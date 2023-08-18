@@ -1,12 +1,14 @@
-package app.dto;
+package app.dto.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Cart {
 	private long sequence;
 	private long productSequence; //FKs as composite Key

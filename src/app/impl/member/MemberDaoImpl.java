@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.Member;
+import app.dto.entity.Member;
 import app.frame.DaoFrame;
 
 public class MemberDaoImpl implements DaoFrame<Member, Member> {

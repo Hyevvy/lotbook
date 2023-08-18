@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="searchbar">
 
 	<select id="selectProductsByKeyword" resultType="product">
-	  SELECT *
+		SELECT *
 	  FROM product
 	  WHERE
-	    <trim prefixOverrides="AND|OR">
-	      <if test="keyword != null and keyword != ''">
+		<trim prefixOverrides="AND|OR">
+			<if test="keyword != null and keyword != ''">
 	        REPLACE(name, ' ', '') LIKE '%' || #{keyword} || '%'
 	      </if>
-	    </trim>
+		</trim>
 	</select>
-		
+
 </mapper>

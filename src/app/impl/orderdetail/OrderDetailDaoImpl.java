@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.Cust;
-import app.dto.OrderDetail;
+import app.dto.entity.OrderDetail;
 import app.frame.DaoFrame;
 
 public class OrderDetailDaoImpl implements DaoFrame<OrderDetail, OrderDetail> {

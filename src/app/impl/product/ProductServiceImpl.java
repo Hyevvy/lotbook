@@ -93,6 +93,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 	}
 
 	public List<Product> getLatest() throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
 		List<Product> list = null;
 		try{
 			list = session.selectList("product.latest");

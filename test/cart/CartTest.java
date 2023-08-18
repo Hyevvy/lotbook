@@ -4,7 +4,7 @@ package cart;
 import org.junit.Before;
 import org.junit.Test;
 
-import app.dto.Cart;
+import app.dto.entity.Cart;
 import app.impl.cart.CartServiceImpl;
 
 public class CartTest {

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
 public class Product {
 	private long sequence;
@@ -22,7 +21,8 @@ public class Product {
 	private double pointAccumulationRate;
 	private double discountRate;
 	private long salesCount;
-	private ProductStateEnum state;
+	//	private ProductStateEnum state;
+	private String state;
 	
 	// FK
 	private int authorSequence;

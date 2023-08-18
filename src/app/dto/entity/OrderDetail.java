@@ -15,7 +15,8 @@ public class OrderDetail {
 	private int count;
 	private int productPrice;
 	private int productPoint;
-	private OrderStateEnum state;
+//	private OrderStateEnum state;
+	private String state;
 	
 	private long orderSequence;
 	private long productSequence;

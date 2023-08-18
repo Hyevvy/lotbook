@@ -28,8 +28,8 @@
 		<result property="content" column="content"/>
 		<result property="stock" column="stock"/>
 		<result property="accumulatedPoint" column="accumulated_point"/>
-		<result property="created_at" column="created_at"/>
-		<result property="updated_at" column="updated_at"/>
+		<result property="createdAt" column="created_at"/>
+		<result property="updatedAt" column="updated_at"/>
 		<result property="pointAccumulationRate" column="pointAccumulationRate"/>
 		<result property="discountRate" column="discountRate"/>
 		<result property="salesCount" column="salesCount"/>

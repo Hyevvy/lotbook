@@ -19,11 +19,6 @@
 	<select id="select" parameterType="member" resultMap="memberMap">
 		SELECT * FROM member WHERE email=#{email}
 	</select>
-<<<<<<< HEAD
-
-
-</mapper>
-=======
 	
 	<update id="update" parameterType="member">
 		UPDATE member SET last_login_at=now() WHERE sequence=#{sequence}
@@ -33,4 +28,4 @@
 	
 	
 </mapper>
->>>>>>> aae61cc5a7315913440f8184d156302cea9053d6
+

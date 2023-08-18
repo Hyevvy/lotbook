@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.Cart;
+import app.dto.entity.Cart;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 

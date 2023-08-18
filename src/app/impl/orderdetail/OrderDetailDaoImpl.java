@@ -19,7 +19,7 @@ public class OrderDetailDaoImpl implements DaoFrame<OrderDetail, OrderDetail> {
 	@Override
 	public int update(OrderDetail v, SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
-		return session.insert("orderdetail.updateOrderDetailState", v);
+		return session.update("orderdetail.updateOrderDetailState", v);
 	}
 
 	@Override

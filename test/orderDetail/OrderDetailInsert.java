@@ -14,7 +14,7 @@ public class OrderDetailInsert {
 		service = new OrderDetailServiceImpl();
 
 		OrderDetail orderdetail = OrderDetail.builder()
-				.count(3).productPoint(2000).productPoint(500).orderSequence(1).productSequence(3)
+				.count(3).productPrice(2000).productPoint(500).orderSequence(2).productSequence(3)
 				.build();
 
 		System.out.println(orderdetail);

@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orderdetail">
 	<resultMap type="orderdetail" id="orderDetailMap">
+		<id property="sequence" column="sequence" />
 		<result property="count" column="count" />
 		<result property="productPrice" column="product_price" />
 		<result property="productPoint" column="product_point" />
@@ -13,31 +14,31 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<!-- 상품 구매 -->
-	<insert id="insert" parameterType="orderDetailMap">
-		INSERT INTO ORDERDETAIL
-		(COUNT, PRODUCT_PRICE, PRODUCT_POINT, ORDERSEQUENCE, PRODUCTSEQUENCE)
+	<insert id="insert" parameterType="orderdetail">
+		INSERT INTO `ORDERDETAIL`
+		(count, product_price, product_point, order_sequence, product_sequence)
 		VALUES (#{count}, #{productPrice}, #{productPoint}, #{orderSequence},
-		#{productSequence})";
+		#{productSequence});
 	</insert>
 
 	<!-- orderDetail 상태 변경 (원하는 state와 order detail sequence 넘겨주면 됨) -->
 	<update id="updateOrderDetailState"
-		parameterType="orderDetailMap">
-		UPDATE ORDERDETAIL
+		parameterType="orderdetail">
+		UPDATE `ORDERDETAIL`
 		SET state = #{state} WHERE sequence =
 		#{sequence}
 	</update>
 
-	<!-- sequence에 해당하는 장바구니 내역 하나 저장 -->
-	<select id="selectOne" parameterType="OrderDetailMap"
-		resultType="OrderDetailMap">
+	<!-- sequence에 해당하는 OrderDetail 내역 하나 조회 -->
+	<select id="selectOne" parameterType="orderdetail"
+		resultMap="orderDetailMap">
 		SELECT * FROM ORDERDETAIL WHERE sequence = #{sequence}
 	</select>
 
 
 	<!-- orderSequence 번호에 해당하는 orderDetail 전체 조회 -->
 	<select id="selectAllOrderDetailByOrderSequence"
-		parameterType="orderDetailMap" resultMap="orderDetailMap">
+		parameterType="orderdetail" resultMap="orderDetailMap">
 		SELECT * FROM ORDERDETAIL
 		WHERE order_sequence = ${orderSequence}
 	</select>

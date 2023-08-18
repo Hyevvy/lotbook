@@ -6,6 +6,7 @@
 		<typeAlias type="app.dto.entity.Cust" alias="cust" />
 		<typeAlias type="app.dto.entity.Category" alias="category" />
 		<typeAlias type="app.dto.entity.Cart" alias="cart" />
+		<typeAlias type="app.dto.response.CartProduct" alias="cartproduct" />
 		<typeAlias type="app.dto.entity.Member" alias="member" />
 		<typeAlias type="app.dto.entity.Order" alias="order" />
 		<typeAlias type="app.dto.entity.OrderDetail" alias="orderdetail" />

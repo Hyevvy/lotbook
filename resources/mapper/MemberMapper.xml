@@ -19,8 +19,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<select id="select" parameterType="member" resultMap="memberMap">
-		SELECT * FROM member WHERE email=#{email} AND hashed_pwd=#{hashedPwd}
+		SELECT * FROM member WHERE email=#{email}
 	</select>
+	
+	<update id="update" parameterType="member">
+		UPDATE member SET last_login_at=now() WHERE sequence=#{sequence}
+	</update>
 	
 	
 	

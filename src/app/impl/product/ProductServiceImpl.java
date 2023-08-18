@@ -20,19 +20,22 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product>{
 	}
 
 	@Override
-	public void register(Product v) throws Exception {
+	public int register(Product v) throws Exception {
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void modify(Product v) throws Exception {
+	public int modify(Product v) throws Exception {
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void remove(Product k) throws Exception {
+	public int remove(Product k) throws Exception {
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}

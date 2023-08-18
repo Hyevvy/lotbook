@@ -1,5 +1,6 @@
 package product;
 
+
 import java.util.logging.Logger;
 
 import org.apache.ibatis.session.SqlSession;
@@ -47,4 +48,21 @@ public class ProductSelect {
 		}
 	}
 
+	@Test
+	public void test2() {
+		ProductServiceImpl service;
+		service = new ProductServiceImpl();
+		
+		List<Product> product = null;
+			System.out.println("서비스동작");
+		try {
+			product = service.getLatest();
+			System.out.println(product);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 }

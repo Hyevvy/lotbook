@@ -9,32 +9,30 @@
 		<result property="updatedAt" column="updated_at" />
 		<result property="isDeleted" column="is_deleted" />
 	</resultMap>
-
+	
+	<!-- 재고 확인 -->
+	<select id="checkProductStock" parameterType="cart" resultType="_int">
+		SELECT stock FROM `PRODUCT` WHERE sequence = #{productSequence}
+	</select>
+	
+	<!-- 중복 상품 여부 판별 -->
+	<select id="checkDuplicatedProduct" parameterType="cart" resultType="_int">
+		SELECT IFNULL(SUM(sequence), 0) sequence FROM `CART` WHERE member_sequence = #{memberSequence} AND product_sequence = #{productSequence}
+	</select>
+	
+	<!-- 중복 상품 장바구니 개수 증가 -->
+	<update id="updateDuplicatedProduct" parameterType="cart">
+		UPDATE `CART` SET count = count + ${count} WHERE sequence = #{sequence}
+	</update>
+	
 	<!-- 장바구니에 책 담기 -->
 	<insert id="addToCart" parameterType="cart">
 		INSERT INTO `CART` (count, member_sequence, product_sequence) values(#{count}, #{memberSequence}, #{productSequence}) 
 	</insert>
-<<<<<<< HEAD
-
+	
 	<!-- 내 장바구니 전체 조회 -->
-	<select id="selectCartAll" parameterType="long" resultMap="cartMap">
-		SELECT * FROM `cart` WHERE member_sequence = ${memberSequence};
+	<select id="selectCartAll" parameterType="cart" resultMap="cartMap">
+		SELECT * FROM `cart` WHERE member_sequence = ${memberSequence}
 	</select>
-	<!-- 장바구니 개별 상세 조회 -->
-
-	<!-- 장바구니 상품 수량 변경 -->
-
-	<!-- 장바구니에서 구매 -->
-
-	<!-- 장바구니 상품 상태 변경 -->
-	<!-- 장바구니에서 주문(판매량 & 재고 변경) -->
-	<!-- 주문 상세 추가 -->
-
-	<!-- 장바구니 삭제 -->
-	<!-- 장바구니 상품 상태 변경 -->
-</mapper>
-=======
-	
 	
 </mapper>
->>>>>>> aae61cc5a7315913440f8184d156302cea9053d6

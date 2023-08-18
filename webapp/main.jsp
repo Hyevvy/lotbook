@@ -1,11 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
+<script>
+window.onload = function(){
+	   alert("데이터 요청!")
+	$.ajax({
+        type: 'GET',
+        url: './product.bit?cmd=productlist',
+        //dataType: 'json',
+        //contentType : "application/json; charset=utf-8;",
+        success: function(result) {
+        	//console.log(result);
+        	
+        	getAttribute(clist)
+        	console.log(${clist})
+        	console.log(${clist.price})
+            alert(result);
+            console.log("성공")
+        },
+        error: function() {
+            alert("데이터 수신 실패!")
+        }
+    });
+}
+</script>
+
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
 		<div class="container">
-			<nav class="header__menu header__top__right mobile-menu"
+			<nav class="header__menu header__top__right mobile-menu" 
 				style="padding: 5px 0">
 				<ul>
 					<c:choose>

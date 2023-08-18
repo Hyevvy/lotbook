@@ -20,10 +20,47 @@
 		<result property="categorySequence" column="category_sequence" />
 	</resultMap>
 
+	<resultMap type="product" id="productMap">
+		<result property="sequence" column="sequence"/>
+		<result property="productImgurl" column="productImgurl"/>
+		<result property="name" column="name"/>
+		<result property="price" column="price"/>
+		<result property="content" column="content"/>
+		<result property="stock" column="stock"/>
+		<result property="accumulatedPoint" column="accumulated_point"/>
+		<result property="created_at" column="created_at"/>
+		<result property="updated_at" column="updated_at"/>
+		<result property="pointAccumulationRate" column="pointAccumulationRate"/>
+		<result property="discountRate" column="discountRate"/>
+		<result property="salesCount" column="salesCount"/>
+		<result property="state" column="state"/>
+		
+		<result property="authorSequence" column="authorSequence"/>
+		<result property="publisherSequence" column="publisherSequence"/>
+		<result property="categorySequence" column="categorySequence"/>
+	</resultMap>
+
 	<select id="selectProduct" resultMap="productResultMap" parameterType="app.dto.entity.Product">
         SELECT sequence, product_imgurl, name, price, content, stock, created_at, updated_at, point_accumulation_rate, discount_rate, sales_count,  author_sequence, publisher_sequence, category_sequence
         FROM product
         WHERE sequence = #{sequence}
         <!-- TODO: state복구 state 임시 제거 된 상태 -->
     </select>
+
+	<select id="latest" resultMap="productMap">
+		SELECT * FROM product ORDER BY created_at LIMIT 6;
+	</select>
+	
+	<select id="point" resultMap="productMap">
+		SELECT * FROM product ORDER BY point_accumulation_rate LIMIT 6;
+	</select>
+	
+	<select id="discount" resultMap="productMap">
+		SELECT * FROM product ORDER BY discount_rate LIMIT 8;
+	</select>
+	
+	<select id="bestseller" resultMap="productMap">
+		SELECT * FROM product ORDER BY sales_count LIMIT 6;
+	</select>
+	
 </mapper>

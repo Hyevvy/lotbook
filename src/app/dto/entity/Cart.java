@@ -15,6 +15,6 @@ public class Cart {
 	private long memberSequence; //FKs as composite Key
 	
 	private int count;
-	private int updatedAt;
+	private String updatedAt;
 	private boolean isDeleted;
 }

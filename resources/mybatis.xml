@@ -33,7 +33,8 @@
 		<mapper resource="mapper/CategoryMapper.xml" />
 		<mapper resource="mapper/MemberMapper.xml" />
 		<!-- <mapper resource="mapper/OrderDetailMapper.xml" /> -->
-		<!-- <mapper resource="mapper/OrderMapper.xml" /> -->
+		<mapper resource="mapper/OrderMapper.xml" />
+		<mapper resource="mapper/ProductDetailMapper.xml" />
 		<mapper resource="mapper/ProductMapper.xml" />
 		<mapper resource="mapper/ReviewMapper.xml" />
 		<mapper resource="mapper/SearchbarMapper.xml" />

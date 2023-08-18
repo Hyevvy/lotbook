@@ -22,6 +22,7 @@ public class MemberSelect {
 		Member loginUser = null;
 		try {
 			loginUser = service.get(member);
+			service.modify(loginUser);
 			assertEquals("login 비밀번호 에러", encoder.matches("1", loginUser.getHashedPwd()), true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

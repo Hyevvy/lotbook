@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="custmapper.xml"/>
 		<mapper resource="mapper/MemberMapper.xml"/> 
+		<mapper resource="mapper/ProductMapper.xml"/> 
 		<mapper resource="searchbarmapper.xml"/>
 	</mappers>
 </configuration>

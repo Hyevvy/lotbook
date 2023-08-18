@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import app.dto.entity.Cart;
-import app.dto.entity.Product;
+import app.dto.response.CartProduct;
 import app.impl.cart.CartServiceImpl;
 
 public class CartTest {
@@ -22,9 +22,9 @@ public class CartTest {
 	@Test
 	public void test() {
 		Cart cart = Cart.builder().
-				count(5).
+				count(1).
 				memberSequence(1).
-				productSequence(5).
+				productSequence(1).
 				build();
 		
 		try {
@@ -39,12 +39,10 @@ public class CartTest {
 	public void getAllTest() {
 		Cart cart = Cart.builder().
 				memberSequence(1).build();
-		List<Product> productList = new ArrayList<>();
+		List<CartProduct> productList = new ArrayList<>();
 		try {
 			List<Cart> cartList = service.getAll(cart);
-			for (int i = 0; i < cartList.size(); i++) {
-				productList.add((service.getProductInfo(cartList.get(i))));
-			}
+			productList = service.getProductInfo(cart);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

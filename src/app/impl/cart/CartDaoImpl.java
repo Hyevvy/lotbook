@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Cart;
-import app.dto.entity.Product;
+import app.dto.response.CartProduct;
 import app.frame.DaoFrame;
 
 public class CartDaoImpl implements DaoFrame<Cart, Cart> {
@@ -76,8 +76,8 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 	/**
 	 * 내 장바구니 상품 정보 전체 조회
 	 */
-	public Product selectProductInfo(Cart v, SqlSession session) throws Exception {
-		return session.selectOne("cart.selectProductInfo", v);
+	public List<CartProduct> selectProductInfo(Cart v, SqlSession session) throws Exception {
+		return session.selectList("cart.selectProductInfo", v);
 	}
 
 }

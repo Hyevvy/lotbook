@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import app.cust.CustServiceImpl;
 import app.dto.entity.Cart;
 import app.dto.entity.Product;
+import app.dto.response.CartProduct;
 import app.impl.cart.CartServiceImpl;
 import app.impl.product.ProductServiceImpl;
 
@@ -60,7 +61,7 @@ public class MainServlet extends HttpServlet {
 			String memberSeq = request.getParameter("memberSeq");
 			System.out.println(memberSeq);
 			List<Cart> cartList = new ArrayList<>();
-			List<Product> productList = new ArrayList<>();
+			List<CartProduct> productList = new ArrayList<>();
 			CartServiceImpl cartService = new CartServiceImpl();
 			
 			Cart cart = Cart.builder().
@@ -70,10 +71,7 @@ public class MainServlet extends HttpServlet {
 				cartList = cartService.getAll(cart);
 				request.setAttribute("myCartList", cartList);
 
-				for (int i = 0; i < cartList.size(); i++) {
-					productList.add((cartService.getProductInfo(cartList.get(i))));
-				}
-				
+				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
 			} catch (Exception e) {
 				e.printStackTrace();

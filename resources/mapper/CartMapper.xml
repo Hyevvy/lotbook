@@ -9,8 +9,12 @@
 		<result property="updatedAt" column="updated_at" />
 		<result property="isDeleted" column="is_deleted" />
 	</resultMap>
-	<resultMap type="product" id="cartProductMap">
-		<id property="sequence" column="sequence" />
+	<resultMap type="cartproduct" id="cartProductMap">
+		<result property="sequence" column="sequence" />
+		<result property="productSequence" column="product_sequence" />
+		<result property="memberSequence" column="member_sequence" />
+		<result property="count" column="count" />
+		<result property="isDeleted" column="is_deleted" />
 		<result property="productImgurl" column="product_imgurl" />
 		<result property="name" column="name" />
 		<result property="price" column="price" />
@@ -28,7 +32,9 @@
 	
 	<!-- 장바구니에 있는 상품 정보 조회 -->
 	<select id="selectProductInfo" parameterType="cart" resultMap="cartProductMap">
-		SELECT * FROM `PRODUCT` WHERE sequence = #{productSequence}
+		SELECT c.sequence, c.product_sequence, c.member_sequence, c.count, c.is_deleted, p.product_imgurl, p.name, p.price, p.content, p.stock, p.created_at, p.updated_at, p.point_accumulation_rate, p.discount_rate, p.sales_count, p.author_sequence, p.publisher_sequence, p.category_sequence FROM cart c
+		JOIN product p ON p.sequence = c.sequence
+		WHERE c.member_sequence = #{memberSequence};
 	</select>
 	
 	<!-- 재고 확인 -->

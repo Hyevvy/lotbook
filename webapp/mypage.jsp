@@ -164,29 +164,31 @@
             </div>
             <div class="checkout__form">
                 <h4>장바구니</h4>
-                <c:forEach items=${myCartProductList } var="cartItem" varStatus="item">
+                <c:forEach items="${myCartProductList }" var="product">
                 <div class="card mb-3">
                   <div class="card-body">
                     <div class="d-flex justify-content-between">
                       <div class="d-flex flex-row align-items-center">
-                        <div>
+                        <div class="col-2">
                           <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                            src="${product.productImgurl }"
+                            class="img-fluid rounded-3" alt="Shopping item" style="width: 85px;">
                         </div>
-                        <div class="ml-3">
-                          <h5>${item.name }</h5>
-                          <p class="small mb-0">256GB, Navy Blue</p>
+                        <div class="col-6">
+                          <h5>${product.name }</h5>
+                          <p class="small mb-0">${product.content.substring(0, 75) }...</p>
                         </div>
-                      </div>
-                      <div class="d-flex flex-row align-items-center">
-                        <div style="width: 50px;">
-                          <h5 class="fw-normal mb-0">2</h5>
+                        <div class="d-flex flex-row align-items-center col-4">
+	                        <div style="width: 50px;">
+	                          <h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
+	                        </div>
+	                        <div style="width: 100px;">
+	                          <h5 class="mb-0">${product.price * product.count }원</h5>
+	                        </div>
+	                        <a href="#!" style="color: #cecece;">삭제</a>
+	                        <button type="submit" class="ml-5 py-2 bg-danger text-white border-0 rounded-sm" style="width: 50px;">주문</button>
                         </div>
-                        <div style="width: 100px;">
-                          <h5 class="mb-0">900,000원</h5>
-                        </div>
-                        <a href="#!" style="color: #cecece;">삭제</a>
+                        
                       </div>
                     </div>
                   </div>

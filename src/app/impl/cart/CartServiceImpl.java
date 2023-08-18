@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Cart;
-import app.dto.entity.Product;
+import app.dto.response.CartProduct;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 
@@ -116,9 +116,9 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 		return cart;
 	}
 	
-	public Product getProductInfo(Cart v) throws Exception {
+	public List<CartProduct> getProductInfo(Cart v) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
-		Product product = null;
+		List<CartProduct> product = null;
 		try {
 			product = dao.selectProductInfo(v, session);
 		} catch(Exception e) {

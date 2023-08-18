@@ -78,7 +78,12 @@ public class MemberServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}else if(view.equals("logout")){
+			HttpSession session = request.getSession();
+			if(session.getAttribute("logincust") != null) {
+				session.removeAttribute("logincust");
+				session.invalidate();
+			}
 		}
-		
 	}
 }

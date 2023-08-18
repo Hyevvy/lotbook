@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Cart;
+import app.dto.entity.Product;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 
@@ -52,7 +53,24 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 	}
 	@Override
 	public int modify(Cart v) throws Exception {
-		return 0;
+		session = GetSessionFacroty.getInstance().openSession();
+		
+		int result = 0;
+		try {
+			int stock = dao.checkProductStock(v, session);
+			
+			if (stock < v.getCount()) {
+				throw new Exception("ER2002 - 재고 부족");
+			}
+			
+			result = dao.update(v, session);
+			
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.rollback();
+		}
+		return result;
 		
 	}
 	@Override
@@ -62,8 +80,17 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 	}
 	@Override
 	public Cart get(Cart k) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		session = GetSessionFacroty.getInstance().openSession();
+		Cart cart = null;
+		try {
+			cart = dao.select(k, session);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER2000 - 장바구니 에러");
+		} finally {
+			session.close();
+		}
+		return cart;
 	}
 	@Override
 	public List<Cart> get() throws Exception {
@@ -87,5 +114,19 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 			session.close();
 		}
 		return cart;
+	}
+	
+	public Product getProductInfo(Cart v) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		Product product = null;
+		try {
+			product = dao.selectProductInfo(v, session);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER2000 - 장바구니 에러");
+		} finally {
+			session.close();
+		}
+		return product;
 	}
 }

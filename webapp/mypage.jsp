@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%    
+    request.setCharacterEncoding("UTF-8");
+	String[] myCartList = request.getParameterValues("myCartList");
+	String[] myCartProductList = request.getParameterValues("myCartProductList");
+%>
 	<!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -159,6 +164,7 @@
             </div>
             <div class="checkout__form">
                 <h4>장바구니</h4>
+                <c:forEach items=${myCartProductList } var="cartItem" varStatus="item">
                 <div class="card mb-3">
                   <div class="card-body">
                     <div class="d-flex justify-content-between">
@@ -169,7 +175,7 @@
                             class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
                         </div>
                         <div class="ml-3">
-                          <h5>Iphone 11 pro</h5>
+                          <h5>${item.name }</h5>
                           <p class="small mb-0">256GB, Navy Blue</p>
                         </div>
                       </div>
@@ -185,6 +191,7 @@
                     </div>
                   </div>
                 </div>
+                </c:forEach>
             </div>
         </div>
     </section>

@@ -9,6 +9,27 @@
 		<result property="updatedAt" column="updated_at" />
 		<result property="isDeleted" column="is_deleted" />
 	</resultMap>
+	<resultMap type="product" id="cartProductMap">
+		<id property="sequence" column="sequence" />
+		<result property="productImgurl" column="product_imgurl" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="content" column="content" />
+		<result property="stock" column="stock" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="pointAccumulationRate" column="point_accumulation_rate" />
+		<result property="discountRate" column="discount_rate" />
+		<result property="salesCount" column="sales_count" />
+		<result property="authorSequence" column="author_sequence" />
+		<result property="publisherSequence" column="publisher_sequence" />
+		<result property="categorySequence" column="category_sequence" />
+	</resultMap>
+	
+	<!-- 장바구니에 있는 상품 정보 조회 -->
+	<select id="selectProductInfo" parameterType="cart" resultMap="cartProductMap">
+		SELECT * FROM `PRODUCT` WHERE sequence = #{productSequence}
+	</select>
 	
 	<!-- 재고 확인 -->
 	<select id="checkProductStock" parameterType="cart" resultType="_int">
@@ -32,7 +53,40 @@
 	
 	<!-- 내 장바구니 전체 조회 -->
 	<select id="selectCartAll" parameterType="cart" resultMap="cartMap">
-		SELECT * FROM `cart` WHERE member_sequence = ${memberSequence}
+		SELECT * FROM `CART` WHERE member_sequence = ${memberSequence}
 	</select>
+	
+	<!-- 장바구니 개별 상세 조회 -->
+	<select id="selectCartDetail" parameterType="cart" resultMap="cartMap">
+		SELECT * FROM `CART` WHERE sequence = ${sequence}
+	</select>
+	
+	<!-- 장바구니 수량 변경 -->
+	<update id="updateCartProductCount" parameterType="cart">
+		UPDATE `CART` SET count = ${count} WHERE sequence = #{sequence}
+	</update>
+	
+	<!-- 장바구니에서 구매 -->
+	<!-- 장바구니 상태 변경(구매/삭제) -->
+	<update id="updateCartState" parameterType="cart">
+		UPDATE `CART` SET is_deleted = 1 WHERE sequence = #{sequence};
+	</update>
+	
+	<!-- 장바구니에서 주문 -->
+	<insert id="cartToOrder" parameterType="cart">
+		INSERT INTO `ORDER` (zipcode, street_address, address_detail, order_phone, member_sequence) SELECT `MEMBER`.zipcode, `MEMBER`.street_address, `MEMBER`.address_detail, `MEMBER`.member_phone, `MEMBER`.sequence FROM `MEMBER` WHERE `MEMBER`.sequence = #{memberSequence}
+	</insert>
+	
+	<!-- 주문 상세 추가 -->
+	<!-- 
+	<insert id="addOrderDetail" parameterType="cart">
+		INSERT INTO `PRODUCTORDER` (count, product_price, product_point, order_sequence, product_sequence) SELECT #{count}, p.price, p.product_point, o.order_key, p.product_key FROM `ORDER` o, `PRODUCT` p WHERE o.order_key = 3 AND p.product_key = #{productSequence};	
+	</insert>
+	 -->
+	
+	<!-- 구매 상품 재고 업데이트 -->
+	<update id="updateProductInfo" parameterType="cart">
+		UPDATE `PRODUCT` SET sales_count = sales_count + ${count}, stock = stock - ${count} WHERE product_sequence = #{productSequence};
+	</update>
 	
 </mapper>

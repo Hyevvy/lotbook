@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Cart;
+import app.dto.entity.Product;
 import app.frame.DaoFrame;
 
 public class CartDaoImpl implements DaoFrame<Cart, Cart> {
@@ -38,10 +39,12 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 		return session.insert("cart.addToCart", v);
 	}
 
+	/**
+	 * 장바구니 수량 변경
+	 */
 	@Override
 	public int update(Cart v, SqlSession session) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.update("cart.updateCartProductCount", v);
 	}
 
 	@Override
@@ -50,10 +53,12 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 		return 0;
 	}
 
+	/**
+	 * 장바구니 개별 조회
+	 */
 	@Override
 	public Cart select(Cart k, SqlSession session) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectOne("cart.selectCartDetail", k);
 	}
 
 	@Override
@@ -66,6 +71,13 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 	 */
 	public List<Cart> selectAllMyCart(Cart v, SqlSession session) throws Exception {
 		return session.selectList("cart.selectCartAll", v);
+	}
+	
+	/**
+	 * 내 장바구니 상품 정보 전체 조회
+	 */
+	public Product selectProductInfo(Cart v, SqlSession session) throws Exception {
+		return session.selectOne("cart.selectProductInfo", v);
 	}
 
 }

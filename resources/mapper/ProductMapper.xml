@@ -48,7 +48,7 @@
     </select>
 
 	<select id="latest" resultMap="productMap">
-		SELECT * FROM product ORDER BY created_at LIMIT 6;
+		SELECT * FROM product ORDER BY created_at DESC LIMIT 6;
 	</select>
 	
 	<select id="point" resultMap="productMap">

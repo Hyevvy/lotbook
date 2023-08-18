@@ -3,7 +3,6 @@
 PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
-<<<<<<< HEAD
 	<resultMap type="product" id="productMap">
 		<result property="sequence" column="sequence"/>
 		<result property="productImgurl" column="productImgurl"/>
@@ -40,9 +39,4 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM product ORDER BY sales_count LIMIT 6;
 	</select>
 	
-	
 </mapper>
-=======
-	
-</mapper>
->>>>>>> refs/remotes/origin/master

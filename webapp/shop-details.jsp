@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#addToCartButton").click(function() {
+      $("#addToCartModal").modal("show");
+    });
+  });
+</script>
+
+
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -169,7 +179,7 @@
 							</div>
 						</div>
 					</div>
-					<a href="#" class="primary-btn">ADD TO CARD</a>
+					<button type="button" class="primary-btn" id="addToCartButton">ADD TO CARD</button>
 					<ul>
 						<li><b>구매가능 여부</b> <span>{ 구매가능? "구매가능" : "품절"}</span></li>
 						<li><b>작가</b> <span>작가 이름</span></li>
@@ -225,3 +235,24 @@
 	</div>
 </section>
 <!-- Product Details Section End -->
+
+<!-- Modal -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered mt-sm-3 mt-md-5 mt-lg-6" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addToCartModalLabel">장바구니 추가</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <a href="main.bit?view=shoping-cart" class="btn btn-primary">장바구니로 가기</a>
+      </div>
+    </div>
+  </div>
+</div>

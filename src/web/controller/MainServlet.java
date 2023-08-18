@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import app.cust.CustServiceImpl;
+import app.dto.entity.Product;
+import app.impl.product.ProductServiceImpl;
 
 /**
  * Servlet implementation class CustServlet
@@ -53,7 +55,25 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("center", "mypage");
 		}else if(view.equals("checkout")){
 			request.setAttribute("center", "checkout");
-		}else if(view.equals("contact")){
+		}else if(view.contains("checkoutbuynow")){
+			
+			request.setAttribute("center", "checkoutbuynow");
+			String productId = request.getParameter("productId");
+			String count = request.getParameter("count");
+		
+			Product product = Product.builder().sequence(Integer.parseInt(productId)).build();
+			ProductServiceImpl service = new ProductServiceImpl();
+			try {
+				Product res = service.get(product);
+				request.setAttribute("res", res);
+				request.setAttribute("count", count);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		else if(view.equals("contact")){
 			request.setAttribute("center", "contact");
 		}else if(view.equals("shop-details")){
 			request.setAttribute("center", "shop-details");

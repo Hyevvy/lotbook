@@ -179,8 +179,8 @@
 							</div>
 						</div>
 					</div>
-					<button type="button" class="primary-btn" id="addToCartButton">ADD TO CARD</button>
-					<a href="#" class="primary-btn">장바구니에 담기</a>
+					<button type="button" class="primary-btn border_none" id="addToCartButton">장바구니에 담기</button>
+					<!-- <a href="#" class="primary-btn">장바구니에 담기</a> -->
 					<a href="main.bit?view=checkoutbuynow&count=${2}&productId=${3}" class="primary-btn">바로 구매</a>
 					<ul>
 						<li><b>구매가능 여부</b> <span>{ 구매가능? "구매가능" : "품절"}</span></li>

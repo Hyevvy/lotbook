@@ -32,12 +32,12 @@ public class ProductSelect {
 	public void test() {
 		SqlSession session;
 		session = GetSessionFacroty.getInstance().openSession();
-		ProductDaoImpl dao = new ProductDaoImpl();
+		ProductServiceImpl service = new ProductServiceImpl();
 
 		try {
 			for (int i = 1; i < 10; i++) {
 				Product product = Product.builder().sequence(i).build();
-				Product res = dao.select(product, session);
+				Product res = service.get(product);
 				LOGGER.info(res.toString());
 				assert res.getSequence() == product.getSequence() : "Product sequence does not match given one";
 

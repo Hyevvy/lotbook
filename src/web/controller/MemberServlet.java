@@ -56,6 +56,7 @@ public class MemberServlet extends HttpServlet {
 			request.setAttribute("center", "signin");
 			request.setAttribute("navi", Navi.login);
 		}else if(view.equals("loginimpl")) {
+			System.out.println("Login Start");
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 			
@@ -67,7 +68,8 @@ public class MemberServlet extends HttpServlet {
 			try {
 				Member loginUser = memServiceImpl.get(loginInfo);
 				user_log.debug("로그인된 이메일 정보: "+loginUser.getEmail());
-				if(bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
+				if(password.equals(loginUser.getHashedPwd())) {
+					
 					HttpSession session = request.getSession();
 					session.setAttribute("logincust", loginUser);
 					memServiceImpl.modify(loginUser); 

@@ -70,7 +70,8 @@
 </header>
 
 
-	<form id="register_form" method="post" action="">
+	<form id="register_form" method="post" action="member.bit">
+	<input type="hidden" name="view" value="signup"/>
 	<div class="d-flex flex-row justify-content-center">
 		<div class="justify-content-center" align="center">
 		<table class="col-10">
@@ -156,46 +157,19 @@
 				<td>
 					<div class="row hero_search"> 
 								
-						<input type="text" id="sample6_postcode" class="form-control col-8" placeholder="우편번호">
+						<input type="text" id="sample6_postcode" class="form-control col-8" placeholder="우편번호" name="zipcode">
 						<input type="button" onclick="getAddress()" class="col-4" value="우편번호 찾기"> <br/>
-						<input type="text" id="sample6_address" class="form-control" placeholder="주소"><br/>
-						<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목">
-						<input type="text" id="sample6_detailAddress" class="form-control" placeholder="상세주소">
+						<input type="text" id="sample6_address" class="form-control" placeholder="주소" name="street_address_1"><br/>
+						<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" name="street_address_2">
+						<input type="text" id="sample6_detailAddress" class="form-control" placeholder="상세주소" name="address_detail">
 						
-						<!-- 
-						<input type="text" size="10" name="wPostCode" id="postcode" class="form-control col-6"
-						placeholder="우편번호" readonly="readonly" onclick="DaumPostcode()">
-						<input type="button" onclick="DaumPostcode()" value="우편번호 찾기" class="form-control col-6"><br>
-						<br /> 
-						<input type="text" size="30" name="wRoadAddress" class="form-control"
-						id="roadAddress" placeholder="도로명주소" readonly="readonly"
-						onclick="DaumPostcode()"> 
-						<input type="text" size="30"
-						name="wJibunAddress" id="jibunAddress" placeholder="지번주소" class="form-control"
-						readonly="readonly" onclick="DaumPostcode()"> <br /> <span
-						id="guide" style="color: #999; font-size: 10px;"></span> <br /> <br />
-						<input type="text" class="form-control" name="wRestAddress" placeholder="나머지 주소" size="70" /> -->
 					</div>
 				</td>
 			</tr>
 	
 		</table>
-		<!-- <input type="button" onclick="getAddress()" value="우편번호 찾기"><br>
-	
-		<input type="text" id="sample6_address" placeholder="주소"><br>
-		<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-		 -->
-		<!-- <br />
-		<table>
-			<tr height="40">
-				<td><input width="120" type="image"
-					src="img/button/btn_join.png" />&nbsp;<a href="index.php"><img
-						src="img/button/btn_cancel.png" width="120" /></a></td>
-			</tr>
-		</table> -->
-		<input type="button" id="register_btn" class="site-btn" value="회원가입"/>
-		<input type="button" id="register_btn" class="btn btn-secondary" onclick="" value="취소"/>
+		<button type="submit" id="register_btn" class="site-btn"> 회원가입</button>
+		<input type="button" id="cancel_btn" class="btn btn-secondary" onclick="location.href='main.bit'" value="취소" style="width:7.5rem; height:3rem"/>
 		</div>
 		</div>
 	</form>

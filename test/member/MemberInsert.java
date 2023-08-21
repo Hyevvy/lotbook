@@ -39,6 +39,7 @@ public class MemberInsert {
 		} finally {
 			System.out.println("----rollback 처리완료---");
 			session.rollback();
+			session.close();
 		}
 		
 	}

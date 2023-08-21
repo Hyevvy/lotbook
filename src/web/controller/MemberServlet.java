@@ -75,7 +75,7 @@ public class MemberServlet extends HttpServlet {
 					memServiceImpl.modify(loginUser); 
 				} else {
 					request.setAttribute("center", "signin");
-					request.setAttribute("errMsg", "email 또는 password가 일치하지 않습니다.");
+					request.setAttribute("msg", "email 또는 password가 일치하지 않습니다.");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

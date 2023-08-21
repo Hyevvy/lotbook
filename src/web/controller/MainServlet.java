@@ -165,7 +165,6 @@ public class MainServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
 		}else if(view.equals("checkout")){
 			request.setAttribute("center", "checkout");
 		}else if(view.contains("checkoutbuynow")){

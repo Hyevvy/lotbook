@@ -106,95 +106,100 @@
 </header>
 
 
-	<form id="register_form" method="post" action="member.bit">
+<form id="register_form" method="post" action="member.bit">
 	<input type="hidden" name="view" value="signup"/>
 	<div class="d-flex flex-row justify-content-center">
 		<div class="justify-content-center" align="center">
-		<table class="col-10">
-			<tr height="40">
-				<td class="full-width" align="center"><b>[회원가입]</b></td>
-			</tr>
-		</table>
-		<table width="700" height="600" cellpadding="0" class="col-6"
-			style="border-collapse: collapse; font-size: 9pt;">
-			<tr class="register" height="30">
-				<td width="5%" class="first-td" align="center">*</td>
-				<td width="20%" class="second-td"><label for="email">이메일</label></td>
-				<td>
-					<div class="row">
-						<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com">
-					</div>		
-				</td>
-			</tr>
-			<tr height="7">
-				<td colspan="3"><hr /></td>
-			</tr>
-			<tr class="register" height="30">
-				<td width="5%" class="first-td" align="center">*</td>
-				<td width="20%" class="second-td"><label for="password">비밀번호</label></td>
-				<td>
-				<div class="row">
-					<input type="password" class="form-control"
-					placeholder="ex) qwerty!123" id="password" name="password">
-				</div>
-				</td>
-			</tr>
-			<tr height="7">
-				<td colspan="3"><hr /></td>
-			</tr>
-			<!-- <tr class="register" height="30">
-				<td width="5%" align="center">*</td>
-				<td width="15%">비밀번호 확인</td>
-				<td><input type="password" name="wUserPWConfirm" id="pwCheck"
-					onchange="isSame()" />&nbsp;&nbsp;<span id="same"></span></td>
-			</tr> 
-			<tr height="7">
-				<td colspan="3"><hr /></td>
-			</tr> -->
-			<tr class="register" height="30">
-				<td width="5%" class="first-td" align="center">*</td>
-				<td width="20%" class="second-td"><label for="name">이름</label></td>
-				<td>
-					<div class="row">
-					<input type="text" class="form-control"
-						placeholder="ex) 홍길동 " id="name" name="name">
-					</div>
-				</td>
-			</tr>
-			<tr height="7">
-				<td colspan="3"><hr /></td>
-			</tr>
-			<tr class="register" height="30">
-				
+			<!-- <table class="col-10">
+				<tr height="40">
+					<td class="full-width" align="center"><b>[회원가입]</b></td>
+				</tr>
+			</table> -->
+			<div class="checkout__form full-width">
+				<h4>회원가입</h4>
+			</div>
+			<table width="700" height="600" cellpadding="0" class="col-6"
+				style="border-collapse: collapse; font-size: 9pt;">
+				<tr class="register" height="30">
 					<td width="5%" class="first-td" align="center">*</td>
-					<td width="20%" class="second-td"><label for="phone">휴대전화</label></td>
+					<td width="20%" class="second-td"><label for="email">이메일</label></td>
+					<td>
+						<div class="row">
+							<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com">
+						</div>		
+					</td>
+				</tr>
+				<tr height="7">
+					<td colspan="3"><hr /></td>
+				</tr>
+				<tr class="register" height="30">
+					<td width="5%" class="first-td" align="center">*</td>
+					<td width="20%" class="second-td"><label for="password">비밀번호</label></td>
 					<td>
 					<div class="row">
-						<input type="text" class="form-control" name="phone" id="phone" placeholder="ex) 01012345678">
+						<input type="password" class="form-control"
+						placeholder="ex) qwerty!123" id="password" name="password">
 					</div>
 					</td>
-			</tr>
-			<tr height="7">
-				<td colspan="3"><hr /></td>
-			</tr>
-			<tr>
-				<td width="5%" class="first-td" align="center">*</td>
-				<td width="20%" class="second-td">주 소</td>
-				<td>
-					<div class="row hero_search"> 
-						<input type="text" id="sample6_postcode" class="form-control col-8 first-input" placeholder="우편번호" name="zipcode">
-						<input type="button" onclick="getAddress()" class="col-4 second-input" value="우편번호 찾기"> <br/>
-						<input type="text" id="sample6_address" class="form-control" placeholder="주소" name="street_address_1"><br/>
-						<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" name="street_address_2">
-						<input type="text" id="sample6_detailAddress" class="form-control" placeholder="상세주소" name="address_detail">
-						
-					</div>
-				</td>
-			</tr>
-	
-		</table>
-		<button type="submit" id="register_btn" class="site-btn"> 회원가입</button>
-		<input type="button" id="cancel_btn" class="btn btn-secondary" onclick="location.href='main.bit'" value="취소" style="width:7.5rem; height:3rem"/>
+				</tr>
+				<tr height="7">
+					<td colspan="3"><hr /></td>
+				</tr>
+				<!-- <tr class="register" height="30">
+					<td width="5%" align="center">*</td>
+					<td width="15%">비밀번호 확인</td>
+					<td><input type="password" name="wUserPWConfirm" id="pwCheck"
+						onchange="isSame()" />&nbsp;&nbsp;<span id="same"></span></td>
+				</tr> 
+				<tr height="7">
+					<td colspan="3"><hr /></td>
+				</tr> -->
+				<tr class="register" height="30">
+					<td width="5%" class="first-td" align="center">*</td>
+					<td width="20%" class="second-td"><label for="name">이름</label></td>
+					<td>
+						<div class="row">
+						<input type="text" class="form-control"
+							placeholder="ex) 홍길동 " id="name" name="name">
+						</div>
+					</td>
+				</tr>
+				<tr height="7">
+					<td colspan="3"><hr /></td>
+				</tr>
+				<tr class="register" height="30">
+					
+						<td width="5%" class="first-td" align="center">*</td>
+						<td width="20%" class="second-td"><label for="phone">휴대전화</label></td>
+						<td>
+						<div class="row">
+							<input type="text" class="form-control" name="phone" id="phone" placeholder="ex) 01012345678">
+						</div>
+						</td>
+				</tr>
+				<tr height="7">
+					<td colspan="3"><hr /></td>
+				</tr>
+				<tr>
+					<td width="5%" class="first-td" align="center">*</td>
+					<td width="20%" class="second-td">주 소</td>
+					<td>
+						<div class="row hero_search"> 
+							<input type="text" id="sample6_postcode" class="form-control col-8 first-input" placeholder="우편번호" name="zipcode">
+							<input type="button" onclick="getAddress()" class="col-4 second-input" value="우편번호 찾기"> <br/>
+							<input type="text" id="sample6_address" class="form-control" placeholder="주소" name="street_address_1"><br/>
+							<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" name="street_address_2">
+							<input type="text" id="sample6_detailAddress" class="form-control" placeholder="상세주소" name="address_detail">
+							
+						</div>
+					</td>
+				</tr>
+		
+			</table>
+			<div style="display: flex; gap: 10px; justify-content: center; margin-bottom:10px;">	
+				<button type="submit" id="register_btn" class="site-btn"> 회원가입</button>
+				<input type="button" id="cancel_btn" class="btn btn-secondary" onclick="location.href='main.bit'" value="취소" style="width:7.5rem; height:2.9rem; border-radius:0px; font:14px Cairo;">		
+			</div>
 		</div>
-		</div>
-	</form>
+	</div>
+</form>

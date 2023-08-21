@@ -12,12 +12,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		<result property="receiverName" column="receiver_name" />
 		<result property="orderPhone" column="order_phone" />
 		<result property="memberSequence" column="member_sequence" />
+		<result property="orderDetail" column="order_detail" />
 	</resultMap>
 
 	<!-- id에 해당하는 주문 내역만 조회 -->
 	<select id="select" parameterType="order" resultMap="orderMap">
 		SELECT *
-		FROM `ORDER` WHERE sequence=#{sequence}
+		FROM `ORDER` WHERE sequence=#{sequence} 
 	</select>
 
 	<!-- 상품 구매 -->
@@ -27,4 +28,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		VALUES (#{zipcode}, #{receiverName}, #{streetAddress}, #{orderPhone}, #{memberSequence}, #{vendorMessage})
 	</insert>
    
+   	<!-- 내 Order 전체 조회 -->
+	<select id="selectall" parameterType="order" resultMap="orderMap">
+		SELECT * FROM `ORDER` WHERE member_sequence = ${memberSequence}
+	</select>
+	
 </mapper>

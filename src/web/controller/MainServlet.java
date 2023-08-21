@@ -13,9 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import app.cust.CustServiceImpl;
 import app.dto.entity.Cart;
+import app.dto.entity.Order;
+import app.dto.entity.OrderDetail;
 import app.dto.entity.Product;
 import app.dto.response.CartProduct;
 import app.impl.cart.CartServiceImpl;
+import app.impl.order.OrderServiceImpl;
+import app.impl.orderdetail.OrderDetailServiceImpl;
 import app.impl.product.ProductServiceImpl;
 
 /**
@@ -70,10 +74,37 @@ public class MainServlet extends HttpServlet {
 			try {
 				cartList = cartService.getAll(cart);
 				request.setAttribute("myCartList", cartList);
-
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
 			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			List<Order> orderList = new ArrayList<>();
+			OrderServiceImpl orderService = new OrderServiceImpl();
+			
+			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
+			
+			Order order = Order.builder().memberSequence(Integer.parseInt(memberSeq)).build();
+			
+			try {
+				orderList = orderService.getAll(order); // 1. user sequence에 해당하는 order 내역 전체 조회
+				
+				// 2. order sequence에 해당하는 orderDetail 채워주기
+				for(int i=0; i<orderList.size(); i++) {
+					List<OrderDetail> orderDetail = new ArrayList<>();
+					Order tempOrder = Order.builder().sequence(orderList.get(i).getSequence()).build();
+					orderDetail = orderDetailService.get(orderList.get(i).getSequence());
+					System.out.println("orderDeatil" + orderDetail);
+					orderList.get(i).setOrderDetailList(orderDetail);
+				}
+				
+				
+				// 3. myPage로 보내기 
+				request.setAttribute("myOrderList", orderList);
+				System.out.print("myOrderList" + orderList);
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 		}else if(view.equals("checkout")){

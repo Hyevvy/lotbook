@@ -19,5 +19,5 @@ public class OrderDetail {
 	
 	private long orderSequence;
 	private long productSequence;
-
+	private Product orderDetailProduct;
 }

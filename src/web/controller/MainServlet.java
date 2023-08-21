@@ -63,7 +63,6 @@ public class MainServlet extends HttpServlet {
 		}else if(view.contains("mypage")){
 			request.setAttribute("center", "mypage");
 			String memberSeq = request.getParameter("memberSeq");
-			System.out.println(memberSeq);
 			List<Cart> cartList = new ArrayList<>();
 			List<CartProduct> productList = new ArrayList<>();
 			CartServiceImpl cartService = new CartServiceImpl();
@@ -83,7 +82,8 @@ public class MainServlet extends HttpServlet {
 			
 			List<Order> orderList = new ArrayList<>();
 			OrderServiceImpl orderService = new OrderServiceImpl();
-			
+			ProductServiceImpl productService = new ProductServiceImpl();
+					
 			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
 			
 			Order order = Order.builder().memberSequence(Integer.parseInt(memberSeq)).build();
@@ -94,9 +94,14 @@ public class MainServlet extends HttpServlet {
 				// 2. order sequence에 해당하는 orderDetail 채워주기
 				for(int i=0; i<orderList.size(); i++) {
 					List<OrderDetail> orderDetail = new ArrayList<>();
-					Order tempOrder = Order.builder().sequence(orderList.get(i).getSequence()).build();
 					orderDetail = orderDetailService.get(orderList.get(i).getSequence());
-					System.out.println("orderDeatil" + orderDetail);
+
+					// 3. orderDetail 각각에 해당하는 Product 채워주기
+					for(int j=0; j<orderDetail.size(); j++) {
+						Product product = Product.builder().sequence(orderDetail.get(j).getProductSequence()).build();
+						orderDetail.get(j).setOrderDetailProduct(productService.get(product));
+					}
+							
 					orderList.get(i).setOrderDetailList(orderDetail);
 				}
 				

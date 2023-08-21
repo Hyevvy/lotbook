@@ -209,154 +209,41 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 				<div class="card mb-3 border-0">
 					<h6 class="bg-light text-danger border-top border-danger m-0">주문번호
 						${order.sequence} ${order.createdAt} ⌵</h6>
-						<div class="card-body">
-							<div class="d-flex justify-content-between">
-								<div class="d-flex flex-row align-items-center">
-									<div>
-										<img
-											src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-											class="img-fluid rounded-3" alt="Shopping item"
-											style="width: 65px;">
-									</div>
-									<div class="ml-3">
-										<h5>Iphone 11 pro</h5>
-										<p class="small mb-0">256GB, Navy Blue</p>
-									</div>
-								</div>
-								<div class="d-flex flex-row align-items-center">
-									<div style="width: 50px;">
-										<h5 class="fw-normal mb-0">2</h5>
-									</div>
-									<div style="width: 100px;">
-										<h5 class="mb-0">900,000원</h5>
-									</div>
-								</div>
-							</div>
-						</div>
 						<c:forEach items="${order.orderDetailList}" var="orderDetail">
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
 									<div class="d-flex flex-row align-items-center">
 										<div>
 											<img
-												src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
+												src=${orderDetail.orderDetailProduct.productImgurl}
 												class="img-fluid rounded-3" alt="Shopping item"
 												style="width: 65px;">
 										</div>
 										<div class="ml-3">
-											<h5>${orderDetail.productPrice}</h5>
+											<h5>${orderDetail.orderDetailProduct.name}</h5>
 											<p class="small mb-0">${orderDetail.state}</p>
+											<button type="submit"
+									class="site-btn mx-1 bg-danger text-white border-0 rounded-sm">리뷰
+						작성하기</button>
+						<button type="submit"
+							class="py-2 col-sm-6 bg-secondary text-white border-0 rounded-sm">환불
+							요청</button>
+								<button type="submit"
+							class="py-2 col-sm-6 bg-danger text-white border-0 rounded-sm">주문
+							확정</button>
 										</div>
 									</div>
 									<div class="d-flex flex-row align-items-center">
 										<div style="width: 50px;">
-											<h5 class="fw-normal mb-0">2</h5>
+											<h5 class="fw-normal mb-0">${orderDetail.count}</h5>
 										</div>
 										<div style="width: 100px;">
-											<h5 class="mb-0">900,000원</h5>
+											<h5 class="mb-0">${orderDetail.productPrice * orderDetail.count}원</h5>
 										</div>
 									</div>
 								</div>
 								</div>
 						</c:forEach>
-				</div>
-				<div class="card mb-3 border-0">
-					<h6 class="bg-light text-danger border-top border-danger m-0">배송중</h6>
-					<div class="card-body">
-						<div class="d-flex justify-content-between">
-							<div class="d-flex flex-row align-items-center">
-								<div>
-									<img
-										src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-										class="img-fluid rounded-3" alt="Shopping item"
-										style="width: 65px;">
-								</div>
-								<div class="ml-3">
-									<h5>Iphone 11 pro</h5>
-									<p class="small mb-0">256GB, Navy Blue</p>
-								</div>
-							</div>
-							<div class="d-flex flex-row align-items-center">
-								<div style="width: 50px;">
-									<h5 class="fw-normal mb-0">2</h5>
-								</div>
-								<div style="width: 100px;">
-									<h5 class="mb-0">900,000원</h5>
-								</div>
-							</div>
-						</div>
-					</div>
-					<button type="submit"
-						class="site-btn mx-1 bg-danger text-white border-0 rounded-sm">주문
-						취소</button>
-				</div>
-				<div class="card mb-3 border-0">
-					<h6 class="bg-light text-danger border-top border-danger m-0">배송
-						완료</h6>
-					<div class="card-body">
-						<div class="d-flex justify-content-between">
-							<div class="d-flex flex-row align-items-center">
-								<div>
-									<img
-										src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-										class="img-fluid rounded-3" alt="Shopping item"
-										style="width: 65px;">
-								</div>
-								<div class="ml-3">
-									<h5>Iphone 11 pro</h5>
-									<p class="small mb-0">256GB, Navy Blue</p>
-								</div>
-							</div>
-							<div class="d-flex flex-row align-items-center">
-								<div style="width: 50px;">
-									<h5 class="fw-normal mb-0">2</h5>
-								</div>
-								<div style="width: 100px;">
-									<h5 class="mb-0">900,000원</h5>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row mx-1">
-						<button type="submit"
-							class="py-2 col-sm-6 bg-secondary text-white border-0 rounded-sm">환불
-							요청</button>
-						<button type="submit"
-							class="py-2 col-sm-6 bg-danger text-white border-0 rounded-sm">주문
-							확정</button>
-					</div>
-
-				</div>
-				<div class="card mb-3 border-0">
-					<h6 class="bg-light text-danger border-top border-danger m-0">주문
-						확정 완료</h6>
-					<div class="card-body">
-						<div class="d-flex justify-content-between">
-							<div class="d-flex flex-row align-items-center">
-								<div>
-									<img
-										src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-										class="img-fluid rounded-3" alt="Shopping item"
-										style="width: 65px;">
-								</div>
-								<div class="ml-3">
-									<h5>Iphone 11 pro</h5>
-									<p class="small mb-0">256GB, Navy Blue</p>
-								</div>
-							</div>
-							<div class="d-flex flex-row align-items-center">
-								<div style="width: 50px;">
-									<h5 class="fw-normal mb-0">2</h5>
-								</div>
-								<div style="width: 100px;">
-									<h5 class="mb-0">900,000원</h5>
-								</div>
-							</div>
-						</div>
-					</div>
-					<button type="submit"
-						class="site-btn mx-1 bg-danger text-white border-0 rounded-sm">리뷰
-						작성하기</button>
 				</div>
 
 			</c:forEach>

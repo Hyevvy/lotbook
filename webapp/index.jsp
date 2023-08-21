@@ -28,7 +28,7 @@
 	
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
    	<script defer src="js/signup.js"></script>
-	
+	<script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
 </head>
 
 <body>

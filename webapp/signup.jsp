@@ -173,7 +173,7 @@
 						<td width="20%" class="second-td"><label for="phone">휴대전화</label></td>
 						<td>
 						<div class="row">
-							<input type="text" class="form-control" name="phone" id="phone" placeholder="ex) 01012345678">
+							<input type="text" class="form-control" name="phone" id="phone" placeholder="ex) 01012345678" required>
 						</div>
 						</td>
 				</tr>

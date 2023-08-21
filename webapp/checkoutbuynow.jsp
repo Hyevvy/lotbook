@@ -6,8 +6,8 @@
     request.setCharacterEncoding("UTF-8");
     String res = request.getParameter("res");
 	String count = request.getParameter("count");
+	String memberSeq = request.getParameter("memberSeq");
 %>
-
  
 <!-- Header Section Begin -->
 <header class="header">
@@ -130,9 +130,9 @@
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>Checkout</h2>
+					<h2>결제 확인</h2>
 					<div class="breadcrumb__option">
-						<a href="./index.jsp">Home</a> <span>Checkout</span>
+						<a href="./index.jsp">Home</a> <span>결제 확인</span>
 					</div>
 				</div>
 			</div>
@@ -147,7 +147,8 @@
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="#">
+			<form action="main.bit?count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${res.sequence}" method="post">
+				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
 						<div class="row">
@@ -156,39 +157,31 @@
 									<p>
 										받는 분 성함<span>*</span>
 									</p>
-									<input type="text">
+									<input type="text" id="input__receiverName" name="input__receiverName" required>
 								</div>
 							</div>
 						</div>
 						<div class="checkout__input">
 							<p>
-								이메일(청구서 수신용)<span>*</span>
-							</p>
-							<input type="tel" required>
-						</div>
-
-						<div class="checkout__input">
-							<p>
 								연락처<span>*</span>
 							</p>
-							<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+							<input type="tel" id="input__phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="input__phone"  required>
 						</div>
 						<div class="checkout__input">
 							<p>
 								우편 번호<span>*</span>
 							</p>
-							<input type="text" id="sample6_postcode" placeholder="우편번호">
+							<input type="text" id="sample6_postcode" placeholder="우편번호" name="input__zipcode">
 							<input type="button" onclick="getAddress()" value="우편번호 찾기"><br>
 						</div>
 						<div class="checkout__input">
 							<p>
 								주소<span>*</span>
 							</p>
-							<input type="text" id="sample6_address" placeholder="주소"><br>
-							<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-							<input type="text" id="sample6_extraAddress" placeholder="배송 메세지">
+							<input type="text" id="sample6_address" placeholder="주소" name="input__street_address"><br>
+							<input type="text" id="sample6_extraAddress" placeholder="상세주소" name="input__address_detail" required>
+							<input type="text" id="sample6_detailAddress" placeholder="배송 메세지" name="input__vendor_message">
 						</div>
-
 					</div>
 					<div class="col-lg-4 col-md-6">
 						<div class="checkout__order">
@@ -203,15 +196,9 @@
 								적립 예정 포인트 <span>${res.pointAccumulationRate * count} </span>
 							</div>
 							<div class="checkout__order__total">
-								총 금액 <span>${res.price * count}</span>
+								총 금액 <span>${res.price * count} 원</span>
 							</div>
-
-							<div class="checkout__input__checkbox">
-								<label for="paypal"> Paypal <input type="checkbox"
-									id="paypal"> <span class="checkmark"></span>
-								</label>
-							</div>
-							<button type="submit" class="site-btn">주문하기</button>
+							<button type="submit" class="site-btn" id="order__btn" onclick={sendRequest}>주문하기</button>
 						</div>
 					</div>
 				</div>
@@ -220,3 +207,4 @@
 	</div>
 </section>
 <!-- Checkout Section End -->
+

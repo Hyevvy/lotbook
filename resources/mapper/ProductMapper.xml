@@ -51,15 +51,15 @@
 	</select>
 	
 	<select id="point" resultMap="productMap">
-		SELECT * FROM product ORDER BY point_accumulation_rate LIMIT 6;
+		SELECT * FROM product ORDER BY point_accumulation_rate DESC LIMIT 6;
 	</select>
 	
 	<select id="discount" resultMap="productMap">
-		SELECT * FROM product ORDER BY discount_rate LIMIT 8;
+		SELECT * FROM product ORDER BY discount_rate DESC LIMIT 6;
 	</select>
 	
 	<select id="bestseller" resultMap="productMap">
-		SELECT * FROM product ORDER BY sales_count LIMIT 6;
+		SELECT * FROM product ORDER BY sales_count DESC LIMIT 6;
 	</select>
 	
 </mapper>

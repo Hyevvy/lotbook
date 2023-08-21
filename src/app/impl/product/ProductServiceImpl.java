@@ -103,7 +103,47 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		} catch (Exception e) {
 			e.getStackTrace();
 			e.printStackTrace();
-			throw new Exception("베스트셀러");
+			throw new Exception("최신작품 검색 에러");
+		}
+		return list;
+	}
+	
+	
+	public List<Product> getPoint() throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<Product> list = null;
+		try {
+			list = session.selectList("product.point");
+		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
+			throw new Exception("적립률 높은 책 검색 에러");
+		}
+		return list;
+	}
+	
+	public List<Product> getDiscount() throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<Product> list = null;
+		try {
+			list = session.selectList("product.discount");
+		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
+			throw new Exception("할인률 높은 책 검색 에러");
+		}
+		return list;
+	}
+	
+	public List<Product> getBestseller() throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<Product> list = null;
+		try {
+			list = session.selectList("product.Bestseller");
+		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
+			throw new Exception("베스트셀러 책 검색 에러");
 		}
 		return list;
 	}

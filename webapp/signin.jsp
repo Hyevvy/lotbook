@@ -4,7 +4,7 @@
 <script>
 window.onload = function(){
 	let alertMsg = "<%=request.getAttribute("msg") %>";
-	if(alertMsg.trim() !== null && alertMsg !== ""){
+	if(alertMsg.trim() !== "null" && alertMsg !== ""){
 		alert(alertMsg);
 	}
 }

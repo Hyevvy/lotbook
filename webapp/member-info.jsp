@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-request.setCharacterEncoding("UTF-8");
-String[] myCartList = request.getParameterValues("myCartList");
-String[] myCartProductList = request.getParameterValues("myCartProductList");
-String[] myOrderList = request.getParameterValues("myOrderList");
-%>
 <!-- Header Section Begin -->
+<%-- <script>
+	<%=request.set(request.getAttribute("memberSeq"))%>
+</script> --%>
 <header class="header">
 	<div class="header__top">
 		<div class="container">
@@ -128,9 +125,9 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>마이페이지</h2>
+					<h2>회원정보</h2>
 					<div class="breadcrumb__option">
-						<a href="./index.jsp">Home</a> <span>mypage</span>
+						<a href="./index.jsp">Home</a> <span>member-info</span>
 					</div>
 				</div>
 			</div>
@@ -143,20 +140,82 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 <!-- Profile Section Begin -->
 <section class="checkout_spad">
 	<div class="container">
-		<div class="row checkout__order">
-			<div class="col-sm-6 ">
+		<div class="checkout__form">
+			<h4>회원 정보 수정</h4>
+			<form action="member.bit">
+				<input type="hidden" name="view" value="updateinfo">
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>
+							이메일<span>*</span>
+						</p>
+						<input type="text" disabled value="${logincust.email }" style="color:black;" required>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>
+							이름<span>*</span>
+						</p>
+						<input type="text" value="${logincust.name }" style="color:black; " required>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>
+							현재 비밀번호<span>*</span>
+						</p>
+						<input type="text" required>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>
+							새로운 비밀번호<span>*</span>
+						</p>
+						<input type="text" required>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>
+							휴대전화<span>*</span>
+						</p>
+						<input type="text" value="${logincust.memberPhone }" style="color:black;" required>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>
+							주소<span>*</span>
+						</p>
+						<input type="button" onclick="getAddress()" class="col-4 second-input" value="우편번호 찾기" style="color:black;" > <br/>
+						<input type="text" id="sample6_postcode" class="form-control col-8 first-input" placeholder="우편번호" name="zipcode" style="color:black;" required value="${logincust.zipcode }" required>
+						<input type="text" id="sample6_address" class="form-control" placeholder="주소" name="street_address_1" style="color:black;" value="${logincust.streetAddress }"><br/>
+						<input type="hidden" id="sample6_extraAddress" class="form-control" placeholder="참고항목" name="street_address_2" style="color:black;">
+						<input type="text" id="sample6_detailAddress" class="form-control" placeholder="상세주소" name="address_detail" style="color:black;" value="${logincust.addressDetail }">
+							
+					</div>
+				</div>
+				<div style="display: flex; gap: 10px; justify-content: center; margin-bottom:10px;">	
+					<button type="submit" id="register_btn" class="site-btn"> 정보 수정 </button>
+					<input type="button" id="cancel_btn" class="btn btn-secondary" onclick="window.history.back();" value="취소" style="width:7.5rem; height:2.9rem; border-radius:0px; font:14px Cairo;">		
+				</div>
+			</form>
+			<%-- <div class="col-sm-6 ">
 				<p>독서하기 좋은 날이네요!</p>
-				<h4>사용자 이름 님</h4>
+				<h4>${logincust.name}</h4>
 			</div>
 			<div class="col-sm-6">
 				<p>포인트</p>
 				<h4>315P</h4>
-			</div>
-			<button type="submit" class="site-btn" onclick="location.href='member.bit?view=myinfo'">회원 정보 수정</button>
+			</div> --%>
+
+			<div class="row"></div>
 		</div>
 	</div>
 </section>
-<!-- Profile Section End -->
+<%-- <!-- Profile Section End -->
 <!-- Cart Section Begin -->
 <section class="checkout spad">
 	<div class="container">
@@ -252,14 +311,8 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 	</div>
 </section>
 <!-- Checkout Section End -->
-<!-- Review Section Begin -->
+<!-- Review Section Begin --> --%>
 <section class="checkout spad">
-	<div class="container">
-		<div class="row"></div>
-		<div class="checkout__form">
-			<h4>작성 가능한 리뷰</h4>
-			주문 확정 목록
-		</div>
-	</div>
+	<div class="container"></div>
 </section>
 <!-- Review Section End -->

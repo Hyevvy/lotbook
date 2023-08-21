@@ -71,6 +71,7 @@ public class MemberServlet extends HttpServlet {
 				if(bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
 					
 					HttpSession session = request.getSession();
+					loginUser.setHashedPwd(null);
 					session.setAttribute("logincust", loginUser);
 					memServiceImpl.modify(loginUser); 
 				} else {
@@ -114,6 +115,12 @@ public class MemberServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}else if(view.equals("myinfo")){
+			HttpSession session = request.getSession();
+			request.setAttribute("center", "member-info");
+			
+			request.setAttribute("memberSeq", ((Member)session.getAttribute("logincust")).getSequence());
+			System.out.println();
 		}
 	}
 }

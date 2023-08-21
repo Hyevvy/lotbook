@@ -68,7 +68,7 @@ public class MemberServlet extends HttpServlet {
 			try {
 				Member loginUser = memServiceImpl.get(loginInfo);
 				user_log.debug("로그인된 이메일 정보: "+loginUser.getEmail());
-				if(password.equals(loginUser.getHashedPwd())) {
+				if(bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
 					
 					HttpSession session = request.getSession();
 					session.setAttribute("logincust", loginUser);

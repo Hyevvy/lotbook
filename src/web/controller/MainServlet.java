@@ -59,20 +59,73 @@ public class MainServlet extends HttpServlet {
 		}else if(view.contains("mypage")){
 			request.setAttribute("center", "mypage");
 			String memberSeq = request.getParameter("memberSeq");
-			System.out.println(memberSeq);
 			List<Cart> cartList = new ArrayList<>();
 			List<CartProduct> productList = new ArrayList<>();
 			CartServiceImpl cartService = new CartServiceImpl();
+			request.setAttribute("myCartList", null);
+			request.setAttribute("myCartProductList", null);
 			
 			Cart cart = Cart.builder().
 					memberSequence(Integer.parseInt(memberSeq)).build();
 			
 			try {
 				cartList = cartService.getAll(cart);
+				System.out.println(cartList);
 				request.setAttribute("myCartList", cartList);
 
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if(view.contains("changeCount")){
+			request.setAttribute("center", "mypage");
+			int count = Integer.parseInt(request.getParameter("count"));
+			int productSequence = Integer.parseInt(request.getParameter("productSequence"));
+			int sequence = Integer.parseInt(request.getParameter("sequence"));
+			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
+			List<Cart> cartList = new ArrayList<>();
+			List<CartProduct> productList = new ArrayList<>();
+			CartServiceImpl cartService = new CartServiceImpl();
+			
+			// 개수가 1 이하로 내려갈 경우 1로 고정
+			if (count < 1) {
+				count = 1;
+			}
+			
+			Cart cart = Cart.builder().count(count).productSequence(productSequence).sequence(sequence).memberSequence(memberSeq).build();
+			
+			try {
+				cartService.modify(cart);
+				
+				cartList = cartService.getAll(cart);
+				request.setAttribute("myCartList", cartList);
+
+				productList = cartService.getProductInfo(cart);
+				request.setAttribute("myCartProductList", productList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}else if(view.contains("deleteCart")){
+			request.setAttribute("center", "mypage");
+			int sequence = Integer.parseInt(request.getParameter("sequence"));
+			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
+			CartServiceImpl cartService = new CartServiceImpl();
+			List<Cart> cartList = new ArrayList<>();
+			List<CartProduct> productList = new ArrayList<>();
+			
+			Cart cart = Cart.builder().sequence(sequence).memberSequence(memberSeq).build();
+			
+			try {
+				cartService.remove(cart);
+				
+				cartList = cartService.getAll(cart);
+				request.setAttribute("myCartList", cartList);
+
+				productList = cartService.getProductInfo(cart);
+				request.setAttribute("myCartProductList", productList);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -33,8 +33,9 @@ public class DispatcherServlet extends HttpServlet {
 		if(path != null) {
 			next = path;		
 		}
-		RequestDispatcher rd = 
-		request.getRequestDispatcher(next);
+		
+		work_log.debug(next + "로 보낼거에요.");
+		RequestDispatcher rd = request.getRequestDispatcher(next);
 		rd.forward(request, response);
 		
 	}

@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<script>
+window.onload = function(){
+	let alertMsg = "<%=request.getAttribute("msg") %>";
+	if(alertMsg.trim() !== "null" && alertMsg !== ""){
+		alert(alertMsg);
+	}
+}
+</script>
     <!-- Header Section Begin -->
     <header class="header">
         <div class="header__top">
@@ -87,7 +95,6 @@
 						</p>
 						<input type="email" class="form-control" name="email" id="email">
 					</div>
-
 
 				</div>
 				<div class="col-lg-8">

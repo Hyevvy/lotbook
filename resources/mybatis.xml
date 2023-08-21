@@ -33,7 +33,7 @@
 		<mapper resource="mapper/CartMapper.xml" />
 		<mapper resource="mapper/CategoryMapper.xml" />
 		<mapper resource="mapper/MemberMapper.xml" />
-		<!-- <mapper resource="mapper/OrderDetailMapper.xml" /> -->
+		<mapper resource="mapper/OrderDetailMapper.xml" />
 		<mapper resource="mapper/OrderMapper.xml" />
 		<!-- <mapper resource="mapper/ProductDetailMapper.xml" /> -->
 		<mapper resource="mapper/ProductMapper.xml" />

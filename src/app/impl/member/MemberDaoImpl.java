@@ -11,8 +11,7 @@ public class MemberDaoImpl implements DaoFrame<Member, Member> {
 
 	@Override
 	public int insert(Member v, SqlSession session) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.insert("member.insert", v);
 	}
 
 	@Override

@@ -9,26 +9,8 @@
             url: './product',
             dataType: 'json', // 받아올 데이터의 타입 (JSON)
             success: function(result) {
-                var latestProductSlider = document.querySelector('.latest-product__slider');
-                var latestProductSliderItem = '';
-                
-                for (var i = 0; i < result.length; i++) {
-                    latestProductSliderItem +=
-                        `<div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="${result[i].productImgurl}" alt="${result[i].name}">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>${result[i].name}</h6>
-                                    <span>$${result[i].price.toFixed(2)}</span>
-                                </div>
-                            </a>
-                        </div>`;
-                }
-
-                latestProductSlider.innerHTML = latestProductSliderItem;
-            },
+                console.log(result);        
+                },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log("에러 발생: " + textStatus, errorThrown);
             }
@@ -308,7 +290,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>	
 			<div class="col-lg-4 col-md-6">
 				<div class="latest-product__text">
 					<h4>오늘의 선택</h4>

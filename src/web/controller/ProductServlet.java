@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import app.dto.entity.Product;
-import app.dto.response.ProductDetailWithReviews;
 import app.impl.product.ProductServiceImpl;
 
 @WebServlet("/product")
@@ -74,14 +73,5 @@ public class ProductServlet extends HttpServlet {
             e.printStackTrace();
         }
         return productList;
-    }
-    
-    
-    private ProductDetailWithReviews getProductDetailWithReviews() {
-    	ProductDetailWithReviews productDetailWithReviews = null;
-		return productDetailWithReviews;
-    	
-    	
-    	
     }
 }

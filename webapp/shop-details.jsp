@@ -1,13 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page
+	import="app.dto.entity.Product, app.dto.entity.Review, app.dto.response.ProductDetailWithReviews, java.util.List"%>
+<%
+// ProductDetailWithReviews 객체 받아오기
+ProductDetailWithReviews productDetailWithReviews = (ProductDetailWithReviews) request
+		.getAttribute("productDetailWithReviews");
+String selectedProduct = "";
+if (productDetailWithReviews != null) {
+	selectedProduct = productDetailWithReviews.getContent();
+}
+// List<Review> reviews = productDetailWithReviews.getReviews();
+%>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function() {
-    $("#addToCartButton").click(function() {
-      $("#addToCartModal").modal("show");
-    });
-  });
+	$(document).ready(function() {
+		$("#addToCartButton").click(function() {
+			$("#addToCartModal").modal("show");
+		});
+	});
 </script>
 
 
@@ -50,7 +63,9 @@
 						<li><a href="main.bit?view=shop-grid">Shop</a></li>
 						<li class="active"><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
-								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
+								<li><a
+									href="product-detail.bit?view=shop-details&sequence=1">Shop
+										Details테스트</a></li>
 								<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
 								<li><a href="main.bit?view=checkout">Check Out</a></li>
 
@@ -126,16 +141,17 @@
 <!-- Hero Section End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg"
-	data-setbg="img/books.jpg">
+<section class="breadcrumb-section set-bg" data-setbg="img/books.jpg">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>상품명</h2>
+					<h2>${ productDetailWithReviews.getName() }</h2>
 					<div class="breadcrumb__option">
-						<a href="./index.jsp">Home</a> <a href="./index.jsp">대분류</a> <a
-							href="./index.jsp">중분류</a>
+						<a href="./index.jsp">Home</a> 
+						<a href="./index.jsp">${productDetailWithReviews.getMainCategoryName() }</a> 
+						<a href="./index.jsp">${productDetailWithReviews.getSubCategoryName() }</a>
+						<!-- TODO: 클릭시, 카테고리 검색으로 넘기기  -->
 					</div>
 				</div>
 			</div>
@@ -152,26 +168,23 @@
 				<div class="product__details__pic">
 					<div class="product__details__pic__item">
 						<img class="product__details__pic__item--large"
-							src="img/product/details/product-details-1.jpg" alt="">
+							src=${productDetailWithReviews.getProductImgurl() }  alt="상품사진">
 					</div>
 
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6">
 				<div class="product__details__text">
-					<h3>상품명</h3>
+					<h3>${ productDetailWithReviews.getName() }</h3>
 					<div class="product__details__rating">
 						<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 							class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-							class="fa fa-star-half-o"></i> <span>(18 개의 리뷰)</span>
+							class="fa fa-star-half-o"></i> <span>(${ productDetailWithReviews.getReviews().size() }
+							개의 리뷰)</span>
 					</div>
-					<div class="product__details__price">상품 가격(5천원)</div>
-					<p>,"중고등학생도, 비전공자도, 직장인도 프로그래밍에 눈뜨게 만든 바로 그 책이 전면 개정 2판으로 새롭게
-						태어났다! 챗GPT를 시작으로 펼쳐진 생성 AI 시대에 맞춰 설명과 예제를 다듬고, 최신 경향과 심화 내용을 보충했다.
-						또한 이번 개정 2판도 50만 코딩 유튜버인 조코딩과 협업을 통해 유튜브 동영상을 제공해 파이썬을 더 쉽게 공부할 수
-						있다. 8년 연속 베스트셀러! 위키독스 누적 방문 300만! 독자의 입에서 입으로 전해진 추천과 수많은 대학 및 학원의
-						교재 채택을 통해 검증은 이미 끝났다. 코딩을 처음 배우는 중고등학생부터 코딩 소양을 기르려는 비전공자, 자기계발에
-						진심인 직장인까지! 이 책과 함께 파이썬 프로그래밍의 세계로 ‘점프’해 보자!".</p>
+					<div class="product__details__price">(5천원) 원래가격, 할인가격 이펙트
+						넣어줘야함.</div>
+					<p>${productDetailWithReviews.getContent()}</p>
 					<div class="product__details__quantity">
 						<div class="quantity">
 							<div class="pro-qty">
@@ -179,14 +192,39 @@
 							</div>
 						</div>
 					</div>
-					<button type="button" class="primary-btn border_none" id="addToCartButton">장바구니에 담기</button>
-					<!-- <a href="#" class="primary-btn">장바구니에 담기</a> -->
-					<a href="main.bit?view=checkoutbuynow&count=${2}&productId=${3}" class="primary-btn">바로 구매</a>
+
+					<!-- stock 0개일때 style, button disabled -->
+					<c:choose>
+						<c:when test="${productDetailWithReviews.getStock() > 0}">
+							<button type="button" class="primary-btn border_none"
+								id="addToCartButton">장바구니에 담기</button>
+							<a
+								href="main.bit?view=checkoutbuynow&count=${2}&productId=${productDetailWithReviews.getSequence()}"
+								class="primary-btn">바로 구매</a>
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="primary-btn border_none"
+								id="addToCartButton" disabled>장바구니에 담기</button>
+							<a href="#" class="primary-btn" onclick="return false;">바로 구매</a>
+						</c:otherwise>
+					</c:choose>
+
+					<!--  
+               <button type="button" class="primary-btn border_none"
+                  id="addToCartButton">장바구니에 담기</button>
+               <a href="#" class="primary-btn">장바구니에 담기</a>
+               <a href="main.bit?view=checkoutbuynow&count=${2}&productId=${productDetailWithReviews.getSequence()}"
+                  class="primary-btn">바로 구매</a>
+                  -->
 					<ul>
-						<li><b>구매가능 여부</b> <span>{ 구매가능? "구매가능" : "품절"}</span></li>
-						<li><b>작가</b> <span>작가 이름</span></li>
-						<li><b>출판사</b> <span>출판사 이름</span></li>
-						<li><b>포인트 적립율</b> <span>5%</span></li>
+						<li><b>구매가능 여부</b> <span><c:choose>
+									<c:when test="${productDetailWithReviews.getStock() > 0}">구매가능</c:when>
+									<c:otherwise>품절</c:otherwise>
+								</c:choose></span></li>
+						<li><b>작가</b> <span>${productDetailWithReviews.getAuthorName() }</span></li>
+						<li><b>출판사</b> <span>${productDetailWithReviews.getPublisherName() }</span></li>
+						<li><b>포인트 적립</b> <span>${productDetailWithReviews.getPointAccumulation() }포인트
+								/ ${productDetailWithReviews.getPointAccumulationRate() }%</span></li>
 					</ul>
 				</div>
 			</div>
@@ -197,37 +235,20 @@
 							data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">상세
 								설명</a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#tabs-2" role="tab" aria-selected="false">리뷰 <span>(리뷰개수)</span></a>
+							href="#tabs-2" role="tab" aria-selected="false">리뷰 <span>(${ productDetailWithReviews.getReviews().size() }개)</span></a>
 						</li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane active" id="tabs-1" role="tabpanel">
 							<div class="product__details__tab__desc">
 								<h6>상세 설명</h6>
-								<p>"중고등학생도, 비전공자도, 직장인도 프로그래밍에 눈뜨게 만든 바로 그 책이 전면 개정 2판으로 새롭게
-									태어났다! 챗GPT를 시작으로 펼쳐진 생성 AI 시대에 맞춰 설명과 예제를 다듬고, 최신 경향과 심화 내용을
-									보충했다. 또한 이번 개정 2판도 50만 코딩 유튜버인 조코딩과 협업을 통해 유튜브 동영상을 제공해 파이썬을 더
-									쉽게 공부할 수 있다. 8년 연속 베스트셀러! 위키독스 누적 방문 300만! 독자의 입에서 입으로 전해진 추천과
-									수많은 대학 및 학원의 교재 채택을 통해 검증은 이미 끝났다. 코딩을 처음 배우는 중고등학생부터 코딩 소양을
-									기르려는 비전공자, 자기계발에 진심인 직장인까지! 이 책과 함께 파이썬 프로그래밍의 세계로 ‘점프’해 보자!"</p>
+								<p>${productDetailWithReviews.getContent()}</p>
 							</div>
 						</div>
 						<div class="tab-pane" id="tabs-2" role="tabpanel">
 							<div class="product__details__tab__desc">
 								<h6>리뷰</h6>
-								<p>Vestibulum ac diam sit amet quam vehicula elementum sed
-									sit amet dui. Pellentesque in ipsum id orci porta dapibus.
-									Proin eget tortor risus. Vivamus suscipit tortor eget felis
-									porttitor volutpat. Vestibulum ac diam sit amet quam vehicula
-									elementum sed sit amet dui. Donec rutrum congue leo eget
-									malesuada. Vivamus suscipit tortor eget felis porttitor
-									volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-									porttitor at sem. Praesent sapien massa, convallis a
-									pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet
-									quam vehicula elementum sed sit amet dui. Vestibulum ante ipsum
-									primis in faucibus orci luctus et ultrices posuere cubilia
-									Curae; Donec velit neque, auctor sit amet aliquam vel,
-									ullamcorper sit amet ligula. Proin eget tortor risus.</p>
+								<p>${productDetailWithReviews.getReviews() }</p>
 							</div>
 						</div>
 					</div>
@@ -239,22 +260,24 @@
 <!-- Product Details Section End -->
 
 <!-- Modal -->
-<div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered mt-sm-3 mt-md-5 mt-lg-6" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addToCartModalLabel">장바구니 추가</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <a href="main.bit?view=shoping-cart" class="btn btn-primary">장바구니로 가기</a>
-      </div>
-    </div>
-  </div>
+<div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog"
+	aria-labelledby="addToCartModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered mt-sm-3 mt-md-5 mt-lg-6"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addToCartModalLabel">장바구니 추가</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				<a href="main.bit?view=shoping-cart" class="btn btn-danger">장바구니로
+					가기</a>
+			</div>
+		</div>
+	</div>
 </div>

@@ -1,31 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
-window.onload = function(){
-	   alert("데이터 요청!")
-	$.ajax({
-        type: 'GET',
-        url: './product.bit?cmd=productlist',
-        //dataType: 'json',
-        //contentType : "application/json; charset=utf-8;",
-        success: function(result) {
-        	//console.log(result);
-        	
-        	getAttribute(clist)
-        	console.log(${clist})
-        	console.log(${clist.price})
-            alert(result);
-            console.log("성공")
-        },
-        error: function() {
-            alert("데이터 수신 실패!")
-        }
-    });
-}
+    window.onload = function() {
+        $.ajax({
+            type: 'GET',
+            url: './product',
+            dataType: 'json', // 받아올 데이터의 타입 (JSON)
+            success: function(result) {
+                var latestProductSlider = document.querySelector('.latest-product__slider');
+                var latestProductSliderItem = '';
+                
+                for (var i = 0; i < result.length; i++) {
+                    latestProductSliderItem +=
+                        `<div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="${result[i].productImgurl}" alt="${result[i].name}">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>${result[i].name}</h6>
+                                    <span>$${result[i].price.toFixed(2)}</span>
+                                </div>
+                            </a>
+                        </div>`;
+                }
+
+                latestProductSlider.innerHTML = latestProductSliderItem;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("에러 발생: " + textStatus, errorThrown);
+            }
+        });
+    };
 </script>
+
+
 
 <!-- Header Section Begin -->
 <header class="header">
@@ -36,7 +47,7 @@ window.onload = function(){
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage"><i
+							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="member.bit?view=logout"><i
 									class="fa fa-user"></i> 로그아웃</a></li>

@@ -120,8 +120,8 @@
 			</div>
 			<table width="700" height="600" cellpadding="0" class="col-6"
 				style="border-collapse: collapse; font-size: 9pt;">
-				<tr class="register" height="30">
-					<td width="5%" class="first-td" align="center">*</td>
+				<tr class="register " height="30">
+					<td width="5%" class="first-td text-danger" align="center"><span>*</span></td>
 					<td width="20%" class="second-td"><label for="email">이메일</label></td>
 					<td>
 						<div class="row">
@@ -133,7 +133,7 @@
 					<td colspan="3"><hr /></td>
 				</tr>
 				<tr class="register" height="30">
-					<td width="5%" class="first-td" align="center">*</td>
+					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td"><label for="password">비밀번호</label></td>
 					<td>
 					<div class="row">
@@ -155,7 +155,7 @@
 					<td colspan="3"><hr /></td>
 				</tr> -->
 				<tr class="register" height="30">
-					<td width="5%" class="first-td" align="center">*</td>
+					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td"><label for="name">이름</label></td>
 					<td>
 						<div class="row">
@@ -168,8 +168,7 @@
 					<td colspan="3"><hr /></td>
 				</tr>
 				<tr class="register" height="30">
-					
-						<td width="5%" class="first-td" align="center">*</td>
+						<td width="5%" class="first-td text-danger" align="center">*</td>
 						<td width="20%" class="second-td"><label for="phone">휴대전화</label></td>
 						<td>
 						<div class="row">
@@ -181,7 +180,7 @@
 					<td colspan="3"><hr /></td>
 				</tr>
 				<tr>
-					<td width="5%" class="first-td" align="center">*</td>
+					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td">주 소</td>
 					<td>
 						<div class="row hero_search"> 

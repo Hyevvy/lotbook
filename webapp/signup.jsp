@@ -125,7 +125,7 @@
 					<td width="20%" class="second-td"><label for="email">이메일</label></td>
 					<td>
 						<div class="row">
-							<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com">
+							<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com" required>
 						</div>		
 					</td>
 				</tr>
@@ -138,7 +138,7 @@
 					<td>
 					<div class="row">
 						<input type="password" class="form-control"
-						placeholder="ex) qwerty!123" id="password" name="password">
+						placeholder="ex) qwerty!123" id="password" name="password" required>
 					</div>
 					</td>
 				</tr>
@@ -160,7 +160,7 @@
 					<td>
 						<div class="row">
 						<input type="text" class="form-control"
-							placeholder="ex) 홍길동 " id="name" name="name">
+							placeholder="ex) 홍길동 " id="name" name="name" required>
 						</div>
 					</td>
 				</tr>
@@ -173,7 +173,7 @@
 						<td width="20%" class="second-td"><label for="phone">휴대전화</label></td>
 						<td>
 						<div class="row">
-							<input type="text" class="form-control" name="phone" id="phone" placeholder="ex) 01012345678">
+							<input type="text" class="form-control" name="phone" id="phone" placeholder="ex) 01012345678" required>
 						</div>
 						</td>
 				</tr>
@@ -185,7 +185,7 @@
 					<td width="20%" class="second-td">주 소</td>
 					<td>
 						<div class="row hero_search"> 
-							<input type="text" id="sample6_postcode" class="form-control col-8 first-input" placeholder="우편번호" name="zipcode">
+							<input type="text" id="sample6_postcode" class="form-control col-8 first-input" placeholder="우편번호" name="zipcode" required>
 							<input type="button" onclick="getAddress()" class="col-4 second-input" value="우편번호 찾기"> <br/>
 							<input type="text" id="sample6_address" class="form-control" placeholder="주소" name="street_address_1"><br/>
 							<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" name="street_address_2">

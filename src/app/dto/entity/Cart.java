@@ -16,5 +16,5 @@ public class Cart {
 	
 	private int count;
 	private String updatedAt;
-	private boolean isDeleted;
+	private int isDeleted;
 }

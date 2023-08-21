@@ -1,16 +1,18 @@
 package app.impl.orderdetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import app.dto.entity.Order;
 import app.dto.entity.OrderDetail;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 
 public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDetail> {
-	DaoFrame<OrderDetail, OrderDetail> dao;
+	OrderDetailDaoImpl dao;
 	SqlSession session;
 
 	public OrderDetailServiceImpl() {
@@ -75,6 +77,21 @@ public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDe
 			session.close();
 		}
 		
+		return orderDetail;
+	}
+
+	
+	public List<OrderDetail> get(long orderId) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<OrderDetail> orderDetail = new ArrayList<>();
+		try {
+			orderDetail = dao.selectAll(orderId, session);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER2000 - 장바구니 에러");
+		} finally {
+			session.close();
+		}
 		return orderDetail;
 	}
 

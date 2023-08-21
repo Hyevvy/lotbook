@@ -32,11 +32,16 @@ public class OrderDaoImpl implements DaoFrame<Order, Order> {
 		// TODO Auto-generated method stub
 		return session.selectOne("order.select", k);
 	}
-
+	
 	@Override
 	public List<Order> select(SqlSession session) throws Exception {
+		return null;
+	}
+	
+
+	public List<Order> selectAllMyOrder(Order k, SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("order.selectall");
+		return session.selectList("order.selectall", k);
 	}
 
 	

@@ -84,6 +84,34 @@ public class MemberServlet extends HttpServlet {
 				session.removeAttribute("logincust");
 				session.invalidate();
 			}
+		}else if(view.equals("signup")) {
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			String name = request.getParameter("name");
+			String phone = request.getParameter("phone");
+			String zipcode = request.getParameter("zipcode");
+			String streetAddress1 = request.getParameter("street_address_1");
+			String streetAddress2 = request.getParameter("street_address_2");
+			String addressDetail = request.getParameter("address_detail");
+			
+			password = bCryptPasswordEncoder.encode(password);
+			Member signUpInfo = Member.builder()
+					.email(email)
+					.hashedPwd(password)
+					.name(name)
+					.memberPhone(phone)
+					.zipcode(zipcode)
+					.streetAddress(streetAddress1+" "+streetAddress2)
+					.addressDetail(addressDetail)
+					.build();
+
+			try {
+				memServiceImpl.register(signUpInfo);
+				request.setAttribute("center", "signin");
+				request.setAttribute("msg", "회원가입을 축하합니다! 로그인을 진행해주세요 :)");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

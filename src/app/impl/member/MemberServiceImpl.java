@@ -21,7 +21,10 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 
 	@Override
 	public int register(Member v) throws Exception {
-		return 0;
+		session = GetSessionFacroty.getInstance().openSession();
+		int result = dao.insert(v, session);
+		session.commit();
+		return result;
 	}
 
 	@Override

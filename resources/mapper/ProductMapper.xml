@@ -19,6 +19,15 @@
 		<result property="publisherSequence" column="publisher_sequence" />
 		<result property="categorySequence" column="category_sequence" />
 	</resultMap>
+	
+	<resultMap id="productRelatedNameResultMap" type="app.dto.mapper.ProductRelatedNameMapper">
+		<result property="authorName" column="author_name" />
+		<result property="publisherName" column="publisher_name" />
+		<result property="mainCategorySequence" column="main_category_sequence" />
+		<result property="mainCategoryName" column="main_category_name" />
+		<result property="subCategorySequence" column="sub_category_sequence" />
+		<result property="subCategoryName" column="sub_category_name" />
+	</resultMap>
 
 	<resultMap type="product" id="productMap">
 		<result property="sequence" column="sequence"/>
@@ -45,6 +54,27 @@
         WHERE sequence = #{sequence}
         <!-- TODO: state복구 state 임시 제거 된 상태 -->
     </select>
+    
+    
+	<select id="selectRelatedNameAndCategory" resultMap="productRelatedNameResultMap" parameterType="app.dto.entity.Product">
+	    SELECT 
+	        a.name AS author_name, 
+	        pb.name AS publisher_name, 
+	        c.sequence AS sub_category_sequence,
+	        c.name AS sub_category_name,
+	        m.sequence AS main_category_sequence,
+	        m.name AS main_category_name
+	    FROM 
+	        product p
+	            INNER JOIN author a ON p.author_sequence = a.sequence
+	            INNER JOIN publisher pb ON p.publisher_sequence = pb.sequence
+	            INNER JOIN category c ON p.category_sequence = c.sequence
+	            INNER JOIN category m ON c.parent_category = M.sequence
+	    WHERE
+	        p.sequence = #{sequence}
+	</select>
+
+    
 
 	<select id="latest" resultMap="productMap">
 		SELECT * FROM product ORDER BY created_at DESC LIMIT 6;

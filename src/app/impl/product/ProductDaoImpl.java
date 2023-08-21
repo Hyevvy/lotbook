@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Product;
+import app.dto.mapper.ProductRelatedNameMapper;
 import app.frame.DaoFrame;
 public class ProductDaoImpl implements DaoFrame<Product, Product> {
 
@@ -29,6 +30,13 @@ public class ProductDaoImpl implements DaoFrame<Product, Product> {
 		System.out.println("select" + product);
 		 //TODO: Optional.ofNullable(product)
 		return session.selectOne("product.selectProduct", k);
+	}
+	
+	public ProductRelatedNameMapper selectRelatedName(Product k, SqlSession session) throws Exception {
+//		ProductRelatedNameMapper productRelatedNameMapper = session.selectOne("product.selectRelatedName", k);
+		
+		 //TODO: Optional.ofNullable(product)
+		return session.selectOne("product.selectRelatedNameAndCategory", k);
 	}
 
 	@Override

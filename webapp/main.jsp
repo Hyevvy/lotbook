@@ -29,7 +29,7 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage"><i
+							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="member.bit?view=logout"><i
 									class="fa fa-user"></i> 로그아웃</a></li>

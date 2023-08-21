@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <script>
 window.onload = function(){
-	let alertMsg = '<%=request.getAttribute("msg") %>';
-	if(alertMsg !== ""){
+	let alertMsg = "<%=request.getAttribute("msg") %>";
+	if(alertMsg.trim() !== "null" && alertMsg !== ""){
 		alert(alertMsg);
 	}
 }

@@ -120,12 +120,12 @@
 			</div>
 			<table width="700" height="600" cellpadding="0" class="col-6"
 				style="border-collapse: collapse; font-size: 9pt;">
-				<tr class="register" height="30">
-					<td width="5%" class="first-td" align="center">*</td>
+				<tr class="register " height="30">
+					<td width="5%" class="first-td text-danger" align="center"><span>*</span></td>
 					<td width="20%" class="second-td"><label for="email">이메일</label></td>
 					<td>
 						<div class="row">
-							<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com">
+							<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com" required>
 						</div>		
 					</td>
 				</tr>
@@ -133,12 +133,12 @@
 					<td colspan="3"><hr /></td>
 				</tr>
 				<tr class="register" height="30">
-					<td width="5%" class="first-td" align="center">*</td>
+					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td"><label for="password">비밀번호</label></td>
 					<td>
 					<div class="row">
 						<input type="password" class="form-control"
-						placeholder="ex) qwerty!123" id="password" name="password">
+						placeholder="ex) qwerty!123" id="password" name="password" required>
 					</div>
 					</td>
 				</tr>
@@ -155,12 +155,12 @@
 					<td colspan="3"><hr /></td>
 				</tr> -->
 				<tr class="register" height="30">
-					<td width="5%" class="first-td" align="center">*</td>
+					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td"><label for="name">이름</label></td>
 					<td>
 						<div class="row">
 						<input type="text" class="form-control"
-							placeholder="ex) 홍길동 " id="name" name="name">
+							placeholder="ex) 홍길동 " id="name" name="name" required>
 						</div>
 					</td>
 				</tr>
@@ -168,8 +168,7 @@
 					<td colspan="3"><hr /></td>
 				</tr>
 				<tr class="register" height="30">
-					
-						<td width="5%" class="first-td" align="center">*</td>
+						<td width="5%" class="first-td text-danger" align="center">*</td>
 						<td width="20%" class="second-td"><label for="phone">휴대전화</label></td>
 						<td>
 						<div class="row">
@@ -181,11 +180,11 @@
 					<td colspan="3"><hr /></td>
 				</tr>
 				<tr>
-					<td width="5%" class="first-td" align="center">*</td>
+					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td">주 소</td>
 					<td>
 						<div class="row hero_search"> 
-							<input type="text" id="sample6_postcode" class="form-control col-8 first-input" placeholder="우편번호" name="zipcode">
+							<input type="text" id="sample6_postcode" class="form-control col-8 first-input" placeholder="우편번호" name="zipcode" required>
 							<input type="button" onclick="getAddress()" class="col-4 second-input" value="우편번호 찾기"> <br/>
 							<input type="text" id="sample6_address" class="form-control" placeholder="주소" name="street_address_1"><br/>
 							<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" name="street_address_2">

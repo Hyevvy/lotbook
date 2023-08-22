@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import app.dto.entity.Member;
+import app.impl.cart.CartServiceImpl;
 import app.impl.member.MemberServiceImpl;
 import web.dispatcher.Navi;
 
@@ -26,11 +27,13 @@ public class MemberServlet extends HttpServlet {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private MemberServiceImpl memServiceImpl;
+	private CartServiceImpl cartServiceImpl;
 	private Logger user_log = Logger.getLogger("user");
 	
     public MemberServlet() {
         super();
         memServiceImpl = new MemberServiceImpl();
+        cartServiceImpl = new CartServiceImpl();
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
     
@@ -73,6 +76,9 @@ public class MemberServlet extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("logincust", loginUser);
 					memServiceImpl.modify(loginUser); 
+					
+					int cartCount = cartServiceImpl.getCartCount(loginUser.getSequence());
+					session.setAttribute("cartCount", cartCount);
 				} else {
 					request.setAttribute("center", "signin");
 					request.setAttribute("msg", "email 또는 password가 일치하지 않습니다.");

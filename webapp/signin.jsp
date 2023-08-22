@@ -17,9 +17,8 @@ window.onload = function(){
 			        <ul>
 			        	<c:choose>
 							<c:when test="${logincust != null }">
-								<li class="active">
-			                        <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 마이페이지</a>
-			                    </li>
+								<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+									class="fa fa-user"></i> 마이페이지</a></li>
 		                        <li class="">
 		                            <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 로그아웃</a>
 		                        </li>
@@ -67,7 +66,7 @@ window.onload = function(){
 						<div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
                         </ul>
                     </div>
                 </div>

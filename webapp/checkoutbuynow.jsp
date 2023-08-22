@@ -18,7 +18,7 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage"><i
+							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -62,7 +62,7 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -151,36 +151,47 @@
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
+						<div class="d-flex flex-col align-items-center">
+							<input id="check_box" type="checkbox" class="mb-3" onclick="get_my_info('${logincust.name }', '${logincust.email }', '${logincust.memberPhone }', '${logincust.zipcode }', '${logincust.streetAddress }', '${logincust.addressDetail }')">
+							<p class="ml-2 text-muted">내 정보 불러오기</p>
+						</div>
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="checkout__input">
 									<p>
 										받는 분 성함<span>*</span>
 									</p>
-									<input type="text" id="input__receiverName" name="input__receiverName" required>
+									<input class="text-dark" id="custName" type="text" required>
 								</div>
 							</div>
 						</div>
 						<div class="checkout__input">
 							<p>
+								이메일(청구서 수신용)<span>*</span>
+							</p>
+							<input class="text-dark" id="custEmail" type="tel" required>
+						</div>
+
+						<div class="checkout__input">
+							<p>
 								연락처<span>*</span>
 							</p>
-							<input type="tel" id="input__phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="input__phone"  required>
+							<input class="text-dark" id="custPhone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
 						</div>
 						<div class="checkout__input">
 							<p>
 								우편 번호<span>*</span>
 							</p>
-							<input type="text" id="sample6_postcode" placeholder="우편번호" name="input__zipcode">
+							<input class="text-dark" type="text" id="sample6_postcode" placeholder="우편번호">
 							<input type="button" onclick="getAddress()" value="우편번호 찾기"><br>
 						</div>
 						<div class="checkout__input">
 							<p>
 								주소<span>*</span>
 							</p>
-							<input type="text" id="sample6_address" placeholder="주소" name="input__street_address"><br>
-							<input type="text" id="sample6_extraAddress" placeholder="상세주소" name="input__address_detail" required>
-							<input type="text" id="sample6_detailAddress" placeholder="배송 메세지" name="input__vendor_message">
+							<input class="text-dark" type="text" id="sample6_address" placeholder="주소"><br>
+							<input class="text-dark" type="text" id="sample6_detailAddress" placeholder="상세주소">
+							<input class="text-dark" type="text" id="sample6_extraAddress" placeholder="배송 메세지">
 						</div>
 					</div>
 					<div class="col-lg-4 col-md-6">
@@ -190,7 +201,7 @@
 								상품 목록 <span>금액</span>
 							</div>
 							<ul>
-								<li>${res.name} X <%= count %> <span>${res.price * count} </span></li>
+								<li>${res.substring(0, 10) }... X <%= count %> <span>${res.price * count} </span></li>
 							</ul>
 							<div class="checkout__order__total">
 								적립 예정 포인트 <span>${res.pointAccumulationRate * count}</span>
@@ -207,4 +218,24 @@
 	</div>
 </section>
 <!-- Checkout Section End -->
-
+<script>
+function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
+	const checkbox = document.getElementById("check_box");
+	
+	if (checkbox.checked) {
+		document.getElementById("custName").value = name;
+		document.getElementById("custEmail").value = email;
+		document.getElementById("custPhone").value = memberPhone;
+		document.getElementById("sample6_postcode").value = zipcode;
+		document.getElementById("sample6_address").value = streetAddress;
+		document.getElementById("sample6_detailAddress").value = addressDetail;
+	} else {
+		document.getElementById("custName").value = "";
+		document.getElementById("custEmail").value = "";
+		document.getElementById("custPhone").value = "";
+		document.getElementById("sample6_postcode").value = "";
+		document.getElementById("sample6_address").value = "";
+		document.getElementById("sample6_detailAddress").value = "";
+	}
+}
+</script>

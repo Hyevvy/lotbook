@@ -32,4 +32,8 @@ public class CartProduct {
 	private int authorSequence;
 	private int publisherSequence;
 	private int categorySequence;
+	
+	// total
+	private int totalPrice;
+	private int totalPoint;
 }

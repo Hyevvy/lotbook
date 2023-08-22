@@ -31,22 +31,21 @@
 
 	<resultMap type="product" id="productMap">
 		<result property="sequence" column="sequence"/>
-		<result property="productImgurl" column="productImgurl"/>
+		<result property="productImgurl" column="product_imgurl"/>
 		<result property="name" column="name"/>
 		<result property="price" column="price"/>
 		<result property="content" column="content"/>
 		<result property="stock" column="stock"/>
-		<result property="accumulatedPoint" column="accumulated_point"/>
 		<result property="createdAt" column="created_at"/>
 		<result property="updatedAt" column="updated_at"/>
-		<result property="pointAccumulationRate" column="pointAccumulationRate"/>
-		<result property="discountRate" column="discountRate"/>
-		<result property="salesCount" column="salesCount"/>
+		<result property="pointAccumulationRate" column="point_accumulation_rate"/>
+		<result property="discountRate" column="discount_rate"/>
+		<result property="salesCount" column="sales_count"/>
 		<result property="state" column="state"/>
 		
-		<result property="authorSequence" column="authorSequence"/>
-		<result property="publisherSequence" column="publisherSequence"/>
-		<result property="categorySequence" column="categorySequence"/>
+		<result property="authorSequence" column="author_sequence"/>
+		<result property="publisherSequence" column="publisher_sequence"/>
+		<result property="categorySequence" column="category_sequence"/>
 	</resultMap>
 
 	<select id="selectProduct" resultMap="productResultMap" parameterType="app.dto.entity.Product">
@@ -82,15 +81,15 @@
 	</select>
 	
 	<select id="point" resultMap="productMap">
-		SELECT * FROM product ORDER BY point_accumulation_rate LIMIT 6;
+		SELECT * FROM product ORDER BY point_accumulation_rate DESC LIMIT 6;
 	</select>
 	
 	<select id="discount" resultMap="productMap">
-		SELECT * FROM product ORDER BY discount_rate LIMIT 8;
+		SELECT * FROM product ORDER BY discount_rate DESC LIMIT 6;
 	</select>
 	
 	<select id="bestseller" resultMap="productMap">
-		SELECT * FROM product ORDER BY sales_count LIMIT 6;
+		SELECT DISTINCT * FROM product ORDER BY sales_count DESC LIMIT 6;
 	</select>
 	
 </mapper>

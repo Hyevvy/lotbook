@@ -89,7 +89,7 @@
 	</select>
 	
 	<select id="bestseller" resultMap="productMap">
-		SELECT * FROM product ORDER BY sales_count DESC LIMIT 6;
+		SELECT DISTINCT * FROM product ORDER BY sales_count DESC LIMIT 6;
 	</select>
 	
 </mapper>

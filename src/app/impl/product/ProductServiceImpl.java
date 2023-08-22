@@ -156,7 +156,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		session = GetSessionFacroty.getInstance().openSession();
 		List<Product> list = null;
 		try {
-			list = session.selectList("product.Bestseller");
+			list = session.selectList("product.bestseller");
 		} catch (Exception e) {
 			e.getStackTrace();
 			e.printStackTrace();

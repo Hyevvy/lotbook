@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		List<Review> reviews = reviewDao.selectReviewsByProduct(product, session);
 		ProductRelatedNameMapper productRelatedNameMapper = productDao.selectRelatedName(product, session);
 		
-		int discountedPrice = product.getPrice() * (int) (100.0 - product.getDiscountRate()); // TODO: type safe using
+		int discountedPrice = product.getPrice() * (int) (100.0 - product.getDiscountRate()) / 100; // TODO: type safe using
 																								// wrapper class
 		int pointAccumulation = (int) (product.getPrice() * product.getPointAccumulationRate() / 100);
 		ProductDetailWithReviews productDetailWithReviews = ProductDetailWithReviews.builder()
@@ -87,6 +87,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 																					.productImgurl(product.getProductImgurl())
 																					.name(product.getName())
 																					.originalPrice(product.getPrice())
+																					.discountRate(product.getDiscountRate())
 																					.price(discountedPrice)
 																					.content(product.getContent())
 																					.stock(product.getStock())

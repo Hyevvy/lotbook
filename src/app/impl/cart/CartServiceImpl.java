@@ -103,6 +103,20 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 		} 
 		return cart;
 	}
+	
+	public CartProduct cartGet(Cart k) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		CartProduct cart = null;
+		try {
+			cart = dao.selectedCart(k, session);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER2002 - 장바구니 상품 구매 에러");
+		} finally {
+			session.close();
+		}
+		return cart;
+	}
 	@Override
 	public List<Cart> get() throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();

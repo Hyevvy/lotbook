@@ -18,7 +18,7 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage"><i
+							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -190,7 +190,7 @@
 								상품 목록 <span>금액</span>
 							</div>
 							<ul>
-								<li>${res.name} X <%= count %> <span>${res.price * count} </span></li>
+								<li>${res.substring(0, 10) }... X <%= count %> <span>${res.price * count} </span></li>
 							</ul>
 							<div class="checkout__order__total">
 								적립 예정 포인트 <span>${res.pointAccumulationRate * count} </span>

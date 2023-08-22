@@ -56,6 +56,7 @@ public class MainServlet extends HttpServlet {
 		if(view.equals("signup")){
 			request.setAttribute("center", "signup");
 		}else if(view.equals("signin")){
+			System.out.println("로그인");
 			request.setAttribute("center", "signin");
 		}
 		else if(view.contains("checkout-result")) {
@@ -121,6 +122,8 @@ public class MainServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println(productList.toString());
       
       List<Order> orderList = new ArrayList<>();
 			OrderServiceImpl orderService = new OrderServiceImpl();
@@ -205,8 +208,37 @@ public class MainServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else if(view.equals("checkout")){
+		}else if(view.contains("checkout")){
 			request.setAttribute("center", "checkout");
+			String parameter = request.getParameter("sequences");
+			String[] cartSequences = parameter.split(",");
+			CartServiceImpl cartService = new CartServiceImpl();
+			List<CartProduct> productList = new ArrayList<>();
+			int totalPrice = 0;
+			int totalPoint = 0;
+			
+			for (int i = 0; i < cartSequences.length; i++) {
+				Cart cart = Cart.builder().sequence(Long.parseLong(cartSequences[i])).build();
+				try {
+					productList.add(cartService.cartGet(cart));
+					
+					if (i == 0) {
+						totalPrice = (int) ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount() - ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount())%10);
+						totalPoint = (int) (Math.floor(productList.get(i).getPrice() * productList.get(i).getCount() * productList.get(i).getPointAccumulationRate() * 0.01));
+					} else {
+						totalPrice = (int) (productList.get(i-1).getTotalPrice() + (productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount() - ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount())%10);
+						totalPoint = (int) (productList.get(i-1).getTotalPoint() + Math.floor(productList.get(i).getPrice() * productList.get(i).getCount() * productList.get(i).getPointAccumulationRate() * 0.01));
+					}
+					
+					productList.get(i).setTotalPrice(totalPrice);
+					productList.get(i).setTotalPoint(totalPoint);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			request.setAttribute("orderProductList", productList);
+			
 		}else if(view.contains("checkoutbuynow")){
 			
 			request.setAttribute("center", "checkoutbuynow");

@@ -147,7 +147,7 @@
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="main.bit?count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${res.sequence}" method="post">
+			<form action="main.bit?view=checkout-result&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${res.sequence}" method="post">
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
@@ -198,7 +198,7 @@
 							<div class="checkout__order__total">
 								총 금액 <span>${res.price * count} 원</span>
 							</div>
-							<button type="submit" class="site-btn" id="order__btn" onclick={sendRequest}>주문하기</button>
+							<button type="submit" class="site-btn" id="order__btn">주문하기</button>
 						</div>
 					</div>
 				</div>

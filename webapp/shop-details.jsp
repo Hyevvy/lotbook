@@ -205,7 +205,7 @@ if (productDetailWithReviews != null) {
 						<c:otherwise>
 							<button type="button" class="primary-btn border_none"
 								id="addToCartButton" disabled>장바구니에 담기</button>
-							<a href="#" class="primary-btn" onclick="return false;">바로 구매</a>
+							<a href="" class="primary-btn" onclick="return false;">바로 구매</a>
 						</c:otherwise>
 					</c:choose>
 

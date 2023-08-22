@@ -75,8 +75,7 @@ public class MainServlet extends HttpServlet {
 			String vendor_message = request.getParameter("input__vendor_message");
 			Order order = Order.builder().receiverName(receiver_name).orderPhone(order_phone).vendorMessage(vendor_message)
 					.addressDetail(address_detail).streetAddress(street_address).zipcode(zipcode).memberSequence(Long.parseLong(memberSeq)).build();
-		
-			
+ 
 			try {
 				orderService.register(order);
 				
@@ -225,8 +224,6 @@ public class MainServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		} else if(view.equals("checkout-result")) {
 			
 		}
 		else if(view.equals("contact")){

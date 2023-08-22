@@ -54,11 +54,9 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 	@Override
 	public int modify(Cart v) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
-		
 		int result = 0;
 		try {
 			int stock = dao.checkProductStock(v, session);
-			
 			if (stock < v.getCount()) {
 				throw new Exception("ER2002 - 재고 부족");
 			}
@@ -69,13 +67,26 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.rollback();
+		} finally {
+			session.close();
 		}
 		return result;
 		
 	}
 	@Override
 	public int remove(Cart k) throws Exception {
-		return 0;
+		session = GetSessionFacroty.getInstance().openSession();
+		int result = 0;
+		try {
+			result = dao.delete(k, session);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+		return result;
 		
 	}
 	@Override
@@ -87,6 +98,20 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception("ER2000 - 장바구니 에러");
+		} finally {
+			session.close();
+		} 
+		return cart;
+	}
+	
+	public CartProduct cartGet(Cart k) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		CartProduct cart = null;
+		try {
+			cart = dao.selectedCart(k, session);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER2002 - 장바구니 상품 구매 에러");
 		} finally {
 			session.close();
 		}

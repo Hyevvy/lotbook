@@ -8,6 +8,9 @@
 	String count = request.getParameter("count");
 	String memberSeq = request.getParameter("memberSeq");
 %>
+<script>
+
+</script>
  
 <!-- Header Section Begin -->
 <header class="header">
@@ -147,51 +150,39 @@
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="main.bit?count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${res.sequence}" method="post">
-				<input type="hidden" name="view" value="checkout-result" />
+			<form action="#">
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
-						<div class="d-flex flex-col align-items-center">
-							<input id="check_box" type="checkbox" class="mb-3" onclick="get_my_info('${logincust.name }', '${logincust.email }', '${logincust.memberPhone }', '${logincust.zipcode }', '${logincust.streetAddress }', '${logincust.addressDetail }')">
-							<p class="ml-2 text-muted">내 정보 불러오기</p>
-						</div>
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="checkout__input">
 									<p>
 										받는 분 성함<span>*</span>
 									</p>
-									<input class="text-dark" id="custName" type="text" required>
+									<input type="text" id="input__receiverName" required>
 								</div>
 							</div>
 						</div>
 						<div class="checkout__input">
 							<p>
-								이메일(청구서 수신용)<span>*</span>
-							</p>
-							<input class="text-dark" id="custEmail" type="tel" required>
-						</div>
-
-						<div class="checkout__input">
-							<p>
 								연락처<span>*</span>
 							</p>
-							<input class="text-dark" id="custPhone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+							<input type="tel" id="input__phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
 						</div>
 						<div class="checkout__input">
 							<p>
 								우편 번호<span>*</span>
 							</p>
-							<input class="text-dark" type="text" id="sample6_postcode" placeholder="우편번호">
+							<input type="text" id="sample6_postcode" placeholder="우편번호">
 							<input type="button" onclick="getAddress()" value="우편번호 찾기"><br>
 						</div>
 						<div class="checkout__input">
 							<p>
 								주소<span>*</span>
 							</p>
-							<input class="text-dark" type="text" id="sample6_address" placeholder="주소"><br>
-							<input class="text-dark" type="text" id="sample6_detailAddress" placeholder="상세주소">
-							<input class="text-dark" type="text" id="sample6_extraAddress" placeholder="배송 메세지">
+							<input type="text" id="sample6_address" placeholder="주소"><br>
+							<input type="text" id="sample6_extraAddress" placeholder="상세주소" required>
+							<input type="text" id="sample6_detailAddress" placeholder="배송 메세지">
 						</div>
 					</div>
 					<div class="col-lg-4 col-md-6">
@@ -201,7 +192,7 @@
 								상품 목록 <span>금액</span>
 							</div>
 							<ul>
-								<li>${res.substring(0, 10) }... X <%= count %> <span>${res.price * count} </span></li>
+								<li>${res.name} X <%= count %> <span>${res.price * count} </span></li>
 							</ul>
 							<div class="checkout__order__total">
 								적립 예정 포인트 <span>${res.pointAccumulationRate * count} </span>
@@ -209,7 +200,7 @@
 							<div class="checkout__order__total">
 								총 금액 <span>${res.price * count} 원</span>
 							</div>
-							<button type="submit" class="site-btn" id="order__btn" onclick={sendRequest}>주문하기</button>
+							<button type="button" class="site-btn" id="order__btn" onclick={sendRequest}>주문하기</button>
 						</div>
 					</div>
 				</div>
@@ -218,24 +209,35 @@
 	</div>
 </section>
 <!-- Checkout Section End -->
+
 <script>
-function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
-	const checkbox = document.getElementById("check_box");
-	
-	if (checkbox.checked) {
-		document.getElementById("custName").value = name;
-		document.getElementById("custEmail").value = email;
-		document.getElementById("custPhone").value = memberPhone;
-		document.getElementById("sample6_postcode").value = zipcode;
-		document.getElementById("sample6_address").value = streetAddress;
-		document.getElementById("sample6_detailAddress").value = addressDetail;
-	} else {
-		document.getElementById("custName").value = "";
-		document.getElementById("custEmail").value = "";
-		document.getElementById("custPhone").value = "";
-		document.getElementById("sample6_postcode").value = "";
-		document.getElementById("sample6_address").value = "";
-		document.getElementById("sample6_detailAddress").value = "";
-	}
+
+function sendRequest(){
+	$.ajax({
+		url : "request_ajax.jsp",
+		type : "post",
+		data : {"receiver_name" : receiver_name, "zipcode" : zipcode, "order_phone": order_phone},
+		dataType : "text",
+		success : function(result){
+			document.getElementById("text").innerHTML = result;
+		}
+	});
 }
+
+
+document.querySelector("#order__btn").addEventListener("click",function(){
+	const receiver_name = document.querySelector('#input__receiverName').value;
+	const order_phone = document.querySelector('#input__phone').value;
+	
+	const zipcode = document.querySelector('#sample6_postcode').value;
+	const street_address = document.querySelector('#sample6_address').value;
+	const address_detail = document.querySelector('#sample6_extraAddress').value;
+	const vendor_message = document.querySelector('#sample6_detailAddress').value;
+	
+	
+	console.log(receiver_name, order_phone);
+	console.log('hi');
+});
+		
 </script>
+

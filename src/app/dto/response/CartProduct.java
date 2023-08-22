@@ -13,7 +13,7 @@ public class CartProduct {
 	private long sequence;
 	private long productSequence;
 	private long memberSequence;
-	private boolean isDeleted;
+	private int isDeleted;
 	private int count;
 	
 	private String productImgurl;
@@ -32,4 +32,8 @@ public class CartProduct {
 	private int authorSequence;
 	private int publisherSequence;
 	private int categorySequence;
+	
+	// total
+	private int totalPrice;
+	private int totalPoint;
 }

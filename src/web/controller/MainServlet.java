@@ -29,6 +29,7 @@ import app.impl.product.ProductServiceImpl;
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	CustServiceImpl custService;
+	String memberSeq = null;
 	
     public MainServlet() {
         super();
@@ -55,23 +56,66 @@ public class MainServlet extends HttpServlet {
 		if(view.equals("signup")){
 			request.setAttribute("center", "signup");
 		}else if(view.equals("signin")){
+			System.out.println("로그인");
 			request.setAttribute("center", "signin");
-		}else if(view.equals("loginimpl")) {
+		}
+		else if(view.contains("checkout-result")) {
+			OrderServiceImpl orderService = new OrderServiceImpl();
+			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
+			
+			request.setAttribute("center", "checkout-result");
+			int count = Integer.parseInt(request.getParameter("count"));
+			int productId = Integer.parseInt(request.getParameter("productId"));
+			double pointAccumulationRate = Double.valueOf(request.getParameter("point"));
+			Integer price = Integer.parseInt(request.getParameter("price"));
+			String receiver_name = request.getParameter("input__receiverName");
+			String order_phone = request.getParameter("input__phone");
+			String zipcode = request.getParameter("input__zipcode");
+			String street_address = request.getParameter("input__street_address");
+			String address_detail = request.getParameter("input__address_detail");
+			String vendor_message = request.getParameter("input__vendor_message");
+			Order order = Order.builder().receiverName(receiver_name).orderPhone(order_phone).vendorMessage(vendor_message)
+					.addressDetail(address_detail).streetAddress(street_address).zipcode(zipcode).memberSequence(Long.parseLong(memberSeq)).build();
+		
+			
+			try {
+				orderService.register(order);
+				
+				// memberId에 해당하는 가장 최근 order sequence
+				List<Order> orderList= orderService.getAll(Order.builder().memberSequence(Long.parseLong(memberSeq)).build());
+				OrderDetail orderDetail = OrderDetail.builder()
+						.orderSequence(orderList.get(0).getSequence())
+						.count(count)
+						.productPoint(pointAccumulationRate * 0.01 * count * price)
+						.productPrice(price)
+						.productSequence(productId)
+						.build();
+				
+				orderDetailService.register(orderDetail);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(view.equals("loginimpl")) {
 			String id = request.getParameter("id");
 			String pwd = request.getParameter("pwd");
 			// 로그인
 		}else if(view.contains("mypage")){
 			request.setAttribute("center", "mypage");
-			String memberSeq = request.getParameter("memberSeq");
+			memberSeq = request.getParameter("memberSeq");
 			List<Cart> cartList = new ArrayList<>();
 			List<CartProduct> productList = new ArrayList<>();
 			CartServiceImpl cartService = new CartServiceImpl();
+			request.setAttribute("myCartList", null);
+			request.setAttribute("myCartProductList", null);
 			
 			Cart cart = Cart.builder().
 					memberSequence(Integer.parseInt(memberSeq)).build();
 			
 			try {
 				cartList = cartService.getAll(cart);
+				System.out.println(cartList);
 				request.setAttribute("myCartList", cartList);
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
@@ -79,8 +123,9 @@ public class MainServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			
-			List<Order> orderList = new ArrayList<>();
+			System.out.println(productList.toString());
+      
+      List<Order> orderList = new ArrayList<>();
 			OrderServiceImpl orderService = new OrderServiceImpl();
 			ProductServiceImpl productService = new ProductServiceImpl();
 					
@@ -112,24 +157,108 @@ public class MainServlet extends HttpServlet {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-		}else if(view.equals("checkout")){
+		}else if(view.contains("changeCount")){
+			request.setAttribute("center", "mypage");
+			int count = Integer.parseInt(request.getParameter("count"));
+			int productSequence = Integer.parseInt(request.getParameter("productSequence"));
+			int sequence = Integer.parseInt(request.getParameter("sequence"));
+			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
+			List<Cart> cartList = new ArrayList<>();
+			List<CartProduct> productList = new ArrayList<>();
+			CartServiceImpl cartService = new CartServiceImpl();
+			
+			// 개수가 1 이하로 내려갈 경우 1로 고정
+			if (count < 1) {
+				count = 1;
+			}
+			
+			Cart cart = Cart.builder().count(count).productSequence(productSequence).sequence(sequence).memberSequence(memberSeq).build();
+			
+			try {
+				cartService.modify(cart);
+				
+				cartList = cartService.getAll(cart);
+				request.setAttribute("myCartList", cartList);
+
+				productList = cartService.getProductInfo(cart);
+				request.setAttribute("myCartProductList", productList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}else if(view.contains("deleteCart")){
+			request.setAttribute("center", "mypage");
+			int sequence = Integer.parseInt(request.getParameter("sequence"));
+			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
+			CartServiceImpl cartService = new CartServiceImpl();
+			List<Cart> cartList = new ArrayList<>();
+			List<CartProduct> productList = new ArrayList<>();
+			
+			Cart cart = Cart.builder().sequence(sequence).memberSequence(memberSeq).build();
+			
+			try {
+				cartService.remove(cart);
+				
+				cartList = cartService.getAll(cart);
+				request.setAttribute("myCartList", cartList);
+
+				productList = cartService.getProductInfo(cart);
+				request.setAttribute("myCartProductList", productList);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if(view.contains("checkout")){
 			request.setAttribute("center", "checkout");
+			String parameter = request.getParameter("sequences");
+			String[] cartSequences = parameter.split(",");
+			CartServiceImpl cartService = new CartServiceImpl();
+			List<CartProduct> productList = new ArrayList<>();
+			int totalPrice = 0;
+			int totalPoint = 0;
+			
+			for (int i = 0; i < cartSequences.length; i++) {
+				Cart cart = Cart.builder().sequence(Long.parseLong(cartSequences[i])).build();
+				try {
+					productList.add(cartService.cartGet(cart));
+					
+					if (i == 0) {
+						totalPrice = (int) ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount() - ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount())%10);
+						totalPoint = (int) (Math.floor(productList.get(i).getPrice() * productList.get(i).getCount() * productList.get(i).getPointAccumulationRate() * 0.01));
+					} else {
+						totalPrice = (int) (productList.get(i-1).getTotalPrice() + (productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount() - ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount())%10);
+						totalPoint = (int) (productList.get(i-1).getTotalPoint() + Math.floor(productList.get(i).getPrice() * productList.get(i).getCount() * productList.get(i).getPointAccumulationRate() * 0.01));
+					}
+					
+					productList.get(i).setTotalPrice(totalPrice);
+					productList.get(i).setTotalPoint(totalPoint);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			request.setAttribute("orderProductList", productList);
+			
 		}else if(view.contains("checkoutbuynow")){
 			
 			request.setAttribute("center", "checkoutbuynow");
 			String productId = request.getParameter("productId");
 			String count = request.getParameter("count");
-		
+			String memberSeq = request.getParameter("memberSeq");
+			
 			Product product = Product.builder().sequence(Integer.parseInt(productId)).build();
 			ProductServiceImpl service = new ProductServiceImpl();
 			try {
 				Product res = service.get(product);
 				request.setAttribute("res", res);
 				request.setAttribute("count", count);
+				request.setAttribute("memberSeq", memberSeq);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+		} else if(view.equals("checkout-result")) {
 			
 		}
 		else if(view.equals("contact")){

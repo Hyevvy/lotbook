@@ -13,7 +13,7 @@ public class OrderDetail {
 	private long sequence;
 	private int count;
 	private int productPrice;
-	private int productPoint;
+	private double productPoint;
 //	private OrderStateEnum state;
 	private String state;
 	

@@ -38,7 +38,7 @@
 		<!-- <mapper resource="mapper/ProductDetailMapper.xml" /> -->
 		<mapper resource="mapper/ProductMapper.xml" />
 		<mapper resource="mapper/ReviewMapper.xml" />
-		<mapper resource="mapper/SearchbarMapper.xml" />
+		<mapper resource="mapper/SearchMapper.xml" />
 
 	</mappers>
 </configuration>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="search">
+
+	<resultMap id="SearchProductMap" type="app.dto.mapper.SearchProductMapper">
+		<result property="sequence" column="product_sequence" />
+		<result property="productImgurl" column="product_imgurl" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="pointAccumulationRate" column="point_accumulation_rate" />
+		<result property="stock" column="stock" />
+		<result property="salesCount" column="sales_count" />
+		<result property="createdAt" column="created_at" />
+		<result property="authorSequence" column="author_sequence" />
+		<result property="authorName" column="author_name" />
+		<result property="publisherSequence" column="publisher_sequence" />
+		<result property="publisherName" column="publisher_name" />
+		<result property="categorySequence" column="category_sequence" />
+		<result property="categoryName" column="category_name" />
+		
+		<result property="nameWithoutBlank" column="name_without_blank" />
+		<result property="reviewCount" column="review_count" />
+		<result property="ratingAvg" column="rating_avg" />
+	</resultMap>
+	
+	
+	<select id="selectProductsByKeyword" resultType="product">
+		SELECT *
+	  FROM product
+	  WHERE
+		<trim prefixOverrides="AND|OR">
+			<if test="keyword != null and keyword != ''">
+	        REPLACE(name, ' ', '') LIKE '%' || #{keyword} || '%'
+	      </if>
+		</trim>
+	</select>
+
+
+	<select id="selectProductsByKeyword" resultType="product">
+		SELECT *
+	  FROM product
+	  WHERE
+		<trim prefixOverrides="AND|OR">
+			<if test="keyword != null and keyword != ''">
+	        REPLACE(name, ' ', '') LIKE '%' || #{keyword} || '%'
+	      </if>
+		</trim>
+	</select>
+
+	<select id="searchProducts" resultMap="SearchProductMap" resultType="ProductResult">
+	    WITH joined_table AS (
+	        SELECT
+	            p.sequence product_sequence,
+	            p.product_imgurl product_imgurl, 
+	            p.name name,
+	            p.price,
+	            p.point_accumulation_rate point_accumulation_rate,
+	            p.stock stock, 
+	            p.sales_count sales_count, 
+	            p.created_at created_at,
+	            a.sequence author_sequence, 
+	            a.name author_name,
+	            pb.sequence publisher_sequence, 
+	            pb.name publisher_name,
+	            c.sequence category_sequence, 
+	            c.name category_name,
+	            REPLACE(p.name, ' ', '') AS name_without_blank
+	        FROM
+	            product p
+	        		INNER JOIN author a ON p.author_sequence = a.sequence
+	        		INNER JOIN category c ON p.category_sequence = c.sequence
+	        		INNER JOIN publisher pb ON p.publisher_sequence = pb.sequence
+	    ),
+	    joined_table_with_review AS (
+	        SELECT
+	            jt.*,
+	            COUNT(r.product_sequence) as review_count,
+	            COALESCE(AVG(r.rating), 0) as rating_avg
+	        FROM
+	            joined_table jt
+	        LEFT JOIN review r ON jt.product_sequence = r.product_sequence
+	        GROUP BY
+	            jt.product_sequence
+	    )
+	    SELECT * FROM joined_table_with_review
+	    WHERE      
+	        name_without_blank LIKE '%${keyword}%'
+    		OR author_name LIKE '%${keyword}%'
+			OR category_name LIKE '%${keyword}%'
+    		OR publisher_name LIKE '%${keyword}%'
+	</select>
+
+
+</mapper>

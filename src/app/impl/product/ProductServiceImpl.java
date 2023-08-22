@@ -104,6 +104,8 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 			e.getStackTrace();
 			e.printStackTrace();
 			throw new Exception("베스트셀러");
+		} finally {
+			session.close();
 		}
 		return list;
 	}

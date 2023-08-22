@@ -193,7 +193,7 @@
 								<li>${res.name} X <%= count %> <span>${res.price * count} </span></li>
 							</ul>
 							<div class="checkout__order__total">
-								적립 예정 포인트 <span>${res.pointAccumulationRate * count} </span>
+								적립 예정 포인트 <span>${res.pointAccumulationRate * count}</span>
 							</div>
 							<div class="checkout__order__total">
 								총 금액 <span>${res.price * count} 원</span>

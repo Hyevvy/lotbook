@@ -183,7 +183,7 @@ request.setCharacterEncoding("UTF-8");
 					총 금액 <span>${totalPrice}원</span>
 				</div>
 				<button type="button" class="site-btn" id="order__btn"
-					onclick={sendRequest}>주문하기</button>
+					onclick={sendRequest}>홈으로 이동하기</button>
 			</div>
 		</div>
 	</div>

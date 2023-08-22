@@ -2,6 +2,16 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%    
+    request.setCharacterEncoding("UTF-8");
+    String res = request.getParameter("res");
+	String count = request.getParameter("count");
+	String memberSeq = request.getParameter("memberSeq");
+%>
+<script>
+
+</script>
+ 
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -123,9 +133,9 @@
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>Checkout</h2>
+					<h2>결제 확인</h2>
 					<div class="breadcrumb__option">
-						<a href="./index.jsp">Home</a> <span>Checkout</span>
+						<a href="./index.jsp">Home</a> <span>결제 확인</span>
 					</div>
 				</div>
 			</div>
@@ -149,22 +159,15 @@
 									<p>
 										받는 분 성함<span>*</span>
 									</p>
-									<input type="text" required>
+									<input type="text" id="input__receiverName" required>
 								</div>
 							</div>
 						</div>
 						<div class="checkout__input">
 							<p>
-								이메일(청구서 수신용)<span>*</span>
-							</p>
-							<input type="tel" required>
-						</div>
-
-						<div class="checkout__input">
-							<p>
 								연락처<span>*</span>
 							</p>
-							<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+							<input type="tel" id="input__phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
 						</div>
 						<div class="checkout__input">
 							<p>
@@ -178,10 +181,9 @@
 								주소<span>*</span>
 							</p>
 							<input type="text" id="sample6_address" placeholder="주소"><br>
-							<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-							<input type="text" id="sample6_extraAddress" placeholder="배송 메세지">
+							<input type="text" id="sample6_extraAddress" placeholder="상세주소" required>
+							<input type="text" id="sample6_detailAddress" placeholder="배송 메세지">
 						</div>
-
 					</div>
 					<div class="col-lg-4 col-md-6">
 						<div class="checkout__order">
@@ -190,23 +192,15 @@
 								상품 목록 <span>금액</span>
 							</div>
 							<ul>
-								<li>Vegetable’s Package <span>$75.99</span></li>
-								<li>Fresh Vegetable <span>$151.99</span></li>
-								<li>Organic Bananas <span>$53.99</span></li>
+								<li>${res.name} X <%= count %> <span>${res.price * count} </span></li>
 							</ul>
 							<div class="checkout__order__total">
-								적립 예정 포인트 <span>$10.99</span>
+								적립 예정 포인트 <span>${res.pointAccumulationRate * count} </span>
 							</div>
 							<div class="checkout__order__total">
-								총 금액 <span>$750.99</span>
+								총 금액 <span>${res.price * count} 원</span>
 							</div>
-
-							<div class="checkout__input__checkbox">
-								<label for="paypal"> Paypal <input type="checkbox"
-									id="paypal"> <span class="checkmark"></span>
-								</label>
-							</div>
-							<button type="submit" class="site-btn">주문하기</button>
+							<button type="button" class="site-btn" id="order__btn" onclick={sendRequest}>주문하기</button>
 						</div>
 					</div>
 				</div>
@@ -215,3 +209,35 @@
 	</div>
 </section>
 <!-- Checkout Section End -->
+
+<script>
+
+function sendRequest(){
+	$.ajax({
+		url : "request_ajax.jsp",
+		type : "post",
+		data : {"receiver_name" : receiver_name, "zipcode" : zipcode, "order_phone": order_phone},
+		dataType : "text",
+		success : function(result){
+			document.getElementById("text").innerHTML = result;
+		}
+	});
+}
+
+
+document.querySelector("#order__btn").addEventListener("click",function(){
+	const receiver_name = document.querySelector('#input__receiverName').value;
+	const order_phone = document.querySelector('#input__phone').value;
+	
+	const zipcode = document.querySelector('#sample6_postcode').value;
+	const street_address = document.querySelector('#sample6_address').value;
+	const address_detail = document.querySelector('#sample6_extraAddress').value;
+	const vendor_message = document.querySelector('#sample6_detailAddress').value;
+	
+	
+	console.log(receiver_name, order_phone);
+	console.log('hi');
+});
+		
+</script>
+

@@ -29,6 +29,7 @@ import app.impl.product.ProductServiceImpl;
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	CustServiceImpl custService;
+	String memberSeq = null;
 	
     public MainServlet() {
         super();
@@ -56,13 +57,52 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("center", "signup");
 		}else if(view.equals("signin")){
 			request.setAttribute("center", "signin");
-		}else if(view.equals("loginimpl")) {
+		}
+		else if(view.contains("checkout-result")) {
+			OrderServiceImpl orderService = new OrderServiceImpl();
+			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
+			
+			request.setAttribute("center", "checkout-result");
+			int count = Integer.parseInt(request.getParameter("count"));
+			int productId = Integer.parseInt(request.getParameter("productId"));
+			double pointAccumulationRate = Double.valueOf(request.getParameter("point"));
+			Integer price = Integer.parseInt(request.getParameter("price"));
+			String receiver_name = request.getParameter("input__receiverName");
+			String order_phone = request.getParameter("input__phone");
+			String zipcode = request.getParameter("input__zipcode");
+			String street_address = request.getParameter("input__street_address");
+			String address_detail = request.getParameter("input__address_detail");
+			String vendor_message = request.getParameter("input__vendor_message");
+			Order order = Order.builder().receiverName(receiver_name).orderPhone(order_phone).vendorMessage(vendor_message)
+					.addressDetail(address_detail).streetAddress(street_address).zipcode(zipcode).memberSequence(Long.parseLong(memberSeq)).build();
+		
+			
+			try {
+				orderService.register(order);
+				
+				// memberId에 해당하는 가장 최근 order sequence
+				List<Order> orderList= orderService.getAll(Order.builder().memberSequence(Long.parseLong(memberSeq)).build());
+				OrderDetail orderDetail = OrderDetail.builder()
+						.orderSequence(orderList.get(0).getSequence())
+						.count(count)
+						.productPoint(pointAccumulationRate * 0.01 * count * price)
+						.productPrice(price)
+						.productSequence(productId)
+						.build();
+				
+				orderDetailService.register(orderDetail);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(view.equals("loginimpl")) {
 			String id = request.getParameter("id");
 			String pwd = request.getParameter("pwd");
 			// 로그인
 		}else if(view.contains("mypage")){
 			request.setAttribute("center", "mypage");
-			String memberSeq = request.getParameter("memberSeq");
+			memberSeq = request.getParameter("memberSeq");
 			List<Cart> cartList = new ArrayList<>();
 			List<CartProduct> productList = new ArrayList<>();
 			CartServiceImpl cartService = new CartServiceImpl();
@@ -172,17 +212,21 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("center", "checkoutbuynow");
 			String productId = request.getParameter("productId");
 			String count = request.getParameter("count");
-		
+			String memberSeq = request.getParameter("memberSeq");
+			
 			Product product = Product.builder().sequence(Integer.parseInt(productId)).build();
 			ProductServiceImpl service = new ProductServiceImpl();
 			try {
 				Product res = service.get(product);
 				request.setAttribute("res", res);
 				request.setAttribute("count", count);
+				request.setAttribute("memberSeq", memberSeq);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+		} else if(view.equals("checkout-result")) {
 			
 		}
 		else if(view.equals("contact")){

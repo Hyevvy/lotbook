@@ -149,13 +149,17 @@
 			<form action="#">
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
+						<div class="d-flex flex-col align-items-center">
+							<input id="check_box" type="checkbox" class="mb-3" onclick="get_my_info('${logincust.name }', '${logincust.email }', '${logincust.memberPhone }', '${logincust.zipcode }', '${logincust.streetAddress }', '${logincust.addressDetail }')">
+							<p class="ml-2 text-muted">내 정보 불러오기</p>
+						</div>
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="checkout__input">
 									<p>
 										받는 분 성함<span>*</span>
 									</p>
-									<input type="text" required>
+									<input class="text-dark" id="custName" type="text" required>
 								</div>
 							</div>
 						</div>
@@ -163,29 +167,29 @@
 							<p>
 								이메일(청구서 수신용)<span>*</span>
 							</p>
-							<input type="tel" required>
+							<input class="text-dark" id="custEmail" type="tel" required>
 						</div>
 
 						<div class="checkout__input">
 							<p>
 								연락처<span>*</span>
 							</p>
-							<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+							<input class="text-dark" id="custPhone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
 						</div>
 						<div class="checkout__input">
 							<p>
 								우편 번호<span>*</span>
 							</p>
-							<input type="text" id="sample6_postcode" placeholder="우편번호">
+							<input class="text-dark" type="text" id="sample6_postcode" placeholder="우편번호">
 							<input type="button" onclick="getAddress()" value="우편번호 찾기"><br>
 						</div>
 						<div class="checkout__input">
 							<p>
 								주소<span>*</span>
 							</p>
-							<input type="text" id="sample6_address" placeholder="주소"><br>
-							<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-							<input type="text" id="sample6_extraAddress" placeholder="배송 메세지">
+							<input class="text-dark" type="text" id="sample6_address" placeholder="주소"><br>
+							<input class="text-dark" type="text" id="sample6_detailAddress" placeholder="상세주소">
+							<input class="text-dark" type="text" id="sample6_extraAddress" placeholder="배송 메세지">
 						</div>
 
 					</div>
@@ -228,3 +232,24 @@
 	</div>
 </section>
 <!-- Checkout Section End -->
+<script>
+function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
+	const checkbox = document.getElementById("check_box");
+	
+	if (checkbox.checked) {
+		document.getElementById("custName").value = name;
+		document.getElementById("custEmail").value = email;
+		document.getElementById("custPhone").value = memberPhone;
+		document.getElementById("sample6_postcode").value = zipcode;
+		document.getElementById("sample6_address").value = streetAddress;
+		document.getElementById("sample6_detailAddress").value = addressDetail;
+	} else {
+		document.getElementById("custName").value = "";
+		document.getElementById("custEmail").value = "";
+		document.getElementById("custPhone").value = "";
+		document.getElementById("sample6_postcode").value = "";
+		document.getElementById("sample6_address").value = "";
+		document.getElementById("sample6_detailAddress").value = "";
+	}
+}
+</script>

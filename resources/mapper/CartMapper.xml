@@ -30,6 +30,11 @@
 		<result property="categorySequence" column="category_sequence" />
 	</resultMap>
 	
+	<!-- 장바구니에 담은 개수 -->
+	<select id="getCartCount" parameterType="long" resultType="_int">
+		SELECT COUNT(*) FROM `CART` WHERE member_sequence = #{sequence} AND is_deleted = 0;
+	</select>
+	
 	<!-- 장바구니에 있는 상품 정보 조회 -->
 	<select id="selectProductInfo" parameterType="cart" resultMap="cartProductMap">
 		SELECT c.sequence, c.product_sequence, c.member_sequence, c.count, c.is_deleted, p.product_imgurl, p.name, p.price, p.content, p.stock, p.created_at, p.updated_at, p.point_accumulation_rate, p.discount_rate, p.sales_count, p.author_sequence, p.publisher_sequence, p.category_sequence FROM cart c

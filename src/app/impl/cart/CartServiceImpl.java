@@ -117,6 +117,21 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 		}
 		return cart;
 	}
+	
+	public int getCartCount(long sequence) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		int count = 0;
+		try {
+			count = dao.getCount(sequence, session);
+			System.out.println(count);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER2003 - 장바구니 개수 조회 에러");
+		} finally {
+			session.close();
+		}
+		return count;
+	}
 	@Override
 	public List<Cart> get() throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();

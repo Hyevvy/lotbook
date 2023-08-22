@@ -122,8 +122,6 @@ public class MainServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			System.out.println(productList.toString());
       
       List<Order> orderList = new ArrayList<>();
 			OrderServiceImpl orderService = new OrderServiceImpl();
@@ -159,6 +157,35 @@ public class MainServlet extends HttpServlet {
 			}
 		}else if(view.contains("changeCount")){
 			request.setAttribute("center", "mypage");
+			int count = Integer.parseInt(request.getParameter("count"));
+			int productSequence = Integer.parseInt(request.getParameter("productSequence"));
+			int sequence = Integer.parseInt(request.getParameter("sequence"));
+			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
+			List<Cart> cartList = new ArrayList<>();
+			List<CartProduct> productList = new ArrayList<>();
+			CartServiceImpl cartService = new CartServiceImpl();
+			
+			// 개수가 1 이하로 내려갈 경우 1로 고정
+			if (count < 1) {
+				count = 1;
+			}
+			
+			Cart cart = Cart.builder().count(count).productSequence(productSequence).sequence(sequence).memberSequence(memberSeq).build();
+			
+			try {
+				cartService.modify(cart);
+				
+				cartList = cartService.getAll(cart);
+				request.setAttribute("myCartList", cartList);
+
+				productList = cartService.getProductInfo(cart);
+				request.setAttribute("myCartProductList", productList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}else if(view.contains("changeCartCount")){
+			request.setAttribute("center", "shoping-cart");
 			int count = Integer.parseInt(request.getParameter("count"));
 			int productSequence = Integer.parseInt(request.getParameter("productSequence"));
 			int sequence = Integer.parseInt(request.getParameter("sequence"));
@@ -267,8 +294,28 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("center", "shop-details");
 		}else if(view.equals("shop-grid")){
 			request.setAttribute("center", "shop-grid");
-		}else if(view.equals("shoping-cart")){
+		}else if(view.contains("shopping-cart")){
 			request.setAttribute("center", "shoping-cart");
+			memberSeq = request.getParameter("memberSeq");
+			
+			List<Cart> cartList = new ArrayList<>();
+			List<CartProduct> productList = new ArrayList<>();
+			CartServiceImpl cartService = new CartServiceImpl();
+			request.setAttribute("myCartList", null);
+			request.setAttribute("myCartProductList", null);
+			
+			Cart cart = Cart.builder().
+					memberSequence(Integer.parseInt(memberSeq)).build();
+			
+			try {
+				cartList = cartService.getAll(cart);
+				System.out.println(cartList);
+				request.setAttribute("myCartList", cartList);
+				productList = cartService.getProductInfo(cart);
+				request.setAttribute("myCartProductList", productList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

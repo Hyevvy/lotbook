@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
     window.onload = function() {
@@ -92,7 +91,7 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>

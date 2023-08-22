@@ -89,7 +89,7 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -231,12 +231,12 @@
 		                        	<a href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count + 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">+</a>
 		                        </div>
 		                        <div class="ml-4" style="width: 100px;">
-		                          <h5 class="mb-0">
+		                          <h5 class="mb-0" style="font-size: 15px; font-weight: 700;">
 		                          	<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
 									<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
 		                          원</h5>
 		                        </div>
-		                        <a class="ml-2 text-secondary" onclick="open_modal(${product.sequence}, ${logincust.sequence }, '${product.name }')" >삭제</a>
+		                        <span class="icon_close btn" onclick="open_modal(${product.sequence}, ${logincust.sequence }, '${product.name }')"></span>
 		                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
 	                        </div>
 	                      </div>
@@ -342,7 +342,7 @@
 	        </button>
 	      </div>
 	      <div class="modal-body" id="modal-body">
-	        해당 상품이 장바구니에서 삭제되었습니다.
+	        해당 상품을 장바구니에서 삭제하시겠습니까?
 	      </div>
 	      <div class="modal-footer">
 	       	<button class="btn btn-secondary text-light" data-dismiss="modal" onclick="close_modal()">아니오</button>
@@ -361,11 +361,11 @@
 		const checkbox = document.getElementById('cart_checkbox' + sequence);
 
 		if (checkbox.checked) {
-			totalCount = totalCount + (price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10;
+			totalCount = totalCount + ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
 			totalPoint = totalPoint + Math.floor(price * count * pointAccumulationRate * 0.01);
 			selectedCart.push(sequence);
 		} else {
-			totalCount = totalCount - (price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10;
+			totalCount = totalCount - ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
 			totalPoint = totalPoint - Math.floor(price * count * pointAccumulationRate * 0.01);
 			selectedCart.pop();
 		}
@@ -397,6 +397,10 @@
 		close_modal();
 	}
 	function cart_to_order() {
-		location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+		if (selectedCart.length === 0) {
+			alert("구매 상품을 1개 이상 담아주세요!!");
+		} else {
+			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+		}
 	}
 </script>

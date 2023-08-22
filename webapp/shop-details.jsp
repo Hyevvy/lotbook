@@ -53,7 +53,7 @@ if (productDetailWithReviews != null) {
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+					<a href="main.bit"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">

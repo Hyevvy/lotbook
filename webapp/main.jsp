@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	String[] BestSeller = request.getParameterValues("BestSeller");
+	String[] Latest = request.getParameterValues("Latest");
+	String[] BigPoint = request.getParameterValues("BigPoint");
+	String[] BigDiscount = request.getParameterValues("BigDiscount");
+%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
@@ -36,7 +42,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+					<a href="main.bit"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -129,8 +135,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="section-title" >
-					<h2>스테디 셀러</h2>
+				<div class="section-title">
+					<h2>🥰꾸준히 사랑받는 작품🥰</h2>
+				</div>
+				<div class="featured__controls">
+					<ul>
+						<li data-filter="*">전체</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -138,9 +149,14 @@
 		<section class="categories">
 			<div class="container">
 				<div class="row">
-					<div class="categories__slider owl-carousel"  id="latest-products-carousel-4" style="flex: 0 0 25%; max-width: 25%;">
-						<div class="col-lg-3" >
-							<div>
+					<div class="categories__slider owl-carousel">
+						<c:forEach items="${BestSeller }" var="product">
+							<div class="col-lg-3">
+								<div class="categories__item set-bg"
+									data-setbg="${product.productImgurl }" style="width: 200px;">
+								</div>
+							</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
@@ -149,7 +165,7 @@
 	</div>
 </section>
 <!-- Featured Section End -->
-
+<br><br><br>
 <!-- Banner Begin -->
 <div class="banner">
 	<div class="container">
@@ -168,107 +184,198 @@
 	</div>
 </div>
 <!-- Banner End -->
-
+<br><br><br><br>
+<!-- Latest Product Section Begin -->
 <section class="latest-product spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>따끈따끈 신상</h4>
-                    <div class="latest-product__slider owl-carousel" id="latest-products-carousel-1">
-                    	<div class="latest-prdouct__slider__item" >
-                    	</div>
-                        <!-- Dynamic content will be added here -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>포인트 팡팡</h4>
-                    <div class="latest-product__slider owl-carousel" id="latest-products-carousel-2">
-                        <!-- Dynamic content will be added here -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>사장님이 미쳤어요</h4>
-                    <div class="latest-product__slider owl-carousel" id="latest-products-carousel-3">
-                        <!-- Dynamic content will be added here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-6">
+				<div class="latest-product__text">
+					<h4>따끈따끈 신작✨</h4>
+					<div class="latest-product__slider owl-carousel">
+						<div class="latest-prdouct__slider__item">
+							<a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-1.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-2.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-3.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a>
+						</div>
+						<div class="latest-prdouct__slider__item">
+							<a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-1.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-2.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-3.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<div class="latest-product__text">
+					<h4>포인트 팡팡🎉</h4>
+					<div class="latest-product__slider owl-carousel">
+						<div class="latest-prdouct__slider__item">
+							<a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-1.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-2.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-3.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a>
+						</div>
+						<div class="latest-prdouct__slider__item">
+							<a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-1.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-2.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-3.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<div class="latest-product__text">
+					<h4>사장님이 미쳤어요😆</h4>
+					<div class="latest-product__slider owl-carousel">
+						<div class="latest-prdouct__slider__item">
+							<a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-1.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-2.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-3.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a>
+						</div>
+						<div class="latest-prdouct__slider__item">
+							<a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-1.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-2.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a> <a href="#" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img src="img/latest-product/lp-3.jpg" alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>Crab Pool Security</h6>
+									<span>$30.00</span>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
-
-
-<script>
-
-jQuery(document).ready(function() {
-	
-    function addItemsToCarousel(carouselContainer, items) {
-        items.forEach(function(item, index) {
-            var itemContainer = $('<div class="latest-prdouct__slider__item"></div>');
-            var itemLink = $('<a href="http://127.0.0.1/lotbook/product-detail.bit?view=shop-details&sequence=' +item.sequence  + '" class="latest-product__item"></a>');
-            var imgContainer = $('<div class="latest-product__item__pic"></div>');
-            var img = $('<img src="' + item.productImgurl + '" alt="' + item.name + '">');
-            var textContainer = $('<div class="latest-product__item__text"></div>');
-            var itemName = $('<h6>' + item.name + '</h6>');
-            var itemPrice = $('<span>$' + item.price + '</span>');
-			
-            imgContainer.append(img);
-            textContainer.append(itemName);
-            textContainer.append(itemPrice);
-            itemLink.append(imgContainer);
-            itemLink.append(textContainer);
-            itemContainer.append(itemLink);
-
-            carouselContainer.append(itemContainer);
-        });
-    }
-
-    function fetchAndAddToCarousel(type, carouselContainer) {
-        jQuery.ajax({
-            type: 'GET',
-            url: './product?type=' + type,
-            dataType: 'json',
-            contentType: "application/json",
-            success: function(result) {
-                addItemsToCarousel(carouselContainer, result);
-                carouselContainer.owlCarousel({
-                    loop: true,
-                    margin: 10,
-                    slideBy: 3, 
-                    autoplay: true,
-                    autoplayTimeout: 3000, 
-                    responsive: {
-                        0: {
-                            items: 1
-                        },
-                        600: {
-                            items: 2
-                        },
-                        1000: {
-                            items: 3
-                        }
-                    }
-                });
-                console.log("동작")
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("에러 발생: " + textStatus, errorThrown);
-            }
-        });
-    }
-
-    fetchAndAddToCarousel('latest', $('#latest-products-carousel-1'));
-    fetchAndAddToCarousel('point', $('#latest-products-carousel-2'));
-    fetchAndAddToCarousel('discount', $('#latest-products-carousel-3'));
-    fetchAndAddToCarousel('bestseller', $('#latest-products-carousel-4'));
-});
-</script>
-
+<!-- Latest Product Section End -->
 
 <!-- Blog Section Begin -->
 <section class="from-blog spad"></section>

@@ -29,11 +29,13 @@ import app.impl.product.ProductServiceImpl;
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	CustServiceImpl custService;
+	ProductServiceImpl productService;
 	String memberSeq = null;
 	
     public MainServlet() {
         super();
         custService = new CustServiceImpl();
+        productService = new ProductServiceImpl();
     }
 
 
@@ -41,9 +43,7 @@ public class MainServlet extends HttpServlet {
 		String next = "index.jsp";
 		String view = request.getParameter("view");
 
-		if(view != null){
-			build(request, view);
-		}
+		build(request, view);
 
 		RequestDispatcher rd = 
 		request.getRequestDispatcher(next);
@@ -53,7 +53,18 @@ public class MainServlet extends HttpServlet {
 
 	private void build(HttpServletRequest request,
 			String view){
-		if(view.equals("signup")){
+		
+		if (view == null) {
+			// 책 리스트 불러오기
+			try {
+				request.setAttribute("BestSeller", productService.getBestseller());
+				request.setAttribute("Latest", productService.getLatest());
+				request.setAttribute("BigPoint", productService.getPoint());
+				request.setAttribute("BigDiscount", productService.getDiscount());
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}else if(view.equals("signup")){
 			request.setAttribute("center", "signup");
 		}else if(view.equals("signin")){
 			System.out.println("로그인");

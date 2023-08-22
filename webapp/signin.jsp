@@ -17,9 +17,8 @@ window.onload = function(){
 			        <ul>
 			        	<c:choose>
 							<c:when test="${logincust != null }">
-								<li class="active">
-			                        <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 마이페이지</a>
-			                    </li>
+								<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+									class="fa fa-user"></i> 마이페이지</a></li>
 		                        <li class="">
 		                            <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 로그아웃</a>
 		                        </li>

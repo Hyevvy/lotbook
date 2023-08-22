@@ -63,6 +63,13 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 		return session.selectOne("cart.selectCartDetail", k);
 	}
 
+	/**
+	 * 선택된 장바구니 상품 조회
+	 */ 
+	public CartProduct selectedCart(Cart k,  SqlSession session) throws Exception {
+		return session.selectOne("cart.selectedCartProductInfo", k);
+	}
+	
 	@Override
 	public List<Cart> select(SqlSession session) throws Exception {
 		return null;
@@ -75,6 +82,7 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 		return session.selectList("cart.selectCartAll", v);
 	}
 	
+
 	/**
 	 * 내 장바구니 상품 정보 전체 조회
 	 */

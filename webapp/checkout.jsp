@@ -1,7 +1,13 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+	String[] orderProductList = request.getParameterValues("orderProductList");
+%>
+
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -11,7 +17,7 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage"><i
+							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -190,15 +196,22 @@
 								상품 목록 <span>금액</span>
 							</div>
 							<ul>
-								<li>Vegetable’s Package <span>$75.99</span></li>
-								<li>Fresh Vegetable <span>$151.99</span></li>
-								<li>Organic Bananas <span>$53.99</span></li>
+								<c:forEach items="${orderProductList }" var="product">
+									<li>${product.name.substring(0, 10) }... X ${product.count }
+										<span>
+											<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
+											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+				                          원
+										</span>
+									</li>
+								</c:forEach>
 							</ul>
 							<div class="checkout__order__total">
-								적립 예정 포인트 <span>$10.99</span>
+							
+								적립 예정 포인트 <span>${orderProductList[fn:length(orderProductList) -1].totalPoint } 점</span>
 							</div>
 							<div class="checkout__order__total">
-								총 금액 <span>$750.99</span>
+								총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice } 원</span>
 							</div>
 
 							<div class="checkout__input__checkbox">

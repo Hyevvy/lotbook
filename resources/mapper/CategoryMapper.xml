@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="category">
+
+	<resultMap id="categoryResultMap" type="app.dto.mapper.CategoryMapper">
+		<result property="mainCategorySequence" column="main_category_sequence" />
+		<result property="mainCategoryName" column="main_category_name" />
+		<result property="subCategorySequence" column="sub_category_sequence" />
+		<result property="subCategoryName" column="sub_category_name" />
+	</resultMap>
+
+
+	
+	<select id="findCategorybyProductSequence" resultMap="categoryResultMap" parameterType="app.dto.entity.Product">
+	    SELECT 
+	        m.sequence AS main_category_sequence,
+	        m.name AS main_category_name,
+	        s.sequence AS sub_category_sequence,
+	        s.name AS sub_category_name
+	    FROM
+	        product p
+	    JOIN 
+	        category s ON p.category_sequence = s.sequence
+	    JOIN 
+	        category m ON s.parent_category = M.sequence
+	    WHERE
+	        P.sequence = #{sequence}
+	</select>
+	
+	
 	<!--
 	<resultMap type="app.dto.entity.Product" id="productmapper">
 		<result property="sequence" column="sequence" />
@@ -27,6 +54,7 @@
 		<result property="parentCategory" column="parent_category" />
 	</resultMap>
 
+	
 
 	<select id="findDescendantCategories" resultType="int">
         WITH RECURSIVE CategoryHierarchy AS (

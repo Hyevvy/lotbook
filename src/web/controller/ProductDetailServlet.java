@@ -103,8 +103,11 @@ public class ProductDetailServlet extends HttpServlet {
 		System.out.println(stringProductSequence);
 		System.out.println(viewTest);
 		System.out.println("여기인가?");
-		int productSequence = Integer.parseInt(stringProductSequence);
-
+		
+		int productSequence = 3;
+		if (stringProductSequence != null) {
+			productSequence = Integer.parseInt(stringProductSequence);
+		}
 		// 상품 정보와 관련 리뷰를 가져옴
 		ProductDetailWithReviews productDetailWithReviews = getProductDetailWithReviews(productSequence);
 		product_detail_log.debug("여기에요");

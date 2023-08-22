@@ -29,8 +29,8 @@ import app.impl.product.ProductServiceImpl;
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	CustServiceImpl custService;
+	ProductServiceImpl productService;
 	String memberSeq = null;
-
 	public MainServlet() {
 		super();
 		custService = new CustServiceImpl();
@@ -51,6 +51,7 @@ public class MainServlet extends HttpServlet {
 
 	private void build(HttpServletRequest request, String view) {
 		if (view.equals("signup")) {
+
 			request.setAttribute("center", "signup");
 		} else if (view.equals("signin")) {
 			request.setAttribute("center", "signin");

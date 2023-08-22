@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import app.dto.entity.Member;
 import app.impl.cart.CartServiceImpl;
 import app.impl.member.MemberServiceImpl;
+import app.impl.product.ProductServiceImpl;
 import web.dispatcher.Navi;
 
 /**
@@ -28,12 +29,14 @@ public class MemberServlet extends HttpServlet {
 	
 	private MemberServiceImpl memServiceImpl;
 	private CartServiceImpl cartServiceImpl;
+	ProductServiceImpl productService;
 	private Logger user_log = Logger.getLogger("user");
 	
     public MemberServlet() {
         super();
         memServiceImpl = new MemberServiceImpl();
         cartServiceImpl = new CartServiceImpl();
+        productService = new ProductServiceImpl();
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
     
@@ -79,6 +82,12 @@ public class MemberServlet extends HttpServlet {
 					
 					int cartCount = cartServiceImpl.getCartCount(loginUser.getSequence());
 					session.setAttribute("cartCount", cartCount);
+					
+					request.setAttribute("BestSeller", productService.getBestseller());
+					request.setAttribute("Latest", productService.getLatest());
+					request.setAttribute("BigPoint", productService.getPoint());
+					request.setAttribute("BigDiscount", productService.getDiscount());
+					
 				} else {
 					request.setAttribute("center", "signin");
 					request.setAttribute("msg", "email 또는 password가 일치하지 않습니다.");

@@ -117,7 +117,7 @@ public class MemberServlet extends HttpServlet {
 			}
 		}else if(view.equals("myinfo")){
 			HttpSession session = request.getSession();
-			request.setAttribute("center", "member-info");
+			request.setAttribute("center", "member-info-login");
 			
 			request.setAttribute("memberSeq", ((Member)session.getAttribute("logincust")).getSequence());
 			System.out.println();

@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%    
     request.setCharacterEncoding("UTF-8");
-    String res = request.getParameter("res");
-	String count = request.getParameter("count");
-	String memberSeq = request.getParameter("memberSeq");
+	String[] orderProductList = request.getParameterValues("orderProductList");
 %>
  
 <!-- Header Section Begin -->
@@ -194,26 +195,43 @@
 							<input class="text-dark" type="text" id="sample6_extraAddress" placeholder="배송 메세지">
 						</div>
 					</div>
-					<div class="col-lg-4 col-md-6">
+				
+			</form>
+			
+			<div>---</div>
+			<div class="col-lg-4 col-md-6">
 						<div class="checkout__order">
 							<h4>주문 내역</h4>
 							<div class="checkout__order__products">
 								상품 목록 <span>금액</span>
 							</div>
 							<ul>
-								<li>${res.substring(0, 10) }... X <%= count %> <span>${res.price * count} </span></li>
+								<c:forEach items="${orderProductList }" var="product">
+									<li>${product.name.substring(0, 10) }... X ${product.count }
+										<span>
+											<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
+											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+				                          원
+										</span>
+									</li>
+								</c:forEach>
 							</ul>
 							<div class="checkout__order__total">
-								적립 예정 포인트 <span>${res.pointAccumulationRate * count}</span>
+							
+								적립 예정 포인트 <span>${orderProductList[fn:length(orderProductList) -1].totalPoint } 점</span>
 							</div>
 							<div class="checkout__order__total">
-								총 금액 <span>${res.price * count} 원</span>
+								총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice } 원</span>
 							</div>
-							<button type="submit" class="site-btn" id="order__btn">주문하기</button>
+
+							<div class="checkout__input__checkbox">
+								<label for="paypal"> Paypal <input type="checkbox"
+									id="paypal"> <span class="checkmark"></span>
+								</label>
+							</div>
+							<button type="submit" class="site-btn">주문하기</button>
 						</div>
 					</div>
-				</div>
-			</form>
 		</div>
 	</div>
 </section>

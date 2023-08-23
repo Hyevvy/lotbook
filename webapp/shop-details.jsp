@@ -182,8 +182,10 @@ if (productDetailWithReviews != null) {
 							class="fa fa-star-half-o"></i> <span>(${ productDetailWithReviews.getReviews().size() }
 							개의 리뷰)</span>
 					</div>
-					<div class="product__details__price">(5천원) 원래가격, 할인가격 이펙트
-						넣어줘야함.</div>
+					<div class="product__details__price">${productDetailWithReviews.getDiscountRate()}%</div>
+					<del class="text-muted">${productDetailWithReviews.getOriginalPrice() }</del>
+					<div class="product__details__price">(${ productDetailWithReviews.getPrice() }원) 원래가격 ${productDetailWithReviews.getOriginalPrice() }, 할인가격 이펙트
+						넣어줘야함.</div>	
 					<p>${productDetailWithReviews.getContent()}</p>
 					<div class="product__details__quantity">
 						<div class="quantity">

@@ -151,7 +151,7 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="main.bit?view=checkout-result" method="post">
+			<form action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}" method="post">
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
@@ -236,11 +236,6 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 							원</span>
 					</div>
 
-					<div class="checkout__input__checkbox">
-						<label for="paypal"> Paypal <input type="checkbox"
-							id="paypal"> <span class="checkmark"></span>
-						</label>
-					</div>
 					<button type="submit" class="site-btn">주문하기</button>
 				</div>
 			</div>

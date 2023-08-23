@@ -18,7 +18,8 @@ request.setCharacterEncoding("UTF-8");
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+							<li class="active"><a
+								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -62,7 +63,9 @@ request.setCharacterEncoding("UTF-8");
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+								<li><a
+									href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i
+										class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -149,8 +152,7 @@ request.setCharacterEncoding("UTF-8");
 			<div class="checkout__order">
 				<h4>결제 내역</h4>
 				<div class="checkout__order__total">
-					${orderResult.sequence} 받는 분 성함 <span>
-						${orderResult.receiverName} 님 </span>
+					받는 분 성함 <span> ${orderResult.receiverName} 님 </span>
 				</div>
 				<div class="checkout__order__total">
 					연락처 <span> ${orderResult.orderPhone} </span>
@@ -172,12 +174,13 @@ request.setCharacterEncoding("UTF-8");
 				</div>
 
 				<c:forEach items="${orderDetailResult}" var="orderDetail">
-					<ul>
-						<li>${orderDetail.orderDetailProduct.name } ${orderDetail.count }X ${orderDetail.productPrice}</li>
-					</ul>
+					<div class="checkout__order__total">
+						${orderDetail.orderDetailProduct.name } <span>
+							${orderDetail.productPrice} X ${orderDetail.count} 원</span>
+					</div>
 				</c:forEach>
 				<div class="checkout__order__total">
-					적립 예정 포인트 <span>${totalPoint} </span>
+					적립 예정 포인트 <span>${totalPoint} 원</span>
 				</div>
 				<div class="checkout__order__total">
 					총 금액 <span>${totalPrice}원</span>

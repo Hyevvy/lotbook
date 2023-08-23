@@ -53,7 +53,7 @@ if (productDetailWithReviews != null) {
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+					<a href="main.bit"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -79,7 +79,7 @@ if (productDetailWithReviews != null) {
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -205,7 +205,7 @@ if (productDetailWithReviews != null) {
 						<c:otherwise>
 							<button type="button" class="primary-btn border_none"
 								id="addToCartButton" disabled>장바구니에 담기</button>
-							<a href="#" class="primary-btn" onclick="return false;">바로 구매</a>
+							<a href="" class="primary-btn" onclick="return false;">바로 구매</a>
 						</c:otherwise>
 					</c:choose>
 

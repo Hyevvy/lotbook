@@ -1,15 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-request.setCharacterEncoding("UTF-8");
-%>
-<script>
-	
-</script>
-
 <!-- Header Section Begin -->
+<%-- <script>
+	<%=request.set(request.getAttribute("memberSeq"))%>
+</script> --%>
+<script>
+	$(document).ready(function(){
+		$('.form_ip_pw i').on('click',function(){
+			$('input').toggleClass('active');
+			if($('input').hasClass('active')){
+				$(this).attr('class', "fa fa-eye fa-lg")
+				.prev('input').attr('type', "text");
+			}else{
+				$(this).attr('class', "fa fa-eye-slash fa-lg")
+				.prev('input').attr('type',"password");
+			}
+		});
+	});
+</script>
 <header class="header">
 	<div class="header__top">
 		<div class="container">
@@ -18,7 +27,7 @@ request.setCharacterEncoding("UTF-8");
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+							<li class="active"><a href="main.bit?view=mypage"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -38,7 +47,7 @@ request.setCharacterEncoding("UTF-8");
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="main.bit"><img src="img/logo.png" alt=""></a>
+					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -46,14 +55,14 @@ request.setCharacterEncoding("UTF-8");
 					<ul id="header__menus">
 						<li><a href="./index.jsp">Home</a></li>
 						<li><a href="main.bit?view=shop-grid">Shop</a></li>
-						<li class="active"><a href="#">Pages</a>
+						<li><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
 								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
 								<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
 								<li><a href="main.bit?view=checkout">Check Out</a></li>
 
 							</ul></li>
-						<li><a href="main.bit?view=contact" onclick=li_click(3)>Contact</a></li>
+						<li><a href="main.bit?view=contact">Contact</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -62,7 +71,7 @@ request.setCharacterEncoding("UTF-8");
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -130,9 +139,9 @@ request.setCharacterEncoding("UTF-8");
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>결제서</h2>
+					<h2>회원정보</h2>
 					<div class="breadcrumb__option">
-						<a href="./index.jsp">Home</a> <span>결제서</span>
+						<a href="./index.jsp">Home</a> <span>member-info</span>
 					</div>
 				</div>
 			</div>
@@ -140,86 +149,36 @@ request.setCharacterEncoding("UTF-8");
 	</div>
 </section>
 <!-- Breadcrumb Section End -->
-
-<!-- Checkout Section Begin -->
-<section class="checkout spad">
+</br>
+</br>
+<!-- Profile Section Begin -->
+<section class="checkout_spad">
 	<div class="container">
-		<div class="row"></div>
-		<div class="col-lg-12">
-			<div class="checkout__order">
-				<h4>결제 내역</h4>
-				<div class="checkout__order__total">
-					${orderResult.sequence} 받는 분 성함 <span>
-						${orderResult.receiverName} 님 </span>
+		<h4>비밀번호 확인</h4>
+		<p style="margin-top:10px;">안전한 개인정보보호를 위해 비밀번호를 입력해주세요.</p>
+		<hr style="border: 1px solid black; margin:20px 0;">
+			<div class="checkout__form">
+			<form action="member.bit" method="post">
+				<input type="hidden" name="view" value="updateinfo">
+		
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>
+							현재 비밀번호<span>*</span>
+						</p>
+						<div class="form_ip_pw" style="position: relative;">
+						    <input type="password" id="inputPw" name="password" required placeholder="비밀번호를 입력해주세요" style="padding-right: 40px;">
+						    <i class="fa fa-eye-slash fa-lg" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; cursor: pointer; font-size: 22px;"></i>
+						</div>
+					</div>
 				</div>
-				<div class="checkout__order__total">
-					연락처 <span> ${orderResult.orderPhone} </span>
+				<hr>
+				<div style="margin: 0 auto; width:150px;">
+					<button type="submit" class="site-btn auto-btn">로그인</button>				
 				</div>
-				<div class="checkout__order__total">
-					우편 번호 <span> ${orderResult.zipcode} </span>
-				</div>
-				<div class="checkout__order__total">
-					주소 <span> ${orderResult.streetAddress} </span>
-				</div>
-				<div class="checkout__order__total">
-					상세주소 <span> ${orderResult.addressDetail} </span>
-				</div>
-				<div class="checkout__order__total">
-					상세주소 <span> ${orderResult.addressDetail} </span>
-				</div>
-				<div class="checkout__order__products">
-					상품 목록 <span>금액</span>
-				</div>
-
-				<c:forEach items="${orderDetailResult}" var="orderDetail">
-					<ul>
-						<li>${orderDetail.orderDetailProduct.name } ${orderDetail.count }X ${orderDetail.productPrice}</li>
-					</ul>
-				</c:forEach>
-				<div class="checkout__order__total">
-					적립 예정 포인트 <span>${totalPoint} </span>
-				</div>
-				<div class="checkout__order__total">
-					총 금액 <span>${totalPrice}원</span>
-				</div>
-				<button type="button" class="site-btn" id="order__btn"
-					onclick={sendRequest}>홈으로 이동하기</button>
-			</div>
+			</form>
+			
+			<div class="row"></div>
 		</div>
 	</div>
-	</div>
-	</div>
 </section>
-<!-- Checkout Section End -->
-
-<script>
-
-function sendRequest(){
-	$.ajax({
-		url : "request_ajax.jsp",
-		type : "post",
-		data : {"receiver_name" : receiver_name, "zipcode" : zipcode, "order_phone": order_phone},
-		dataType : "text",
-		success : function(result){
-			document.getElementById("text").innerHTML = result;
-		}
-	});
-}
-
-
-document.querySelector("#order__btn").addEventListener("click",function(){
-	const receiver_name = document.querySelector('#input__receiverName').value;
-	const order_phone = document.querySelector('#input__phone').value;
-	
-	const zipcode = document.querySelector('#sample6_postcode').value;
-	const street_address = document.querySelector('#sample6_address').value;
-	const address_detail = document.querySelector('#sample6_extraAddress').value;
-	const vendor_message = document.querySelector('#sample6_detailAddress').value;
-	
-	
-	console.log(receiver_name, order_phone);
-	console.log('hi');
-});
-		
-</script>
-

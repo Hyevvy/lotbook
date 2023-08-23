@@ -7,9 +7,11 @@ import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Cart;
 import app.dto.entity.Order;
+import app.dto.entity.Product;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
+import app.impl.product.ProductDaoImpl;
 
 public class OrderServiceImpl implements ServiceFrame<Order, Order> {
 	OrderDaoImpl dao;
@@ -21,12 +23,12 @@ public class OrderServiceImpl implements ServiceFrame<Order, Order> {
 	}
 
 	@Override
-	public int register(Order v) throws Exception {
+	public int register(Order o) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
 
 		int result = 0;
 		try {
-			result = dao.insert(v, session);
+			result = dao.insert(o, session);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,9 +37,10 @@ public class OrderServiceImpl implements ServiceFrame<Order, Order> {
 		} finally {
 			session.close();
 		}
+		
 		return result;
-
 	}
+	
 
 	@Override
 	public int modify(Order v) throws Exception {

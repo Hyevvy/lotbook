@@ -165,7 +165,7 @@ request.setCharacterEncoding("UTF-8");
 					상세주소 <span> ${orderResult.addressDetail} </span>
 				</div>
 				<div class="checkout__order__total">
-					상세주소 <span> ${orderResult.addressDetail} </span>
+					배송메시지 <span> ${orderResult.vendorMessage} </span>
 				</div>
 				<div class="checkout__order__products">
 					상품 목록 <span>금액</span>

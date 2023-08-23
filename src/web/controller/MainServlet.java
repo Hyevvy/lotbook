@@ -97,7 +97,6 @@ public class MainServlet implements ControllerFrame {
 				String parameter = request.getParameter("sequences");
 
 				String[] cartSequences = parameter.split(","); // 구매한 카트 물품들
-				CartServiceImpl cartService = new CartServiceImpl();
 
 				try {
 					orderService.register(order);
@@ -126,7 +125,10 @@ public class MainServlet implements ControllerFrame {
 							totalPrice += product.getPrice() * cart.getCount();
 							orderDetailService.register(orderDetail);
 							orderDetailList.add(orderDetail);
-
+							
+							cartService.remove(tempCart);
+							int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+				            request.setAttribute("cartCount", cartCount);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

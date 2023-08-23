@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/common-style.css">
-	<link rel="icon" href="img/favicon.ico">
+    
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 	
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
    	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

@@ -20,12 +20,11 @@ public class Order {
 	private String zipcode;
 	private String streetAddress;
 	private String addressDetail;
-	
+	private String receiverEmail;
 	private String orderPhone;
 	private String receiverName;
 	
 	private String vendorMessage;
-	
 	private long memberSequence;
 	
 	private List<OrderDetail> orderDetailList;

@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		<result property="receiverName" column="receiver_name" />
 		<result property="orderPhone" column="order_phone" />
 		<result property="memberSequence" column="member_sequence" />
+		<result property="receiverEmail" column="receiver_email" />
 		<result property="orderDetail" column="order_detail" />
 	</resultMap>
 
@@ -24,13 +25,14 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- 상품 구매 -->
 	<insert id="insert" parameterType="order">
 		INSERT INTO `ORDER`
-		(ZIPCODE, receiver_name , STREET_ADDRESS, ORDER_PHONE, MEMBER_SEQUENCE, VENDOR_MESSAGE) 
-		VALUES (#{zipcode}, #{receiverName}, #{streetAddress}, #{orderPhone}, #{memberSequence}, #{vendorMessage})
+		(zipcode, receiver_name , street_address, address_detail, order_phone, member_sequence, vendor_message, receiver_email) 
+		VALUES (#{zipcode}, #{receiverName}, #{streetAddress}, #{addressDetail}, #{orderPhone}, #{memberSequence}, #{vendorMessage}, #{receiverEmail})
 	</insert>
    
    	<!-- 내 Order 전체 조회 -->
 	<select id="selectall" parameterType="order" resultMap="orderMap">
-		SELECT * FROM `ORDER` WHERE member_sequence = ${memberSequence}
+		SELECT * FROM `ORDER` WHERE member_sequence = ${memberSequence} 
+		ORDER BY created_at DESC;
 	</select>
 	
 </mapper>

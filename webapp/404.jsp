@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+                        <a href="main.bit"><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -87,7 +87,7 @@
             <div class="col-md-12 text-center">
                 <span class="display-1 d-block">404</span>
                 <div class="mb-4 lead">The page you are looking for was not found.</div>
-                <a href="/lotbook/main.jsp" class="btn btn-link">Back to Home</a>
+                <a href="main.bit" class="btn btn-link">Back to Home</a>
             </div>
         </div>
     </div>

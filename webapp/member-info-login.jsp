@@ -2,6 +2,23 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header Section Begin -->
+<%-- <script>
+	<%=request.set(request.getAttribute("memberSeq"))%>
+</script> --%>
+<script>
+	$(document).ready(function(){
+		$('.form_ip_pw i').on('click',function(){
+			$('input').toggleClass('active');
+			if($('input').hasClass('active')){
+				$(this).attr('class', "fa fa-eye fa-lg")
+				.prev('input').attr('type', "text");
+			}else{
+				$(this).attr('class', "fa fa-eye-slash fa-lg")
+				.prev('input').attr('type',"password");
+			}
+		});
+	});
+</script>
 <header class="header">
 	<div class="header__top">
 		<div class="container">
@@ -10,7 +27,7 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+							<li class="active"><a href="main.bit?view=mypage"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -30,7 +47,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="main.bit"><img src="img/logo.png" alt=""></a>
+					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -45,8 +62,7 @@
 								<li><a href="main.bit?view=checkout">Check Out</a></li>
 
 							</ul></li>
-						<li class="active"><a href="main.bit?view=contact"
-							onclick=li_click(3)>Contact</a></li>
+						<li><a href="main.bit?view=contact">Contact</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -55,7 +71,7 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -70,6 +86,7 @@
 	</div>
 </header>
 <!-- Header Section End -->
+
 <!-- Hero Section Begin -->
 <section class="hero hero-normal">
 	<div class="container">
@@ -117,15 +134,14 @@
 <!-- Hero Section End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg"
-	data-setbg="img/books.jpg">
+<section class="breadcrumb-section set-bg" data-setbg="img/books.jpg">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>Contact Us</h2>
+					<h2>회원정보</h2>
 					<div class="breadcrumb__option">
-						<a href="./index.jsp">Home</a> <span>Contact Us</span>
+						<a href="./index.jsp">Home</a> <span>member-info</span>
 					</div>
 				</div>
 			</div>
@@ -133,87 +149,36 @@
 	</div>
 </section>
 <!-- Breadcrumb Section End -->
-
-<!-- Contact Section Begin -->
-<section class="contact spad">
+</br>
+</br>
+<!-- Profile Section Begin -->
+<section class="checkout_spad">
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-3 col-md-3 col-sm-6 text-center">
-				<div class="contact__widget">
-					<span class="icon_phone"></span>
-					<h4>연락처</h4>
-					<p>02-3486-1234</p>
+		<h4>비밀번호 확인</h4>
+		<p style="margin-top:10px;">안전한 개인정보보호를 위해 비밀번호를 입력해주세요.</p>
+		<hr style="border: 1px solid black; margin:20px 0;">
+			<div class="checkout__form">
+			<form action="member.bit" method="post">
+				<input type="hidden" name="view" value="updateinfo">
+		
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>
+							현재 비밀번호<span>*</span>
+						</p>
+						<div class="form_ip_pw" style="position: relative;">
+						    <input type="password" id="inputPw" name="password" required placeholder="비밀번호를 입력해주세요" style="padding-right: 40px;">
+						    <i class="fa fa-eye-slash fa-lg" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; cursor: pointer; font-size: 22px;"></i>
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="col-lg-3 col-md-3 col-sm-6 text-center">
-				<div class="contact__widget">
-					<span class="icon_pin_alt"></span>
-					<h4>주소</h4>
-					<p>서초구 서초대로74길 33</p>
+				<hr>
+				<div style="margin: 0 auto; width:150px;">
+					<button type="submit" class="site-btn auto-btn">로그인</button>				
 				</div>
-			</div>
-			<div class="col-lg-3 col-md-3 col-sm-6 text-center">
-				<div class="contact__widget">
-					<span class="icon_clock_alt"></span>
-					<h4>영업시간</h4>
-					<p>오전 10:00 - 오후 23:00</p>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-3 col-sm-6 text-center">
-				<div class="contact__widget">
-					<span class="icon_mail_alt"></span>
-					<h4>이메일</h4>
-					<p>lotbook@gmail.com</p>
-				</div>
-			</div>
+			</form>
+			
+			<div class="row"></div>
 		</div>
 	</div>
 </section>
-<!-- Contact Section End -->
-
-<!-- Map Begin -->
-<div class="map">
-	<iframe
-		src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.5638989327!2d127.02500447632708!3d37.49461632824809!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca15aee7c32dd%3A0x8735b1d03d755d2c!2z7ISc7Jq47Yq567OE7IucIOyEnOy0iOq1rCDshJzstIjrjIDroZw3NOq4uCAzMw!5e0!3m2!1sko!2skr!4v1691731205115!5m2!1sko!2skr"
-		width="600" height="450" style="border: 0;" allowfullscreen=""
-		loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-	<div class="map-inside">
-		<i class="icon_pin"></i>
-		<div class="inside-widget">
-			<h4>비트교육센터</h4>
-			<ul>
-				<li>연락처: 02-3486-1234</li>
-				<li>주소: 서초구 서초대로74길 33</li>
-			</ul>
-		</div>
-	</div>
-</div>
-<!-- Map End -->
-
-<!-- Contact Form Begin -->
-<div class="contact-form spad">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="contact__form__title">
-					<h2>문의 하기</h2>
-				</div>
-			</div>
-		</div>
-		<form action="#">
-			<div class="row">
-				<div class="col-lg-6 col-md-6">
-					<input type="text" placeholder="이름">
-				</div>
-				<div class="col-lg-6 col-md-6">
-					<input type="text" placeholder="이메일 주소">
-				</div>
-				<div class="col-lg-12 text-center">
-					<textarea placeholder="문의 내용"></textarea>
-					<button type="submit" class="site-btn">보내기</button>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-<!-- Contact Form End -->

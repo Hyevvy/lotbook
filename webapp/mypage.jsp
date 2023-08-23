@@ -1,13 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-request.setCharacterEncoding("UTF-8");
-String[] myCartList = request.getParameterValues("myCartList");
-String[] myCartProductList = request.getParameterValues("myCartProductList");
-String[] myOrderList = request.getParameterValues("myOrderList");
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%    
+	request.setCharacterEncoding("UTF-8");
+	String[] myCartList = request.getParameterValues("myCartList");
+	String[] myCartProductList = request.getParameterValues("myCartProductList");
+  String[] myOrderList = request.getParameterValues("myOrderList");
 %>
+<style>
+	#modal {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 1050;
+		display: none;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		outline: 0;
+		background-color: rgba( 0, 0, 0, 0.6 );
+		animation: fadein 0.4s;
+		
+	}
+	
+	@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+	
+</style>
+
 <!-- Header Section Begin -->
+
 <header class="header">
 	<div class="header__top">
 		<div class="container">
@@ -16,7 +45,7 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage"><i
+							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -36,7 +65,7 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+					<a href="main.bit"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -60,7 +89,7 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -138,8 +167,8 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 	</div>
 </section>
 <!-- Breadcrumb Section End -->
-</br>
-</br>
+<br>
+<br>
 <!-- Profile Section Begin -->
 <section class="checkout_spad">
 	<div class="container">
@@ -158,47 +187,74 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 </section>
 <!-- Profile Section End -->
 <!-- Cart Section Begin -->
-<section class="checkout spad">
-	<div class="container">
-		<div class="row"></div>
-		<div class="checkout__form">
-			<h4>장바구니</h4>
-			<c:forEach items="${myCartProductList }" var="product">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="d-flex justify-content-between">
-							<div class="d-flex flex-row align-items-center">
-								<div class="col-2">
-									<img src="${product.productImgurl }"
-										class="img-fluid rounded-3" alt="Shopping item"
-										style="width: 85px;">
-								</div>
-								<div class="col-6">
-									<h5>${product.name }</h5>
-									<p class="small mb-0">${product.content.substring(0, 75) }...</p>
-								</div>
-								<div class="d-flex flex-row align-items-center col-4">
-									<div style="width: 50px;">
-										<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
-									</div>
-									<div style="width: 100px;">
-										<h5 class="mb-0">${product.price * product.count }원</h5>
-									</div>
-									<a href="#!" style="color: #cecece;">삭제</a>
-									<button type="submit"
-										class="ml-5 py-2 bg-danger text-white border-0 rounded-sm"
-										style="width: 50px;">주문</button>
-								</div>
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
-	</div>
-</section>
-<!-- Cart Section End -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="row">
+            </div>
+            <div class="checkout__form">
+                <h4>장바구니</h4>
+                <c:forEach items="${myCartProductList }" var="product">
+	                <div class="card mb-3 overflow-auto">
+	                  <div class="card-body">
+	                    <div class="d-flex justify-content-between">
+	                      <div class="d-flex flex-row align-items-center">
+	                        <div class="col-2">
+	                          <img
+	                            src="${product.productImgurl }"
+	                            class="img-fluid rounded-3" alt="Shopping item" style="width: 85px;">
+	                        </div>
+	                        <div class="col-6 mt-3">
+	                          <h5 class="font-weight-bold">${product.name }</h5>
+	                          <p class="small mb-0">${product.content.substring(0, 75) }...</p>
+	                          <div class="d-flex flex-col mt-2">
+	                          <p class="text-warning font-weight-bold">
+	                          	<c:set var="discount" value="${product.discountRate }"/>
+								<fmt:formatNumber type="number" value="${discount}" />
+								% 할인
+							  </p>
+							  &nbsp;&nbsp;&nbsp;&nbsp;
+							  <p class="font-italic text-dark">총 누적 포인트: </p>
+							  &nbsp;&nbsp;&nbsp;
+							  <p class="font-italic text-danger">
+								  <c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
+								  <fmt:parseNumber type="number" value="${totalPoint}"  integerOnly="true"/>
+							  </p>
+							  &nbsp;
+							  <p class="font-italic text-dark">점</p>
+	                          </div>
+	                          
+	                        </div>
+	                        <div class="d-flex flex-row align-items-center col-4">
+		                        <div class="d-flex flex-row align-items-center bg-light">
+		                          	<a href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count - 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">-</a>
+		                          	<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
+		                        	<a href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count + 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">+</a>
+		                        </div>
+		                        <div class="ml-4" style="width: 100px;">
+		                          <h5 class="mb-0" style="font-size: 15px; font-weight: 700;">
+		                          	<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
+									<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+		                          원</h5>
+		                        </div>
+		                        <span class="icon_close btn" onclick="open_modal(${product.sequence}, ${logincust.sequence }, '${product.name }')"></span>
+		                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
+	                        </div>
+	                      </div>
+	                    </div>
+	                  </div>
+	                </div>
+                </c:forEach>
+                <br/>
+                <div class="d-flex flex-col">
+                	<h4 id="totalCount" style="border: none">총 주문 금액: 0원</h4>
+                	 &nbsp;&nbsp;&nbsp;&nbsp;
+                	<h4 id="totalPoint" style="border: none">총 누적 포인트: 0점</h4>
+                </div>
+                <button type="submit" class="site-btn bg-danger text-white border-0 rounded-sm col-12" onclick="cart_to_order()">주문하기</button>
+            </div>
+        </div>
+    </section>
+    <!-- Cart Section End -->
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
 	<div class="container">
@@ -215,7 +271,7 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 									<div class="d-flex flex-row align-items-center">
 										<div>
 											<img
-												src=${orderDetail.orderDetailProduct.productImgurl}
+												src=${orderDetail.orderDetailProduct.productImgurl }
 												class="img-fluid rounded-3" alt="Shopping item"
 												style="width: 65px;">
 										</div>
@@ -262,4 +318,89 @@ String[] myOrderList = request.getParameterValues("myOrderList");
 		</div>
 	</div>
 </section>
-<!-- Review Section End -->
+<!-- Review Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="row">
+        </div>
+        <div class="checkout__form">
+            <h4>작성 가능한 리뷰</h4>
+            주문 확정 목록
+        </div>
+    </div>
+</section>
+    <!-- Review Section End -->
+    
+    <!-- Modal -->
+    <div id="modal">
+    	<div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">장바구니 삭제</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="close_modal()">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body" id="modal-body">
+	        해당 상품을 장바구니에서 삭제하시겠습니까?
+	      </div>
+	      <div class="modal-footer">
+	       	<button class="btn btn-secondary text-light" data-dismiss="modal" onclick="close_modal()">아니오</button>
+	        <button id="delete_yes" class="btn btn-danger text-light" data-dismiss="modal" onclick="cart_delete()">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+	      </div>
+	    </div>
+	  </div>
+  </div>
+	 
+<script>
+	var totalCount = 0;
+	var totalPoint = 0;
+	var selectedCart = [];
+	function is_checked(sequence, count, price, discountRate, pointAccumulationRate) {
+		
+		const checkbox = document.getElementById('cart_checkbox' + sequence);
+
+		if (checkbox.checked) {
+			totalCount = totalCount + ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
+			totalPoint = totalPoint + Math.floor(price * count * pointAccumulationRate * 0.01);
+			selectedCart.push(sequence);
+		} else {
+			totalCount = totalCount - ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
+			totalPoint = totalPoint - Math.floor(price * count * pointAccumulationRate * 0.01);
+			selectedCart.pop();
+		}
+
+		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원,";
+		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint + " 점";	
+	}
+	
+	const modal = document.getElementById("modal");
+	var productSequence = 0;
+	var memberSequence = 0;
+	var productName = "";
+	
+	function open_modal(productSeq, memberSeq, productName) {
+		productSequence = productSeq;
+		memberSequence = memberSeq;
+		modal.style.display = "block";
+		
+		document.getElementById("modal-body").innerHTML = '"' + productName + '"'+ " 을(를) 장바구니에서 삭제하시겠습니까?";
+	}
+	
+	function close_modal() {
+		modal.style.display = "none";
+	}
+	
+	function cart_delete() {
+		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence;
+		
+		close_modal();
+	}
+	function cart_to_order() {
+		if (selectedCart.length === 0) {
+			alert("구매 상품을 1개 이상 담아주세요!!");
+		} else {
+			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+		}
+	}
+</script>

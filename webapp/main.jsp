@@ -1,41 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	String[] BestSeller = request.getParameterValues("BestSeller");
+	String[] Latest = request.getParameterValues("Latest");
+	String[] BigPoint = request.getParameterValues("BigPoint");
+	String[] BigDiscount = request.getParameterValues("BigDiscount");
+%>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
-    window.onload = function() {
-        $.ajax({
-            type: 'GET',
-            url: './product',
-            dataType: 'json', // 받아올 데이터의 타입 (JSON)
-            success: function(result) {
-                var latestProductSlider = document.querySelector('.latest-product__slider');
-                var latestProductSliderItem = '';
-                
-                for (var i = 0; i < result.length; i++) {
-                    latestProductSliderItem +=
-                        `<div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="${result[i].productImgurl}" alt="${result[i].name}">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>${result[i].name}</h6>
-                                    <span>$${result[i].price.toFixed(2)}</span>
-                                </div>
-                            </a>
-                        </div>`;
-                }
-
-                latestProductSlider.innerHTML = latestProductSliderItem;
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("에러 발생: " + textStatus, errorThrown);
-            }
-        });
-    };
-</script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
 <!-- Header Section Begin -->
@@ -68,7 +42,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+					<a href="main.bit"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -79,7 +53,7 @@
 						<li><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
 								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
-								<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
+								<li><a href="main.bit?view=shoping-cart">Shopping Cart</a></li>
 								<li><a href="main.bit?view=checkout">Check Out</a></li>
 
 							</ul></li>
@@ -92,7 +66,7 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -162,7 +136,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="section-title">
-					<h2>스테디 셀러</h2>
+					<h2>🥰꾸준히 사랑받는 작품🥰</h2>
 				</div>
 				<div class="featured__controls">
 					<ul>
@@ -176,46 +150,13 @@
 			<div class="container">
 				<div class="row">
 					<div class="categories__slider owl-carousel">
-						<div class="col-lg-3">
-							<div class="categories__item set-bg"
-								data-setbg="img/categories/cat-1.jpg">
-								<h5>
-									<a href="#">Fresh Fruit</a>
-								</h5>
+						<c:forEach items="${BestSeller }" var="product">
+							<div class="col-lg-3">
+								<div class="categories__item set-bg"
+									data-setbg="${product.productImgurl }" style="width: 200px;">
+								</div>
 							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="categories__item set-bg"
-								data-setbg="img/categories/cat-2.jpg">
-								<h5>
-									<a href="#">Dried Fruit</a>
-								</h5>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="categories__item set-bg"
-								data-setbg="img/categories/cat-3.jpg">
-								<h5>
-									<a href="#">Vegetables</a>
-								</h5>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="categories__item set-bg"
-								data-setbg="img/categories/cat-4.jpg">
-								<h5>
-									<a href="#">drink fruits</a>
-								</h5>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="categories__item set-bg"
-								data-setbg="img/categories/cat-5.jpg">
-								<h5>
-									<a href="#">drink fruits</a>
-								</h5>
-							</div>
-						</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
@@ -224,7 +165,7 @@
 	</div>
 </section>
 <!-- Featured Section End -->
-
+<br><br><br>
 <!-- Banner Begin -->
 <div class="banner">
 	<div class="container">
@@ -243,14 +184,14 @@
 	</div>
 </div>
 <!-- Banner End -->
-
+<br><br><br><br>
 <!-- Latest Product Section Begin -->
 <section class="latest-product spad">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-4 col-md-6">
 				<div class="latest-product__text">
-					<h4>오늘의 신상</h4>
+					<h4>따끈따끈 신작✨</h4>
 					<div class="latest-product__slider owl-carousel">
 						<div class="latest-prdouct__slider__item">
 							<a href="#" class="latest-product__item">
@@ -311,7 +252,7 @@
 			</div>
 			<div class="col-lg-4 col-md-6">
 				<div class="latest-product__text">
-					<h4>오늘의 선택</h4>
+					<h4>포인트 팡팡🎉</h4>
 					<div class="latest-product__slider owl-carousel">
 						<div class="latest-prdouct__slider__item">
 							<a href="#" class="latest-product__item">
@@ -372,7 +313,7 @@
 			</div>
 			<div class="col-lg-4 col-md-6">
 				<div class="latest-product__text">
-					<h4>특가 상품</h4>
+					<h4>사장님이 미쳤어요😆</h4>
 					<div class="latest-product__slider owl-carousel">
 						<div class="latest-prdouct__slider__item">
 							<a href="#" class="latest-product__item">

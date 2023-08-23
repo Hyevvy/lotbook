@@ -1,7 +1,13 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+	String[] orderProductList = request.getParameterValues("orderProductList");
+%>
+
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -11,7 +17,7 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage"><i
+							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -31,7 +37,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+					<a href="main.bit"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -55,7 +61,7 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -140,16 +146,20 @@
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="#">
+			<form action="main.bit?view=checkout-result&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${res.sequence}" method="post">
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
+						<div class="d-flex flex-col align-items-center">
+							<input id="check_box" type="checkbox" class="mb-3" onclick="get_my_info('${logincust.name }', '${logincust.email }', '${logincust.memberPhone }', '${logincust.zipcode }', '${logincust.streetAddress }', '${logincust.addressDetail }')">
+							<p class="ml-2 text-muted">내 정보 불러오기</p>
+						</div>
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="checkout__input">
 									<p>
 										받는 분 성함<span>*</span>
 									</p>
-									<input type="text">
+									<input class="text-dark" id="custName" type="text" required>
 								</div>
 							</div>
 						</div>
@@ -157,29 +167,29 @@
 							<p>
 								이메일(청구서 수신용)<span>*</span>
 							</p>
-							<input type="tel" required>
+							<input class="text-dark" id="custEmail" type="tel" required>
 						</div>
 
 						<div class="checkout__input">
 							<p>
 								연락처<span>*</span>
 							</p>
-							<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+							<input class="text-dark" id="custPhone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
 						</div>
 						<div class="checkout__input">
 							<p>
 								우편 번호<span>*</span>
 							</p>
-							<input type="text" id="sample6_postcode" placeholder="우편번호">
+							<input class="text-dark" type="text" id="sample6_postcode" placeholder="우편번호">
 							<input type="button" onclick="getAddress()" value="우편번호 찾기"><br>
 						</div>
 						<div class="checkout__input">
 							<p>
 								주소<span>*</span>
 							</p>
-							<input type="text" id="sample6_address" placeholder="주소"><br>
-							<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-							<input type="text" id="sample6_extraAddress" placeholder="배송 메세지">
+							<input class="text-dark" type="text" id="sample6_address" placeholder="주소"><br>
+							<input class="text-dark" type="text" id="sample6_detailAddress" placeholder="상세주소">
+							<input class="text-dark" type="text" id="sample6_extraAddress" placeholder="배송 메세지">
 						</div>
 
 					</div>
@@ -190,15 +200,22 @@
 								상품 목록 <span>금액</span>
 							</div>
 							<ul>
-								<li>Vegetable’s Package <span>$75.99</span></li>
-								<li>Fresh Vegetable <span>$151.99</span></li>
-								<li>Organic Bananas <span>$53.99</span></li>
+								<c:forEach items="${orderProductList }" var="product">
+									<li>${product.name.substring(0, 10) }... X ${product.count }
+										<span>
+											<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
+											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+				                          원
+										</span>
+									</li>
+								</c:forEach>
 							</ul>
 							<div class="checkout__order__total">
-								적립 예정 포인트 <span>$10.99</span>
+							
+								적립 예정 포인트 <span>${orderProductList[fn:length(orderProductList) -1].totalPoint } 점</span>
 							</div>
 							<div class="checkout__order__total">
-								총 금액 <span>$750.99</span>
+								총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice } 원</span>
 							</div>
 
 							<div class="checkout__input__checkbox">
@@ -215,3 +232,24 @@
 	</div>
 </section>
 <!-- Checkout Section End -->
+<script>
+function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
+	const checkbox = document.getElementById("check_box");
+	
+	if (checkbox.checked) {
+		document.getElementById("custName").value = name;
+		document.getElementById("custEmail").value = email;
+		document.getElementById("custPhone").value = memberPhone;
+		document.getElementById("sample6_postcode").value = zipcode;
+		document.getElementById("sample6_address").value = streetAddress;
+		document.getElementById("sample6_detailAddress").value = addressDetail;
+	} else {
+		document.getElementById("custName").value = "";
+		document.getElementById("custEmail").value = "";
+		document.getElementById("custPhone").value = "";
+		document.getElementById("sample6_postcode").value = "";
+		document.getElementById("sample6_address").value = "";
+		document.getElementById("sample6_detailAddress").value = "";
+	}
+}
+</script>

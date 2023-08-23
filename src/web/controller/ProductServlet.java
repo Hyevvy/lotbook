@@ -24,7 +24,20 @@ public class ProductServlet extends HttpServlet {
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Product> productList = getProductListFromDatabase(); // 데이터베이스에서 상품 리스트를 가져오는 메서드 호출
+		String type = request.getParameter("type");
+		List<Product> productList = null;
+		
+			if ("latest".equals(type)) {
+				productList = getLastestProduct(); 
+		    } else if ("point".equals(type)) {
+		        productList = getPointProduct(); 
+		    } else if ("discount".equals(type)) {
+		        productList = getDiscount(); 
+		    } else if ("bestseller".equals(type)) {
+		        productList = getBestseller(); 
+		    } else {
+		        System.out.println("ProductList 에러입니다.");
+		        } 
         
         StringBuilder json = new StringBuilder();
         json.append("[");
@@ -50,7 +63,7 @@ public class ProductServlet extends HttpServlet {
         }
 
         if (!productList.isEmpty()) {
-            json.setLength(json.length() - 1); // 마지막 쉼표 제거
+            json.setLength(json.length() - 1);
         }
 
         json.append("]");
@@ -59,16 +72,45 @@ public class ProductServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         
-        // JSON 데이터를 클라이언트로 보냄
         PrintWriter out = response.getWriter();
         out.print(json.toString());
         out.flush();
     }
     
-    private List<Product> getProductListFromDatabase() {
+    private List<Product> getLastestProduct() {
         List<Product> productList = null;
         try {
             productList = productServiceImpl.getLatest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+    
+    private List<Product> getPointProduct() {
+        List<Product> productList = null;
+        try {
+            productList = productServiceImpl.getPoint();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+    
+    private List<Product> getDiscount() {
+        List<Product> productList = null;
+        try {
+            productList = productServiceImpl.getDiscount();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+    
+    private List<Product> getBestseller() {
+        List<Product> productList = null;
+        try {
+            productList = productServiceImpl.getBestseller();
         } catch (Exception e) {
             e.printStackTrace();
         }

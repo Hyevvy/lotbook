@@ -29,9 +29,8 @@ $(document).ready(function(){
 			        <ul>
 			        	<c:choose>
 							<c:when test="${logincust != null }">
-								<li class="active">
-			                        <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 마이페이지</a>
-			                    </li>
+								<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+									class="fa fa-user"></i> 마이페이지</a></li>
 		                        <li class="">
 		                            <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 로그아웃</a>
 		                        </li>
@@ -54,7 +53,7 @@ $(document).ready(function(){
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+                        <a href="main.bit"><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -79,7 +78,7 @@ $(document).ready(function(){
 						<div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
                         </ul>
                     </div>
                 </div>

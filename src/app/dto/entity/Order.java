@@ -25,7 +25,6 @@ public class Order {
 	private String receiverName;
 	
 	private String vendorMessage;
-	
 	private long memberSequence;
 	
 	private List<OrderDetail> orderDetailList;

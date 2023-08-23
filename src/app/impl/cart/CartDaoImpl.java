@@ -3,6 +3,7 @@ package app.impl.cart;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import app.dto.entity.Cart;
 import app.dto.response.CartProduct;
@@ -46,11 +47,13 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 	public int update(Cart v, SqlSession session) throws Exception {
 		return session.update("cart.updateCartProductCount", v);
 	}
-
+	
+	/**
+	 * 장바구니 상태 변경(구매/삭제)
+	 */
 	@Override
 	public int delete(Cart k, SqlSession session) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.update("cart.updateCartState", k);
 	}
 
 	/**
@@ -61,6 +64,20 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 		return session.selectOne("cart.selectCartDetail", k);
 	}
 
+	/**
+	 * 내 장바구니 담긴 개수 조회
+	 */
+	public int getCount(@RequestParam("sequence")long sequence, SqlSession session) throws Exception {
+		return session.selectOne("cart.getCartCount", sequence);
+	}
+	
+	/**
+	 * 선택된 장바구니 상품 조회
+	 */ 
+	public CartProduct selectedCart(Cart k,  SqlSession session) throws Exception {
+		return session.selectOne("cart.selectedCartProductInfo", k);
+	}
+	
 	@Override
 	public List<Cart> select(SqlSession session) throws Exception {
 		return null;
@@ -73,6 +90,7 @@ public class CartDaoImpl implements DaoFrame<Cart, Cart> {
 		return session.selectList("cart.selectCartAll", v);
 	}
 	
+
 	/**
 	 * 내 장바구니 상품 정보 전체 조회
 	 */

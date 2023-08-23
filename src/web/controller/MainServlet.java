@@ -30,12 +30,14 @@ public class MainServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	CustServiceImpl custService;
 	ProductServiceImpl productService;
+	CartServiceImpl cartService;
 	String memberSeq = null;
 
 	public MainServlet() {
 		super();
 		custService = new CustServiceImpl();
 		productService = new ProductServiceImpl();
+		cartService = new CartServiceImpl();
 	}
 
 	@Override
@@ -60,6 +62,8 @@ public class MainServlet implements ControllerFrame {
 			    request.setAttribute("BigPoint", productService.getPoint());
 			    request.setAttribute("BigDiscount", productService.getDiscount());
 			    
+			    int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
 		     } catch (Exception e2) {
 		        e2.printStackTrace();
 		     }
@@ -90,7 +94,6 @@ public class MainServlet implements ControllerFrame {
 			String parameter = request.getParameter("sequences");
 
 			String[] cartSequences = parameter.split(","); // 구매한 카트 물품들
-			CartServiceImpl cartService = new CartServiceImpl();
 
 			try {
 				orderService.register(order);
@@ -108,7 +111,6 @@ public class MainServlet implements ControllerFrame {
 					Product product = productService.get(tempProduct);
 
 					try {
-
 						OrderDetail orderDetail = OrderDetail.builder().orderSequence(orderList.get(0).getSequence())
 								.orderDetailProduct(product).count(cart.getCount())
 								.productPoint(product.getPointAccumulationRate() * 0.01 * cart.getCount()
@@ -117,13 +119,15 @@ public class MainServlet implements ControllerFrame {
 
 						orderDetailService.register(orderDetail);
 						orderDetailList.add(orderDetail);
+						cartService.remove(tempCart);
 
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 				request.setAttribute("orderDetailResult", orderDetailList);
-
+				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
 				// 바로 주문으로 구매한 경우
 //				OrderDetail orderDetail = OrderDetail.builder().orderSequence(orderList.get(0).getSequence())
 //						.count(count).productPoint(pointAccumulationRate * 0.01 * count * price).productPrice(price)
@@ -168,7 +172,6 @@ public class MainServlet implements ControllerFrame {
 			memberSeq = request.getParameter("memberSeq");
 			List<Cart> cartList = new ArrayList<>();
 			List<CartProduct> productList = new ArrayList<>();
-			CartServiceImpl cartService = new CartServiceImpl();
 			request.setAttribute("myCartList", null);
 			request.setAttribute("myCartProductList", null);
 
@@ -210,6 +213,10 @@ public class MainServlet implements ControllerFrame {
 
 				// 3. myPage로 보내기
 				request.setAttribute("myOrderList", orderList);
+				
+				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
+	               
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -217,7 +224,6 @@ public class MainServlet implements ControllerFrame {
 			request.setAttribute("center", "mypage");
 			int sequence = Integer.parseInt(request.getParameter("sequence"));
 			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
-			CartServiceImpl cartService = new CartServiceImpl();
 			List<Cart> cartList = new ArrayList<>();
 			List<CartProduct> productList = new ArrayList<>();
 
@@ -241,7 +247,6 @@ public class MainServlet implements ControllerFrame {
 			String parameter = request.getParameter("sequences");
 			request.setAttribute("sequences", parameter);
 			String[] cartSequences = parameter.split(",");
-			CartServiceImpl cartService = new CartServiceImpl();
 			List<CartProduct> productList = new ArrayList<>();
 			int totalPrice = 0;
 			int totalPoint = 0;
@@ -323,7 +328,6 @@ public class MainServlet implements ControllerFrame {
 
 			List<Cart> cartList = new ArrayList<>();
 			List<CartProduct> productList = new ArrayList<>();
-			CartServiceImpl cartService = new CartServiceImpl();
 			request.setAttribute("myCartList", null);
 			request.setAttribute("myCartProductList", null);
 
@@ -334,6 +338,9 @@ public class MainServlet implements ControllerFrame {
 				request.setAttribute("myCartList", cartList);
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
+				
+				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

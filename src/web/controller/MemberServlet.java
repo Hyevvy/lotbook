@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import app.dto.entity.Member;
+import app.frame.ControllerFrame;
 import app.impl.cart.CartServiceImpl;
 import app.impl.member.MemberServiceImpl;
 import app.impl.product.ProductServiceImpl;
@@ -23,15 +24,16 @@ import web.dispatcher.Navi;
 * Servlet implementation class CustServlet
 */
 @WebServlet({"/member"})
-public class MemberServlet extends HttpServlet {
-   private static final long serialVersionUID = 1L;
-   BCryptPasswordEncoder bCryptPasswordEncoder;
-   
-   private MemberServiceImpl memServiceImpl;
-   private CartServiceImpl cartServiceImpl;
-   ProductServiceImpl productService;
-   private Logger user_log = Logger.getLogger("user");
-   
+
+public class MemberServlet implements ControllerFrame {
+	private static final long serialVersionUID = 1L;
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	private MemberServiceImpl memServiceImpl;
+	private CartServiceImpl cartServiceImpl;
+	ProductServiceImpl productService;
+	private Logger user_log = Logger.getLogger("user");
+	
     public MemberServlet() {
         super();
         memServiceImpl = new MemberServiceImpl();
@@ -40,21 +42,22 @@ public class MemberServlet extends HttpServlet {
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
     
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      String next = "index.jsp";
-      String view = request.getParameter("view");
 
-      if(view != null){
-         build(request, view);
-      }
+    @Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String next = "index.jsp";
+		String view = request.getParameter("view");
 
-      RequestDispatcher rd = 
-      request.getRequestDispatcher(next);
-      rd.forward(request, response);
-   }
+		if (view != null) {
+			build(request, view);
+		}
+
+		RequestDispatcher rd = request.getRequestDispatcher(next);
+		rd.forward(request, response);
+	}
+
     
-    private void build(HttpServletRequest request,
-         String view){
+    private void build(HttpServletRequest request, String view){
       if(view.equals("register")){
          request.setAttribute("center", "register");
          request.setAttribute("navi", Navi.register);

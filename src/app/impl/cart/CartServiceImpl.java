@@ -65,8 +65,9 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 			
 			session.commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			session.rollback();
+			throw e;
 		} finally {
 			session.close();
 		}

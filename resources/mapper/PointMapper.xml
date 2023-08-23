@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="point">
+	<resultMap type="point" id="pointMap">
+		<result property="sequence" column="sequence" />
+		<result property="point" column="point" />
+		<result property="registeredAt" column="registered_at" />
+		<result property="state" column="state" />
+		<result property="memberSequence" column="member_sequence" />
+	</resultMap>
+	
+	<!-- 가장 최근에 가입한 사용자 sequence 조회 -->
+	<select id="select" resultType="_int">
+		SELECT sequence FROM `MEMBER` ORDER BY created_at DESC LIMIT 1;
+	</select>
+	
+	<!-- 포인트 적립 및 사용 -->
+	<insert id="insert" parameterType="point">
+		INSERT INTO `POINT` (point, state, member_sequence) values(#{point}, #{state}, #{memberSequence}) 
+	</insert>
+	
+	<!-- 포인트 사용 내역 조회 -->
+	<select id="selectAll" parameterType="point" resultMap="pointMap">
+		SELECT * FROM `POINT` WHERE member_sequence = #{memberSequence} ORDER BY registered_at DESC
+	</select>
+	
+	<!-- 사용자 총 적립금 수정 -->
+	<update id="update" parameterType="point">
+		UPDATE `MEMBER` SET accumulated_point = accumulated_point + ${point} WHERE sequence = #{memberSequence}
+	</update>
+	
+</mapper>

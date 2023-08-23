@@ -224,6 +224,9 @@ public class MainServlet implements ControllerFrame {
 		} else if (view.contains("checkoutbuynow")) {
 
 			request.setAttribute("center", "checkoutbuynow");
+			
+			List<CartProduct> productList = new ArrayList<>();
+			
 			String productId = request.getParameter("productId");
 			String count = request.getParameter("count");
 			String memberSeq = request.getParameter("memberSeq");
@@ -232,14 +235,21 @@ public class MainServlet implements ControllerFrame {
 			ProductServiceImpl service = new ProductServiceImpl();
 			try {
 				Product res = service.get(product);
-				request.setAttribute("res", res);
-				request.setAttribute("count", count);
-				request.setAttribute("memberSeq", memberSeq);
+				productList.add(new CartProduct());
+				productList.get(0).setName(res.getName());
+				productList.get(0).setPrice(res.getPrice());
+				productList.get(0).setDiscountRate(res.getDiscountRate());
+				productList.get(0).setTotalPoint((int) (Math.floor(res.getPrice() * Integer.parseInt(count) * res.getPointAccumulationRate() * 0.01)));
+				productList.get(0).setCount(Integer.parseInt(count));
+				int priceMuldiscountRate = (int) ((int) res.getPrice() * ((100 - res.getDiscountRate()) * 0.01)) * Integer.parseInt(count);
+				
+				productList.get(0).setTotalPrice(priceMuldiscountRate - priceMuldiscountRate%10);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			request.setAttribute("orderProductList", productList);
+			
 		} else if (view.equals("contact")) {
 			request.setAttribute("center", "contact");
 		} else if (view.equals("shop-details")) {

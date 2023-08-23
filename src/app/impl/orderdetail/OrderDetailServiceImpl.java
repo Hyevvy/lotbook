@@ -7,17 +7,21 @@ import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Order;
 import app.dto.entity.OrderDetail;
+import app.dto.entity.Product;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
+import app.impl.product.ProductDaoImpl;
 
 public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDetail> {
 	OrderDetailDaoImpl dao;
+	ProductDaoImpl productDao;
 	SqlSession session;
 
 	public OrderDetailServiceImpl() {
 		super();
 		dao = new OrderDetailDaoImpl();
+		productDao = new ProductDaoImpl();
 	}
 
 	@Override
@@ -25,8 +29,16 @@ public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDe
 		session = GetSessionFacroty.getInstance().openSession();
 
 		int result = 0;
+	
 		try {
 			result = dao.insert(v, session);
+			if(result == 1) {
+				// 성공
+				productDao.updateByProductKeyWithSalesCount(v, session);
+				
+			} else {
+				throw new Exception("주문 삽입 실패");
+			}
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,6 +49,7 @@ public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDe
 		}
 		return result;
 	}
+	
 
 	@Override
 	public int modify(OrderDetail v) throws Exception {

@@ -34,6 +34,7 @@
 }
 	
 </style>
+
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -218,9 +219,9 @@
 													</td>
 													<td class="col-1">
 														<div class="d-flex flex-row align-items-center bg-light">
-								                          	<a href="main.bit?view=changeCartCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count - 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">-</a>
-								                          	<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
-								                        	<a href="main.bit?view=changeCartCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count + 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">+</a>
+								                          	<span class="p-3 text-dark btn" onclick="reduceCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence })">-</span>
+								                          	<h5 class="fw-normal mb-0 ml-2" id="product-count${product.sequence }">${product.count }</h5>
+								                        	<span class="p-3 text-dark btn" onclick="addCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence })">+</span>
 								                        </div>
 													</td>
 													<td style="font-size: 18px; color: #1c1c1c; font-weight: 700; width: 400px">
@@ -300,8 +301,8 @@
 			selectedCart.pop();
 		}
 
-		document.getElementById("totalCount").innerHTML = totalCount + " 원";
-		document.getElementById("totalPoint").innerHTML = totalPoint + " 점";	
+		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원";
+		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint + " 점";	
 	}
 	
 	const modal = document.getElementById("modal");
@@ -310,6 +311,7 @@
 	var productName = "";
 	
 	function open_modal(productSeq, memberSeq, productName) {
+		console.log(modal);
 		productSequence = productSeq;
 		memberSequence = memberSeq;
 		modal.style.display = "block";
@@ -332,5 +334,28 @@
 		} else {
 			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
 		}
+	}
+	function addCount(sequence, productSeq, memberSeq) {
+		var count = Number($('#product-count' + sequence).text() * 1);
+		$.ajax({
+			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count+1) + '&memberSeq=' + memberSeq,
+			success:function(result){
+				console.log(result);
+				if (result === 0) {
+					alert("재고 이상의 상품을 담을 수 없습니다!");
+				} else {
+					$('#product-count' + sequence).text(result);
+				}
+			}
+		});
+	}
+	function reduceCount(sequence, productSeq, memberSeq) {
+		var count = Number($('#product-count' + sequence).text());
+		$.ajax({
+			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count-1) + '&memberSeq=' + memberSeq,
+			success:function(result){
+				$('#product-count' + sequence).text(result);
+			}
+		});
 	}
 </script>

@@ -13,10 +13,11 @@ import org.apache.log4j.Logger;
 
 import app.dto.response.ProductDetailWithReviews;
 import app.dto.response.SearchResult;
+import app.frame.ControllerFrame;
 import app.impl.search.SearchServiceImpl;
 
 @WebServlet("/search")
-public class SearchServlet extends HttpServlet {
+public class SearchServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	private SearchServiceImpl searchServiceImpl; //
 	private Logger search_log = Logger.getLogger("SearchController"); //
@@ -27,29 +28,12 @@ public class SearchServlet extends HttpServlet {
 	}
 
 	
-	protected void service(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		System.out.println("검색컨트롤러 서비스 메소드 입장");
-		String next = "index.jsp";
-		System.out.println(next);
-		String view = request.getParameter("view");
-		System.out.println(view);
-		search_log.debug("상품 디테일 컨트롤러로 들어옴");
-		if (view != null) {
-			build(request, view);
-		}
-
-		RequestDispatcher rd = request.getRequestDispatcher(next);
-		rd.forward(request, response);
-
-	}
-
 	private void build(HttpServletRequest request, String view) {
-		// System.out.println("검색 빌드메소드 입장");
-		// System.out.println(view);
+		System.out.println("검색 빌드메소드 입장");
+		System.out.println(view);
 		switch (view) {
 		case "search":
-			// System.out.println("걸림");
+			System.out.println("걸림");
 			handleProductDetails(request);
 			break;
 		default:
@@ -90,6 +74,26 @@ public class SearchServlet extends HttpServlet {
 		}
 
 		return searchResult;
+	}
+
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("검색컨트롤러 서비스 메소드 입장");
+		String next = "index.jsp";
+		System.out.println(next);
+		System.out.println("qb");
+		String view = request.getParameter("view");
+		System.out.println(view);
+		search_log.debug("상품 디테일 컨트롤러로 들어옴");
+		if (view != null) {
+			build(request, view);
+		}
+
+		RequestDispatcher rd = request.getRequestDispatcher(next);
+		rd.forward(request, response);
+		
 	}
 
 }

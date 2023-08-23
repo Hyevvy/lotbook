@@ -212,32 +212,40 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 							var="formattedDate" />
 
 
-						<div class="d-flex">
-							<div class="mr-3 shoping__cart__item">
-								<img src="${item.productImgurl }" alt="" />
+						<div class="d-flex col-lg-12 py-4" style="border-top: 1px solid #d5d5d5;">
+							<div class="mr-4 shoping__cart__item">
+								<img src="${item.productImgurl }" class="img-fluid rounded-3" style="width: 150px;" alt="" />
 							</div>
 
-							<div class="d-flex flex-column">
-								<div>
-									<span>[도서]</span> <span>${item.name}</span>
+							<div class="d-flex flex-column justify-content-center">
+								<div class="my-2">
+									<span>[도서]</span> <h5 class="font-weight-bold d-inline">${item.name}</h5>
 								</div>
-								<div>
-									<span>${item.authorName}</span> <span>저</span> <span>${item.publisherName}</span>
-									<span>${ formattedDate }</span>
+								<div >
+									<span>${item.authorName}</span> <span>저</span>
+									<br class="my-2"/>
+									<span>${item.publisherName}</span> <span>${ formattedDate }</span>
 								</div>
-								<div>
-									<span>${item.discountedPrice}</span> <span>원</span> <span>(${item.discountRate}%
-										할인)</span> <span>${item.price}</span> <span>P:
-										${item.pointAccumulation}원(${item.pointAccumulationRate}%)</span>
+								<div class="mt-1">
+									
+									<span class="text-warning font-weight-bold">
+	                          			<c:set var="discount" value="${item.discountRate }"/>
+										<fmt:formatNumber type="number" value="${discount}" />
+										% 할인
+							  		</span>
+									<span>${item.discountedPrice}</span><span>원</span> 
+									
+									<span style="text-decoration: line-through; color: #767676;">${item.price}</span> 
+									<span>${item.pointAccumulation}p(${item.pointAccumulationRate}%)</span>
 								</div>
-								<div>
+								<div class="mt-2">
 									<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
 										class="text-primary">${item.reviewCount }</span> <span>건)</span>
 									<span>❤❤❤❤❤</span> <span>${item.ratingAvg }</span>
 								</div>
 							</div>
 
-							<div class="d-flex flex-column">
+							<div class="d-flex flex-column" style="margin-left:auto;">
 								<div class="quantity">
 									<div class="pro-qty">
 										<input type="text" value="1">
@@ -250,45 +258,6 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 							</div>
 						</div>
 					</c:forEach>
-
-
-
-					<div class="d-flex">
-						<div class="mr-3 shoping__cart__item">
-							<img src="img/cart/cart-1.jpg" alt="" />
-						</div>
-						<div class="d-flex flex-column">
-							<div>
-								<span>[도서]</span> <span>제시 리버모어의 주식투자 바이블</span>
-							</div>
-							<div>
-								<span>제시 리버모어</span> <span>저</span> <span>이레미디어</span> <span>2023년
-									3월</span>
-							</div>
-							<div>
-								<span>15750</span> <span>원</span> <span>(10% 할인)</span> <span>P:
-									870원</span>
-							</div>
-							<div>
-								<span>판매지수: 28,524 |</span> <span>회원리뷰(</span> <span
-									class="text-primary">21</span> <span>건)</span> <span>❤❤❤❤❤</span>
-								<span>9.5</span>
-							</div>
-						</div>
-						<div class="d-flex flex-column">
-							<div class="quantity">
-								<div class="pro-qty">
-									<input type="text" value="1">
-								</div>
-							</div>
-							<a href="#" class="primary-btn cart-btn cart-btn-right"><span
-								class="icon_loading"></span> 카트에 넣기</a> <a href="#"
-								class="primary-btn cart-btn cart-btn-right"><span
-								class="icon_loading"></span> 바로 구매</a>
-						</div>
-					</div>
-
-					
 				</div>
 			</div>
 

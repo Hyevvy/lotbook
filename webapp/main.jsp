@@ -91,7 +91,7 @@
                   <i class="fa fa-bars"></i> <span>카테고리</span>
                </div>
                <ul>
-                  <li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
+                  <li value="1"><a href="categorypage.bit?view=logout" class="font-weight-bold">컴퓨터 /
                         IT</a>
                   <li value="2"><a href="#" style="text-indent: 20px">컴퓨터
                         공학</a>

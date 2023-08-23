@@ -113,24 +113,25 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
    }
 
    public List<Product> getLatest() throws Exception {
-      session = GetSessionFacroty.getInstance().openSession();
-      List<Product> list = null;
-      try {
-         list = session.selectList("product.latest");
-      } catch (Exception e) {
-         e.getStackTrace();
-         e.printStackTrace();
-         throw new Exception("최신작품 검색 에러");
-      }
-      return list;
-   }
-   
+	    session = GetSessionFacroty.getInstance().openSession();
+	    List<Product> list = null;
+	    try {
+	        list = productDao.getLatest(list, session);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new Exception("최신작품 검색 에러", e);
+	    } finally {
+	        session.close();
+	    }
+	    return list;
+	}
+
    
    public List<Product> getPoint() throws Exception {
       session = GetSessionFacroty.getInstance().openSession();
       List<Product> list = null;
       try {
-         list = session.selectList("product.point");
+         list = productDao.getPoint(list, session);
       } catch (Exception e) {
          e.getStackTrace();
          e.printStackTrace();
@@ -143,7 +144,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
       session = GetSessionFacroty.getInstance().openSession();
       List<Product> list = null;
       try {
-         list = session.selectList("product.discount");
+         list = productDao.getDiscount(list, session);
       } catch (Exception e) {
          e.getStackTrace();
          e.printStackTrace();
@@ -156,7 +157,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
       session = GetSessionFacroty.getInstance().openSession();
       List<Product> list = null;
       try {
-         list = session.selectList("product.bestseller");
+         list = productDao.getBestseller(list, session);
       } catch (Exception e) {
          e.getStackTrace();
          e.printStackTrace();

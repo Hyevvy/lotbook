@@ -85,9 +85,10 @@ $(function(){
 	    var num = $(this).index();
 	    $('.print').text(starRate);
 	    var starRate = num + 1;
-	    /* 
-	    if(starRate == 1) {
-	        // $('.print').text('별로에요');
+	    
+	    $('.rating-input').val(starRate);
+	    /* if(starRate == 1) {
+	        $('.print').text('별로에요');
 	        $('.print').html('<img src="img/icon/star-lv1.png">' + '별로에요');
 	    } else if(starRate == 2) {
 	        $('.print').html('<img src="img/icon/star-lv2.png">' + '보통 이에요');
@@ -97,7 +98,7 @@ $(function(){
 	        $('.print').html('<img src="img/icon/star-lv4.png">' + '맘에 들어요');
 	    } else {
 	        $('.print').html('<img src="img/icon/star-lv4.png">' + '아주 좋아요');
-	    } */
+	    }  */
 	});
 	
 })
@@ -396,7 +397,7 @@ $(function(){
 									type="hidden" name="memberSequence"
 									value="${logincust.sequence }"> <input type="hidden"
 									name="productSequence" value="${orderDetail.productSequence}">
-
+								<input class="rating-input" type="hidden" name="rating" value="" required>
 								<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
 								<div class="star-rating">
 									<div class="stars">
@@ -404,13 +405,13 @@ $(function(){
 											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 											class="fa fa-star"></i>
 									</div>
-
 								</div>
+								
 
 								<textarea name="contents" class="form-control" rows="3"
 									placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" required></textarea>
 								<button type="submit"
-									class="site-btn mx-1 text-white border-0 rounded-sm">리뷰
+									class="site-btn mx-1 text-white border-0 rounded-sm mt-2">리뷰
 									제출</button>
 								<button type="button"
 									class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"

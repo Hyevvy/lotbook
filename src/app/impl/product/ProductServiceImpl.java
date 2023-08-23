@@ -101,62 +101,61 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 				.reviews(reviews).build();
 		session.close();
 		return productDetailWithReviews; // TODO: Optional handling
-
 	}
 
-	public List<Product> getLatest() throws Exception {
-		session = GetSessionFacroty.getInstance().openSession();
-		List<Product> list = null;
-		try {
-			list = session.selectList("product.latest");
-		} catch (Exception e) {
-			e.getStackTrace();
-			e.printStackTrace();
-			throw new Exception("최신작품 검색 에러");
-		}
-		return list;
+   public List<Product> getLatest() throws Exception {
+	    session = GetSessionFacroty.getInstance().openSession();
+	    List<Product> list = null;
+	    try {
+	        list = productDao.getLatest(list, session);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new Exception("최신작품 검색 에러", e);
+	    } finally {
+	        session.close();
+	    }
+	    return list;
 	}
 
-	public List<Product> getPoint() throws Exception {
-		session = GetSessionFacroty.getInstance().openSession();
-		List<Product> list = null;
-		try {
-			list = session.selectList("product.point");
-		} catch (Exception e) {
-			e.getStackTrace();
-			e.printStackTrace();
-			throw new Exception("적립률 높은 책 검색 에러");
-		}
-		return list;
-	}
-
-	public List<Product> getDiscount() throws Exception {
-		session = GetSessionFacroty.getInstance().openSession();
-		List<Product> list = null;
-		try {
-			list = session.selectList("product.discount");
-		} catch (Exception e) {
-			e.getStackTrace();
-			e.printStackTrace();
-			throw new Exception("할인률 높은 책 검색 에러");
-		}
-		return list;
-	}
-
-	public List<Product> getBestseller() throws Exception {
-		session = GetSessionFacroty.getInstance().openSession();
-		List<Product> list = null;
-		try {
-			list = session.selectList("product.bestseller");
-		} catch (Exception e) {
-			e.getStackTrace();
-			e.printStackTrace();
-			throw new Exception("베스트셀러 책 검색 에러");
-		} finally {
-			session.close();
-		}
-		return list;
-	}
+   
+   public List<Product> getPoint() throws Exception {
+      session = GetSessionFacroty.getInstance().openSession();
+      List<Product> list = null;
+      try {
+         list = productDao.getPoint(list, session);
+      } catch (Exception e) {
+         e.getStackTrace();
+         e.printStackTrace();
+         throw new Exception("적립률 높은 책 검색 에러");
+      }
+      return list;
+   }
+   
+   public List<Product> getDiscount() throws Exception {
+      session = GetSessionFacroty.getInstance().openSession();
+      List<Product> list = null;
+      try {
+         list = productDao.getDiscount(list, session);
+      } catch (Exception e) {
+         e.getStackTrace();
+         e.printStackTrace();
+         throw new Exception("할인률 높은 책 검색 에러");
+      }
+      return list;
+   }
+   
+   public List<Product> getBestseller() throws Exception {
+      session = GetSessionFacroty.getInstance().openSession();
+      List<Product> list = null;
+      try {
+         list = productDao.getBestseller(list, session);
+      } catch (Exception e) {
+         e.getStackTrace();
+         e.printStackTrace();
+         throw new Exception("베스트셀러 책 검색 에러");
+      }
+      return list;
+   }
 
 	public int updateByProductKeyWithSalesCount(OrderDetail orderDetail) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
@@ -172,4 +171,5 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		}
 		return result;
 	}
+
 }

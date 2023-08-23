@@ -42,8 +42,26 @@ public class ProductDaoImpl implements DaoFrame<Product, Product> {
 		return null;
 	}
 
-	public List<Product> getLatest(SqlSession session) throws Exception {
-		return session.selectList("product.latest");
+	public List<Product> getLatest(List<Product> v, SqlSession session) throws Exception {
+		
+		return session.selectList("product.latest", v);
+	}
+	
+	public List<Product> getPoint(List<Product> v, SqlSession session) throws Exception {
+		
+		return session.selectList("product.point", v);
+	}
+	
+	
+	public List<Product> getDiscount(List<Product> v, SqlSession session) throws Exception {
+		
+		return session.selectList("product.discount", v);
+	}
+	
+	
+	public List<Product> getBestseller(List<Product> v, SqlSession session) throws Exception {
+		
+		return session.selectList("product.bestseller", v);
 	}
 	
 	public int updateByProductKeyWithSalesCount(OrderDetail k, SqlSession session) throws Exception {

@@ -36,82 +36,6 @@
 	
 </style>
 
-<script>
-	var totalCount = 0;
-	var totalPoint = 0;
-	var selectedCart = [];
-	function is_checked(sequence, count, price, discountRate, pointAccumulationRate) {
-		
-		const checkbox = document.getElementById('cart_checkbox' + sequence);
-
-		if (checkbox.checked) {
-			totalCount = totalCount + ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
-			totalPoint = totalPoint + Math.floor(price * count * pointAccumulationRate * 0.01);
-			selectedCart.push(sequence);
-		} else {
-			totalCount = totalCount - ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
-			totalPoint = totalPoint - Math.floor(price * count * pointAccumulationRate * 0.01);
-			selectedCart.pop();
-		}
-
-		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원,";
-		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint + " 점";	
-	}
-	
-	const modal = document.getElementById("modal");
-	var productSequence = 0;
-	var memberSequence = 0;
-	var productName = "";
-	
-	function open_modal(productSeq, memberSeq, productName) {
-		productSequence = productSeq;
-		memberSequence = memberSeq;
-		modal.style.display = "block";
-		
-		document.getElementById("modal-body").innerHTML = '"' + productName + '"'+ " 을(를) 장바구니에서 삭제하시겠습니까?";
-	}
-	
-	function close_modal() {
-		modal.style.display = "none";
-	}
-	
-	function cart_delete() {
-		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence;
-		
-		close_modal();
-	}
-	function cart_to_order() {
-		if (selectedCart.length === 0) {
-			alert("구매 상품을 1개 이상 담아주세요!!");
-		} else {
-			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
-		}
-	}
-	function addCount(sequence, productSeq, memberSeq) {
-		var count = Number($('#product-count' + sequence).text() * 1);
-		$.ajax({
-			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count+1) + '&memberSeq=' + memberSeq,
-			success:function(result){
-				console.log(result);
-				if (result === 0) {
-					alert("재고 이상의 상품을 담을 수 없습니다!");
-				} else {
-					$('#product-count' + sequence).text(result);
-				}
-			}
-		});
-	}
-	function reduceCount(sequence, productSeq, memberSeq) {
-		var count = Number($('#product-count' + sequence).text());
-		$.ajax({
-			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count-1) + '&memberSeq=' + memberSeq,
-			success:function(result){
-				$('#product-count' + sequence).text(result);
-			}
-		});
-	}
-</script>
-
 <!-- Header Section Begin -->
 
 
@@ -440,4 +364,78 @@
 	    </div>
 	  </div>
   </div>
+<script>
+	var totalCount = 0;
+	var totalPoint = 0;
+	var selectedCart = [];
+	function is_checked(sequence, count, price, discountRate, pointAccumulationRate) {
+		
+		const checkbox = document.getElementById('cart_checkbox' + sequence);
+
+		if (checkbox.checked) {
+			totalCount = totalCount + ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
+			totalPoint = totalPoint + Math.floor(price * count * pointAccumulationRate * 0.01);
+			selectedCart.push(sequence);
+		} else {
+			totalCount = totalCount - ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
+			totalPoint = totalPoint - Math.floor(price * count * pointAccumulationRate * 0.01);
+			selectedCart.pop();
+		}
+
+		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원,";
+		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint + " 점";	
+	}
 	
+	const modal = document.getElementById("modal");
+	var productSequence = 0;
+	var memberSequence = 0;
+	var productName = "";
+	
+	function open_modal(productSeq, memberSeq, productName) {
+		productSequence = productSeq;
+		memberSequence = memberSeq;
+		modal.style.display = "block";
+		
+		document.getElementById("modal-body").innerHTML = '"' + productName + '"'+ " 을(를) 장바구니에서 삭제하시겠습니까?";
+	}
+	
+	function close_modal() {
+		modal.style.display = "none";
+	}
+	
+	function cart_delete() {
+		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence;
+		
+		close_modal();
+	}
+	function cart_to_order() {
+		if (selectedCart.length === 0) {
+			alert("구매 상품을 1개 이상 담아주세요!!");
+		} else {
+			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+		}
+	}
+	function addCount(sequence, productSeq, memberSeq) {
+		var count = Number($('#product-count' + sequence).text() * 1);
+		$.ajax({
+			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count+1) + '&memberSeq=' + memberSeq,
+			success:function(result){
+				console.log(result);
+				if (result === 0) {
+					alert("재고 이상의 상품을 담을 수 없습니다!");
+				} else {
+					$('#product-count' + sequence).text(result);
+				}
+			}
+		});
+	}
+	function reduceCount(sequence, productSeq, memberSeq) {
+		var count = Number($('#product-count' + sequence).text());
+		$.ajax({
+			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count-1) + '&memberSeq=' + memberSeq,
+			success:function(result){
+				$('#product-count' + sequence).text(result);
+			}
+		});
+	}
+</script>

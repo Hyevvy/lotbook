@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- 상품 구매 -->
 	<insert id="insert" parameterType="order">
 		INSERT INTO `ORDER`
-		(ZIPCODE, receiver_name , STREET_ADDRESS, ADDRESS_DETAIL, ORDER_PHONE, MEMBER_SEQUENCE, VENDOR_MESSAGE) 
+		(zipcode, receiver_name , street_address, address_detail, order_phone, member_sequence, vendor_message) 
 		VALUES (#{zipcode}, #{receiverName}, #{streetAddress}, #{addressDetail}, #{orderPhone}, #{memberSequence}, #{vendorMessage})
 	</insert>
    

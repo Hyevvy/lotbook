@@ -77,6 +77,7 @@ public class MemberServlet extends HttpServlet {
 				if(bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
 					
 					HttpSession session = request.getSession();
+					loginUser.setHashedPwd(null);
 					session.setAttribute("logincust", loginUser);
 					memServiceImpl.modify(loginUser); 
 					
@@ -129,6 +130,70 @@ public class MemberServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}else if(view.equals("myinfo")){
+			HttpSession session = request.getSession();
+			request.setAttribute("center", "member-info-login");
+			
+			request.setAttribute("memberSeq", ((Member)session.getAttribute("logincust")).getSequence());
+			System.out.println();
+		}else if(view.equals("updateinfo")){
+			HttpSession session = request.getSession();
+			
+			String email = ((Member)session.getAttribute("logincust")).getEmail();
+			String password = request.getParameter("password");
+			
+			Member loginInfo = Member.builder()
+					.email(email)
+					.hashedPwd(password)
+					.build();
+			
+			try {
+				Member loginUser = memServiceImpl.get(loginInfo);
+				if(bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
+					
+					loginUser.setHashedPwd(null);
+					session.setAttribute("logincust", loginUser);
+					request.setAttribute("memberSeq", ((Member)session.getAttribute("logincust")).getSequence());
+					request.setAttribute("center", "member-info");
+				}
+				else {
+					request.setAttribute("center", "member-info-login");
+					request.setAttribute("msg", "비밀번호가 일치하지 않습니다.");
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}else if(view.equals("updateinfoimpl")){
+			HttpSession session = request.getSession();
+			long sequence = (long)((Member)session.getAttribute("logincust")).getSequence();
+			String password = request.getParameter("password");
+			String name = request.getParameter("name");
+			String phone = request.getParameter("phone");
+			String zipcode = request.getParameter("zipcode");
+			String streetAddress1 = request.getParameter("street_address_1");
+			String streetAddress2 = request.getParameter("street_address_2");
+			String addressDetail = request.getParameter("address_detail");
+			
+			password = bCryptPasswordEncoder.encode(password);
+			Member newMemberInfo = Member.builder()
+					.sequence(sequence)
+					.hashedPwd(password)
+					.name(name)
+					.memberPhone(phone)
+					.zipcode(zipcode)
+					.streetAddress(streetAddress1+" "+streetAddress2)
+					.addressDetail(addressDetail)
+					.build();
+
+			try {
+				memServiceImpl.modifyInfo(newMemberInfo);
+				request.setAttribute("memberSeq", ((Member)session.getAttribute("logincust")).getSequence());
+				request.setAttribute("center", "mypage");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 }

@@ -8,6 +8,18 @@ window.onload = function(){
 		alert(alertMsg);
 	}
 }
+$(document).ready(function(){
+	$('.form_ip_pw i').on('click',function(){
+		$('input').toggleClass('active');
+		if($('input').hasClass('active')){
+			$(this).attr('class', "fa fa-eye fa-lg")
+			.prev('input').attr('type', "text");
+		}else{
+			$(this).attr('class', "fa fa-eye-slash fa-lg")
+			.prev('input').attr('type',"password");
+		}
+	});
+});
 </script>
     <!-- Header Section Begin -->
     <header class="header">
@@ -92,7 +104,7 @@ window.onload = function(){
 						<p>
 							아이디(이메일)<span>*</span>
 						</p>
-						<input type="email" class="form-control" name="email" id="email">
+						<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com">
 					</div>
 
 				</div>
@@ -101,7 +113,12 @@ window.onload = function(){
 						<p>
 							비밀번호<span>*</span>
 						</p>
-						<input type="password" required name="password" id="password">
+						<!-- <input type="password" required name="password" id="password"> -->
+						<div class="form_ip_pw" style="position:relative;">
+							<input type="password" class="form-control"
+							placeholder="ex) qwerty!123" id="password" name="password" required>
+							<i class="fa fa-eye-slash fa-lg" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; cursor: pointer; font-size: 22px;"></i>
+						</div>
 					</div>
 					<button type="submit" class="site-btn auto-btn">로그인</button>
 				</div>

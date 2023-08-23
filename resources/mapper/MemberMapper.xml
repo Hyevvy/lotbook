@@ -21,7 +21,11 @@
 	</select>
 	
 	<update id="update" parameterType="member">
-		UPDATE member SET last_login_at=now() WHERE sequence=#{sequence}
+		UPDATE member SET WHERE sequence=#{sequence}
+	</update>
+	
+	<update id="updateInfo" parameterType="member">
+		UPDATE member SET hashed_pwd=#{hashedPwd}, name=#{name}, member_phone=#{memberPhone}, zipcode=#{zipcode}, street_address=#{streetAddress}, address_detail=#{addressDetail} WHERE sequence=#{sequence}
 	</update>
 	
 	<insert id="insert" parameterType="member">

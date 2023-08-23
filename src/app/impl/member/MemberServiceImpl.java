@@ -81,5 +81,21 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 	public List<Member> get() throws Exception {
 		return null;
 	}
+
+	public int modifyInfo(Member v) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		
+		int result = 0;
+		try {
+			result = ((MemberDaoImpl) dao).updateInfo(v, session);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return result;
+	}
 	
 }

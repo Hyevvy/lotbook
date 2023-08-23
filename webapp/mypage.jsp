@@ -181,7 +181,7 @@
 				<p>포인트</p>
 				<h4>315P</h4>
 			</div>
-			<button type="submit" class="site-btn">회원 정보 수정</button>
+			<button type="submit" class="site-btn" onclick="location.href='member.bit?view=myinfo'">회원 정보 수정</button>
 		</div>
 	</div>
 </section>

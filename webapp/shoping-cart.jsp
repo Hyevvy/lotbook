@@ -301,7 +301,7 @@
 			selectedCart.pop();
 		}
 
-		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원,";
+		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원";
 		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint + " 점";	
 	}
 	

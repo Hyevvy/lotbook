@@ -5,6 +5,20 @@
 <%-- <script>
 	<%=request.set(request.getAttribute("memberSeq"))%>
 </script> --%>
+<script>
+	$(document).ready(function(){
+		$('.form_ip_pw i').on('click',function(){
+			$('input').toggleClass('active');
+			if($('input').hasClass('active')){
+				$(this).attr('class', "fa fa-eye fa-lg")
+				.prev('input').attr('type', "text");
+			}else{
+				$(this).attr('class', "fa fa-eye-slash fa-lg")
+				.prev('input').attr('type',"password");
+			}
+		});
+	});
+</script>
 <header class="header">
 	<div class="header__top">
 		<div class="container">
@@ -142,9 +156,9 @@
 	<div class="container">
 		<h4>비밀번호 확인</h4>
 		<p style="margin-top:10px;">안전한 개인정보보호를 위해 비밀번호를 입력해주세요.</p>
-		<hr>
+		<hr style="border: 1px solid black; margin:20px 0;">
 			<div class="checkout__form">
-			<form action="member.bit">
+			<form action="member.bit" method="post">
 				<input type="hidden" name="view" value="updateinfo">
 		
 				<div class="col-lg-6">
@@ -152,116 +166,19 @@
 						<p>
 							현재 비밀번호<span>*</span>
 						</p>
-						<div class="form_ip_pw" style="position:relative;">
-							<input type="password" id="inputPw" name="password" required placeholder="비밀번호를 입력해주세요" >
-							<!-- <button type="button" class="btn_toggle_pw"></button> -->
-							<i class="fa fa-eye fa-lg" style="position:absolute; top:0; bottom:0; right:0; margin: auto 2px; height: 30px; cursor:pointer; font-size: 22px;"></i>
+						<div class="form_ip_pw" style="position: relative;">
+						    <input type="password" id="inputPw" name="password" required placeholder="비밀번호를 입력해주세요" style="padding-right: 40px;">
+						    <i class="fa fa-eye-slash fa-lg" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; cursor: pointer; font-size: 22px;"></i>
 						</div>
 					</div>
 				</div>
+				<hr>
+				<div style="margin: 0 auto; width:150px;">
+					<button type="submit" class="site-btn auto-btn">로그인</button>				
+				</div>
 			</form>
+			
 			<div class="row"></div>
 		</div>
 	</div>
 </section>
-<%-- <!-- Profile Section End -->
-<!-- Cart Section Begin -->
-<section class="checkout spad">
-	<div class="container">
-		<div class="row"></div>
-		<div class="checkout__form">
-			<h4>장바구니</h4>
-			<c:forEach items="${myCartProductList }" var="product">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="d-flex justify-content-between">
-							<div class="d-flex flex-row align-items-center">
-								<div class="col-2">
-									<img src="${product.productImgurl }"
-										class="img-fluid rounded-3" alt="Shopping item"
-										style="width: 85px;">
-								</div>
-								<div class="col-6">
-									<h5>${product.name }</h5>
-									<p class="small mb-0">${product.content.substring(0, 75) }...</p>
-								</div>
-								<div class="d-flex flex-row align-items-center col-4">
-									<div style="width: 50px;">
-										<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
-									</div>
-									<div style="width: 100px;">
-										<h5 class="mb-0">${product.price * product.count }원</h5>
-									</div>
-									<a href="#!" style="color: #cecece;">삭제</a>
-									<button type="submit"
-										class="ml-5 py-2 bg-danger text-white border-0 rounded-sm"
-										style="width: 50px;">주문</button>
-								</div>
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
-	</div>
-</section>
-<!-- Cart Section End -->
-<!-- Checkout Section Begin -->
-<section class="checkout spad">
-	<div class="container">
-		<div class="row"></div>
-		<div class="checkout__form">
-			<h4>주문 내역</h4>
-			<c:forEach items="${myOrderList}" var="order">
-				<div class="card mb-3 border-0">
-					<h6 class="bg-light text-danger border-top border-danger m-0">주문번호
-						${order.sequence} ${order.createdAt} ⌵</h6>
-						<c:forEach items="${order.orderDetailList}" var="orderDetail">
-							<div class="card-body">
-								<div class="d-flex justify-content-between">
-									<div class="d-flex flex-row align-items-center">
-										<div>
-											<img
-												src=${orderDetail.orderDetailProduct.productImgurl}
-												class="img-fluid rounded-3" alt="Shopping item"
-												style="width: 65px;">
-										</div>
-										<div class="ml-3">
-											<h5>${orderDetail.orderDetailProduct.name}</h5>
-											<p class="small mb-0">${orderDetail.state}</p>
-											<button type="submit"
-									class="site-btn mx-1 bg-danger text-white border-0 rounded-sm">리뷰
-						작성하기</button>
-						<button type="submit"
-							class="py-2 col-sm-6 bg-secondary text-white border-0 rounded-sm">환불
-							요청</button>
-								<button type="submit"
-							class="py-2 col-sm-6 bg-danger text-white border-0 rounded-sm">주문
-							확정</button>
-										</div>
-									</div>
-									<div class="d-flex flex-row align-items-center">
-										<div style="width: 50px;">
-											<h5 class="fw-normal mb-0">${orderDetail.count}</h5>
-										</div>
-										<div style="width: 100px;">
-											<h5 class="mb-0">${orderDetail.productPrice * orderDetail.count}원</h5>
-										</div>
-									</div>
-								</div>
-								</div>
-						</c:forEach>
-				</div>
-
-			</c:forEach>
-		</div>
-
-	</div>
-</section>
-<!-- Checkout Section End -->
-<!-- Review Section Begin --> --%>
-<section class="checkout spad">
-	<div class="container"></div>
-</section>
-<!-- Review Section End -->

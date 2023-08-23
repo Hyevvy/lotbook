@@ -36,6 +36,9 @@ public class MemberDaoImpl implements DaoFrame<Member, Member> {
 		return null;
 	}
 
-	
+	public int updateInfo(Member v, SqlSession session) {
+		return session.update("member.updateInfo", v);
+	}
+
 
 }

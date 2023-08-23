@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%    
 	request.setCharacterEncoding("UTF-8");
 	String[] myCartList = request.getParameterValues("myCartList");
 	String[] myCartProductList = request.getParameterValues("myCartProductList");
-  String[] myOrderList = request.getParameterValues("myOrderList");
+  	String[] myOrderList = request.getParameterValues("myOrderList");
 %>
 <style>
 	#modal {
@@ -35,7 +36,84 @@
 	
 </style>
 
+<script>
+	var totalCount = 0;
+	var totalPoint = 0;
+	var selectedCart = [];
+	function is_checked(sequence, count, price, discountRate, pointAccumulationRate) {
+		
+		const checkbox = document.getElementById('cart_checkbox' + sequence);
+
+		if (checkbox.checked) {
+			totalCount = totalCount + ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
+			totalPoint = totalPoint + Math.floor(price * count * pointAccumulationRate * 0.01);
+			selectedCart.push(sequence);
+		} else {
+			totalCount = totalCount - ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
+			totalPoint = totalPoint - Math.floor(price * count * pointAccumulationRate * 0.01);
+			selectedCart.pop();
+		}
+
+		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원,";
+		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint + " 점";	
+	}
+	
+	const modal = document.getElementById("modal");
+	var productSequence = 0;
+	var memberSequence = 0;
+	var productName = "";
+	
+	function open_modal(productSeq, memberSeq, productName) {
+		productSequence = productSeq;
+		memberSequence = memberSeq;
+		modal.style.display = "block";
+		
+		document.getElementById("modal-body").innerHTML = '"' + productName + '"'+ " 을(를) 장바구니에서 삭제하시겠습니까?";
+	}
+	
+	function close_modal() {
+		modal.style.display = "none";
+	}
+	
+	function cart_delete() {
+		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence;
+		
+		close_modal();
+	}
+	function cart_to_order() {
+		if (selectedCart.length === 0) {
+			alert("구매 상품을 1개 이상 담아주세요!!");
+		} else {
+			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+		}
+	}
+	function addCount(sequence, productSeq, memberSeq) {
+		var count = Number($('#product-count' + sequence).text() * 1);
+		$.ajax({
+			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count+1) + '&memberSeq=' + memberSeq,
+			success:function(result){
+				console.log(result);
+				if (result === 0) {
+					alert("재고 이상의 상품을 담을 수 없습니다!");
+				} else {
+					$('#product-count' + sequence).text(result);
+				}
+			}
+		});
+	}
+	function reduceCount(sequence, productSeq, memberSeq) {
+		var count = Number($('#product-count' + sequence).text());
+		$.ajax({
+			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count-1) + '&memberSeq=' + memberSeq,
+			success:function(result){
+				$('#product-count' + sequence).text(result);
+			}
+		});
+	}
+</script>
+
 <!-- Header Section Begin -->
+
 
 <header class="header">
 	<div class="header__top">
@@ -193,64 +271,75 @@
             </div>
             <div class="checkout__form">
                 <h4>장바구니</h4>
-                <c:forEach items="${myCartProductList }" var="product">
-	                <div class="card mb-3 overflow-auto">
-	                  <div class="card-body">
-	                    <div class="d-flex justify-content-between">
-	                      <div class="d-flex flex-row align-items-center">
-	                        <div class="col-2">
-	                          <img
-	                            src="${product.productImgurl }"
-	                            class="img-fluid rounded-3" alt="Shopping item" style="width: 85px;">
-	                        </div>
-	                        <div class="col-6 mt-3">
-	                          <h5 class="font-weight-bold">${product.name }</h5>
-	                          <p class="small mb-0">${product.content.substring(0, 75) }...</p>
-	                          <div class="d-flex flex-col mt-2">
-	                          <p class="text-warning font-weight-bold">
-	                          	<c:set var="discount" value="${product.discountRate }"/>
-								<fmt:formatNumber type="number" value="${discount}" />
-								% 할인
-							  </p>
-							  &nbsp;&nbsp;&nbsp;&nbsp;
-							  <p class="font-italic text-dark">총 누적 포인트: </p>
-							  &nbsp;&nbsp;&nbsp;
-							  <p class="font-italic text-danger">
-								  <c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
-								  <fmt:parseNumber type="number" value="${totalPoint}"  integerOnly="true"/>
-							  </p>
-							  &nbsp;
-							  <p class="font-italic text-dark">점</p>
-	                          </div>
-	                          
-	                        </div>
-	                        <div class="d-flex flex-row align-items-center col-4">
-		                        <div class="d-flex flex-row align-items-center bg-light">
-		                          	<a href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count - 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">-</a>
-		                          	<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
-		                        	<a href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count + 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">+</a>
-		                        </div>
-		                        <div class="ml-4" style="width: 100px;">
-		                          <h5 class="mb-0" style="font-size: 15px; font-weight: 700;">
-		                          	<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
-									<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-		                          원</h5>
-		                        </div>
-		                        <span class="icon_close btn" onclick="open_modal(${product.sequence}, ${logincust.sequence }, '${product.name }')"></span>
-		                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
-	                        </div>
-	                      </div>
-	                    </div>
-	                  </div>
-	                </div>
-                </c:forEach>
-                <br/>
-                <div class="d-flex flex-col">
-                	<h4 id="totalCount" style="border: none">총 주문 금액: 0원</h4>
-                	 &nbsp;&nbsp;&nbsp;&nbsp;
-                	<h4 id="totalPoint" style="border: none">총 누적 포인트: 0점</h4>
-                </div>
-                <button type="submit" class="site-btn bg-danger text-white border-0 rounded-sm col-12" onclick="cart_to_order()">주문하기</button>
+                <c:choose>
+                	<c:when test="${fn:length(myCartProductList) == 0 }">
+                		<div class="text-muted" style="text-align: center;">
+                			<i class="bi bi-info-circle-fill" style="font-size: 50px;"></i>
+                			<div class="text-muted" style="font-size: 20px;">장바구니에 담긴 상품이 없습니다.</div>
+                		</div>
+                	</c:when>
+                	<c:otherwise>
+                		<c:forEach items="${myCartProductList }" var="product">
+			                <div class="card mb-3 overflow-auto">
+			                  <div class="card-body">
+			                    <div class="d-flex justify-content-between">
+			                      <div class="d-flex flex-row align-items-center">
+			                        <div class="col-2">
+			                          <img
+			                            src="${product.productImgurl }"
+			                            class="img-fluid rounded-3" alt="Shopping item" style="width: 85px;">
+			                        </div>
+			                        <div class="col-6 mt-3">
+			                          <h5 class="font-weight-bold">${product.name }</h5>
+			                          <p class="small mb-0">${product.content.substring(0, 75) }...</p>
+			                          <div class="d-flex flex-col mt-2">
+			                          <p class="text-warning font-weight-bold">
+			                          	<c:set var="discount" value="${product.discountRate }"/>
+										<fmt:formatNumber type="number" value="${discount}" />
+										% 할인
+									  </p>
+									  &nbsp;&nbsp;&nbsp;&nbsp;
+									  <p class="font-italic text-dark">총 누적 포인트: </p>
+									  &nbsp;&nbsp;&nbsp;
+									  <p class="font-italic text-danger">
+										  <c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
+										  <fmt:parseNumber type="number" value="${totalPoint}"  integerOnly="true"/>
+									  </p>
+									  &nbsp;
+									  <p class="font-italic text-dark">점</p>
+			                          </div>
+			                          
+			                        </div>
+			                        <div class="d-flex flex-row align-items-center col-4">
+				                        <div class="d-flex flex-row align-items-center bg-light">
+				                          	<span class="p-3 text-dark btn" onclick="reduceCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence })">-</span>
+				                          	<h5 class="fw-normal mb-0 ml-2" id="product-count${product.sequence }">${product.count }</h5>
+				                        	<span class="p-3 text-dark btn" onclick="addCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence })">+</span>
+				                        </div>
+				                        <div class="ml-4" style="width: 100px;">
+				                          <h5 class="mb-0" style="font-size: 15px; font-weight: 700;">
+				                          	<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
+											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+				                          원</h5>
+				                        </div>
+				                        <span class="icon_close btn" onclick="open_modal(${product.productSequence }, ${logincust.sequence }, '${product.name }')"></span>
+				                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
+			                        </div>
+			                      </div>
+			                    </div>
+			                  </div>
+			                </div>
+		                </c:forEach>
+		                <br/>
+		                <div class="d-flex flex-col">
+		                	<h4 id="totalCount" style="border: none">총 주문 금액: 0원</h4>
+		                	 &nbsp;&nbsp;&nbsp;&nbsp;
+		                	<h4 id="totalPoint" style="border: none">총 누적 포인트: 0점</h4>
+		                </div>
+		                <button type="submit" class="site-btn bg-danger text-white border-0 rounded-sm col-12" onclick="cart_to_order()">주문하기</button>
+                	</c:otherwise>
+                </c:choose>
+                
             </div>
         </div>
     </section>
@@ -351,56 +440,4 @@
 	    </div>
 	  </div>
   </div>
-	 
-<script>
-	var totalCount = 0;
-	var totalPoint = 0;
-	var selectedCart = [];
-	function is_checked(sequence, count, price, discountRate, pointAccumulationRate) {
-		
-		const checkbox = document.getElementById('cart_checkbox' + sequence);
-
-		if (checkbox.checked) {
-			totalCount = totalCount + ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
-			totalPoint = totalPoint + Math.floor(price * count * pointAccumulationRate * 0.01);
-			selectedCart.push(sequence);
-		} else {
-			totalCount = totalCount - ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
-			totalPoint = totalPoint - Math.floor(price * count * pointAccumulationRate * 0.01);
-			selectedCart.pop();
-		}
-
-		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원,";
-		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint + " 점";	
-	}
 	
-	const modal = document.getElementById("modal");
-	var productSequence = 0;
-	var memberSequence = 0;
-	var productName = "";
-	
-	function open_modal(productSeq, memberSeq, productName) {
-		productSequence = productSeq;
-		memberSequence = memberSeq;
-		modal.style.display = "block";
-		
-		document.getElementById("modal-body").innerHTML = '"' + productName + '"'+ " 을(를) 장바구니에서 삭제하시겠습니까?";
-	}
-	
-	function close_modal() {
-		modal.style.display = "none";
-	}
-	
-	function cart_delete() {
-		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence;
-		
-		close_modal();
-	}
-	function cart_to_order() {
-		if (selectedCart.length === 0) {
-			alert("구매 상품을 1개 이상 담아주세요!!");
-		} else {
-			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
-		}
-	}
-</script>

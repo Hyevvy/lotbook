@@ -79,26 +79,36 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		Product product = productDao.select(k, session);
 		List<Review> reviews = reviewDao.selectReviewsByProduct(product, session);
 		ProductRelatedNameMapper productRelatedNameMapper = productDao.selectRelatedName(product, session);
-
-		int discountedPrice = product.getPrice() * (int) (100.0 - product.getDiscountRate()); // TODO: type safe using
-		// wrapper class
+		
+		int discountedPrice = product.getPrice() * (int) (100.0 - product.getDiscountRate()) / 100; // TODO: type safe using
+																								// wrapper class
 		int pointAccumulation = (int) (product.getPrice() * product.getPointAccumulationRate() / 100);
 		ProductDetailWithReviews productDetailWithReviews = ProductDetailWithReviews.builder()
-				.sequence(product.getSequence()).productImgurl(product.getProductImgurl()).name(product.getName())
-				.originalPrice(product.getPrice()).price(discountedPrice).content(product.getContent())
-				.stock(product.getStock()).createdAt(product.getCreatedAt())
-				.pointAccumulationRate(product.getPointAccumulationRate()).pointAccumulation(pointAccumulation)
-				.salesCount(product.getSalesCount())
-				// TODO: ENUM type handler-from mybatis
-				.state(ProductStateEnum.ACTIVE).authorSequence(product.getAuthorSequence())
-				.authorName(productRelatedNameMapper.getAuthorName()).publisherSequence(product.getPublisherSequence())
-				.publisherName(productRelatedNameMapper.getPublisherName())
-				.mainCategorySequence(productRelatedNameMapper.getMainCategorySequence())
-				.mainCategoryName(productRelatedNameMapper.getMainCategoryName())
-				.subCategorySequence(productRelatedNameMapper.getSubCategorySequence())
-				.subCategoryName(productRelatedNameMapper.getSubCategoryName())
-				// TODO: reviewer name handling using dto with optional
-				.reviews(reviews).build();
+																					.sequence(product.getSequence())
+																					.productImgurl(product.getProductImgurl())
+																					.name(product.getName())
+																					.originalPrice(product.getPrice())
+																					.discountRate(product.getDiscountRate())
+																					.price(discountedPrice)
+																					.content(product.getContent())
+																					.stock(product.getStock())
+																					.createdAt(product.getCreatedAt())
+																					.pointAccumulationRate(product.getPointAccumulationRate())
+																					.pointAccumulation(pointAccumulation)
+																					.salesCount(product.getSalesCount())
+																					// TODO: ENUM type handler-from mybatis
+																					.state(ProductStateEnum.ACTIVE)
+																					.authorSequence(product.getAuthorSequence())
+																					.authorName(productRelatedNameMapper.getAuthorName())
+																					.publisherSequence(product.getPublisherSequence())
+																					.publisherName(productRelatedNameMapper.getPublisherName())
+																					.mainCategorySequence(productRelatedNameMapper.getMainCategorySequence())
+																					.mainCategoryName(productRelatedNameMapper.getMainCategoryName())
+																					.subCategorySequence(productRelatedNameMapper.getSubCategorySequence())
+																					.subCategoryName(productRelatedNameMapper.getSubCategoryName())
+																					// TODO: reviewer name handling using dto with optional
+																					.reviews(reviews)
+																					.build();
 		session.close();
 		return productDetailWithReviews; // TODO: Optional handling
 	}

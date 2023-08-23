@@ -37,6 +37,20 @@
     }
 }
 </style>
+<script>
+	$(document).ready(function(){
+		$('.form_ip_pw i').on('click',function(){
+			$('input').toggleClass('active');
+			if($('input').hasClass('active')){
+				$(this).attr('class', "fa fa-eye fa-lg")
+				.prev('input').attr('type', "text");
+			}else{
+				$(this).attr('class', "fa fa-eye-slash fa-lg")
+				.prev('input').attr('type',"password");
+			}
+		});
+	});
+</script>
 
 <header class="header">
 	<div class="header__top">
@@ -108,7 +122,7 @@
 
 <form id="register_form" method="post" action="member.bit">
 	<input type="hidden" name="view" value="signup"/>
-	<div class="d-flex flex-row justify-content-center">
+	<div class="d-flex flex-row justify-content-center ">
 		<div class="justify-content-center" align="center">
 			<!-- <table class="col-10">
 				<tr height="40">
@@ -136,9 +150,10 @@
 					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td"><label for="password">비밀번호</label></td>
 					<td>
-					<div class="row">
+					<div class="row form_ip_pw" style="position:relative;">
 						<input type="password" class="form-control"
 						placeholder="ex) qwerty!123" id="password" name="password" required>
+						<i class="fa fa-eye-slash fa-lg" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; cursor: pointer; font-size: 22px;"></i>
 					</div>
 					</td>
 				</tr>

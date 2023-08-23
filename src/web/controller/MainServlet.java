@@ -62,6 +62,8 @@ public class MainServlet implements ControllerFrame {
 			    request.setAttribute("BigPoint", productService.getPoint());
 			    request.setAttribute("BigDiscount", productService.getDiscount());
 			    
+			    int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
 		     } catch (Exception e2) {
 		        e2.printStackTrace();
 		     }
@@ -124,7 +126,8 @@ public class MainServlet implements ControllerFrame {
 					}
 				}
 				request.setAttribute("orderDetailResult", orderDetailList);
-
+				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
 				// 바로 주문으로 구매한 경우
 //				OrderDetail orderDetail = OrderDetail.builder().orderSequence(orderList.get(0).getSequence())
 //						.count(count).productPoint(pointAccumulationRate * 0.01 * count * price).productPrice(price)
@@ -210,6 +213,10 @@ public class MainServlet implements ControllerFrame {
 
 				// 3. myPage로 보내기
 				request.setAttribute("myOrderList", orderList);
+				
+				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
+	               
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -331,6 +338,9 @@ public class MainServlet implements ControllerFrame {
 				request.setAttribute("myCartList", cartList);
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
+				
+				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

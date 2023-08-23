@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%    
 	request.setCharacterEncoding("UTF-8");
 	String[] myCartList = request.getParameterValues("myCartList");
@@ -168,84 +169,95 @@
 
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="shoping__cart__table">
-					<table>
-						<tbody>
-							<c:forEach items="${myCartProductList }" var="product">	                    
-								<tr>
-									<td>
-										<input id="cart_checkbox${product.sequence }" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
-									</td>
-									<td class="d-flex flex-col ml-4" style="margin-right: 20px; width: 500px; text-align: left; font-weight: 700; font-size: 18px;"><img
-										src="${product.productImgurl }" alt="" style="width: 85px;">
-										<div class="mt-4 ml-4">
-											${product.name }
-											<p class="small mb-0">${product.content.substring(0, 60) }...</p>
-											<div class="d-flex flex-col mt-2">
-					                          <p class="text-warning font-weight-bold">
-					                          	<c:set var="discount" value="${product.discountRate }"/>
-												<fmt:formatNumber type="number" value="${discount}" />
-												% 할인
-											  </p>
-											  &nbsp;&nbsp;&nbsp;&nbsp;
-											  <p class="font-italic text-dark">총 누적 포인트: </p>
-											  &nbsp;&nbsp;&nbsp;
-											  <p class="font-italic text-danger">
-												  <c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
-												  <fmt:parseNumber type="number" value="${totalPoint}"  integerOnly="true"/>
-											  </p>
-											  &nbsp;
-											  <p class="font-italic text-dark">점</p>
-					                          </div>
-											</div>
-									</td>
-									<td style="font-size: 15px; color: #1c1c1c; font-weight: 300; width: 200px">
-										<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) - ((product.price * ((100 - product.discountRate) * 0.01)))%10 }"/>
-										<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-										원
-									</td>
-									<td class="col-1">
-										<div class="d-flex flex-row align-items-center bg-light">
-				                          	<a href="main.bit?view=changeCartCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count - 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">-</a>
-				                          	<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
-				                        	<a href="main.bit?view=changeCartCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count + 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">+</a>
-				                        </div>
-									</td>
-									<td style="font-size: 18px; color: #1c1c1c; font-weight: 700; width: 400px">
-										총&nbsp;
-										<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
-										<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-										원
-									</td>
-									<td class="shoping__cart__item__close">
-										<span class="icon_close" onclick="open_modal(${product.sequence}, ${logincust.sequence }, '${product.name }')"></span>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				
-			</div>
-			<div class="col-lg-6">
-				<div class="shoping__checkout">
-					<h5>결제 예정 정보</h5>
-					<ul>
-						<li>결제 예정 금액 <span id="totalCount">0원</span></li>
-						<li>적립 예정 포인트 <span id="totalPoint">0점</span></li>
-					</ul>
-					<a class="primary-btn text-white btn" onclick="cart_to_order()">주문하기</a>
-				</div>
-			</div>
-		</div>
-	</div>
+	<c:choose>
+             	<c:when test="${fn:length(myCartProductList) == 0 }">
+             		<div class="text-muted col-lg-12 pt-5 pb-5" style="text-align: center;">
+             			<i class="bi bi-info-circle-fill" style="font-size: 50px;"></i>
+             			<div class="text-muted" style="text-align: center; font-size: 20px;">장바구니에 담긴 상품이 없습니다.</div>
+             		</div>
+             	</c:when>
+             	<c:otherwise>
+             		<div class="container">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="shoping__cart__table">
+									<table>
+										<tbody>
+											<c:forEach items="${myCartProductList }" var="product">	                    
+												<tr>
+													<td>
+														<input id="cart_checkbox${product.sequence }" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
+													</td>
+													<td class="d-flex flex-col ml-4" style="margin-right: 20px; width: 500px; text-align: left; font-weight: 700; font-size: 18px;"><img
+														src="${product.productImgurl }" alt="" style="width: 85px;">
+														<div class="mt-4 ml-4">
+															${product.name }
+															<p class="small mb-0">${product.content.substring(0, 60) }...</p>
+															<div class="d-flex flex-col mt-2">
+									                          <p class="text-warning font-weight-bold">
+									                          	<c:set var="discount" value="${product.discountRate }"/>
+																<fmt:formatNumber type="number" value="${discount}" />
+																% 할인
+															  </p>
+															  &nbsp;&nbsp;&nbsp;&nbsp;
+															  <p class="font-italic text-dark">총 누적 포인트: </p>
+															  &nbsp;&nbsp;&nbsp;
+															  <p class="font-italic text-danger">
+																  <c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
+																  <fmt:parseNumber type="number" value="${totalPoint}"  integerOnly="true"/>
+															  </p>
+															  &nbsp;
+															  <p class="font-italic text-dark">점</p>
+									                          </div>
+															</div>
+													</td>
+													<td style="font-size: 15px; color: #1c1c1c; font-weight: 300; width: 200px">
+														<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) - ((product.price * ((100 - product.discountRate) * 0.01)))%10 }"/>
+														<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+														원
+													</td>
+													<td class="col-1">
+														<div class="d-flex flex-row align-items-center bg-light">
+								                          	<a href="main.bit?view=changeCartCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count - 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">-</a>
+								                          	<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
+								                        	<a href="main.bit?view=changeCartCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count + 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">+</a>
+								                        </div>
+													</td>
+													<td style="font-size: 18px; color: #1c1c1c; font-weight: 700; width: 400px">
+														총&nbsp;
+														<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
+														<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+														원
+													</td>
+													<td class="shoping__cart__item__close">
+														<span class="icon_close" onclick="open_modal(${product.sequence}, ${logincust.sequence }, '${product.name }')"></span>
+													</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								
+							</div>
+							<div class="col-lg-6">
+								<div class="shoping__checkout">
+									<h5>결제 예정 정보</h5>
+									<ul>
+										<li>결제 예정 금액 <span id="totalCount">0원</span></li>
+										<li>적립 예정 포인트 <span id="totalPoint">0점</span></li>
+									</ul>
+									<a class="primary-btn text-white btn" onclick="cart_to_order()">주문하기</a>
+								</div>
+							</div>
+						</div>
+					</div>
+             	</c:otherwise>
+    </c:choose>
+	
 </section>
 <!-- Shoping Cart Section End -->
 

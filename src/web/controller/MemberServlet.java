@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import app.dto.entity.Member;
+import app.frame.ControllerFrame;
 import app.impl.cart.CartServiceImpl;
 import app.impl.member.MemberServiceImpl;
 import app.impl.product.ProductServiceImpl;
@@ -23,7 +24,7 @@ import web.dispatcher.Navi;
 * Servlet implementation class CustServlet
 */
 @WebServlet({"/member"})
-public class MemberServlet extends HttpServlet {
+public class MemberServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -40,16 +41,16 @@ public class MemberServlet extends HttpServlet {
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
     
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String next = "index.jsp";
 		String view = request.getParameter("view");
 
-		if(view != null){
+		if (view != null) {
 			build(request, view);
 		}
 
-		RequestDispatcher rd = 
-		request.getRequestDispatcher(next);
+		RequestDispatcher rd = request.getRequestDispatcher(next);
 		rd.forward(request, response);
 	}
     
@@ -62,7 +63,6 @@ public class MemberServlet extends HttpServlet {
 			request.setAttribute("center", "signin");
 			request.setAttribute("navi", Navi.login);
 		}else if(view.equals("loginimpl")) {
-			System.out.println("Login Start");
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 			

@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +16,7 @@ import app.dto.entity.Order;
 import app.dto.entity.OrderDetail;
 import app.dto.entity.Product;
 import app.dto.response.CartProduct;
+import app.frame.ControllerFrame;
 import app.impl.cart.CartServiceImpl;
 import app.impl.order.OrderServiceImpl;
 import app.impl.orderdetail.OrderDetailServiceImpl;
@@ -26,7 +26,7 @@ import app.impl.product.ProductServiceImpl;
  * Servlet implementation class CustServlet
  */
 @WebServlet({ "/main" })
-public class MainServlet extends HttpServlet {
+public class MainServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	CustServiceImpl custService;
 	ProductServiceImpl productService;
@@ -36,8 +36,8 @@ public class MainServlet extends HttpServlet {
 		custService = new CustServiceImpl();
 	}
 
-	protected void service(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String next = "index.jsp";
 		String view = request.getParameter("view");
 
@@ -132,7 +132,6 @@ public class MainServlet extends HttpServlet {
 
 			try {
 				cartList = cartService.getAll(cart);
-				System.out.println(cartList);
 				request.setAttribute("myCartList", cartList);
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
@@ -167,40 +166,9 @@ public class MainServlet extends HttpServlet {
 
 				// 3. myPage로 보내기
 				request.setAttribute("myOrderList", orderList);
-				System.out.print("myOrderList" + orderList);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (view.contains("changeCount")) {
-			request.setAttribute("center", "mypage");
-			int count = Integer.parseInt(request.getParameter("count"));
-			int productSequence = Integer.parseInt(request.getParameter("productSequence"));
-			int sequence = Integer.parseInt(request.getParameter("sequence"));
-			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
-			List<Cart> cartList = new ArrayList<>();
-			List<CartProduct> productList = new ArrayList<>();
-			CartServiceImpl cartService = new CartServiceImpl();
-
-			// 개수가 1 이하로 내려갈 경우 1로 고정
-			if (count < 1) {
-				count = 1;
-			}
-
-			Cart cart = Cart.builder().count(count).productSequence(productSequence).sequence(sequence)
-					.memberSequence(memberSeq).build();
-
-			try {
-				cartService.modify(cart);
-
-				cartList = cartService.getAll(cart);
-				request.setAttribute("myCartList", cartList);
-
-				productList = cartService.getProductInfo(cart);
-				request.setAttribute("myCartProductList", productList);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
 		} else if (view.contains("deleteCart")) {
 			request.setAttribute("center", "mypage");
 			int sequence = Integer.parseInt(request.getParameter("sequence"));

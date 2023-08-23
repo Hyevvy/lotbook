@@ -34,6 +34,7 @@ public class MainServlet implements ControllerFrame {
 	public MainServlet() {
 		super();
 		custService = new CustServiceImpl();
+		productService = new ProductServiceImpl();
 	}
 
 	@Override
@@ -41,17 +42,27 @@ public class MainServlet implements ControllerFrame {
 		String next = "index.jsp";
 		String view = request.getParameter("view");
 
-		if (view != null) {
-			build(request, view);
-		}
+		build(request, view);
+
 
 		RequestDispatcher rd = request.getRequestDispatcher(next);
 		rd.forward(request, response);
 	}
 
 	private void build(HttpServletRequest request, String view) {
-		if (view.equals("signup")) {
-
+		
+		if (view == null) {
+	         // 책 리스트 불러오기
+			 try {
+			    request.setAttribute("BestSeller", productService.getBestseller());
+			    request.setAttribute("Latest", productService.getLatest());
+			    request.setAttribute("BigPoint", productService.getPoint());
+			    request.setAttribute("BigDiscount", productService.getDiscount());
+			    
+		     } catch (Exception e2) {
+		        e2.printStackTrace();
+		     }
+		} else if (view.equals("signup")) {
 			request.setAttribute("center", "signup");
 		} else if (view.equals("signin")) {
 			request.setAttribute("center", "signin");

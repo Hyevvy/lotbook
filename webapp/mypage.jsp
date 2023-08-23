@@ -1,39 +1,107 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%    
-	request.setCharacterEncoding("UTF-8");
-	String[] myCartList = request.getParameterValues("myCartList");
-	String[] myCartProductList = request.getParameterValues("myCartProductList");
-  String[] myOrderList = request.getParameterValues("myOrderList");
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+request.setCharacterEncoding("UTF-8");
+String[] myCartList = request.getParameterValues("myCartList");
+String[] myCartProductList = request.getParameterValues("myCartProductList");
+String[] myOrderList = request.getParameterValues("myOrderList");
 %>
 <style>
-	#modal {
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 1050;
-		display: none;
-		overflow: hidden;
-		width: 100%;
-		height: 100%;
-		outline: 0;
-		background-color: rgba( 0, 0, 0, 0.6 );
-		animation: fadein 0.4s;
-		
-	}
-	
-	@keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+#modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1050;
+	display: none;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	outline: 0;
+	background-color: rgba(0, 0, 0, 0.6);
+	animation: fadein 0.4s;
 }
+
+@
+keyframes fadein {from { opacity:0;
 	
+}
+
+to {
+	opacity: 1;
+}
+}
 </style>
+<style>
+.star-rating {
+	width: 260px;
+	/*  padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.829); */
+}
+
+.star-rating div {
+	float: left;
+	width: 50%;
+}
+
+.stars {
+	
+}
+
+.stars .fa {
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.stars .fa.active {
+	color: red;
+}
+
+.print {
+	color: #fff;
+}
+
+.print img {
+	/* 인라인끼리 중앙맞추기 */
+	vertical-align: middle;
+	margin-right: 5px;
+}
+</style>
+<script>
+$(function(){
+	$('.stars .fa').click(function() {
+		console.log("별표 클릭!");
+	    $(this).addClass('active');
+	
+	    // 클릭한 별을 기준으로 (.fa) 그 이전 별은 보이게 그 뒤에 별들은 안보이게
+	    $(this).prevAll().addClass('active');
+	    $(this).nextAll().removeClass('active');
+	
+	    // 순서를 찾는 메서드 index 0 1 2 3 4
+	    // 텍스트내용을 출력 text, 태그+텍스트 html
+	    var num = $(this).index();
+	    $('.print').text(starRate);
+	    var starRate = num + 1;
+	    /* 
+	    if(starRate == 1) {
+	        // $('.print').text('별로에요');
+	        $('.print').html('<img src="img/icon/star-lv1.png">' + '별로에요');
+	    } else if(starRate == 2) {
+	        $('.print').html('<img src="img/icon/star-lv2.png">' + '보통 이에요');
+	    } else if(starRate == 3) {
+	        $('.print').html('<img src="img/icon/star-lv3.png">' + '그냥 그래요');
+	    } else if(starRate == 4) {
+	        $('.print').html('<img src="img/icon/star-lv4.png">' + '맘에 들어요');
+	    } else {
+	        $('.print').html('<img src="img/icon/star-lv4.png">' + '아주 좋아요');
+	    } */
+	});
+	
+})
+</script>
 
 <!-- Header Section Begin -->
 
@@ -45,9 +113,10 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+							<li class="active"><a
+								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
-							<li class=""><a href="/lotbook/index.jsp"><i
+							<li class=""><a href="member.bit?view=logout"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
 						</c:when>
 						<c:otherwise>
@@ -89,7 +158,9 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+								<li><a
+									href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i
+										class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -175,86 +246,100 @@
 		<div class="row checkout__order">
 			<div class="col-sm-6 ">
 				<p>독서하기 좋은 날이네요!</p>
-				<h4>사용자 이름 님</h4>
+				<h4>${logincust.name}님</h4>
 			</div>
 			<div class="col-sm-6">
 				<p>포인트</p>
 				<h4>315P</h4>
 			</div>
-			<button type="submit" class="site-btn" onclick="location.href='member.bit?view=myinfo'">회원 정보 수정</button>
+			<button type="submit" class="site-btn"
+				onclick="location.href='member.bit?view=myinfo'">회원 정보 수정</button>
 		</div>
 	</div>
 </section>
 <!-- Profile Section End -->
 <!-- Cart Section Begin -->
-    <section class="checkout spad">
-        <div class="container">
-            <div class="row">
-            </div>
-            <div class="checkout__form">
-                <h4>장바구니</h4>
-                <c:forEach items="${myCartProductList }" var="product">
-	                <div class="card mb-3 overflow-auto">
-	                  <div class="card-body">
-	                    <div class="d-flex justify-content-between">
-	                      <div class="d-flex flex-row align-items-center">
-	                        <div class="col-2">
-	                          <img
-	                            src="${product.productImgurl }"
-	                            class="img-fluid rounded-3" alt="Shopping item" style="width: 85px;">
-	                        </div>
-	                        <div class="col-6 mt-3">
-	                          <h5 class="font-weight-bold">${product.name }</h5>
-	                          <p class="small mb-0">${product.content.substring(0, 75) }...</p>
-	                          <div class="d-flex flex-col mt-2">
-	                          <p class="text-warning font-weight-bold">
-	                          	<c:set var="discount" value="${product.discountRate }"/>
-								<fmt:formatNumber type="number" value="${discount}" />
-								% 할인
-							  </p>
-							  &nbsp;&nbsp;&nbsp;&nbsp;
-							  <p class="font-italic text-dark">총 누적 포인트: </p>
-							  &nbsp;&nbsp;&nbsp;
-							  <p class="font-italic text-danger">
-								  <c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
-								  <fmt:parseNumber type="number" value="${totalPoint}"  integerOnly="true"/>
-							  </p>
-							  &nbsp;
-							  <p class="font-italic text-dark">점</p>
-	                          </div>
-	                          
-	                        </div>
-	                        <div class="d-flex flex-row align-items-center col-4">
-		                        <div class="d-flex flex-row align-items-center bg-light">
-		                          	<a href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count - 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">-</a>
-		                          	<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
-		                        	<a href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count + 1 }&memberSeq=${logincust.sequence}" class="p-3 text-dark">+</a>
-		                        </div>
-		                        <div class="ml-4" style="width: 100px;">
-		                          <h5 class="mb-0" style="font-size: 15px; font-weight: 700;">
-		                          	<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
-									<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-		                          원</h5>
-		                        </div>
-		                        <span class="icon_close btn" onclick="open_modal(${product.sequence}, ${logincust.sequence }, '${product.name }')"></span>
-		                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
-	                        </div>
-	                      </div>
-	                    </div>
-	                  </div>
-	                </div>
-                </c:forEach>
-                <br/>
-                <div class="d-flex flex-col">
-                	<h4 id="totalCount" style="border: none">총 주문 금액: 0원</h4>
-                	 &nbsp;&nbsp;&nbsp;&nbsp;
-                	<h4 id="totalPoint" style="border: none">총 누적 포인트: 0점</h4>
-                </div>
-                <button type="submit" class="site-btn bg-danger text-white border-0 rounded-sm col-12" onclick="cart_to_order()">주문하기</button>
-            </div>
-        </div>
-    </section>
-    <!-- Cart Section End -->
+<section class="checkout spad">
+	<div class="container">
+		<div class="row"></div>
+		<div class="checkout__form">
+			<h4>장바구니</h4>
+			<c:forEach items="${myCartProductList }" var="product">
+				<div class="card mb-3 overflow-auto">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<div class="d-flex flex-row align-items-center">
+								<div class="col-2">
+									<img src="${product.productImgurl }"
+										class="img-fluid rounded-3" alt="Shopping item"
+										style="width: 85px;">
+								</div>
+								<div class="col-6 mt-3">
+									<h5 class="font-weight-bold">${product.name }</h5>
+									<p class="small mb-0">${product.content.substring(0, 75) }...</p>
+									<div class="d-flex flex-col mt-2">
+										<p class="text-warning font-weight-bold">
+											<c:set var="discount" value="${product.discountRate }" />
+											<fmt:formatNumber type="number" value="${discount}" />
+											% 할인
+										</p>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<p class="font-italic text-dark">총 누적 포인트:</p>
+										&nbsp;&nbsp;&nbsp;
+										<p class="font-italic text-danger">
+											<c:set var="totalPoint"
+												value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }" />
+											<fmt:parseNumber type="number" value="${totalPoint}"
+												integerOnly="true" />
+										</p>
+										&nbsp;
+										<p class="font-italic text-dark">점</p>
+									</div>
+
+								</div>
+								<div class="d-flex flex-row align-items-center col-4">
+									<div class="d-flex flex-row align-items-center bg-light">
+										<a
+											href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count - 1 }&memberSeq=${logincust.sequence}"
+											class="p-3 text-dark">-</a>
+										<h5 class="fw-normal mb-0 ml-2">${product.count }</h5>
+										<a
+											href="main.bit?view=changeCount&sequence=${product.sequence }&productSequence=${product.productSequence }&count=${product.count + 1 }&memberSeq=${logincust.sequence}"
+											class="p-3 text-dark">+</a>
+									</div>
+									<div class="ml-4" style="width: 100px;">
+										<h5 class="mb-0" style="font-size: 15px; font-weight: 700;">
+											<c:set var="price"
+												value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
+											<fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${price}" />
+											원
+										</h5>
+									</div>
+									<span class="icon_close btn"
+										onclick="open_modal(${product.sequence}, ${logincust.sequence }, '${product.name }')"></span>
+									<input id="cart_checkbox${product.sequence }" class="ml-4"
+										type="checkbox"
+										onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+			<br />
+			<div class="d-flex flex-col">
+				<h4 id="totalCount" style="border: none">총 주문 금액: 0원</h4>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<h4 id="totalPoint" style="border: none">총 누적 포인트: 0점</h4>
+			</div>
+			<button type="submit"
+				class="site-btn bg-danger text-white border-0 rounded-sm col-12"
+				onclick="cart_to_order()">주문하기</button>
+		</div>
+	</div>
+</section>
+<!-- Cart Section End -->
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
 	<div class="container">
@@ -265,41 +350,75 @@
 				<div class="card mb-3 border-0">
 					<h6 class="bg-light text-danger border-top border-danger m-0">주문번호
 						${order.sequence} ${order.createdAt} ⌵</h6>
-						<c:forEach items="${order.orderDetailList}" var="orderDetail">
-							<div class="card-body">
-								<div class="d-flex justify-content-between">
-									<div class="d-flex flex-row align-items-center">
-										<div>
-											<img
-												src=${orderDetail.orderDetailProduct.productImgurl }
-												class="img-fluid rounded-3" alt="Shopping item"
-												style="width: 65px;">
-										</div>
-										<div class="ml-3">
-											<h5>${orderDetail.orderDetailProduct.name}</h5>
-											<p class="small mb-0">${orderDetail.state}</p>
-											<button type="submit"
-									class="site-btn mx-1 bg-danger text-white border-0 rounded-sm">리뷰
-						작성하기</button>
-						<button type="submit"
-							class="py-2 col-sm-6 bg-secondary text-white border-0 rounded-sm">환불
-							요청</button>
+					<c:forEach items="${order.orderDetailList}" var="orderDetail">
+						<div class="card-body">
+							<div class="d-flex justify-content-between">
+								<div class="d-flex flex-row align-items-center w-100">
+									<div>
+										<img src=${orderDetail.orderDetailProduct.productImgurl }
+											class="img-fluid rounded-3" alt="Shopping item"
+											style="width: 65px;">
+									</div>
+									<div class="ml-3 w-100">
+										<h5>${orderDetail.orderDetailProduct.name}</h5>
+										<p class="small mb-0">${orderDetail.state}</p>
+										<button type="button"
+											class="py-2 col-sm-3 bg-primary text-white border-0 rounded-sm review-toggle-btn"
+											data-toggle="collapse"
+											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}">리뷰
+											작성하기</button>
+										<button type="submit"
+											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm">환불
+											요청</button>
+										<button type="submit"
+											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm">주문
+											확정</button>
+									</div>
+									<!-- <div
+										class="ml-3 d-flex justify-content-between align-items-center">
+										
+									</div> -->
+								</div>
+								<div class="d-flex flex-row align-items-center">
+									<div style="width: 50px;">
+										<h5 class="fw-normal mb-0">${orderDetail.count}</h5>
+									</div>
+									<div style="width: 100px;">
+										<h5 class="mb-0">${orderDetail.productPrice * orderDetail.count}원</h5>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="reviewCollapse-${order.sequence}-${orderDetail.sequence}"
+							class="collapse">
+							<form action="review.bit" method="post">
+								<input type="hidden" name="cmd" value="register"> <input
+									type="hidden" name="memberSequence"
+									value="${logincust.sequence }"> <input type="hidden"
+									name="productSequence" value="${orderDetail.productSequence}">
+
+								<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
+								<div class="star-rating">
+									<div class="stars">
+										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+											class="fa fa-star"></i>
+									</div>
+
+								</div>
+
+								<textarea name="contents" class="form-control" rows="3"
+									placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" required></textarea>
 								<button type="submit"
-							class="py-2 col-sm-6 bg-danger text-white border-0 rounded-sm">주문
-							확정</button>
-										</div>
-									</div>
-									<div class="d-flex flex-row align-items-center">
-										<div style="width: 50px;">
-											<h5 class="fw-normal mb-0">${orderDetail.count}</h5>
-										</div>
-										<div style="width: 100px;">
-											<h5 class="mb-0">${orderDetail.productPrice * orderDetail.count}원</h5>
-										</div>
-									</div>
-								</div>
-								</div>
-						</c:forEach>
+									class="site-btn mx-1 text-white border-0 rounded-sm">리뷰
+									제출</button>
+								<button type="button"
+									class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
+									data-toggle="collapse"
+									data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}">취소</button>
+							</form>
+						</div>
+					</c:forEach>
 				</div>
 
 			</c:forEach>
@@ -320,38 +439,39 @@
 </section>
 <!-- Review Section Begin -->
 <section class="checkout spad">
-    <div class="container">
-        <div class="row">
-        </div>
-        <div class="checkout__form">
-            <h4>작성 가능한 리뷰</h4>
-            주문 확정 목록
-        </div>
-    </div>
+	<div class="container">
+		<div class="row"></div>
+		<div class="checkout__form">
+			<h4>작성 가능한 리뷰</h4>
+			주문 확정 목록
+		</div>
+	</div>
 </section>
-    <!-- Review Section End -->
-    
-    <!-- Modal -->
-    <div id="modal">
-    	<div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">장바구니 삭제</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="close_modal()">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body" id="modal-body">
-	        해당 상품을 장바구니에서 삭제하시겠습니까?
-	      </div>
-	      <div class="modal-footer">
-	       	<button class="btn btn-secondary text-light" data-dismiss="modal" onclick="close_modal()">아니오</button>
-	        <button id="delete_yes" class="btn btn-danger text-light" data-dismiss="modal" onclick="cart_delete()">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
-	      </div>
-	    </div>
-	  </div>
-  </div>
-	 
+<!-- Review Section End -->
+
+<!-- Modal -->
+<div id="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">장바구니 삭제</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close" onclick="close_modal()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="modal-body">해당 상품을 장바구니에서 삭제하시겠습니까?
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary text-light" data-dismiss="modal"
+					onclick="close_modal()">아니오</button>
+				<button id="delete_yes" class="btn btn-danger text-light"
+					data-dismiss="modal" onclick="cart_delete()">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
 	var totalCount = 0;
 	var totalPoint = 0;

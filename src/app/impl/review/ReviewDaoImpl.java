@@ -12,8 +12,7 @@ public class ReviewDaoImpl implements DaoFrame<Review, Review>{
 
 	@Override
 	public int insert(Review v, SqlSession session) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.insert("review.insert", v);
 	}
 
 	@Override

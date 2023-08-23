@@ -17,4 +17,8 @@
 		FROM review
 		WHERE product_sequence = #{sequence} AND is_deleted = 0
 	</select>
+	
+	<insert id="insert" parameterType="review">
+		INSERT INTO review (rating, comment, created_at, updated_at, member_sequence, product_sequence) VALUES (#{rating}, #{comment}, now(), now(), #{memberSequence}, #{productSequence})
+	</insert>
 </mapper>

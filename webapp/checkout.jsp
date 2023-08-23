@@ -181,7 +181,7 @@ function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDe
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="main.bit?view=checkout-result&sequences=${sequences}" method="post">
+			<form action="main.bit?view=checkout-result&sequences=${sequences}&cmd=1" method="post">
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">

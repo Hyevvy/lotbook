@@ -2,10 +2,22 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
+<%@ page
+	import="app.dto.response.SearchResult, app.dto.mapper.SearchProductMapper, java.util.List"%>
+
+<%
+// ProductDetailWithReviews 객체 받아오기
+SearchResult searchResult = (SearchResult) request.getAttribute("searchResult");
+List<SearchProductMapper> searchedList = searchResult.getSearchList();
+%>
+
+
 
 <!-- Header Section Begin -->
 <header class="header">
-	검색결과페이지라고! ${datarrr } ${datarr }d
 	<div class="header__top">
 		<div class="container">
 			<nav class="header__menu header__top__right mobile-menu"
@@ -191,13 +203,56 @@
 			</div>
 
 
-
-
-
-
 			<div class="col-lg-9">
 				<div class="shoping__cart__table">
-					<!--  모의 작성  -->
+					<c:forEach var="item" items="${searchResult.searchList}">
+						<fmt:parseDate value="${item.createdAt}"
+							pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
+						<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월"
+							var="formattedDate" />
+
+
+						<div class="d-flex">
+							<div class="mr-3 shoping__cart__item">
+								<img src="${item.productImgurl }" alt="" />
+							</div>
+
+							<div class="d-flex flex-column">
+								<div>
+									<span>[도서]</span> <span>${item.name}</span>
+								</div>
+								<div>
+									<span>${item.authorName}</span> <span>저</span> <span>${item.publisherName}</span>
+									<span>${ formattedDate }</span>
+								</div>
+								<div>
+									<span>${item.discountedPrice}</span> <span>원</span> <span>(${item.discountRate}%
+										할인)</span> <span>${item.price}</span> <span>P:
+										${item.pointAccumulation}원(${item.pointAccumulationRate}%)</span>
+								</div>
+								<div>
+									<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
+										class="text-primary">${item.reviewCount }</span> <span>건)</span>
+									<span>❤❤❤❤❤</span> <span>${item.ratingAvg }</span>
+								</div>
+							</div>
+
+							<div class="d-flex flex-column">
+								<div class="quantity">
+									<div class="pro-qty">
+										<input type="text" value="1">
+									</div>
+								</div>
+								<a href="#" class="primary-btn cart-btn cart-btn-right"><span
+									class="icon_loading"></span> 카트에 넣기</a> <a href="#"
+									class="primary-btn cart-btn cart-btn-right"><span
+									class="icon_loading"></span> 바로 구매</a>
+							</div>
+						</div>
+					</c:forEach>
+
+
+
 					<div class="d-flex">
 						<div class="mr-3 shoping__cart__item">
 							<img src="img/cart/cart-1.jpg" alt="" />
@@ -233,67 +288,7 @@
 						</div>
 					</div>
 
-					<table>
-						<thead>
-							<tr>
-								<th class="shoping__product">Products</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Total</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="shoping__cart__item"><img
-									src="img/cart/cart-1.jpg" alt="">
-									<h5>Vegetableâs Package</h5></td>
-								<td class="shoping__cart__price">$55.00</td>
-								<td class="shoping__cart__quantity">
-									<div class="quantity">
-										<div class="pro-qty">
-											<input type="text" value="1">
-										</div>
-									</div>
-								</td>
-								<td class="shoping__cart__total">$110.00</td>
-								<td class="shoping__cart__item__close"><span
-									class="icon_close"></span></td>
-							</tr>
-							<tr>
-								<td class="shoping__cart__item"><img
-									src="img/cart/cart-2.jpg" alt="">
-									<h5>Fresh Garden Vegetable</h5></td>
-								<td class="shoping__cart__price">$39.00</td>
-								<td class="shoping__cart__quantity">
-									<div class="quantity">
-										<div class="pro-qty">
-											<input type="text" value="1">
-										</div>
-									</div>
-								</td>
-								<td class="shoping__cart__total">$39.99</td>
-								<td class="shoping__cart__item__close"><span
-									class="icon_close"></span></td>
-							</tr>
-							<tr>
-								<td class="shoping__cart__item"><img
-									src="img/cart/cart-3.jpg" alt="">
-									<h5>Organic Bananas</h5></td>
-								<td class="shoping__cart__price">$69.00</td>
-								<td class="shoping__cart__quantity">
-									<div class="quantity">
-										<div class="pro-qty">
-											<input type="text" value="1">
-										</div>
-									</div>
-								</td>
-								<td class="shoping__cart__total">$69.99</td>
-								<td class="shoping__cart__item__close"><span
-									class="icon_close"></span></td>
-							</tr>
-						</tbody>
-					</table>
+					
 				</div>
 			</div>
 

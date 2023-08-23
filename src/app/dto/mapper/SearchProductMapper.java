@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SearchProductMapper {
@@ -15,6 +17,8 @@ public class SearchProductMapper {
 	private String name;
 	private int price;
 	private double pointAccumulationRate;
+	private double discountRate;
+	
 	private int stock;
 	private int salesCount;
 	
@@ -32,5 +36,9 @@ public class SearchProductMapper {
 	private int reviewCount;
 	private double ratingAvg;
 	
+	// calculated data
+	private int discountedPrice;
+	private int pointAccumulation;
+	private long popularity;
 
 }

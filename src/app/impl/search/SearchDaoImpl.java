@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Product;
+import app.dto.mapper.SearchProductMapper;
 import app.frame.DaoFrame;
 
 public class SearchDaoImpl implements DaoFrame<String, Product>{
@@ -39,9 +40,10 @@ public class SearchDaoImpl implements DaoFrame<String, Product>{
 		return null;
 	}
 	
-	public List<Product> selectProductsByKeyword(String k, SqlSession session)throws Exception {
+	public List<SearchProductMapper> selectProductsByKeyword(String k, SqlSession session)throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("search.selectProductsByKeyword", k);
+		
 	}
 
 }

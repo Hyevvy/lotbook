@@ -142,6 +142,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 					<h2>검색 결과</h2>
 					<div class="breadcrumb__option">
 						<a href="./index.jsp">Home</a> <span>Shopping Cart</span>
+
 					</div>
 				</div>
 			</div>
@@ -153,6 +154,20 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 <!-- Shoping Cart Section Begin -->
 
 <section class="product spad">
+
+	<div class="container mb-4">
+		<div class="row">
+			<div class="col-lg-3 col-md-5">
+				<span>${searchResult.searchKeyword}</span>  
+				<span>검색결과</span> 
+				<span>${searchResult.count}</span>
+				<span>건</span>
+			</div>
+			
+			<div class="col-lg-3 col-md-5"  style="margin-left: auto; text-align: right;">${searchResult.orderBy} </div>
+		</div>
+	</div>
+
 
 	<div class="container">
 		<div class="row">
@@ -204,7 +219,8 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 				</div>
 			</div>
 
-
+			<!-- TODO:조건부로 검색결과 없다고 띄우기  -->
+			
 			<div class="col-lg-9">
 				<div class="shoping__cart__table">
 					<c:forEach var="item" items="${searchResult.searchList}">
@@ -214,31 +230,31 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 							var="formattedDate" />
 
 
-						<div class="d-flex col-lg-12 py-4" style="border-top: 1px solid #d5d5d5;">
+						<div class="d-flex col-lg-12 py-4"
+							style="border-top: 1px solid #d5d5d5;">
 							<div class="mr-4 shoping__cart__item">
-								<img src="${item.productImgurl }" class="img-fluid rounded-3" style="width: 150px;" alt="" />
+								<img src="${item.productImgurl }" class="img-fluid rounded-3"
+									style="width: 150px;" alt="" />
 							</div>
 
 							<div class="d-flex flex-column justify-content-center">
 								<div class="my-2">
-									<span>[도서]</span> <h5 class="font-weight-bold d-inline">${item.name}</h5>
+									<span>[도서]</span>
+									<h5 class="font-weight-bold d-inline">${item.name}</h5>
 								</div>
-								<div >
-									<span>${item.authorName}</span> <span>저</span>
-									<br class="my-2"/>
+								<div>
+									<span>${item.authorName}</span> <span>저</span> <br class="my-2" />
 									<span>${item.publisherName}</span> <span>${ formattedDate }</span>
 								</div>
 								<div class="mt-1">
-									
-									<span class="text-warning font-weight-bold">
-	                          			<c:set var="discount" value="${item.discountRate }"/>
-										<fmt:formatNumber type="number" value="${discount}" />
-										% 할인
-							  		</span>
-									<span>${item.discountedPrice}</span><span>원</span> 
-									
-									<span style="text-decoration: line-through; color: #767676;">${item.price}</span> 
-									<span>${item.pointAccumulation}p(${item.pointAccumulationRate}%)</span>
+
+									<span class="text-warning font-weight-bold"> <c:set
+											var="discount" value="${item.discountRate }" /> <fmt:formatNumber
+											type="number" value="${discount}" /> % 할인
+									</span> <span>${item.discountedPrice}</span><span>원</span> <span
+										style="text-decoration: line-through; color: #767676;">${item.price}</span>
+									<span> | ${item.pointAccumulation}p
+										(${item.pointAccumulationRate}%)</span>
 								</div>
 								<div class="mt-2">
 									<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
@@ -247,7 +263,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 								</div>
 							</div>
 
-							<div class="d-flex flex-column" style="margin-left:auto;">
+							<div class="d-flex flex-column" style="margin-left: auto;">
 								<div class="quantity">
 									<div class="pro-qty">
 										<input type="text" value="1">

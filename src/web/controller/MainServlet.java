@@ -225,6 +225,34 @@ public class MainServlet extends HttpServlet {
 			}
 		} else if (view.equals("checkout")) {
 			request.setAttribute("center", "checkout");
+	         String parameter = request.getParameter("sequences");
+	         String[] cartSequences = parameter.split(",");
+	         CartServiceImpl cartService = new CartServiceImpl();
+	         List<CartProduct> productList = new ArrayList<>();
+	         int totalPrice = 0;
+	         int totalPoint = 0;
+	         
+	         for (int i = 0; i < cartSequences.length; i++) {
+	            Cart cart = Cart.builder().sequence(Long.parseLong(cartSequences[i])).build();
+	            try {
+	               productList.add(cartService.cartGet(cart));
+	               
+	               if (i == 0) {
+	                  totalPrice = (int) ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount() - ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount())%10);
+	                  totalPoint = (int) (Math.floor(productList.get(i).getPrice() * productList.get(i).getCount() * productList.get(i).getPointAccumulationRate() * 0.01));
+	               } else {
+	                  totalPrice = (int) (productList.get(i-1).getTotalPrice() + (productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount() - ((productList.get(i).getPrice() * ((100 - productList.get(i).getDiscountRate()) * 0.01)) * productList.get(i).getCount())%10);
+	                  totalPoint = (int) (productList.get(i-1).getTotalPoint() + Math.floor(productList.get(i).getPrice() * productList.get(i).getCount() * productList.get(i).getPointAccumulationRate() * 0.01));
+	               }
+	               
+	               productList.get(i).setTotalPrice(totalPrice);
+	               productList.get(i).setTotalPoint(totalPoint);
+	            } catch (Exception e) {
+	               e.printStackTrace();
+	            }
+	         }
+	         
+	         request.setAttribute("orderProductList", productList);
 		} else if (view.contains("checkoutbuynow")) {
 
 			request.setAttribute("center", "checkoutbuynow");
@@ -250,8 +278,28 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("center", "shop-details");
 		} else if (view.equals("shop-grid")) {
 			request.setAttribute("center", "shop-grid");
-		} else if (view.equals("shoping-cart")) {
+		} else if (view.equals("shopping-cart")) {
 			request.setAttribute("center", "shoping-cart");
+	         memberSeq = request.getParameter("memberSeq");
+	         
+	         List<Cart> cartList = new ArrayList<>();
+	         List<CartProduct> productList = new ArrayList<>();
+	         CartServiceImpl cartService = new CartServiceImpl();
+	         request.setAttribute("myCartList", null);
+	         request.setAttribute("myCartProductList", null);
+
+	         Cart cart = Cart.builder().
+	               memberSequence(Integer.parseInt(memberSeq)).build();
+	         
+	         try {
+	            cartList = cartService.getAll(cart);
+	            request.setAttribute("myCartList", cartList);
+	            productList = cartService.getProductInfo(cart);
+	            request.setAttribute("myCartProductList", productList);
+	         } catch (Exception e) {
+	            e.printStackTrace();
+	         }
+
 		}
 
 	}

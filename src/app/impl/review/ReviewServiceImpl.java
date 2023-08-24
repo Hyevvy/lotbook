@@ -1,10 +1,13 @@
 package app.impl.review;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import app.dto.entity.Member;
 import app.dto.entity.Review;
+import app.dto.response.ReviewDetails;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 
@@ -57,8 +60,21 @@ public class ReviewServiceImpl implements ServiceFrame<Review, Review>{
 
 	@Override
 	public List<Review> get() throws Exception {
-		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<ReviewDetails> get(Member member) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<ReviewDetails> reviewDetail = new ArrayList<>();
+		try {
+			reviewDetail = dao.selectReviewsByMember(member, session);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER6000 - 리뷰 에러");
+		} finally {
+			session.close();
+		}
+		return reviewDetail;
 	}
 
 }

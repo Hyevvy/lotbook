@@ -12,6 +12,7 @@
 		<typeAlias type="app.dto.entity.OrderDetail" alias="orderdetail" />
 		<typeAlias type="app.dto.entity.Product" alias="product" />
 		<typeAlias type="app.dto.entity.Review" alias="review" />
+		<typeAlias type="app.dto.response.ReviewDetails" alias="reviewDetails" />
 	</typeAliases>
 	<typeHandlers>
 		<typeHandler javaType="boolean" jdbcType="TINYINT" handler="org.apache.ibatis.type.BooleanTypeHandler" />

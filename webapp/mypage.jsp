@@ -43,7 +43,7 @@ to {
 }
 
 .star-rating div {
-	float: left;
+	/* float: left; */
 	width: 50%;
 }
 
@@ -76,7 +76,6 @@ $(function(){
 	//$("#alert-danger").hide();
 	
 	$('.stars .fa').click(function() {
-		console.log("별표 클릭!");
 	    $(this).addClass('active');
 	
 	    // 클릭한 별을 기준으로 (.fa) 그 이전 별은 보이게 그 뒤에 별들은 안보이게
@@ -447,7 +446,7 @@ $(function(){
 											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
 											style="display: inline-block; ${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰
 											작성하기</button>
-										
+
 										<button type="submit"
 											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
 											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">환불
@@ -479,8 +478,9 @@ $(function(){
 									type="hidden" name="memberSequence"
 									value="${logincust.sequence }"> <input type="hidden"
 									name="productSequence" value="${orderDetail.productSequence}">
-								<input class="rating-input" type="hidden" name="rating" value="" required>
-								<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
+								<input class="rating-input" type="hidden" name="rating" value=""
+									required> <span> 별점을 남겨주세요 </span> <span
+									style="color: red;">*</span>
 								<div class="star-rating">
 									<div class="stars">
 										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
@@ -488,13 +488,15 @@ $(function(){
 											class="fa fa-star"></i>
 									</div>
 								</div>
-								<div class="alert alert-danger mt-4" id="alert-danger" style="display:none;">별점을 클릭해주세요</div>
-								
+								<div class="alert alert-danger mt-4" id="alert-danger"
+									style="display: none;">별점을 클릭해주세요</div>
+
 
 								<textarea name="comment" class="form-control" rows="3"
 									placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" required></textarea>
 								<button type="submit" id="submitBtn"
-									class="site-btn mx-1 text-white border-0 rounded-sm mt-2" value="#reviewButton-${order.sequence}-${orderDetail.sequence}">리뷰
+									class="site-btn mx-1 text-white border-0 rounded-sm mt-2"
+									value="#reviewButton-${order.sequence}-${orderDetail.sequence}">리뷰
 									제출</button>
 								<button type="button"
 									class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
@@ -526,8 +528,86 @@ $(function(){
 	<div class="container">
 		<div class="row"></div>
 		<div class="checkout__form">
-			<h4>작성된 리뷰 목록 </h4>
-			주문 확정 목록
+			<h4>작성된 리뷰 목록</h4>
+			<c:forEach items="${myReviewList}" var="review" varStatus="status">
+				<div class="card mb-3 border-0">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<div class="d-flex flex-row align-items-center w-100">
+								<div class="mr-3">${status.index+1 }.</div>
+								<div>
+									<img src=${review.reviewDetailProduct.productImgurl }
+										class="img-fluid rounded-3" alt="Shopping item"
+										style="width: 65px;">
+								</div>
+								<div class="ml-3 w-100">
+									<h5>${review.reviewDetailProduct.name }</h5>
+									<%-- <p class="small mb-0">${orderDetail.state}</p> --%>
+								</div>
+								<!-- <div
+										class="ml-3 d-flex justify-content-between align-items-center">
+										
+									</div> -->
+							</div>
+							<div class="d-flex flex-row align-items-center">
+								<%-- <div style="width: 80px;">
+										<h5 class="fw-normal mb-0">수량: ${review.reviewDetailProduct.count}</h5>
+									</div> --%>
+								<%-- <div style="width: 100px;">
+										<h5 class="mb-0">${orderDetail.productPrice * orderDetail.count}원</h5>
+									</div> --%>
+							</div>
+
+						</div>
+					</div>
+					<div id="reviewCollapse-${review.sequence}">
+						<%-- <input type="hidden" name="cmd" value="register"> <input
+								type="hidden" name="memberSequence"
+								value="${logincust.sequence }"> <input type="hidden"
+								name="productSequence" value="${orderDetail.productSequence}">
+							<input class="rating-input" type="hidden" name="rating" value=""
+								required> <span> 별점을 남겨주세요 </span> <span
+								style="color: red;">*</span> --%>
+
+						<div class="star-rating" >
+							<div class="stars">
+								<c:forEach var="i" begin="1" end="5">
+									<c:choose>
+										<c:when test="${i <= review.rating}">
+											<i class="fa fa-star active" style="pointer-events:none;"></i>
+										</c:when>
+										<c:otherwise>
+											<i class="fa fa-star" style="pointer-events:none;"></i>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</div>
+						</div>
+
+						<!-- <div class="alert alert-danger mt-4" id="alert-danger"
+								style="display: none;">별점을 클릭해주세요</div> -->
+
+						<%-- <div
+							style="background-color: #f1f3f5; padding: 5%;">
+							${review.comment }</div> --%>
+						<textarea name="comment" class="form-control" rows="3" style="background-color: #f1f3f5; resize:none;"
+								placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled >${review.comment } </textarea>
+						<button type="submit" id="submitBtn"
+							class="site-btn mx-1 text-white border-0 rounded-sm mt-2"
+							value="#reviewButton-${review.sequence}">수정</button>
+						<button type="button"
+							class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
+							data-toggle="collapse"
+							data-target="#reviewCollapse-${review.sequence}">삭제</button>
+					</div>
+
+				</div>
+
+				<div style="padding-top: 20px;">
+					<hr>
+				</div>
+
+			</c:forEach>
 		</div>
 	</div>
 </section>

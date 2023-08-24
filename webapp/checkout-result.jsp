@@ -180,10 +180,13 @@ request.setCharacterEncoding("UTF-8");
 					</div>
 				</c:forEach>
 				<div class="checkout__order__total">
-					적립 예정 포인트 <span>${totalPoint} 원</span>
+					적립 예정 포인트 <span>${totalPoint} 점</span>
 				</div>
 				<div class="checkout__order__total">
-					총 금액 <span>${totalPrice}원</span>
+					사용 포인트 <span>${usedPoint } 점</span>
+				</div>
+				<div class="checkout__order__total">
+					총 금액 <span>${totalPrice - usedPoint}원</span>
 				</div>
 				<button type="button" class="site-btn" id="order__btn"
 					onclick={sendRequest}>홈으로 이동하기</button>

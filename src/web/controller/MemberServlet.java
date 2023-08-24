@@ -1,11 +1,7 @@
 package web.controller;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,9 +10,12 @@ import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import app.dto.entity.Member;
+import app.dto.entity.Point;
+import app.enums.PointStateEnum;
 import app.frame.ControllerFrame;
 import app.impl.cart.CartServiceImpl;
 import app.impl.member.MemberServiceImpl;
+import app.impl.point.PointServiceImpl;
 import app.impl.product.ProductServiceImpl;
 import web.dispatcher.Navi;
 
@@ -31,6 +30,7 @@ public class MemberServlet implements ControllerFrame {
 	
 	private MemberServiceImpl memServiceImpl;
 	private CartServiceImpl cartServiceImpl;
+	private PointServiceImpl pointServiceImpl;
 	ProductServiceImpl productService;
 	private Logger user_log = Logger.getLogger("user");
 	
@@ -39,6 +39,7 @@ public class MemberServlet implements ControllerFrame {
         memServiceImpl = new MemberServiceImpl();
         cartServiceImpl = new CartServiceImpl();
         productService = new ProductServiceImpl();
+        pointServiceImpl = new PointServiceImpl();
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
     
@@ -129,6 +130,14 @@ public class MemberServlet implements ControllerFrame {
             memServiceImpl.register(signUpInfo);
             request.setAttribute("center", "signin");
             request.setAttribute("msg", "회원가입을 축하합니다! 로그인을 진행해주세요 :)");
+            
+            Point point = null;
+            int memberSeq = pointServiceImpl.getMemberSeq();
+            
+            point = Point.builder().point(1000).state(PointStateEnum.REGISTERED).memberSequence(memberSeq).build();
+            pointServiceImpl.register(point);
+            pointServiceImpl.modify(point);
+            
          } catch (Exception e) {
             e.printStackTrace();
          }

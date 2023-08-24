@@ -40,7 +40,6 @@ public class ProductDetailServlet implements ControllerFrame {
 	}
 
 	private void build(HttpServletRequest request, String view) {
-		System.out.println("빌드메소드 입장");
 		switch (view) {
 		case "shop-details":
 			handleProductDetails(request);
@@ -96,9 +95,6 @@ public class ProductDetailServlet implements ControllerFrame {
 		String viewTest = request.getParameter("view");
 		product_detail_log.debug(stringProductSequence);
 		product_detail_log.debug("일단 여기로 들어오긴했어.");
-		System.out.println(stringProductSequence);
-		System.out.println(viewTest);
-		System.out.println("여기인가?");
 		
 		int productSequence = 3;
 		if (stringProductSequence != null) {

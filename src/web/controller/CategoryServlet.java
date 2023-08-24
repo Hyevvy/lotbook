@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import app.cust.CustServiceImpl;
 import app.dto.entity.Cust;
 import app.frame.ControllerFrame;
+import app.impl.product.ProductServiceImpl;
 import web.dispatcher.Navi;
 
 /**
@@ -21,13 +22,12 @@ import web.dispatcher.Navi;
 @WebServlet({"/category"})
 public class CategoryServlet extends HttpServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
-	
-	CustServiceImpl service = null;
+	private ProductServiceImpl productServiceImpl;
 	
 
     public CategoryServlet() {
         super();
-        service = new CustServiceImpl();
+        productServiceImpl = new ProductServiceImpl();
     }
 
     
@@ -49,7 +49,11 @@ public class CategoryServlet extends HttpServlet implements ControllerFrame {
         String view = request.getParameter("view");
         
         if (view != null) {
-            build(request, view);
+            try {
+				build(request, view);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
         }
 
         RequestDispatcher rd = request.getRequestDispatcher(next);
@@ -57,13 +61,14 @@ public class CategoryServlet extends HttpServlet implements ControllerFrame {
     }
 
     
-	private void build(HttpServletRequest request, String view) {
+	private void build(HttpServletRequest request, String view) throws Exception {
 	    if (view.equals("computer")) {
-	        request.setAttribute("center", "category");
-	        request.setAttribute("navi", Navi.category);
-	    } else if (view.equals("test")) {
+	    	request.setAttribute("selectComputerCategory", productServiceImpl.selectComputerCategory());
+	    	request.setAttribute("center", "category");
+	        //request.setAttribute("navi", Navi.register);
+	    } else if (view.equals("novel")) {
 	        // ...
-	    } else if (view.equals("getall")){
+	    } else if (view.equals("economy")){
 	        // 기본값 설정 또는 처리
 	    } else {
 	    	

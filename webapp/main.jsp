@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-
 <!-- Header Section Begin -->
 <header class="header">
    <div class="header__top">
@@ -91,7 +90,7 @@
                   <i class="fa fa-bars"></i> <span>카테고리</span>
                </div>
                <ul>
-                  <li value="1"><a href="categorypage.bit?view=logout" class="font-weight-bold">컴퓨터 /
+                  <li value="1"><a href="category?view=computer" class="font-weight-bold">컴퓨터 /
                         IT</a>
                   <li value="2"><a href="#" style="text-indent: 20px">컴퓨터
                         공학</a>

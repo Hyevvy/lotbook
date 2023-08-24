@@ -27,6 +27,7 @@
 	        P.sequence = #{sequence}
 	</select>
 	
+
 	
 	<!--
 	<resultMap type="app.dto.entity.Product" id="productmapper">

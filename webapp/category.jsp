@@ -2,6 +2,16 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.Arrays" %>
+<%
+   String[] computerCategory = request.getParameterValues("selectComputerCategory");
+%>
+
+<script>
+    var computerCategoryParam = <%= Arrays.toString(computerCategory) %>;
+    console.log("computerCategoryParam:", computerCategoryParam);
+</script>
 
 
 <!-- Header Section Begin -->
@@ -117,4 +127,23 @@
 		</div>
 	</div>
 </section>
+<c:forEach items="${computerCategory}" var="product">
+					                    <h6>${product.name}</h6>
+					                    <span>${product.price}</span>
+</c:forEach>
+<h1>${computerCategory}</h1>
+<h1>카테고리</h1>
+<section class="categories">
+         <div class="container">
+            <div class="row">
+               <div class="categories__slider owl-carousel">
+                  <c:forEach items="${computerCategory }" var="product">
+                     <div class="col-lg-3">
+                     	 <h6>${product.name}</h6>
+                     </div>
+                  </c:forEach>
+               </div>
+            </div>
+         </div>
+      </section>
 <!-- Hero Section End -->

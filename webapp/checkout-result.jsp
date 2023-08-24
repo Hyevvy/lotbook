@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
@@ -155,6 +156,9 @@ request.setCharacterEncoding("UTF-8");
 					받는 분 성함 <span> ${orderResult.receiverName} 님 </span>
 				</div>
 				<div class="checkout__order__total">
+					받는 분 이메일 <span> ${orderResult.receiverEmail} </span>
+				</div>
+				<div class="checkout__order__total">
 					연락처 <span> ${orderResult.orderPhone} </span>
 				</div>
 				<div class="checkout__order__total">
@@ -173,9 +177,10 @@ request.setCharacterEncoding("UTF-8");
 					상품 목록 <span>금액</span>
 				</div>
 
-				<c:forEach items="${orderDetailResult}" var="orderDetail">
-					<div class="checkout__order__total">
-						${orderDetail.orderDetailProduct.name } <span>
+				<c:forEach items="${orderDetailResult}" var="orderDetail" varStatus="status">
+					<div id="productCount" style="display: none;">${fn:length(orderDetailResult)}</div>
+					<div class="checkout__order__total text-muted">
+						<span id="productName${status.index }">${orderDetail.orderDetailProduct.name }</span> <span class="text-muted">
 							${orderDetail.productPrice} X ${orderDetail.count} 원</span>
 					</div>
 				</c:forEach>
@@ -188,8 +193,8 @@ request.setCharacterEncoding("UTF-8");
 				<div class="checkout__order__total">
 					총 금액 <span>${totalPrice - usedPoint}원</span>
 				</div>
-				<button type="button" class="site-btn" id="order__btn"
-					onclick={sendRequest}>홈으로 이동하기</button>
+				<button type="button" name="submit" class="site-btn" id="order__btn">홈으로
+					이동하기</button>
 			</div>
 		</div>
 	</div>
@@ -198,34 +203,52 @@ request.setCharacterEncoding("UTF-8");
 </section>
 <!-- Checkout Section End -->
 
-<script>
-
-function sendRequest(){
-	$.ajax({
-		url : "request_ajax.jsp",
-		type : "post",
-		data : {"receiver_name" : receiver_name, "zipcode" : zipcode, "order_phone": order_phone},
-		dataType : "text",
-		success : function(result){
-			document.getElementById("text").innerHTML = result;
-		}
-	});
-}
 
 
-document.querySelector("#order__btn").addEventListener("click",function(){
-	const receiver_name = document.querySelector('#input__receiverName').value;
-	const order_phone = document.querySelector('#input__phone').value;
+<script type="text/javascript">
 	
-	const zipcode = document.querySelector('#sample6_postcode').value;
-	const street_address = document.querySelector('#sample6_address').value;
-	const address_detail = document.querySelector('#sample6_extraAddress').value;
-	const vendor_message = document.querySelector('#sample6_detailAddress').value;
-	
-	
-	console.log(receiver_name, order_phone);
-	console.log('hi');
-});
-		
-</script>
+$(document).ready(function() {
+	emailjs.init("BeCe_Kl2PZg0CGUoO");		
 
+    $('button[name=submit]').click(function(){       
+    	var message = "ㅇㅇ";
+    	const firstProductName = document.getElementById('productName0').innerText;
+
+    	const productListLength = document.getElementById('productCount').innerText;
+    	if(productListLength > 1) {
+    		// 2종류 이상의 책을 구매
+    		message = firstProductName + `외 ` + (Number(productListLength) - 1) + `건 구매 완료되었습니다.`
+    	} else {
+    		message = firstProductName + ` 구매 완료되었습니다.`
+    	}
+   
+      var templateParams = {	
+    		receiverName: `${orderResult.receiverName}`,
+    		receiverEmail: `${orderResult.receiverEmail}`,
+    		orderPhone : `${orderResult.orderPhone}`,
+    		zipcode:  `${orderResult.receiverName}`,
+    		streetAddress:  `${orderResult.streetAddress}`,
+    		addressDetail:  `${orderResult.addressDetail}`,
+    		vendorMessage:  `${orderResult.vendorMessage}`,
+    		totalPrice: ${totalPrice},
+    		usedPoint: ${usedPoint},
+    		finalPrice: ${totalPrice - usedPoint},
+            message : message
+       		};
+           
+            	
+   	  emailjs.send('service_dwb08qj', 'template_o71nji7', templateParams)
+     	    .then(function(response) {
+     	       console.log('SUCCESS!', response.status, response.text);
+     	    }, function(error) {
+     	       console.log('FAILED...', error);
+     	    });
+          
+
+
+    });
+    
+  });
+    
+
+	</script>

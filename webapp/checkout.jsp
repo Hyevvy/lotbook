@@ -186,7 +186,7 @@ function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDe
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
 						<div class="d-flex flex-col align-items-center">
-							<input id="check_box" type="checkbox" class="mb-3"
+							<input id="check_box" type="checkbox" class="mb-3 text-dark"
 								onclick="get_my_info('${logincust.name }', '${logincust.email }', '${logincust.memberPhone }', '${logincust.zipcode }', '${logincust.streetAddress }', '${logincust.addressDetail }')">
 							<p class="ml-2 text-muted">내 정보 불러오기</p>
 						</div>

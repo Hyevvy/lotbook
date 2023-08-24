@@ -243,7 +243,6 @@
 		emailjs.init("BeCe_Kl2PZg0CGUoO");		
 		
         $('button[name=submit]').click(function(){       	 
-          console.log('here');
           var templateParams = {	
 
                 name: $('input[name=name]').val(),

@@ -151,7 +151,9 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}" method="post">
+			<form
+				action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}"
+				method="post">
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
@@ -206,41 +208,40 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 								placeholder="배송 메세지" name="input__vendor_message">
 						</div>
 					</div>
-			</form>
+					<div class="col-lg-4 col-md-6">
+						<div class="checkout__order">
+							<h4>주문 내역</h4>
+							<div class="checkout__order__products">
+								상품 목록 <span>금액</span>
+							</div>
+							<ul>
+								<c:forEach items="${orderProductList }" var="product">
+									<li>${product.name.substring(0, 10) }...X${product.count }
+										<span> <c:set var="price"
+												value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
+											<fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${price}" /> 원
+									</span>
+									</li>
+								</c:forEach>
+							</ul>
+							<div class="checkout__order__total">
 
-			<div>---</div>
-			<div class="col-lg-4 col-md-6">
-				<div class="checkout__order">
-					<h4>주문 내역</h4>
-					<div class="checkout__order__products">
-						상품 목록 <span>금액</span>
-					</div>
-					<ul>
-						<c:forEach items="${orderProductList }" var="product">
-							<li>${product.name.substring(0, 10) }...X ${product.count }
-								<span> <c:set var="price"
-										value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
-									<fmt:formatNumber type="number" maxFractionDigits="3"
-										value="${price}" /> 원
-							</span>
-							</li>
-						</c:forEach>
-					</ul>
-					<div class="checkout__order__total">
+								적립 예정 포인트 <span>${orderProductList[fn:length(orderProductList) -1].totalPoint }
+									점</span>
+							</div>
+							<div class="checkout__order__total">
+								총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice }
+									원</span>
+							</div>
 
-						적립 예정 포인트 <span>${orderProductList[fn:length(orderProductList) -1].totalPoint }
-							점</span>
+							<button type="submit" class="site-btn">주문하기</button>
+						</div>
 					</div>
-					<div class="checkout__order__total">
-						총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice }
-							원</span>
-					</div>
-
-					<button type="submit" class="site-btn">주문하기</button>
 				</div>
-			</div>
+				</form>
+				</div>
 		</div>
-	</div>
 </section>
 <!-- Checkout Section End -->
 <script>

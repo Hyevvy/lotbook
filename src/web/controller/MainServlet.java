@@ -1,11 +1,9 @@
 package web.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +12,15 @@ import app.cust.CustServiceImpl;
 import app.dto.entity.Cart;
 import app.dto.entity.Order;
 import app.dto.entity.OrderDetail;
+import app.dto.entity.Point;
 import app.dto.entity.Product;
 import app.dto.response.CartProduct;
+import app.enums.PointStateEnum;
 import app.frame.ControllerFrame;
 import app.impl.cart.CartServiceImpl;
 import app.impl.order.OrderServiceImpl;
 import app.impl.orderdetail.OrderDetailServiceImpl;
+import app.impl.point.PointServiceImpl;
 import app.impl.product.ProductServiceImpl;
 
 /**
@@ -31,6 +32,7 @@ public class MainServlet implements ControllerFrame {
 	CustServiceImpl custService;
 	ProductServiceImpl productService;
 	CartServiceImpl cartService;
+	PointServiceImpl pointService;
 	String memberSeq = null;
 
 	public MainServlet() {
@@ -38,6 +40,7 @@ public class MainServlet implements ControllerFrame {
 		custService = new CustServiceImpl();
 		productService = new ProductServiceImpl();
 		cartService = new CartServiceImpl();
+		pointService = new PointServiceImpl();
 	}
 
 	@Override
@@ -53,7 +56,7 @@ public class MainServlet implements ControllerFrame {
 
 	private void build(HttpServletRequest request, String view) {
 
-		if (view == null) {
+		if (view == null) {			
 	         // 책 리스트 불러오기
 			 try {
 			    request.setAttribute("BestSeller", productService.getBestseller());
@@ -61,8 +64,12 @@ public class MainServlet implements ControllerFrame {
 			    request.setAttribute("BigPoint", productService.getPoint());
 			    request.setAttribute("BigDiscount", productService.getDiscount());
 			    
-			    int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
-	            request.setAttribute("cartCount", cartCount);
+			    if (memberSeq != null) {
+			    	int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+		            request.setAttribute("cartCount", cartCount);
+		            
+			    }
+			    
 		     } catch (Exception e2) {
 		        e2.printStackTrace();
 		     }
@@ -137,6 +144,12 @@ public class MainServlet implements ControllerFrame {
 					request.setAttribute("orderDetailResult", orderDetailList);
 					request.setAttribute("totalPoint", totalPoint);
 					request.setAttribute("totalPrice", totalPrice);
+					
+					// 포인트 적립!!!!!!
+					// 추후에 포인트 사용 추가
+					Point point = Point.builder().point(totalPoint).state(PointStateEnum.ACCUMULATED).memberSequence(Long.parseLong(memberSeq)).build();
+		            pointService.register(point);
+		            pointService.modify(point);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

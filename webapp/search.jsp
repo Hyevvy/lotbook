@@ -16,13 +16,11 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 
 <style type="text/css">
-.star {
-	//color: #EDBB0E;
+.star { //
+	color: #EDBB0E;
 	color: #ffc107;
-	letter-spacing:-1.2px;
-
+	letter-spacing: -1.2px;
 }
-
 </style>
 
 
@@ -178,8 +176,8 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 			<div style="margin-left: auto; text-align: right;">
 				<!-- 드롭다운 메뉴를 생성하고 선택한 옵션에 따라 요청을 보내는 함수를 호출합니다. -->
-				<label for="orderby"></label> <select id="orderby"
-					style="margin-left: auto;" onchange="changeOrderBy(this.value)">
+				<select id="orderby" style="margin-left: auto;"
+					onchange="changeOrderBy(this.value)">
 					<option value="popular">인기순</option>
 					<option value="high_to_low">높은 가격순</option>
 					<option value="low_to_high">낮은 가격순</option>
@@ -187,6 +185,8 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 					<option value="sales">판매량순</option>
 				</select>
 			</div>
+
+
 		</div>
 	</div>
 
@@ -198,8 +198,8 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 					<div class="sidebar__item">
 						<h4>전체 카테고리</h4>
 						<ul>
-							<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
-									IT</a></li>
+							<li value="1"><span href="#" class="font-weight-bold">컴퓨터 /
+									IT</span></li>
 							<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
 									공학 (${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
 							<li value="3"><a href="#" style="text-indent: 20px">데이터베이스
@@ -311,30 +311,23 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 										<div class="mt-2">
 											<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
 												class="text-primary">${item.reviewCount }</span> <span>건)</span>
-											
-											
-											
-											<span class="product__details__rating star">
-												<c:set var="fullStars"
-													value="${Math.floor(item.ratingAvg)}" />
-												<c:set var="halfStar"
-													value="${item.ratingAvg % 1 >= 0.5 ? 1 : 0}" />
+
+
+
+											<span class="product__details__rating star"> <c:set
+													var="fullStars" value="${Math.floor(item.ratingAvg)}" /> <c:set
+													var="halfStar" value="${item.ratingAvg % 1 >= 0.5 ? 1 : 0}" />
 												<c:set var="emptyStars" value="${5 - fullStars - halfStar}" />
 												<c:forEach var="i" begin="1" end="${fullStars}">
 													<i class="fa fa-star"></i>
-												</c:forEach>
-
-												<c:if test="${halfStar == 1}">
+												</c:forEach> <c:if test="${halfStar == 1}">
 													<i class="fa fa-star-half-o"></i>
-												</c:if>
-
-												<c:forEach var="i" begin="1" end="${emptyStars}">
+												</c:if> <c:forEach var="i" begin="1" end="${emptyStars}">
 													<i class="fa fa-star-o"></i>
 												</c:forEach>
 
-												
-											</span>
-											<span>${item.ratingAvg}</span>
+
+											</span> <span>${item.ratingAvg}</span>
 										</div>
 									</div>
 
@@ -424,15 +417,40 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 
 <script>
+		/*
 		window.onload = function () {
 		    var currentURL = new URL(window.location.href);
 		    var selectedOrderBy = currentURL.searchParams.get("orderby");
+		    
+		    console.log("정렬기준")
 		    console.log(selectedOrderBy)
 		    
 		    if (selectedOrderBy) {
-		        document.getElementById("orderby").value = selectedOrderBy;
+		        // document.getElementById("orderby").value = selectedOrderBy;
+		        var orderByDropdown = document.getElementById("orderby");
+		        orderByDropdown.value = selectedOrderBy;
 		    }
 		};
+		*/
+		
+		function setOrderByDropdownValue() {
+		    var currentURL = new URL(window.location.href);
+		    var selectedOrderBy = currentURL.searchParams.get("orderby");
+		    
+		    console.log("정렬기준")
+		    console.log(selectedOrderBy)
+		    
+		    if (selectedOrderBy) {
+		        var orderByDropdown = document.getElementById("orderby");
+		        console.log(orderByDropdown);
+		        console.log(selectedOrderBy);
+		        
+		        orderByDropdown.value = selectedOrderBy;
+		    }
+		}
+
+		window.onload = setOrderByDropdownValue;
+
 
         // 정렬 기준을 변경.
         function changeOrderBy(orderBy) {

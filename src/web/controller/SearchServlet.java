@@ -38,6 +38,7 @@ public class SearchServlet implements ControllerFrame {
 		// 검색어로 들어온걸 받아옴.
 		String keyword = request.getParameter("keyword");
 		String orderBy = request.getParameter("orderby");
+		String category = request.getParameter("category");
 		
 		// 검색결과 없다는거 보내주면 jsp에서도 분기처리해서 렌더링 가능하다.
 		if (keyword != null) {
@@ -46,7 +47,7 @@ public class SearchServlet implements ControllerFrame {
 			// System.out.println(wordWithoutSpace);
 			
 			// 검색결과 데이터를 가져온다.
-			SearchResult searchResult = getSearchResult(wordWithoutSpace, orderBy);
+			SearchResult searchResult = getSearchResult(wordWithoutSpace, orderBy, category);
 			// System.out.println(searchResult);
 			
 			// 검색결과 데이터를 request 객체에 속성으로 추가
@@ -55,11 +56,13 @@ public class SearchServlet implements ControllerFrame {
 		}
 	}
 
-	private SearchResult getSearchResult(String keyword, String orderBy ) {
+	private SearchResult getSearchResult(String keyword, String orderBy, String category) {
 		SearchResult searchResult = null;
+		
+		
 		// 상품 정보와 관련 리뷰를 가져오는 로직. ProductService에서 가져옴..
 		try {
-			searchResult = searchServiceImpl.getProductsByKeyword(keyword, orderBy);
+			searchResult = searchServiceImpl.getProductsByKeyword(keyword, orderBy, category);
 
 		} catch (Exception e) {
 			e.printStackTrace();

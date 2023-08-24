@@ -54,7 +54,7 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 	}
 	
 	
-	public SearchResult getProductsByKeyword(String keyword, String orderby) throws Exception {
+	public SearchResult getProductsByKeyword(String keyword, String orderby, String category) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
 		List<SearchProductMapper> searchedList = searchDao.selectProductsByKeyword(keyword, session);
 		searchedList.forEach(item -> System.out.println(item.toString()));
@@ -96,6 +96,23 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 	            // throw new IllegalArgumentException("Invalid orderby parameter");
 	    }
 	    
+	    
+	    
+	    // 카테고리 적용
+	    int categorySequence = 0;
+	    // 카테고리 sequence -> cateogry name 조회하는 
+	    
+		if (category != null) {
+	    	categorySequence = Integer.parseInt(category);
+	    }
+	    if (categorySequence != 0) {
+	    	
+	    } else {
+	    	
+	    }
+	    
+	    
+	    
 	    // 카테고리별 검색결과 수 계산하기.
 	    Map<String, Integer> countByCategory = searchedList.stream()
 	            .collect(Collectors.groupingBy(SearchProductMapper::getCategoryName, Collectors.summingInt(item -> 1)));
@@ -108,7 +125,8 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 	    										.orderBy(orderby)
 	    										.searchList(searchedList)
 	    										.build();
-	    
+	    System.out.println(searchedList);
+	    System.out.println(category);
 		
 		return searchResult;
 	}

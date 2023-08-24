@@ -46,10 +46,8 @@ if (productDetailWithReviews != null) {
 	justify-content: space-between
 }
 
-.q-quantity{
-	background-color: gray; 
-    
-
+.q-quantity {
+	background-color: gray;
 }
 </style>
 
@@ -211,8 +209,10 @@ if (productDetailWithReviews != null) {
 				<div class="product__details__text">
 					<h3>${ productDetailWithReviews.getName() }</h3>
 					<div class="product__details__rating">
-						<c:set var="fullStars" value="${Math.floor(productDetailWithReviews.averageRating)}" />
-						<c:set var="halfStar" value="${productDetailWithReviews.averageRating % 1 >= 0.5 ? 1 : 0}" />
+						<c:set var="fullStars"
+							value="${Math.floor(productDetailWithReviews.averageRating)}" />
+						<c:set var="halfStar"
+							value="${productDetailWithReviews.averageRating % 1 >= 0.5 ? 1 : 0}" />
 						<c:set var="emptyStars" value="${5 - fullStars - halfStar}" />
 						<c:forEach var="i" begin="1" end="${fullStars}">
 							<i class="fa fa-star"></i>
@@ -221,19 +221,19 @@ if (productDetailWithReviews != null) {
 						<c:if test="${halfStar == 1}">
 							<i class="fa fa-star-half-o"></i>
 						</c:if>
-					
+
 						<c:forEach var="i" begin="1" end="${emptyStars}">
 							<i class="fa fa-star-o"></i>
 						</c:forEach>
-					
-						<span>${productDetailWithReviews.averageRating }</span> 
-						<span>(${ productDetailWithReviews.getReviews().size() }개의 리뷰)</span>
+
+						<span>${productDetailWithReviews.averageRating }</span> <span>(${ productDetailWithReviews.getReviews().size() }개의
+							리뷰)</span>
 					</div>
 
 
 					<div class="d-flex flex-column mb-3">
 						<div class="d-flex flex-row">
-							<h5 class="my-2 info-tag normal-info" >정가</h5>
+							<h5 class="my-2 info-tag normal-info">정가</h5>
 							<div class="my-2">
 								<fmt:formatNumber
 									value="${ productDetailWithReviews.getOriginalPrice() }"
@@ -271,14 +271,14 @@ if (productDetailWithReviews != null) {
 
 					</div>
 					<div class="d-flex flex-row">
-						
+
 
 						<div class="d-flex flex-row align-items-center bg-light mr-5"
 							style="width: 115px; display: inline-block; margin-right: 16px; margin-bottom: 4px;">
 							<span class="p-3 text-dark btn " style="width: 50px;"
-								onclick="decreaseQuantity()">-</span> 
-							<input type="text"
-								value="1" id="product-count" class="fw-normal mb-0 ml-2 bg-light"
+								onclick="decreaseQuantity()">-</span> <input type="text"
+								value="1" id="product-count"
+								class="fw-normal mb-0 ml-2 bg-light"
 								style="width: 50px; border: none; text-align: center;" readonly>
 							<span class="p-3 text-dark btn bg-light" style="width: 50px;"
 								onclick="increaseQuantity()">+</span>
@@ -318,11 +318,13 @@ if (productDetailWithReviews != null) {
 					 -->
 
 
-					<div class="d-flex py-4" style="height:5vh;">
-						<h5 class="normal-info" id="totalPriceTag"> </h5> <div id="totalPrice" class="bold-info ml-3" style="line-height:1.1;"></div> 
+					<div class="d-flex py-4" style="height: 5vh;">
+						<h5 class="normal-info" id="totalPriceTag"></h5>
+						<div id="totalPrice" class="bold-info ml-3"
+							style="line-height: 1.1;"></div>
 					</div>
-					
-					
+
+
 
 
 
@@ -366,12 +368,14 @@ if (productDetailWithReviews != null) {
 									<p class="col-lg-8 col-md-8 content-style">${productDetailWithReviews.getContent()}</p>
 								</div>
 
-								<div class="d-flex flex-column align-items-center">
-									<img
-										class="product__details__pic__item--large col-lg-6 col-md-6 mb-5"
-										src=${productDetailWithReviews.productDetailImgurl }
-										alt="상품디테일사진">
-
+								<div class="d-flex flex-column align-items-center mb-5">
+									<c:if
+										test="${productDetailWithReviews.productDetailImgurl != null}">
+										<img
+											class="product__details__pic__item--large col-lg-6 col-md-6 mb-5"
+											src=${productDetailWithReviews.productDetailImgurl }
+											alt="상품디테일사진">
+									</c:if>
 								</div>
 
 

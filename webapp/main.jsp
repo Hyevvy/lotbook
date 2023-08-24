@@ -13,7 +13,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-<jsp:include page="popup.jsp"/>
+<jsp:include page="popup.jsp" />
 
 <!-- Header Section Begin -->
 <header class="header">
@@ -129,7 +129,11 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 					</div>
 				</div>
 				<div>
-					<img class="hero__item" src="img/banner.png">
+					<a
+						href="http://127.0.0.1/lotbook/product-detail.bit?view=shop-details&sequence=264">
+						<img class="hero__item" src="img/banner.png">
+					</a>
+
 				</div>
 			</div>
 

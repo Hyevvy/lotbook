@@ -13,7 +13,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
+<jsp:include page="popup.jsp"/>
 
 <!-- Header Section Begin -->
 <header class="header">

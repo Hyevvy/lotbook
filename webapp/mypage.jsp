@@ -227,9 +227,9 @@
 									  &nbsp;&nbsp;&nbsp;&nbsp;
 									  <p class="font-italic text-dark">총 누적 포인트: </p>
 									  &nbsp;&nbsp;&nbsp;
-									  <p class="font-italic text-danger">
+									  <p class="font-italic text-danger" id="point${product.sequence }">
 										  <c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
-										  <fmt:parseNumber type="number" value="${totalPoint}"  integerOnly="true"/>
+										  <fmt:formatNumber type="number" maxFractionDigits="3" value="${totalPoint}"/>
 									  </p>
 									  &nbsp;
 									  <p class="font-italic text-dark">점</p>
@@ -238,12 +238,12 @@
 			                        </div>
 			                        <div class="d-flex flex-row align-items-center col-4">
 				                        <div class="d-flex flex-row align-items-center bg-light">
-				                          	<span class="p-3 text-dark btn" onclick="reduceCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence })">-</span>
+				                          	<span id="countButtonDiv${product.sequence }" class="p-3 text-dark btn" onclick="reduceCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">-</span>
 				                          	<h5 class="fw-normal mb-0 ml-2" id="product-count${product.sequence }">${product.count }</h5>
-				                        	<span class="p-3 text-dark btn" onclick="addCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence })">+</span>
+				                        	<span id="countButtonDiv${product.sequence }" class="p-3 text-dark btn" onclick="addCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">+</span>
 				                        </div>
 				                        <div class="ml-4" style="width: 100px;">
-				                          <h5 class="mb-0" style="font-size: 15px; font-weight: 700;">
+				                          <h5 class="mb-0" style="font-size: 15px; font-weight: 700;" id="price${product.sequence }">
 				                          	<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
 											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
 				                          원</h5>
@@ -367,7 +367,7 @@
 	  </div>
   </div>
 <script>
-	var totalCount = 0;
+	var totalPrice = 0;
 	var totalPoint = 0;
 	var selectedCart = [];
 	function is_checked(sequence, count, price, discountRate, pointAccumulationRate) {
@@ -375,17 +375,54 @@
 		const checkbox = document.getElementById('cart_checkbox' + sequence);
 
 		if (checkbox.checked) {
-			totalCount = totalCount + ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
-			totalPoint = totalPoint + Math.floor(price * count * pointAccumulationRate * 0.01);
 			selectedCart.push(sequence);
-		} else {
-			totalCount = totalCount - ((price * ((100 - discountRate) * 0.01)) * count - ((price * ((100 - discountRate) * 0.01)) * count)%10);
-			totalPoint = totalPoint - Math.floor(price * count * pointAccumulationRate * 0.01);
-			selectedCart.pop();
-		}
+			var strPrice = document.getElementById("price" + sequence).innerText.split(" ")[0];
+			var strPoint = document.getElementById("point" + sequence).innerText.split(": ")[0];
+			
+			var priceList = strPrice.split(",");
+			var tmp1 = 0;
+			var k = 0;
+			for(var i=priceList.length-1; i>=0; i--) {
+				var j = 1000**(i);
+				tmp1 += priceList[k++] * j;
+			}
+			totalPrice = totalPrice + tmp1;
+			
+			var pointList = strPoint.split(",");
+			var tmp2 = 0;
+			var k = 0;
+			for(var i=pointList.length-1; i>=0; i--) {
+				var j = 1000**(i);
+				tmp2 += pointList[k++] * j;
+			}
+			totalPoint = totalPoint + tmp2;
 
-		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalCount + " 원,";
-		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint + " 점";	
+		} else {
+			selectedCart.pop();
+			var strPrice = document.getElementById("price" + sequence).innerText.split(" ")[0];
+			var strPoint = document.getElementById("point" + sequence).innerText.split(": ")[0];
+			
+			var priceList = strPrice.split(",");
+			var tmp1 = 0;
+			var k = 0;
+			for(var i=priceList.length-1; i>=0; i--) {
+				var j = 1000**(i);
+				tmp1 += priceList[k++] * j;
+			}
+			totalPrice = totalPrice - tmp1;
+			
+			var pointList = strPoint.split(",");
+			var tmp2 = 0;
+			var k = 0;
+			for(var i=pointList.length-1; i>=0; i--) {
+				var j = 1000**(i);
+				tmp2 += pointList[k++] * j;
+			}
+			totalPoint = totalPoint - tmp2;
+		}
+		
+		document.getElementById("totalCount").innerHTML = "총 주문 금액: " + totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원,";
+		document.getElementById("totalPoint").innerHTML = "총 누적 포인트: " + totalPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 점";	
 	}
 	
 	const modal = document.getElementById("modal");
@@ -417,27 +454,53 @@
 			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
 		}
 	}
-	function addCount(sequence, productSeq, memberSeq) {
+	function addCount(sequence, productSeq, memberSeq, price, discountRate, pointAccumulationRate) {
 		var count = Number($('#product-count' + sequence).text() * 1);
-		$.ajax({
-			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count+1) + '&memberSeq=' + memberSeq,
-			success:function(result){
-				console.log(result);
-				if (result === 0) {
-					alert("재고 이상의 상품을 담을 수 없습니다!");
-				} else {
-					$('#product-count' + sequence).text(result);
+		
+		const checkbox = document.getElementById('cart_checkbox' + sequence);
+		
+		if (checkbox.checked) {
+			
+		} else {
+			$.ajax({
+				url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count+1) + '&memberSeq=' + memberSeq,
+				success:function(result){
+					if (result === 0) {
+						alert("재고 이상의 상품을 담을 수 없습니다!");
+					} else {
+						$('#product-count' + sequence).text(result);
+						$("#price" + sequence).text(((price * ((100 - discountRate) * 0.01)) * (count+1) - ((price * ((100 - discountRate) * 0.01)) * (count+1))%10).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원");
+						$('#point' + sequence).text((Math.floor(price * (count+1) * pointAccumulationRate * 0.01)).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+					}
 				}
-			}
-		});
+			});
+		}
+		
+		
+		
 	}
-	function reduceCount(sequence, productSeq, memberSeq) {
+	function reduceCount(sequence, productSeq, memberSeq, price, discountRate, pointAccumulationRate) {
 		var count = Number($('#product-count' + sequence).text());
-		$.ajax({
-			url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count-1) + '&memberSeq=' + memberSeq,
-			success:function(result){
-				$('#product-count' + sequence).text(result);
-			}
-		});
+		
+		const checkbox = document.getElementById('cart_checkbox' + sequence);
+		
+		if (checkbox.checked) {
+			
+		} else {
+			$.ajax({
+				url:'rest.bit?view=changeCount&sequence=' + sequence + '&productSequence=' + productSeq + '&count=' + (count-1) + '&memberSeq=' + memberSeq,
+				success:function(result){
+					$('#product-count' + sequence).text(result);
+					if (count <= 1) {
+						$("#price" + sequence).text(((price * ((100 - discountRate) * 0.01)) * (1) - ((price * ((100 - discountRate) * 0.01)) * (1))%10).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원");
+						$('#point' + sequence).text((Math.floor(price * (1) * pointAccumulationRate * 0.01)) + " 점");
+					} else {
+						$("#price" + sequence).text(((price * ((100 - discountRate) * 0.01)) * (count-1) - ((price * ((100 - discountRate) * 0.01)) * (count-1))%10).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원");
+						$('#point' + sequence).text((Math.floor(price * (count-1) * pointAccumulationRate * 0.01)).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+					}
+				}
+			});
+		}
+		
 	}
 </script>

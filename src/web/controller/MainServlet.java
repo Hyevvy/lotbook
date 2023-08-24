@@ -82,7 +82,6 @@ public class MainServlet implements ControllerFrame {
 			OrderServiceImpl orderService = new OrderServiceImpl();
 			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
 			ProductServiceImpl productService = new ProductServiceImpl();
-
 			request.setAttribute("center", "checkout-result");
 
 			String receiver_name = request.getParameter("input__receiverName");
@@ -96,6 +95,7 @@ public class MainServlet implements ControllerFrame {
 					.vendorMessage(vendor_message).addressDetail(address_detail).streetAddress(street_address)
 					.receiverEmail(email).zipcode(zipcode).memberSequence(Long.parseLong(memberSeq)).build();
 			String cmd = request.getParameter("cmd");
+			int usePoint = Integer.parseInt(request.getParameter("usePoint")) * -1;
 
 			int totalPoint = 0;
 			int totalPrice = 0;
@@ -104,7 +104,7 @@ public class MainServlet implements ControllerFrame {
 				String parameter = request.getParameter("sequences");
 
 				String[] cartSequences = parameter.split(","); // 구매한 카트 물품들
-
+				
 				try {
 					orderService.register(order);
 
@@ -144,12 +144,14 @@ public class MainServlet implements ControllerFrame {
 					request.setAttribute("orderDetailResult", orderDetailList);
 					request.setAttribute("totalPoint", totalPoint);
 					request.setAttribute("totalPrice", totalPrice);
+					request.setAttribute("usedPoint", usePoint);
 					
-					// 포인트 적립!!!!!!
-					// 추후에 포인트 사용 추가
-					Point point = Point.builder().point(totalPoint).state(PointStateEnum.ACCUMULATED).memberSequence(Long.parseLong(memberSeq)).build();
+					// 포인트 사용
+					Point point = Point.builder().point(usePoint).state(PointStateEnum.USED).memberSequence(Long.parseLong(memberSeq)).build();
 		            pointService.register(point);
 		            pointService.modify(point);
+		            
+		           
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -197,6 +199,12 @@ public class MainServlet implements ControllerFrame {
 					request.setAttribute("orderDetailResult", orderDetail);
 					request.setAttribute("totalPrice", totalPrice);
 					request.setAttribute("totalPoint", totalPoint);
+					request.setAttribute("usedPoint", usePoint);
+					
+					// 포인트 사용
+					Point point = Point.builder().point(usePoint).state(PointStateEnum.USED).memberSequence(Long.parseLong(memberSeq)).build();
+		            pointService.register(point);
+		            pointService.modify(point);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

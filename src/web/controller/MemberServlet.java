@@ -104,6 +104,7 @@ public class MemberServlet implements ControllerFrame {
          if(session.getAttribute("logincust") != null) {
             session.removeAttribute("logincust");
             session.invalidate();
+            
          }
       }else if(view.equals("signup")) {
          String email = request.getParameter("email");

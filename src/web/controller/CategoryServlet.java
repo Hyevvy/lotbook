@@ -30,44 +30,46 @@ public class CategoryServlet extends HttpServlet implements ControllerFrame {
         service = new CustServiceImpl();
     }
 
-
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String next = "main.jsp";
+    
+    @Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String next = "index.jsp";
 		String view = request.getParameter("view");
-		System.out.println(request);
-		System.out.println(next);
-		System.out.println(view);
 
-		if(view != null){
+		if (view != null) {
 			build(request, view);
 		}
 
-		RequestDispatcher rd = 
-				request.getRequestDispatcher(next);
-				rd.forward(request, response);
+		RequestDispatcher rd = request.getRequestDispatcher(next);
+		rd.forward(request, response);
 	}
-	private void build(HttpServletRequest request, String view){
-		
-		if (view.equals("categorypage")) {
-	        request.setAttribute("center", "categorypage");
-	        request.setAttribute("navi", Navi.categoryPage);
-	    } else if (view.equals("getall")) {
+    
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String next = "index.jsp";
+        String view = request.getParameter("view");
+        
+        if (view != null) {
+            build(request, view);
+        }
+
+        RequestDispatcher rd = request.getRequestDispatcher(next);
+        rd.forward(request, response);
+    }
+
+    
+	private void build(HttpServletRequest request, String view) {
+	    if (view.equals("computer")) {
+	        request.setAttribute("center", "category");
+	        request.setAttribute("navi", Navi.category);
+	    } else if (view.equals("test")) {
 	        // ...
+	    } else if (view.equals("getall")){
+	        // 기본값 설정 또는 처리
+	    } else {
+	    	
 	    }
-		/*
-		 * request.setAttribute("center", "cust/getall"); request.setAttribute("navi",
-		 * Navi.custGet); }
-		 */
-		 
-		
 	}
 
-
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 }

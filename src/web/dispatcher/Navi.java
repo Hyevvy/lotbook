@@ -9,6 +9,6 @@ public class Navi {
 	public static String custRegister = home + " > cust > register";
 	public static String custGet = home + " > cust > get";
 	
-	public static String categoryPage = home + " > category > categorypage";
+	public static String category = home + " > category";
 
 }

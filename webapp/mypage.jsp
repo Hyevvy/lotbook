@@ -70,8 +70,11 @@ to {
 	margin-right: 5px;
 }
 </style>
+
 <script>
 $(function(){
+	//$("#alert-danger").hide();
+	
 	$('.stars .fa').click(function() {
 		console.log("별표 클릭!");
 	    $(this).addClass('active');
@@ -83,10 +86,10 @@ $(function(){
 	    // 순서를 찾는 메서드 index 0 1 2 3 4
 	    // 텍스트내용을 출력 text, 태그+텍스트 html
 	    var num = $(this).index();
-	    $('.print').text(starRate);
 	    var starRate = num + 1;
 	    
-	    $('.rating-input').val(starRate);
+	    //$(this).closest("form").find('.print').text(starRate);
+	    $(this).closest("form").find('.rating-input').val(starRate);
 	    /* if(starRate == 1) {
 	        $('.print').text('별로에요');
 	        $('.print').html('<img src="img/icon/star-lv1.png">' + '별로에요');
@@ -101,7 +104,81 @@ $(function(){
 	    }  */
 	});
 	
-})
+	$(".site-btn").click(function() {
+		event.preventDefault();
+		console.log("유효성 검사!");
+        var form = $(this).closest("form");
+        
+        /* console.log($(this).val());
+        var btnId = $(this).val();
+        var findBtn = form.parent().find(btnId);
+        console.log(findBtn); */
+        
+        
+        //console.log(form.hasClass(""))
+        /* var findNode = form.parent().find(".card-body").childNodes[0].childNodes[0].childNodes[1].find(".review-toggle-btn"); // 해당 폼의 부모 노드에서 .collapse 요소를 찾음
+
+        console.log(findNode);
+        findNode.hide(); */
+         
+        if ($(this).attr("id") === "submitBtn") {
+            var starRate = form.find('.rating-input').val();
+
+            if (starRate !== "" && starRate >= 1) {
+                form.find(".alert-danger").css("display", "none");
+                
+                /* var formData = form.serialize();
+                
+                console.log(formData); */
+                /* $.ajax({
+                	type: "POST",
+                	url: form.attr("action"),
+                	data: formData,
+                	success: function(response){
+                		// Handle success response from the server
+                        console.log("Review submitted successfully:", response);
+                        // You can update the UI or perform other actions here
+                        alert("리뷰가 성공적으로 반영되었습니다!");
+                     	
+                        var collapseElement = form.parent().find(".collapse").prevObject; // 해당 폼의 부모 노드에서 .collapse 요소를 찾음
+                        
+                        if (collapseElement.hasClass("show")) {
+                            // 현재 상태가 보이는 상태라면 숨김
+                            collapseElement.collapse("hide");
+                            console.log("숨기기!");
+                            
+                            var btnId = $(this).val();
+                            console.log($(this).val());
+                            
+                            var findBtn = $($(this).val());
+                            
+                            findBtn.css("display", "none");
+                        } else {
+                            // 현재 상태가 숨겨진 상태라면 보이게 함
+                            collapseElement.collapse("show"); 
+                            console.log("보이기!");
+                            
+                        }
+                	},
+                    error: function(error) {
+                        // Handle error response from the server
+                        console.error("Error submitting review:", error);
+                        // You can display an error message or perform other error handling here
+                    }
+                }); */
+            } else {
+                form.find(".alert-danger").css("display", "block");
+                return false; // Prevent form submission
+            }
+        }
+    });
+	
+	
+	
+});
+
+
+
 </script>
 
 <!-- Header Section Begin -->
@@ -364,15 +441,20 @@ $(function(){
 										<h5>${orderDetail.orderDetailProduct.name}</h5>
 										<p class="small mb-0">${orderDetail.state}</p>
 										<button type="button"
+											id="reviewButton-${order.sequence}-${orderDetail.sequence}"
 											class="py-2 col-sm-3 bg-primary text-white border-0 rounded-sm review-toggle-btn"
 											data-toggle="collapse"
-											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}">리뷰
+											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
+											style="display: inline-block; ${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰
 											작성하기</button>
+										
 										<button type="submit"
-											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm">환불
+											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
+											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">환불
 											요청</button>
 										<button type="submit"
-											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm">주문
+											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
+											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">주문
 											확정</button>
 									</div>
 									<!-- <div
@@ -392,7 +474,7 @@ $(function(){
 						</div>
 						<div id="reviewCollapse-${order.sequence}-${orderDetail.sequence}"
 							class="collapse">
-							<form action="review.bit" method="post">
+							<form id="ratingForm" action="review.bit" method="post">
 								<input type="hidden" name="cmd" value="register"> <input
 									type="hidden" name="memberSequence"
 									value="${logincust.sequence }"> <input type="hidden"
@@ -406,12 +488,13 @@ $(function(){
 											class="fa fa-star"></i>
 									</div>
 								</div>
+								<div class="alert alert-danger mt-4" id="alert-danger" style="display:none;">별점을 클릭해주세요</div>
 								
 
-								<textarea name="contents" class="form-control" rows="3"
+								<textarea name="comment" class="form-control" rows="3"
 									placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" required></textarea>
-								<button type="submit"
-									class="site-btn mx-1 text-white border-0 rounded-sm mt-2">리뷰
+								<button type="submit" id="submitBtn"
+									class="site-btn mx-1 text-white border-0 rounded-sm mt-2" value="#reviewButton-${order.sequence}-${orderDetail.sequence}">리뷰
 									제출</button>
 								<button type="button"
 									class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
@@ -443,7 +526,7 @@ $(function(){
 	<div class="container">
 		<div class="row"></div>
 		<div class="checkout__form">
-			<h4>작성 가능한 리뷰</h4>
+			<h4>작성된 리뷰 목록 </h4>
 			주문 확정 목록
 		</div>
 	</div>

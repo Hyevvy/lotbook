@@ -15,6 +15,13 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <jsp:include page="popup.jsp"/>
 
+<script>
+AOS.init({
+	easing: 'ease-out-back',
+	duration: 1000
+	});
+</script>
+
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -139,8 +146,8 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 <!-- Hero Section End -->
 
 <!-- Featured Section Begin -->
-<section class="featured spad">
-	<div class="container">
+<section class="featured spad" data-aos="fade-up" data-aos-duration="2000">
+	<div class="container" >
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="section-title">
@@ -184,12 +191,12 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 col-md-6 col-sm-6">
-				<div class="banner__pic">
+				<div class="banner__pic" data-aos="fade-right" data-aos-duration="1000">
 					<img src="img/banner/banner01.jpg" style="max-height: 100%" alt="">
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6">
-				<div class="banner__pic">
+				<div class="banner__pic" data-aos="fade-left" data-aos-duration="1000">
 					<img src="img/banner/banner02.jpg" alt="">
 				</div>
 			</div>
@@ -201,6 +208,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 <br>
 <br>
 <br>
+<div data-aos="fade-up" data-aos-duration="1500">
 <!-- Latest Product Section Begin -->
 <section class="latest-product spad">
 	<div class="container">
@@ -332,7 +340,4 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 	</div>
 </section>
 <!-- Latest Product Section End -->
-
-<!-- Blog Section Begin -->
-<section class="from-blog spad"></section>
-<!-- Blog Section End -->
+</div>

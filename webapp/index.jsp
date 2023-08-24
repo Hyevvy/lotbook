@@ -36,8 +36,114 @@
 <script defer src="js/signup.js"></script>
 <script language="JavaScript" type="text/javascript"
 	src="/js/jquery-1.2.6.min.js"></script>
+	
+<!-- data-aos -->
+<link rel="stylesheet" href="https://cdn.rawgit.com/michalsnik/aos/2.0.1/dist/aos.css" />
+<script src="https://cdn.rawgit.com/michalsnik/aos/2.0.1/dist/aos.js"></script>
 </head>
 
+<style>
+	.footerSection { 
+		width: 1000px; 
+		height: 400px; 
+	}
+	.footerSection .sky {
+		position: absolute; 
+		width: 100%; 
+		height: 100%;
+	}
+	.footerSection .sky .sun {
+		position: absolute; 
+		top: -150px; 
+		left: 50%; 
+		margin-left: -100px; 
+		transform-origin: center 500px; 
+		animation: sun linear 20s infinite;
+	}
+	.footerSection .sky .cloud1 {
+		position: absolute; 
+		top: -30px; 
+		left: 10%; 
+		animation: flow linear 10s infinite;
+	}
+	.footerSection .sky .cloud2 {
+		position: absolute; 
+		top: 20px; 
+		left: 0%; 	
+		animation: flow linear 20s infinite;
+	}
+	.footerSection .town .night { 
+		position: absolute; 
+		bottom: 0px; 
+		left: 40px;
+	}
+	.footerSection .town .day { 
+		position: absolute; 
+		bottom: 0px; 
+		left: 40px;
+		animation: day linear 20s infinite;
+	}
+	.footerSection .town .circle {
+		position: absolute; 
+		bottom: 104px; 
+		left: 50%; 
+		margin-left: -165px; 
+		opacity: 0.7;
+		animation: rotation linear 20s infinite; 	
+	}
+	.footerSection .people {	
+		width: 100%; 
+		height: 100%; 
+		position: absolute; 
+		top: 0px;
+		left: 0px;
+		animation: day linear 20s infinite;	
+	}
+	.footerSection .people .man {
+		position: absolute;
+		left: 0%;
+		bottom: 0px;
+		animation: flow linear 7s infinite;
+	}
+	.footerSection .people .family {
+		position: absolute;
+		left: 0%;
+		bottom: 0px;
+		animation: flow linear 20s infinite;
+	}
+	
+	@keyframes rotation {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(360deg);}
+	}
+	@keyframes sky {
+		0% {background-color: #b08fcc;}
+		25% {background-color: #b1e1e2;}
+		50% {background-color: #fcd2e2;}
+		75% {background-color: #636888;}
+		100% {background-color: #b08fcc;}
+	}
+	@keyframes sun {
+		0% {opacity:0; transform: rotate(-90deg);}
+		25% {opacity:1; transform: rotate(-30deg);}
+		50% {opacity:1; transform: rotate(30deg);}
+		75% {opacity:0; transform: rotate(90deg);}
+		100% {opacity:0; transform: rotate(-90deg);}
+	}
+	@keyframes day {
+		0% {opacity: 0;}
+		25% {opacity: 1;}
+		50% {opacity: 1;}
+		75% {opacity: 0;}
+		100% {opacity: 0;}
+	}
+	@keyframes flow {
+		0% { left: 0%; opacity: 0;}
+		10% { opacity: 1; }
+		80% { opacity: 1; }
+		100% { left: 90%; opacity: 0;}
+	}
+</style>
 <body>
 	<!-- Page Preloder -->
 	<div id="preloder">
@@ -51,20 +157,38 @@
 			<jsp:include page="main.jsp" />
 		</c:otherwise>
 	</c:choose>
-
+	
+	<!-- Blog Section Begin -->
+	<section class="from-blog spad">
+	<br><br><br>
+	</section>
+	<!-- Blog Section End -->
 	<!-- Footer Section Begin -->
 	<footer class="footer spad">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-6 col-md-6 col-sm-6">
-					<div class="footer__about">
-						<div class="footer__about__logo">
+				<div class="col-lg-12" style="position: relative">
+					<div class="text-light" style="position: absolute; top: 70%; left: 30%; z-index: 2; font-size: 30px; font-weight: 700;">오늘의 이야기, 내일을 엽니다</div>
+						<div class="footerSection">	
+							<article class="sky">			
+								<img src="img/sun.png" class="sun" />
+								<img src="img/cloud1.png" class="cloud1" />
+								<img src="img/cloud2.png" class="cloud2" />
+							</article>	
+							
+							<article class="town">
+								<img src="img/circle.png" class="circle" />
+								<img src="img/town_night.png" class="night" />
+								<img src="img/town_day.png" class="day" />	
+							</article>
+							
+							<article class="people">
+								<img src="img/man.png" class="man" />
+								<img src="img/family.png" class="family" />
+							</article>		
+						<div class="footer__about__logo" style="position: absolute; right: 0;">
 							<a href="./index.html"><img src="img/logo.png" alt=""></a>
 						</div>
-						<ul>
-							<li>주소: 서울특별시 서초구 서초대로74길 33</li>
-							<li>연락처: 02-3486-1234</li>
-						</ul>
 					</div>
 				</div>
 			</div>
@@ -73,7 +197,7 @@
 					<div class="footer__copyright">
 						<div class="footer__copyright__text">
 							<p>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
 								Copyright &copy;
 								<script>
 									document.write(new Date().getFullYear());

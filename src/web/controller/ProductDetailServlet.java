@@ -19,7 +19,7 @@ import app.impl.product.ProductServiceImpl;
 public class ProductDetailServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	private ProductServiceImpl productServiceImpl;
-	private Logger product_detail_log = Logger.getLogger("productDetailController");
+	private Logger product_detail_log = Logger.getLogger("product-detail");
 
 	public ProductDetailServlet() {
 		super();

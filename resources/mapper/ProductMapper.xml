@@ -96,9 +96,5 @@
 		UPDATE `PRODUCT` SET sales_count = sales_count + #{count}, stock = stock - #{count} WHERE sequence = ${productSequence};
 	</update>
 	
-	<select id ="selectComputerCategory" resultMap="productMap">
-		SELECT p.* FROM product p
-		JOIN category c ON p.category_sequence = c.sequence
-		WHERE c.parent_category = 1;
-	</select>
+	
 </mapper>

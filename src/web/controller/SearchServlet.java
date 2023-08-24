@@ -1,17 +1,12 @@
 package web.controller;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import app.dto.response.ProductDetailWithReviews;
 import app.dto.response.SearchResult;
 import app.frame.ControllerFrame;
 import app.impl.search.SearchServiceImpl;
@@ -20,7 +15,7 @@ import app.impl.search.SearchServiceImpl;
 public class SearchServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	private SearchServiceImpl searchServiceImpl; //
-	private Logger search_log = Logger.getLogger("SearchController"); //
+	private Logger search_log = Logger.getLogger("search"); //
 
 	public SearchServlet() {
 		super();
@@ -84,6 +79,7 @@ public class SearchServlet implements ControllerFrame {
 		String view = request.getParameter("view");
 		// System.out.println(view);
 		search_log.debug("상품 디테일 컨트롤러로 들어옴");
+		search_log.warn("warn도 됩니까?");
 		if (view != null) {
 			build(request, view);
 		}

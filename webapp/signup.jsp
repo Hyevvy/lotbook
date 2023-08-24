@@ -3,41 +3,44 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header Section Begin -->
 <style>
-@media (max-width: 650px) {
-    .col-6 {
-        width: 100%; /* 전체 너비를 차지하도록 설정 */
-    }
-    .col-6 table {
-        width: 100%; /* 내부 테이블도 전체 너비를 차지하도록 설정 */
-    }
-    .col-6 td {
-        display: block; /* 블록 레벨 요소로 표시하여 한 줄씩 표시되도록 설정 */
-        width: 100%; /* 너비 100%로 설정 */
-        box-sizing: border-box; /* 박스 모델 설정 */
-        margin-bottom: 10px; /* 간격 추가 */
-    }
-    .col-6 .first-td {
-        width: 5%; /* 두 번째와 세 번째 td를 반 너비로 설정 */
-        display: inline-block;
-    }
-    .col-6 .second-td {
-        width: 50%; /* 두 번째와 세 번째 td를 반 너비로 설정 */
-        display: inline-block;
-    }
-    .col-10 .full-width {
-        width: 100%; /* 첫 번째 td를 한 줄에 놓이도록 설정 */
-    }
-    .col-8 .first-input {
-        width: 5%; /* 우편버튼 위로 */
-        display: block;
-    }
-    .col-4 .second-input {
-        width: 50%; /* 우편버튼 */
-        display: block;
-    }
+@media ( max-width : 650px) {
+	.col-6 {
+		width: 100%; /* 전체 너비를 차지하도록 설정 */
+	}
+	.col-6 table {
+		width: 100%; /* 내부 테이블도 전체 너비를 차지하도록 설정 */
+	}
+	.col-6 td {
+		display: block; /* 블록 레벨 요소로 표시하여 한 줄씩 표시되도록 설정 */
+		width: 100%; /* 너비 100%로 설정 */
+		box-sizing: border-box; /* 박스 모델 설정 */
+		margin-bottom: 10px; /* 간격 추가 */
+	}
+	.col-6 .first-td {
+		width: 5%; /* 두 번째와 세 번째 td를 반 너비로 설정 */
+		display: inline-block;
+	}
+	.col-6 .second-td {
+		width: 50%; /* 두 번째와 세 번째 td를 반 너비로 설정 */
+		display: inline-block;
+	}
+	.col-10 .full-width {
+		width: 100%; /* 첫 번째 td를 한 줄에 놓이도록 설정 */
+	}
+	.col-8 .first-input {
+		width: 5%; /* 우편버튼 위로 */
+		display: block;
+	}
+	.col-4 .second-input {
+		width: 50%; /* 우편버튼 */
+		display: block;
+	}
 }
 </style>
-<script>
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript">
 	$(document).ready(function(){
 		$('.form_ip_pw i').on('click',function(){
 			$('input').toggleClass('active');
@@ -60,7 +63,8 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+							<li class="active"><a
+								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -104,7 +108,9 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+								<li><a
+									href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i
+										class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -121,7 +127,7 @@
 
 
 <form id="register_form" method="post" action="member.bit">
-	<input type="hidden" name="view" value="signup"/>
+	<input type="hidden" name="view" value="signup" />
 	<div class="d-flex flex-row justify-content-center ">
 		<div class="justify-content-center" align="center">
 			<!-- <table class="col-10">
@@ -139,8 +145,9 @@
 					<td width="20%" class="second-td"><label for="email">이메일</label></td>
 					<td>
 						<div class="row">
-							<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com" required>
-						</div>		
+							<input type="email" class="form-control" name="email" id="email"
+								placeholder="ex) abc@gmail.com" required>
+						</div>
 					</td>
 				</tr>
 				<tr height="7">
@@ -150,11 +157,12 @@
 					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td"><label for="password">비밀번호</label></td>
 					<td>
-					<div class="row form_ip_pw" style="position:relative;">
-						<input type="password" class="form-control"
-						placeholder="ex) qwerty!123" id="password" name="password" required>
-						<i class="fa fa-eye-slash fa-lg" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; cursor: pointer; font-size: 22px;"></i>
-					</div>
+						<div class="row form_ip_pw" style="position: relative;">
+							<input type="password" class="form-control"
+								placeholder="ex) qwerty!123" id="password" name="password"
+								required> <i class="fa fa-eye-slash fa-lg"
+								style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; cursor: pointer; font-size: 22px;"></i>
+						</div>
 					</td>
 				</tr>
 				<tr height="7">
@@ -174,8 +182,8 @@
 					<td width="20%" class="second-td"><label for="name">이름</label></td>
 					<td>
 						<div class="row">
-						<input type="text" class="form-control"
-							placeholder="ex) 홍길동 " id="name" name="name" required>
+							<input type="text" class="form-control" placeholder="ex) 홍길동 "
+								id="name" name="name" required>
 						</div>
 					</td>
 				</tr>
@@ -183,13 +191,14 @@
 					<td colspan="3"><hr /></td>
 				</tr>
 				<tr class="register" height="30">
-						<td width="5%" class="first-td text-danger" align="center">*</td>
-						<td width="20%" class="second-td"><label for="phone">휴대전화</label></td>
-						<td>
+					<td width="5%" class="first-td text-danger" align="center">*</td>
+					<td width="20%" class="second-td"><label for="phone">휴대전화</label></td>
+					<td>
 						<div class="row">
-							<input type="text" class="form-control" name="phone" id="phone" placeholder="ex) 01012345678" required>
+							<input type="text" class="form-control" name="phone" id="phone"
+								placeholder="ex) 01012345678" required>
 						</div>
-						</td>
+					</td>
 				</tr>
 				<tr height="7">
 					<td colspan="3"><hr /></td>
@@ -198,22 +207,62 @@
 					<td width="5%" class="first-td text-danger" align="center">*</td>
 					<td width="20%" class="second-td">주 소</td>
 					<td>
-						<div class="row hero_search"> 
-							<input type="text" id="sample6_postcode" class="form-control col-8 first-input" placeholder="우편번호" name="zipcode" required>
-							<input type="button" onclick="getAddress()" class="col-4 second-input" value="우편번호 찾기"> <br/>
-							<input type="text" id="sample6_address" class="form-control" placeholder="주소" name="street_address_1"><br/>
-							<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" name="street_address_2">
-							<input type="text" id="sample6_detailAddress" class="form-control" placeholder="상세주소" name="address_detail">
-							
+						<div class="row hero_search">
+							<input type="text" id="sample6_postcode"
+								class="form-control col-8 first-input" placeholder="우편번호"
+								name="zipcode" required> <input type="button"
+								onclick="getAddress()" class="col-4 second-input"
+								value="우편번호 찾기"> <br /> <input type="text"
+								id="sample6_address" class="form-control" placeholder="주소"
+								name="street_address_1"><br /> <input type="text"
+								id="sample6_extraAddress" class="form-control"
+								placeholder="참고항목" name="street_address_2"> <input
+								type="text" id="sample6_detailAddress" class="form-control"
+								placeholder="상세주소" name="address_detail">
+
 						</div>
 					</td>
 				</tr>
-		
+
 			</table>
-			<div style="display: flex; gap: 10px; justify-content: center; margin-bottom:10px;">	
-				<button type="submit" id="register_btn" class="site-btn"> 회원가입</button>
-				<input type="button" id="cancel_btn" class="btn btn-secondary" onclick="location.href='main.bit'" value="취소" style="width:7.5rem; height:2.9rem; border-radius:0px; font:14px Cairo;">		
+			<div
+				style="display: flex; gap: 10px; justify-content: center; margin-bottom: 10px;">
+				<button type="submit" id="register_btn" class="site-btn"
+					name="submit">회원가입</button>
+				<input type="button" id="cancel_btn" class="btn btn-secondary"
+					onclick="location.href='main.bit'" value="취소"
+					style="width: 7.5rem; height: 2.9rem; border-radius: 0px; font: 14px Cairo;">
 			</div>
 		</div>
 	</div>
 </form>
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		emailjs.init("BeCe_Kl2PZg0CGUoO");		
+		
+        $('button[name=submit]').click(function(){       	 
+          var templateParams = {	
+
+                name: $('input[name=name]').val(),
+                email : $('input[name=email]').val(),
+                message : "회원 가입을 진심으로 축하드립니다. 기타 궁금한 점은 이 메일로 회신 부탁드립니다."
+           				};
+                    
+                	
+         emailjs.send('service_dwb08qj', 'template_8411y7q', templateParams)
+         	    .then(function(response) {
+         	       console.log('SUCCESS!', response.status, response.text);
+         	    }, function(error) {
+         	       console.log('FAILED...', error);
+         	    });
+         	       
+
+
+        });
+        
+	  });
+    
+
+	</script>

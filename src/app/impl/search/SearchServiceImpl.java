@@ -83,11 +83,11 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 	        case "sales":
 	            searchedList.sort(Comparator.comparing(SearchProductMapper::getSalesCount).reversed());
 	            break;
-	        case "high to low":
-	            searchedList.sort(Comparator.comparing(SearchProductMapper::getPrice).reversed());
+	        case "high_to_low":
+	            searchedList.sort(Comparator.comparing(SearchProductMapper::getDiscountedPrice).reversed());
 	            break;
-	        case "low to high":
-	            searchedList.sort(Comparator.comparing(SearchProductMapper::getPrice));
+	        case "low_to_high":
+	            searchedList.sort(Comparator.comparing(SearchProductMapper::getDiscountedPrice));
 	            break;
 	        case "popular": // 기본이 popular. popular 점수에 리뷰점수가 없는(쿼리에서 null 대용으로 0 넣었음.) 경우 3점으로 세팅
 	        default:

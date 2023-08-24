@@ -31,6 +31,7 @@
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
    	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
    	<script defer src="js/signup.js"></script>
+   	<jsp:include page="popup.jsp"/>
 	<script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
 </head>
 
@@ -87,6 +88,36 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script>	
+        function search(keyword) {
+             // 키워드가 비어있는지 확인
+            if (!keyword) {
+                alert("검색어를 입력해주세요.");
+                return;
+            }
+    
+            // 키워드의 길이가 너무 짧은지 확인 (예: 2글자 이상)
+            if (keyword.length < 2) {
+                alert("검색어는 최소 2글자 이상 입력해주세요.");
+                return;
+            }
+    
+            //특수문자나 공백이 있는지 확인
+            let special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+            if(special_pattern.test(keyword)) {
+                alert("특수문자는 검색어로 사용하실 수 없습니다.");
+                return;
+            }
+    
+            if(!keyword.trim()) { 
+                alert("공백만으로 구성된 검색어는 사용하실 수 없습니다.");
+                return;
+            }
+            
+            window.location.href = 'search.bit?view=search&keyword=' + keyword + '&orderby=popular'
+        }
+    </script>
+    
 </body>
 
 </html>

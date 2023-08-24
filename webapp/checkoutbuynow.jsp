@@ -151,12 +151,14 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}" method="post">
+			<form
+				action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}"
+				method="post">
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
 						<div class="d-flex flex-col align-items-center">
-							<input id="check_box" type="checkbox" class="mb-3"
+							<input id="check_box" type="checkbox" class="mb-3 text-dark"
 								onclick="get_my_info('${logincust.name }', '${logincust.email }', '${logincust.memberPhone }', '${logincust.zipcode }', '${logincust.streetAddress }', '${logincust.addressDetail }')">
 							<p class="ml-2 text-muted">내 정보 불러오기</p>
 						</div>
@@ -205,6 +207,7 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 								class="text-dark" type="text" id="sample6_extraAddress"
 								placeholder="배송 메세지" name="input__vendor_message">
 						</div>
+						
 					</div>
 					<div class="col-lg-4 col-md-6">
 				<div class="checkout__order">
@@ -243,9 +246,8 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 						총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice }
 							원</span>
 					</div>
-
-					<button type="submit" class="site-btn">주문하기</button>
 				</div>
+
 			</div>
 			</form>
 		</div>
@@ -256,6 +258,7 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
 	const checkbox = document.getElementById("check_box");
 	
+	console.log( $('input[name=temp]'));
 	if (checkbox.checked) {
 		document.getElementById("custName").value = name;
 		document.getElementById("custEmail").value = email;

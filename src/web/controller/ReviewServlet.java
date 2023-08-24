@@ -2,6 +2,7 @@ package web.controller;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import app.dto.entity.Member;
 import app.dto.entity.Review;
 import app.impl.review.ReviewServiceImpl;
-import web.dispatcher.Navi;
 
 /**
 * Servlet implementation class ReviewServlet
@@ -39,9 +38,9 @@ public class ReviewServlet extends HttpServlet {
 			build(request, view);
 		}
 
-//		RequestDispatcher rd = 
-//		request.getRequestDispatcher(next);
-//		rd.forward(request, response);
+		RequestDispatcher rd = 
+		request.getRequestDispatcher(next);
+		rd.forward(request, response);
 	}
 	
 	 private void build(HttpServletRequest request,
@@ -61,6 +60,7 @@ public class ReviewServlet extends HttpServlet {
 
 				try {
 					reviewServiceImpl.register(reviewInfo);
+					request.setAttribute("center", "mypage");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

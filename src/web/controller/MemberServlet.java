@@ -106,6 +106,16 @@ public class MemberServlet implements ControllerFrame {
             session.invalidate();
             
          }
+         try {
+			request.setAttribute("BestSeller", productService.getBestseller());
+			request.setAttribute("Latest", productService.getLatest());
+	        request.setAttribute("BigPoint", productService.getPoint());
+	        request.setAttribute("BigDiscount", productService.getDiscount());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         
       }else if(view.equals("signup")) {
          String email = request.getParameter("email");
          String password = request.getParameter("password");

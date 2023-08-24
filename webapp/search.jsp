@@ -15,9 +15,22 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 %>
 
 
+<style type="text/css">
+.star {
+	//color: #EDBB0E;
+	color: #ffc107;
+	letter-spacing:-1.2px;
+
+}
+
+</style>
+
+
+
 
 <!-- Header Section Begin -->
 <header class="header">
+	${searchResult.countByCategory }
 	<div class="header__top">
 		<div class="container">
 			<nav class="header__menu header__top__right mobile-menu"
@@ -185,27 +198,36 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 					<div class="sidebar__item">
 						<h4>전체 카테고리</h4>
 						<ul>
-
 							<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
-									IT</a>
+									IT</a></li>
 							<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
-									공학 (10)</a>
+									공학 (${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
 							<li value="3"><a href="#" style="text-indent: 20px">데이터베이스
-									(8)</a>
-							<li value="4"><a href="#" style="text-indent: 20px">네트워크</a>
-							<li value="5"><a href="#" style="text-indent: 20px">프로그래밍</a>
+									(${searchResult.countByCategory['데이터베이스'] != null ? searchResult.countByCategory['데이터베이스'] : 0})</a></li>
+							<li value="4"><a href="#" style="text-indent: 20px">네트워크
+									(${searchResult.countByCategory['네트워크'] != null ? searchResult.countByCategory['네트워크'] : 0})</a></li>
+							<li value="5"><a href="#" style="text-indent: 20px">프로그래밍
+									(${searchResult.countByCategory['프로그래밍'] != null ? searchResult.countByCategory['프로그래밍'] : 0})</a></li>
 							<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-							<li value="7"><a href="#" style="text-indent: 20px">한국소설</a>
-							<li value="8"><a href="#" style="text-indent: 20px">영미소설</a>
-							<li value="9"><a href="#" style="text-indent: 20px">일본소설</a>
+							<li value="7"><a href="#" style="text-indent: 20px">한국소설
+									(${searchResult.countByCategory['한국소설'] != null ? searchResult.countByCategory['한국소설'] : 0})</a></li>
+							<li value="8"><a href="#" style="text-indent: 20px">영미소설
+									(${searchResult.countByCategory['영미소설'] != null ? searchResult.countByCategory['영미소설'] : 0})</a></li>
+							<li value="9"><a href="#" style="text-indent: 20px">일본소설
+									(${searchResult.countByCategory['일본소설'] != null ? searchResult.countByCategory['일본소설'] : 0})</a></li>
 							<li value="10"><a href="#" class="font-weight-bold">경제 /
 									경영</a></li>
-							<li value="11"><a href="#" style="text-indent: 20px">경영일반</a>
-							<li value="12"><a href="#" style="text-indent: 20px">재테크/금융</a>
-							<li value="13"><a href="#" style="text-indent: 20px">유통/창업</a>
-							<li value="14"><a href="#" style="text-indent: 20px">세무/회계</a>
+							<li value="11"><a href="#" style="text-indent: 20px">경영일반
+									(${searchResult.countByCategory['경영일반'] != null ? searchResult.countByCategory['경영일반'] : 0})</a></li>
+							<li value="12"><a href="#" style="text-indent: 20px">재테크/금융
+									(${searchResult.countByCategory['재테크/금융'] != null ? searchResult.countByCategory['재테크/금융'] : 0})</a></li>
+							<li value="13"><a href="#" style="text-indent: 20px">유통/창업
+									(${searchResult.countByCategory['유통/창업'] != null ? searchResult.countByCategory['유통/창업'] : 0})</a></li>
+							<li value="14"><a href="#" style="text-indent: 20px">세무/회계
+									(${searchResult.countByCategory['세무/회계'] != null ? searchResult.countByCategory['세무/회계'] : 0})</a></li>
 						</ul>
 					</div>
+
 					<div class="sidebar__item">
 						<h4>Price</h4>
 						<div class="price-range-wrap">
@@ -232,10 +254,11 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 			<!-- TODO:조건부로 검색결과 없다고 띄우기  -->
 			<c:choose>
 				<c:when test="${searchResult.count eq 0}">
-					<div class="d-flex flex-column align-items-center justify-content-center col-lg-9" >
+					<div
+						class="d-flex flex-column align-items-center justify-content-center col-lg-9">
 						<div class="my-5">
-							<span>${searchResult.searchKeyword}</span> 
-							<span>에 대한	검색결과가 없습니다.</span>
+							<span>${searchResult.searchKeyword}</span> <span>에 대한
+								검색결과가 없습니다.</span>
 						</div>
 						<p>입력한 검색어의 철자 또는 띄어쓰기가 정확한지 다시 한번 확인해 주세요.</p>
 					</div>
@@ -244,12 +267,12 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 					<div class="col-lg-9 pr-0">
 						<div class="shoping__cart__table">
+
 							<c:forEach var="item" items="${searchResult.searchList}">
 								<fmt:parseDate value="${item.createdAt}"
 									pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
 								<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월"
 									var="formattedDate" />
-
 
 								<div class="d-flex col-lg-12 py-4 pr-0"
 									style="border-top: 1px solid #d5d5d5; transition: box-shadow 0.3s, cursor 0.3s;"
@@ -269,22 +292,49 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 										</div>
 										<div>
 											<span>${item.authorName}</span> <span>저</span> <br
-												class="my-2" /> <span>${item.publisherName}</span> <span>${ formattedDate }</span>
+												class="my-2" /> <span>${item.publisherName}</span> <span>${formattedDate}</span>
 										</div>
 										<div class="mt-1">
-
 											<span class="text-warning font-weight-bold"> <c:set
 													var="discount" value="${item.discountRate }" /> <fmt:formatNumber
-													type="number" value="${discount}" /> % 할인
-											</span> <span>${item.discountedPrice}</span><span>원</span> <span
-												style="text-decoration: line-through; color: #767676;">${item.price}</span>
-											<span> | ${item.pointAccumulation}p
+													type="number" value="${ discount }" pattern="#,##0" /> %
+												할인
+											</span><span> <fmt:formatNumber type="number"
+													value="${item.discountedPrice }" pattern="#,##0" />
+											</span> 원 <span
+												style="text-decoration: line-through; color: #767676;">
+												<fmt:formatNumber type="number" value="${item.price}"
+													pattern="#,##0" />
+											</span> <span> | ${item.pointAccumulation}p
 												(${item.pointAccumulationRate}%)</span>
 										</div>
 										<div class="mt-2">
 											<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
 												class="text-primary">${item.reviewCount }</span> <span>건)</span>
-											<span>❤❤❤❤❤</span> <span>${item.ratingAvg }</span>
+											
+											
+											
+											<span class="product__details__rating star">
+												<c:set var="fullStars"
+													value="${Math.floor(item.ratingAvg)}" />
+												<c:set var="halfStar"
+													value="${item.ratingAvg % 1 >= 0.5 ? 1 : 0}" />
+												<c:set var="emptyStars" value="${5 - fullStars - halfStar}" />
+												<c:forEach var="i" begin="1" end="${fullStars}">
+													<i class="fa fa-star"></i>
+												</c:forEach>
+
+												<c:if test="${halfStar == 1}">
+													<i class="fa fa-star-half-o"></i>
+												</c:if>
+
+												<c:forEach var="i" begin="1" end="${emptyStars}">
+													<i class="fa fa-star-o"></i>
+												</c:forEach>
+
+												
+											</span>
+											<span>${item.ratingAvg}</span>
 										</div>
 									</div>
 
@@ -292,7 +342,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 										style="margin-left: auto;">
 
 										<a href="#" class="primary-btn cart-btn cart-btn-right mb-2"
-											onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>카트에
+											onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>장바구니에
 											넣기</a> <a href="#" class="primary-btn text-white btn"
 											onclick='checkOutBuyNow(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>바로
 											구매</a>
@@ -301,6 +351,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 								</div>
 							</c:forEach>
+
 						</div>
 					</div>
 				</c:otherwise>

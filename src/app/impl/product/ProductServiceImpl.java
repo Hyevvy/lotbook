@@ -78,14 +78,25 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		session = GetSessionFacroty.getInstance().openSession();
 		Product product = productDao.select(k, session);
 		List<Review> reviews = reviewDao.selectReviewsByProduct(product, session);
+		double avgRating = 0;
+		if (!reviews.isEmpty()) {
+		    avgRating = reviews.stream()
+		        .mapToInt(Review::getRating)
+		        .average()
+		        .orElse(0.0);
+		}
+		
+		
+		
 		ProductRelatedNameMapper productRelatedNameMapper = productDao.selectRelatedName(product, session);
 		
-		int discountedPrice = product.getPrice() * (int) (100.0 - product.getDiscountRate()) / 100; // TODO: type safe using
+		int discountedPrice = (product.getPrice() * (int) (100.0 - product.getDiscountRate()) / 100)/10 * 10; // TODO: type safe using
 																								// wrapper class
 		int pointAccumulation = (int) (product.getPrice() * product.getPointAccumulationRate() / 100);
 		ProductDetailWithReviews productDetailWithReviews = ProductDetailWithReviews.builder()
 																					.sequence(product.getSequence())
 																					.productImgurl(product.getProductImgurl())
+																					.productDetailImgurl(product.getProductDetailImgurl())
 																					.name(product.getName())
 																					.originalPrice(product.getPrice())
 																					.discountRate(product.getDiscountRate())
@@ -108,6 +119,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 																					.subCategoryName(productRelatedNameMapper.getSubCategoryName())
 																					// TODO: reviewer name handling using dto with optional
 																					.reviews(reviews)
+																					.averageRating(avgRating)
 																					.build();
 		session.close();
 		return productDetailWithReviews; // TODO: Optional handling

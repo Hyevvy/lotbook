@@ -19,6 +19,7 @@ public class ProductDetailWithReviews {
 	
 	private long sequence;
 	private String productImgurl;
+	private String productDetailImgurl;
 	private String name;
 	private int originalPrice;
 	private int price;
@@ -46,5 +47,6 @@ public class ProductDetailWithReviews {
 	
 	
 	private List<Review> reviews;
+	private double averageRating;
 
 }

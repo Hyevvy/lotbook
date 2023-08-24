@@ -38,7 +38,6 @@ public class OrderDetailDaoImpl implements DaoFrame<OrderDetail, OrderDetail> {
 	
 	public List<OrderDetail> selectAll(@RequestParam("orderId")long orderId, SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("orderId");
 		return session.selectList("orderdetail.selectAllOrderDetailByOrderSequence", Integer.toString((int) orderId));
 	}
 

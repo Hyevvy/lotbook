@@ -27,7 +27,11 @@
 	        P.sequence = #{sequence}
 	</select>
 	
-
+	<select id ="selectComputerCategory" resultMap="productMap">
+		SELECT p.* FROM product p
+		JOIN category c ON p.category_sequence = c.sequence
+		WHERE c.parent_category = 1;
+	</select>
 	
 	<!--
 	<resultMap type="app.dto.entity.Product" id="productmapper">

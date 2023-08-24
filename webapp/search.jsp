@@ -141,7 +141,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 				<div class="breadcrumb__text">
 					<h2>검색 결과</h2>
 					<div class="breadcrumb__option">
-						<a href="./index.jsp">Home</a> <span>Shopping Cart</span>
+						<a href="./index.jsp">Home</a> <span>Search</span>
 
 					</div>
 				</div>
@@ -158,13 +158,22 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 	<div class="container mb-4">
 		<div class="row">
 			<div class="col-lg-3 col-md-5">
-				<span>${searchResult.searchKeyword}</span>  
-				<span>검색결과</span> 
-				<span>${searchResult.count}</span>
+				<span>${searchResult.searchKeyword}</span> <span>검색결과</span> <span>${searchResult.count}</span>
 				<span>건</span>
 			</div>
-			
-			<div class="col-lg-3 col-md-5"  style="margin-left: auto; text-align: right;">${searchResult.orderBy} </div>
+
+
+			<div style="margin-left: auto; text-align: right;">
+				<!-- 드롭다운 메뉴를 생성하고 선택한 옵션에 따라 요청을 보내는 함수를 호출합니다. -->
+				<label for="orderby"></label> <select id="orderby"
+					style="margin-left: auto;" onchange="changeOrderBy(this.value)">
+					<option value="popular">인기순</option>
+					<option value="high_to_low">높은 가격순</option>
+					<option value="low_to_high">낮은 가격순</option>
+					<option value="latest">최신순</option>
+					<option value="sales">판매량순</option>
+				</select>
+			</div>
 		</div>
 	</div>
 
@@ -172,7 +181,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-3 col-md-5">
-				<div class="sidebar">
+				<div class="sidebar" style="position: sticky; top: 32px;">
 					<div class="sidebar__item">
 						<h4>전체 카테고리</h4>
 						<ul>
@@ -180,8 +189,9 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 							<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
 									IT</a>
 							<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
-									공학</a>
-							<li value="3"><a href="#" style="text-indent: 20px">데이터베이스</a>
+									공학 (10)</a>
+							<li value="3"><a href="#" style="text-indent: 20px">데이터베이스
+									(8)</a>
 							<li value="4"><a href="#" style="text-indent: 20px">네트워크</a>
 							<li value="5"><a href="#" style="text-indent: 20px">프로그래밍</a>
 							<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
@@ -220,67 +230,85 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 			</div>
 
 			<!-- TODO:조건부로 검색결과 없다고 띄우기  -->
-			
-			<div class="col-lg-9">
-				<div class="shoping__cart__table">
-					<c:forEach var="item" items="${searchResult.searchList}">
-						<fmt:parseDate value="${item.createdAt}"
-							pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
-						<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월"
-							var="formattedDate" />
-
-
-						<div class="d-flex col-lg-12 py-4"
-							style="border-top: 1px solid #d5d5d5;">
-							<div class="mr-4 shoping__cart__item">
-								<img src="${item.productImgurl }" class="img-fluid rounded-3"
-									style="width: 150px;" alt="" />
-							</div>
-
-							<div class="d-flex flex-column justify-content-center">
-								<div class="my-2">
-									<span>[도서]</span>
-									<h5 class="font-weight-bold d-inline">${item.name}</h5>
-								</div>
-								<div>
-									<span>${item.authorName}</span> <span>저</span> <br class="my-2" />
-									<span>${item.publisherName}</span> <span>${ formattedDate }</span>
-								</div>
-								<div class="mt-1">
-
-									<span class="text-warning font-weight-bold"> <c:set
-											var="discount" value="${item.discountRate }" /> <fmt:formatNumber
-											type="number" value="${discount}" /> % 할인
-									</span> <span>${item.discountedPrice}</span><span>원</span> <span
-										style="text-decoration: line-through; color: #767676;">${item.price}</span>
-									<span> | ${item.pointAccumulation}p
-										(${item.pointAccumulationRate}%)</span>
-								</div>
-								<div class="mt-2">
-									<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
-										class="text-primary">${item.reviewCount }</span> <span>건)</span>
-									<span>❤❤❤❤❤</span> <span>${item.ratingAvg }</span>
-								</div>
-							</div>
-
-							<div class="d-flex flex-column" style="margin-left: auto;">
-								<div class="quantity">
-									<div class="pro-qty">
-										<input type="text" value="1">
-									</div>
-								</div>
-								<a href="#" class="primary-btn cart-btn cart-btn-right"><span
-									class="icon_loading"></span> 카트에 넣기</a> <a href="#"
-									class="primary-btn cart-btn cart-btn-right"><span
-									class="icon_loading"></span> 바로 구매</a>
-							</div>
+			<c:choose>
+				<c:when test="${searchResult.count eq 0}">
+					<div class="d-flex flex-column align-items-center justify-content-center col-lg-9" >
+						<div class="my-5">
+							<span>${searchResult.searchKeyword}</span> 
+							<span>에 대한	검색결과가 없습니다.</span>
 						</div>
-					</c:forEach>
-				</div>
-			</div>
+						<p>입력한 검색어의 철자 또는 띄어쓰기가 정확한지 다시 한번 확인해 주세요.</p>
+					</div>
+				</c:when>
+				<c:otherwise>
+
+					<div class="col-lg-9 pr-0">
+						<div class="shoping__cart__table">
+							<c:forEach var="item" items="${searchResult.searchList}">
+								<fmt:parseDate value="${item.createdAt}"
+									pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
+								<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월"
+									var="formattedDate" />
+
+
+								<div class="d-flex col-lg-12 py-4 pr-0"
+									style="border-top: 1px solid #d5d5d5; transition: box-shadow 0.3s, cursor 0.3s;"
+									onmouseover="this.style.cursor='pointer'; this.style.boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)'"
+									onmouseout="this.style.cursor='default'; this.style.boxShadow='none'"
+									onclick="redirectToProductDetail(${item.sequence}); return false;">
+
+									<div class="mr-4 shoping__cart__item">
+										<img src="${item.productImgurl }" class="img-fluid rounded-3"
+											style="width: 150px;" alt="" />
+									</div>
+
+									<div class="d-flex flex-column justify-content-center">
+										<div class="my-2">
+											<span>[도서]</span>
+											<h5 class="font-weight-bold d-inline">${item.name}</h5>
+										</div>
+										<div>
+											<span>${item.authorName}</span> <span>저</span> <br
+												class="my-2" /> <span>${item.publisherName}</span> <span>${ formattedDate }</span>
+										</div>
+										<div class="mt-1">
+
+											<span class="text-warning font-weight-bold"> <c:set
+													var="discount" value="${item.discountRate }" /> <fmt:formatNumber
+													type="number" value="${discount}" /> % 할인
+											</span> <span>${item.discountedPrice}</span><span>원</span> <span
+												style="text-decoration: line-through; color: #767676;">${item.price}</span>
+											<span> | ${item.pointAccumulation}p
+												(${item.pointAccumulationRate}%)</span>
+										</div>
+										<div class="mt-2">
+											<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
+												class="text-primary">${item.reviewCount }</span> <span>건)</span>
+											<span>❤❤❤❤❤</span> <span>${item.ratingAvg }</span>
+										</div>
+									</div>
+
+									<div class="d-flex flex-column justify-content-center"
+										style="margin-left: auto;">
+
+										<a href="#" class="primary-btn cart-btn cart-btn-right mb-2"
+											onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>카트에
+											넣기</a> <a href="#" class="primary-btn text-white btn"
+											onclick='checkOutBuyNow(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>바로
+											구매</a>
+
+									</div>
+
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
 
 		</div>
 
+		<!-- 페이지네이션
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="shoping__cart__btns">
@@ -311,7 +339,108 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 				</div>
 			</div>
 		</div>
+		 -->
 	</div>
 </section>
 <!-- Product Section End -->
 <!-- Shoping Cart Section End -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog"
+	aria-labelledby="addToCartModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered mt-sm-3 mt-md-5 mt-lg-6"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addToCartModalLabel">장바구니 추가</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				<a
+					href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence}"
+					class="btn btn-danger">장바구니로 가기</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+		window.onload = function () {
+		    var currentURL = new URL(window.location.href);
+		    var selectedOrderBy = currentURL.searchParams.get("orderby");
+		    console.log(selectedOrderBy)
+		    
+		    if (selectedOrderBy) {
+		        document.getElementById("orderby").value = selectedOrderBy;
+		    }
+		};
+
+        // 정렬 기준을 변경.
+        function changeOrderBy(orderBy) {
+            var currentURL = window.location.href;
+            
+            // 쿼리 스트링에서 orderby 값을 변경.
+            var newURL = currentURL.replace(/(\?|&)orderby=[^&]*/, '');
+            if (newURL.indexOf('?') === -1) {
+                newURL += '?';
+            } else {
+                newURL += '&';
+            }
+            newURL += 'orderby=' + orderBy;
+            
+            // 변경된 URL로 페이지를 이동.
+            window.location.href = newURL;
+        }
+        
+        function redirectToProductDetail(sequence) {
+            var productDetailURL = 'http://localhost:8080/lotbook/product-detail.bit?view=shop-details&sequence=' + sequence;
+            window.location.href = productDetailURL;
+        }
+        
+        
+        $(document).ready(function() {
+    		$("#addToCartButton").click(function() {
+    			$("#addToCartModal").modal("show");
+    		});
+    	});
+    	
+    	function addToCart(productSeq, memberSeq) {
+    		if (memberSeq === undefined) {
+    	        alert("로그인이 필요합니다.");
+    	        return;
+    	    }
+    		
+    		// var count = Number($('#productQuantity').val());
+    		
+    		$.ajax({
+    			url:'rest.bit?view=addToCart&productSequence=' + productSeq + '&count=' + 1 + '&memberSeq=' + memberSeq,
+    			success:function(result){
+    				console.log(result);
+    				if (result === 0) {
+    					alert("카트에 넣는 도중 오류가 발생했습니다. 다시 시도해주세요.");
+    				} else {
+    					 $('#addToCartModal').modal('show');
+    					
+    				}
+    			}
+    		});
+    	}
+    	
+    	function checkOutBuyNow(productSeq, memberSeq) {
+    	    // var count = Number($('#productQuantity').val());
+    	    if (memberSeq === undefined) {
+    	        alert("로그인이 필요합니다.");
+    	        return;
+    	    }
+    	    // Redirect to the checkout page with the specified count and product ID
+    	    window.location.href = 'main.bit?view=checkoutbuynow&count=' + 1 + '&productId=' + productSeq + '&memberSeq=' + memberSeq;
+    	}
+</script>

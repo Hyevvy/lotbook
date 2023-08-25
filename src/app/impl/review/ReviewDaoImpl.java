@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import app.dto.entity.Member;
 import app.dto.entity.Product;
 import app.dto.entity.Review;
+import app.dto.mapper.ReviewWithNameMapper;
 import app.dto.response.ReviewDetails;
 import app.frame.DaoFrame;
 
@@ -41,8 +42,8 @@ public class ReviewDaoImpl implements DaoFrame<Review, Review>{
 		return null;
 	}
 	
-	public List<Review> selectReviewsByProduct(Product k, SqlSession session) throws Exception {
-		List<Review> reviews = session.selectList("review.selectReviewsByProduct", k);
+	public List<ReviewWithNameMapper> selectReviewsByProduct(Product k, SqlSession session) throws Exception {
+		List<ReviewWithNameMapper> reviews = session.selectList("review.selectReviewsByProduct", k);
 		//TODO: Modify DTO
 		return reviews;
 	}

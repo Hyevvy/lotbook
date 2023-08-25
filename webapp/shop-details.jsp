@@ -306,18 +306,6 @@ if (productDetailWithReviews != null) {
 					</div>
 
 
-					<!-- 
-					<div class="product__details__quantity">
-						<div class="quantity">
-							<div class="pro-qty">
-								<input type="text" value="1" id="productQuantity"
-									oninput="renderExpectedPrice(this.value)">
-							</div>
-						</div>
-					</div>
-					 -->
-
-
 					<div class="d-flex py-4" style="height: 5vh;">
 						<h5 class="normal-info" id="totalPriceTag"></h5>
 						<div id="totalPrice" class="bold-info ml-3"
@@ -375,47 +363,56 @@ if (productDetailWithReviews != null) {
 							<div class="product__details__tab__desc">
 								<h6>리뷰</h6>
 								<div class="reviews">
-									<c:forEach items="${productDetailWithReviews.getReviews()}"
-										var="review">
-										<fmt:parseDate value="${review.createdAt}"
-											pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
-										<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월 dd일"
-											var="formattedDate" />
+									<c:choose>
+										<c:when test="${empty productDetailWithReviews.getReviews()}">
+											<p>등록된 리뷰가 없습니다.</p>
+										</c:when>
 
-										<div class="review mb-4">
-											<div class="review__header">
-												<h5 class="review__author d-inline">${review.name.substring(0, 2)}****</h5>
-												<div
-													class="product__details__rating review-star d-inline ml-3">
-													<c:set var="fullStars" value="${Math.floor(review.rating)}" />
-													<c:set var="halfStar"
-														value="${review.rating % 1 >= 0.5 ? 1 : 0}" />
-													<c:set var="emptyStars" value="${5 - fullStars - halfStar}" />
-													<c:forEach var="i" begin="1" end="${fullStars}">
-														<i class="fa fa-star"></i>
-													</c:forEach>
 
-													<c:if test="${halfStar == 1}">
-														<i class="fa fa-star-half-o"></i>
-													</c:if>
+										<c:otherwise>
+											<c:forEach items="${productDetailWithReviews.getReviews()}"
+												var="review">
+												<fmt:parseDate value="${review.createdAt}"
+													pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
+												<fmt:formatDate value="${parsedDate}"
+													pattern="yyyy년 MM월 dd일" var="formattedDate" />
 
-													<c:forEach var="i" begin="1" end="${emptyStars}">
-														<i class="fa fa-star-o"></i>
-													</c:forEach>
+												<div class="review mb-4">
+													<div class="review__header">
+														<h5 class="review__author d-inline">${review.name.substring(0, 2)}****</h5>
+														<div
+															class="product__details__rating review-star d-inline ml-3">
+															<c:set var="fullStars"
+																value="${Math.floor(review.rating)}" />
+															<c:set var="halfStar"
+																value="${review.rating % 1 >= 0.5 ? 1 : 0}" />
+															<c:set var="emptyStars"
+																value="${5 - fullStars - halfStar}" />
+															<c:forEach var="i" begin="1" end="${fullStars}">
+																<i class="fa fa-star"></i>
+															</c:forEach>
 
-													<span>${review.rating }</span> <span>점</span>
+															<c:if test="${halfStar == 1}">
+																<i class="fa fa-star-half-o"></i>
+															</c:if>
+
+															<c:forEach var="i" begin="1" end="${emptyStars}">
+																<i class="fa fa-star-o"></i>
+															</c:forEach>
+
+															<span>${review.rating }</span> <span>점</span>
+														</div>
+														<p class="review__date d-inline created-at ml-2">${formattedDate}</p>
+
+													</div>
+													<div class="review__content mt-2">
+														<p class="review__comment">${review.comment}</p>
+													</div>
 												</div>
-												<p class="review__date d-inline created-at ml-2">${formattedDate}</p>
 
-											</div>
-											<div class="review__content mt-2">
-												<p class="review__comment">${review.comment}</p>
-											</div>
-										</div>
-
-
-
-									</c:forEach>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 						</div>
@@ -498,7 +495,7 @@ if (productDetailWithReviews != null) {
 	        
 	        return;
 	    }
-	    
+	    var count = Number($('#product-count').val());
 	    // Redirect to the checkout page with the specified count and product ID
 	    window.location.href = 'main.bit?view=checkoutbuynow&count=' + count + '&productId=' + productId + '&memberSeq=' + memberSeq;
 	}
@@ -527,7 +524,9 @@ if (productDetailWithReviews != null) {
 	   var count = Number(cnt);
 	   if (count >= 2) {
 		   document.getElementById('totalPriceTag').textContent = '총 상품금액: ';
-	     document.getElementById('totalPrice').textContent = count * ${productDetailWithReviews.getPrice()};
+		   var totalPrice = count * ${productDetailWithReviews.getPrice()};
+	     // document.getElementById('totalPrice').textContent = count * ${productDetailWithReviews.getPrice()};
+	     document.getElementById('totalPrice').textContent = totalPrice.toLocaleString() + "원";
 	   } else {
 		   document.getElementById('totalPriceTag').textContent = '';
 	     document.getElementById('totalPrice').textContent = '';

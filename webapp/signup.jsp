@@ -37,9 +37,6 @@
 	}
 }
 </style>
-<script type="text/javascript"
-	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
-</script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.form_ip_pw i').on('click',function(){

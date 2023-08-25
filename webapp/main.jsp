@@ -16,6 +16,8 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+<jsp:include page="popup.jsp" />
+
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -47,7 +49,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+					<a href="main.bit"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -130,7 +132,11 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 					</div>
 				</div>
 				<div>
-					<img class="hero__item" src="img/banner.png">
+					<a
+						href="http://127.0.0.1/lotbook/product-detail.bit?view=shop-details&sequence=264">
+						<img class="hero__item" src="img/banner.png">
+					</a>
+
 				</div>
 			</div>
 

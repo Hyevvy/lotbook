@@ -210,36 +210,46 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 						
 					</div>
 					<div class="col-lg-4 col-md-6">
-						<div class="checkout__order">
-							<h4>주문 내역</h4>
-							<div class="checkout__order__products">
-								상품 목록 <span>금액</span>
-							</div>
-							<ul>
-								<c:forEach items="${orderProductList }" var="product">
-									<li>${product.name.substring(0, 10) }...X${product.count }
-										<span> <c:set var="price"
-												value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
-											<fmt:formatNumber type="number" maxFractionDigits="3"
-												value="${price}" /> 원
-									</span>
-									</li>
-								</c:forEach>
-							</ul>
-							<div class="checkout__order__total">
+				<div class="checkout__order">
+					<h4>주문 내역</h4>
+					<div class="checkout__order__products">
+						상품 목록 <span>금액</span>
+					</div>
+					<ul>
+						<c:forEach items="${orderProductList }" var="product">
+							<li>${product.name.substring(0, 10) }...X ${product.count }
+								<span> <c:set var="price"
+										value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
+									<fmt:formatNumber type="number" maxFractionDigits="3"
+										value="${price}" /> 원
+							</span>
+							</li>
+						</c:forEach>
+					</ul>
+					<div class="checkout__order__total">
 
-								적립 예정 포인트 <span>${orderProductList[fn:length(orderProductList) -1].totalPoint }
-									점</span>
-							</div>
-							<div class="checkout__order__total">
-								총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice }
-									원</span>
-							</div>
-
-							<button type="submit" class="site-btn">주문하기</button>
+						적립 예정 포인트 <span>${orderProductList[fn:length(orderProductList) -1].totalPoint }
+							점</span>
+					</div>
+					<div style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(225, 225, 225); padding-bottom: 10px; margin-bottom: 15px;">
+						<div class="checkout__order__total" style="border: none; margin-bottom: -5px">
+						포인트 사용<span><input id="usePoint" name="usePoint" type="text" value=0 style="width: 100px; text-align: right; border: none;" onchange="use_point(this.value, ${orderProductList[fn:length(orderProductList) - 1].totalPrice }, ${logincust.accumulatedPoint })"></span>
+						</div>
+						<div class="text-muted" style="text-align: right; font-size: 8px;">
+							사용 가능 포인트: ${logincust.accumulatedPoint } 점
+						</div>
+						<div style="width: 100%; text-align: right;">
+							<input id="checkbox" type="checkbox" onclick="use_all_point(${logincust.accumulatedPoint }, ${orderProductList[fn:length(orderProductList) - 1].totalPrice })"><label style="text-align: right; margin-left: 5px;">전액 사용</label>
 						</div>
 					</div>
+					<div class="checkout__order__total">
+						총 결제 금액 <span id="totalPrice">${orderProductList[fn:length(orderProductList) - 1].totalPrice }
+							원</span>
+					</div>
+					<button type="submit" class="site-btn">주문하기</button>
 				</div>
+
+			</div>
 			</form>
 		</div>
 	</div>
@@ -265,5 +275,27 @@ function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDe
 		document.getElementById("sample6_address").value = "";
 		document.getElementById("sample6_detailAddress").value = "";
 	}
+}
+function use_all_point(totalPoint, totalPrice) {
+	var checkbox = document.getElementById("checkbox");
+	
+	if (checkbox.checked) {
+		document.getElementById("usePoint").value = totalPoint;
+		document.getElementById("totalPrice").innerHTML = totalPrice - totalPoint + " 원";
+		payPrice = totalPrice - totalPoint;
+		usePoint = totalPoint
+	}
+}
+function use_point(value, totalPrice, myPoint) {
+	if (value > myPoint) {
+		alert("사용할 수 있는 포인트를 초과했습니다.");
+		document.getElementById("usePoint").value = myPoint;
+		document.getElementById("totalPrice").innerHTML = totalPrice - myPoint + " 원";
+	} else {
+		document.getElementById("totalPrice").innerHTML = totalPrice - value + " 원";
+		payPrice = totalPrice - value;
+		usePoint = value;
+	}
+	
 }
 </script>

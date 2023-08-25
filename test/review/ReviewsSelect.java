@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import app.dto.entity.Product;
 import app.dto.entity.Review;
+import app.dto.mapper.ReviewWithNameMapper;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 import app.impl.review.ReviewDaoImpl;
@@ -40,7 +41,7 @@ public class ReviewsSelect {
 		
 				
 		try {
-			List<Review> reviews = dao.selectReviewsByProduct(product, session);
+			List<ReviewWithNameMapper> reviews = dao.selectReviewsByProduct(product, session);
 			 reviews.forEach(review -> {
 	                LOGGER.info(review.toString());
 	                assert review.getProductSequence() == product.getSequence() : "Product sequence in review does not match expected value";

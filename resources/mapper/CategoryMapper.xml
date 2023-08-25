@@ -28,6 +28,13 @@
 		<result property="categorySequence" column="category_sequence"/>
 	</resultMap>
 	
+	<resultMap type="app.dto.entity.Category" id="categoryMap">
+		<result property="sequence" column="sequence"/>
+		<result property="name" column="name"/>
+		<result property="level" column="level"/>
+		<result property="parentCategory" column="parent_category"/>
+	</resultMap>
+	
 	<select id="findCategorybyProductSequence" resultMap="categoryResultMap" parameterType="app.dto.entity.Product">
 	    SELECT 
 	        m.sequence AS main_category_sequence,
@@ -62,6 +69,10 @@
 		WHERE c.parent_category = #{categoryCode};
 	</select>
 	
+	<select id ="selectCategoryBySequence" parameterType="app.dto.entity.Category" resultMap="categoryMap">
+		SELECT * FROM category
+		WHERE sequence = #{sequence};
+	</select>
 
 
 </mapper>

@@ -68,7 +68,7 @@ public class MemberServlet implements ControllerFrame {
          request.setAttribute("center", "signin");
          request.setAttribute("navi", Navi.login);
       }else if(view.equals("loginimpl")) {
-         System.out.println("Login Start");
+         
          String email = request.getParameter("email");
          String password = request.getParameter("password");
          
@@ -158,7 +158,7 @@ public class MemberServlet implements ControllerFrame {
 			request.setAttribute("center", "member-info-login");
 			
 			request.setAttribute("memberSeq", ((Member)session.getAttribute("logincust")).getSequence());
-			System.out.println();
+			
 		}else if(view.equals("updateinfo")){
 			HttpSession session = request.getSession();
 			

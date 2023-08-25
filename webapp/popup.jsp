@@ -22,9 +22,11 @@
 <style>
 font-family: SF Pro KR, SF Pro Display, SF Pro Icons, AOS Icons, Apple Gothic,
 	HY Gulim, MalgunGothic, HY Dotum, Lexi Gulim, Helvetica Neue, Helvetica,
-	Arial, sans-serif ; .layerPopup img {
-	margin-bottom: 20px;
-	max-width: 100%;
+	Arial, sans-serif ; 
+	
+.layerPopup img {
+	width: 100%;
+	border-radius: 6px 6px 0 0;
 }
 
 .layerPopup:before {
@@ -45,7 +47,6 @@ font-family: SF Pro KR, SF Pro Display, SF Pro Icons, AOS Icons, Apple Gothic,
 	left: 50%;
 	top: 48%;
 	transform: translate(-50%, -50%);
-	padding: 30px;
 	background: #fff;
 	border-radius: 6px;
 	width: 460px;
@@ -118,19 +119,18 @@ font-family: SF Pro KR, SF Pro Display, SF Pro Icons, AOS Icons, Apple Gothic,
 	<!-- layer popup content -->
 	<div class="layerPopup" id="layer_popup" style="visibility: visible;">
 		<div class="layerBox">
-			<h4 class="title"></h4>
 			<div class="cont">
 				<p>
-					<img src="img/banner/popup1.png" width=400 height=500
+					<img src="img/banner/popup1.png" style="border-radius: 6px 6px 0 0"
 						usemap="#popup" alt="event page">
 				</p>
 			</div>
 			<form name="pop_form">
-				<div id="check">
+				<div id="check" style="margin-left: 20px; margin-bottom: 10px;">
 					<input type="checkbox" name="chkbox" value="checkbox" id='chkbox'>
-					<label for="chkbox">&nbsp&nbsp오늘 하루동안 보지 않기</label>
+					<label for="chkbox">&nbsp;&nbsp;오늘 하루동안 보지 않기</label>
 				</div>
-				<div id="close">
+				<div id="close" style="margin-right: 20px; margin-bottom: 10px;">
 					<a href="javascript:closePop();">닫기</a>
 				</div>
 			</form>

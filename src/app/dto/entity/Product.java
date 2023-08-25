@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class Product {
 	private long sequence;
 	private String productImgurl;
+	private String productDetailImgurl;
 	private String name;
 	private int price;
 	private String content;
@@ -27,11 +28,12 @@ public class Product {
 	private int publisherSequence;
 	private int categorySequence;
 
-	public Product(long sequence, String productImgurl, String name, int price, String content, int stock,
+	public Product(long sequence, String productImgurl, String productDetailImgurl, String name, int price, String content, int stock,
 			String createdAt, String updatedAt, double pointAccumulationRate, double discountRate, long salesCount,
 			String state, int authorSequence, int publisherSequence, int categorySequence) {
 		this.sequence = sequence;
 		this.productImgurl = productImgurl;
+		this.productDetailImgurl = productDetailImgurl;
 		this.name = name;
 		this.price = price;
 		this.content = content;

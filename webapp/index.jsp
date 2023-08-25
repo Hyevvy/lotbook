@@ -34,8 +34,6 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script defer src="js/signup.js"></script>
-<script type="text/javascript"
-	src="/js/jquery-1.2.6.min.js"></script>
 
 	
 <!-- data-aos -->
@@ -48,6 +46,20 @@
 </head>
 
 <style>
+	::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+	}
+	
+	::-webkit-scrollbar-thumb {
+	    height: 30%; /* 스크롤바의 길이 */
+	    background: #e70012; /* 스크롤바의 색상 */
+	    
+	    border-radius: 10px;
+	}
+	
+	::-webkit-scrollbar-track {
+	    background: rgba(231, 0, 18, .1);  /*스크롤바 뒷 배경 색상*/
+	}
 	.footerSection { 
 		width: 1000px; 
 		height: 400px; 
@@ -173,7 +185,7 @@
     	background-color: #f3f6fa;
     }
 </style>
-<body>
+<body style="overflow-x: hidden;">
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -192,7 +204,7 @@
 	<br><br><br>
 	</section>
 	<!-- 최근 본 상품 목록 -->
-	<div id="recentViewList" class="bg-white shadow-lg" style="display: none; z-index: 50; width: 390px; height: 690px; position: fixed; bottom: 90px; right: 24px; border-radius: 30px; padding: 20px;">
+	<div id="recentViewList" class="bg-white shadow-lg" style="overflow: auto; display: none; z-index: 50; width: 390px; height: 690px; position: fixed; bottom: 90px; right: 24px; border-radius: 30px; padding: 20px;">
 		
 	</div>
 	<div style="display: none;" id="custSeq">${logincust.sequence }</div>

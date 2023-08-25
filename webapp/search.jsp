@@ -15,6 +15,16 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 %>
 
 
+<style type="text/css">
+.star { //
+	color: #EDBB0E;
+	color: #ffc107;
+	letter-spacing: -1.2px;
+}
+</style>
+
+
+
 
 <!-- Header Section Begin -->
 <header class="header">
@@ -140,22 +150,30 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 	<div class="container mb-4">
 		<div class="row">
 			<div class="col-lg-3 col-md-5">
-				<span>${searchResult.searchKeyword}</span> <span>검색결과</span> <span>${searchResult.count}</span>
+				<span>"${searchResult.searchKeyword}"</span> <span>검색결과</span> <span>${searchResult.totalCount}</span>
 				<span>건</span>
 			</div>
+
+			<c:if test="${searchResult.categoryCount != null}">
+				<div>"${searchResult.currentCategoryName}" 카테고리
+					${searchResult.categoryCount}건</div>
+			</c:if>
+
 
 
 			<div style="margin-left: auto; text-align: right;">
 				<!-- 드롭다운 메뉴를 생성하고 선택한 옵션에 따라 요청을 보내는 함수를 호출합니다. -->
-				<label for="orderby"></label> <select id="orderby"
-					style="margin-left: auto;" onchange="changeOrderBy(this.value)">
-					<option value="popular">인기순</option>
-					<option value="high_to_low">높은 가격순</option>
-					<option value="low_to_high">낮은 가격순</option>
-					<option value="latest">최신순</option>
-					<option value="sales">판매량순</option>
+				<select id="orderby" style="margin-left: auto;"
+					onchange="changeOrderBy(this.value)">
+					<option name="popular" value="popular">인기순</option>
+					<option name="high_to_low" value="high_to_low">높은 가격순</option>
+					<option name="low_to_high" value="low_to_high">낮은 가격순</option>
+					<option name="latest" value="latest">최신순</option>
+					<option name="sales" value="sales">판매량순</option>
 				</select>
 			</div>
+
+
 		</div>
 	</div>
 
@@ -167,57 +185,58 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 					<div class="sidebar__item">
 						<h4>전체 카테고리</h4>
 						<ul>
-
-							<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
-									IT</a>
-							<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
-									공학 (10)</a>
-							<li value="3"><a href="#" style="text-indent: 20px">데이터베이스
-									(8)</a>
-							<li value="4"><a href="#" style="text-indent: 20px">네트워크</a>
-							<li value="5"><a href="#" style="text-indent: 20px">프로그래밍</a>
+							<li value="1"><span href="#" class="font-weight-bold">컴퓨터
+									/ IT</span></li>
+							<li value="2" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">컴퓨터 공학
+									(${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
+							<li value="3" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">데이터베이스
+									(${searchResult.countByCategory['데이터베이스'] != null ? searchResult.countByCategory['데이터베이스'] : 0})</a></li>
+							<li value="4" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">네트워크
+									(${searchResult.countByCategory['네트워크'] != null ? searchResult.countByCategory['네트워크'] : 0})</a></li>
+							<li value="5" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">프로그래밍
+									(${searchResult.countByCategory['프로그래밍'] != null ? searchResult.countByCategory['프로그래밍'] : 0})</a></li>
 							<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-							<li value="7"><a href="#" style="text-indent: 20px">한국소설</a>
-							<li value="8"><a href="#" style="text-indent: 20px">영미소설</a>
-							<li value="9"><a href="#" style="text-indent: 20px">일본소설</a>
+							<li value="7" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">한국소설
+									(${searchResult.countByCategory['한국소설'] != null ? searchResult.countByCategory['한국소설'] : 0})</a></li>
+							<li value="8" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">영미소설
+									(${searchResult.countByCategory['영미소설'] != null ? searchResult.countByCategory['영미소설'] : 0})</a></li>
+							<li value="9" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">일본소설
+									(${searchResult.countByCategory['일본소설'] != null ? searchResult.countByCategory['일본소설'] : 0})</a></li>
 							<li value="10"><a href="#" class="font-weight-bold">경제 /
 									경영</a></li>
-							<li value="11"><a href="#" style="text-indent: 20px">경영일반</a>
-							<li value="12"><a href="#" style="text-indent: 20px">재테크/금융</a>
-							<li value="13"><a href="#" style="text-indent: 20px">유통/창업</a>
-							<li value="14"><a href="#" style="text-indent: 20px">세무/회계</a>
+							<li value="11" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">경영일반
+									(${searchResult.countByCategory['경영일반'] != null ? searchResult.countByCategory['경영일반'] : 0})</a></li>
+							<li value="12" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">재테크/금융
+									(${searchResult.countByCategory['재테크/금융'] != null ? searchResult.countByCategory['재테크/금융'] : 0})</a></li>
+							<li value="13" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">유통/창업
+									(${searchResult.countByCategory['유통/창업'] != null ? searchResult.countByCategory['유통/창업'] : 0})</a></li>
+							<li value="14" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">세무/회계
+									(${searchResult.countByCategory['세무/회계'] != null ? searchResult.countByCategory['세무/회계'] : 0})</a></li>
 						</ul>
-					</div>
-					<div class="sidebar__item">
-						<h4>Price</h4>
-						<div class="price-range-wrap">
-							<div
-								class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-								data-min="10" data-max="540">
-								<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-								<span tabindex="0"
-									class="ui-slider-handle ui-corner-all ui-state-default"></span>
-								<span tabindex="0"
-									class="ui-slider-handle ui-corner-all ui-state-default"></span>
-							</div>
-							<div class="range-slider">
-								<div class="price-input">
-									<input type="text" id="minamount"> <input type="text"
-										id="maxamount">
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 
 			<!-- TODO:조건부로 검색결과 없다고 띄우기  -->
+
 			<c:choose>
-				<c:when test="${searchResult.count eq 0}">
-					<div class="d-flex flex-column align-items-center justify-content-center col-lg-9" >
+				<c:when test="${searchResult.totalCount eq 0}">
+					<div
+						class="d-flex flex-column align-items-center justify-content-center col-lg-9">
 						<div class="my-5">
-							<span>${searchResult.searchKeyword}</span> 
-							<span>에 대한	검색결과가 없습니다.</span>
+							<span>${searchResult.searchKeyword}</span> <span>에 대한
+								검색결과가 없습니다.</span>
 						</div>
 						<p>입력한 검색어의 철자 또는 띄어쓰기가 정확한지 다시 한번 확인해 주세요.</p>
 					</div>
@@ -226,12 +245,12 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 					<div class="col-lg-9 pr-0">
 						<div class="shoping__cart__table">
+
 							<c:forEach var="item" items="${searchResult.searchList}">
 								<fmt:parseDate value="${item.createdAt}"
 									pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
 								<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월"
 									var="formattedDate" />
-
 
 								<div class="d-flex col-lg-12 py-4 pr-0"
 									style="border-top: 1px solid #d5d5d5; transition: box-shadow 0.3s, cursor 0.3s;"
@@ -251,22 +270,42 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 										</div>
 										<div>
 											<span>${item.authorName}</span> <span>저</span> <br
-												class="my-2" /> <span>${item.publisherName}</span> <span>${ formattedDate }</span>
+												class="my-2" /> <span>${item.publisherName}</span> <span>${formattedDate}</span>
 										</div>
 										<div class="mt-1">
-
 											<span class="text-warning font-weight-bold"> <c:set
 													var="discount" value="${item.discountRate }" /> <fmt:formatNumber
-													type="number" value="${discount}" /> % 할인
-											</span> <span>${item.discountedPrice}</span><span>원</span> <span
-												style="text-decoration: line-through; color: #767676;">${item.price}</span>
-											<span> | ${item.pointAccumulation}p
+													type="number" value="${ discount }" pattern="#,##0" /> %
+												할인
+											</span><span> <fmt:formatNumber type="number"
+													value="${item.discountedPrice }" pattern="#,##0" />
+											</span> 원 <span
+												style="text-decoration: line-through; color: #767676;">
+												<fmt:formatNumber type="number" value="${item.price}"
+													pattern="#,##0" />
+											</span> <span> | ${item.pointAccumulation}p
 												(${item.pointAccumulationRate}%)</span>
 										</div>
 										<div class="mt-2">
 											<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
 												class="text-primary">${item.reviewCount }</span> <span>건)</span>
-											<span>❤❤❤❤❤</span> <span>${item.ratingAvg }</span>
+
+
+
+											<span class="product__details__rating star"> <c:set
+													var="fullStars" value="${Math.floor(item.ratingAvg)}" /> <c:set
+													var="halfStar" value="${item.ratingAvg % 1 >= 0.5 ? 1 : 0}" />
+												<c:set var="emptyStars" value="${5 - fullStars - halfStar}" />
+												<c:forEach var="i" begin="1" end="${fullStars}">
+													<i class="fa fa-star"></i>
+												</c:forEach> <c:if test="${halfStar == 1}">
+													<i class="fa fa-star-half-o"></i>
+												</c:if> <c:forEach var="i" begin="1" end="${emptyStars}">
+													<i class="fa fa-star-o"></i>
+												</c:forEach>
+
+
+											</span> <span>${item.ratingAvg}</span>
 										</div>
 									</div>
 
@@ -274,7 +313,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 										style="margin-left: auto;">
 
 										<a href="#" class="primary-btn cart-btn cart-btn-right mb-2"
-											onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>카트에
+											onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>장바구니에
 											넣기</a> <a href="#" class="primary-btn text-white btn"
 											onclick='checkOutBuyNow(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>바로
 											구매</a>
@@ -283,6 +322,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 								</div>
 							</c:forEach>
+
 						</div>
 					</div>
 				</c:otherwise>
@@ -355,15 +395,53 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 
 <script>
-		window.onload = function () {
+		
+		$(document).ready(function () {
 		    var currentURL = new URL(window.location.href);
 		    var selectedOrderBy = currentURL.searchParams.get("orderby");
-		    console.log(selectedOrderBy)
+		    var displayText;
+
+		    switch (selectedOrderBy) {
+		        case 'popular':
+		            displayText = '인기순';
+		            break;
+		        case 'high_to_low':
+		            displayText = '높은 가격순';
+		            break;
+		        case 'low_to_high':
+		            displayText = '낮은 가격순';
+		            break;
+		        case 'latest':
+		            displayText = '최신순';
+		            break;
+		        case 'sales':
+		            displayText = '판매량순';
+		            break;
+		        default:
+		        	displayText = '인기순';
+		           break; 
+		    }
+
+		    document.querySelector(".current").setAttribute("id", "current");
+		    if (selectedOrderBy !== '') {
+		    	const test = document.getElementById("current");
+		    	test.innerText = displayText; 
+		    }
+		});
+		
+		
+		function setOrderByDropdownValue() {
+		    var currentURL = new URL(window.location.href);
+		    var selectedOrderBy = currentURL.searchParams.get("orderby");
 		    
 		    if (selectedOrderBy) {
-		        document.getElementById("orderby").value = selectedOrderBy;
+		        var orderByDropdown = document.getElementById("orderby");
+		        orderByDropdown.value = selectedOrderBy;
 		    }
-		};
+		}
+
+		window.onload = setOrderByDropdownValue;
+
 
         // 정렬 기준을 변경.
         function changeOrderBy(orderBy) {
@@ -381,6 +459,25 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
             // 변경된 URL로 페이지를 이동.
             window.location.href = newURL;
         }
+        
+        // 카테고리 변경
+        function updateCategory(element) {
+            var categoryValue = element.getAttribute('value');
+            var url = window.location.href;
+
+            if (url.indexOf('?') > -1) {
+                if (url.indexOf('category=') > -1) {
+                    url = url.replace(/(category=)[^\&]+/, '$1' + categoryValue);
+                } else {
+                    url += '&category=' + categoryValue;
+                }
+            } else {
+                url += '?category=' + categoryValue;
+            }
+
+            window.location.href = url;
+        }
+        
         
         function redirectToProductDetail(sequence) {
             var productDetailURL = 'http://localhost:8080/lotbook/product-detail.bit?view=shop-details&sequence=' + sequence;
@@ -400,12 +497,12 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
     	        return;
     	    }
     		
-    		// var count = Number($('#productQuantity').val());
+    		
     		
     		$.ajax({
     			url:'rest.bit?view=addToCart&productSequence=' + productSeq + '&count=' + 1 + '&memberSeq=' + memberSeq,
     			success:function(result){
-    				console.log(result);
+    				
     				if (result === 0) {
     					alert("카트에 넣는 도중 오류가 발생했습니다. 다시 시도해주세요.");
     				} else {

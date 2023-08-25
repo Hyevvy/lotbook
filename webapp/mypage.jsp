@@ -201,18 +201,7 @@ $(document).ready(function(){
         }
     });
 });
-function saveChanges(sequence) {
-	var textarea = document.querySelector(`#reviewCollapse-${sequence} textarea[name='comment']`);
-	var editBtn = document.querySelector(`#editBtn-${sequence}`);
-	
-    var updatedComment = textarea.value;
-    
-    // 수정된 내용을 서버로 전송하는 등의 로직을 구현합니다.
-    
-    // 저장이 완료되면 다음과 같이 처리합니다.
-    textarea.disabled = true;
-	editBtn.textContent = "수정";  // 버튼 텍스트 원래대로 되돌리기
-}
+
 
 
 

@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import app.dto.entity.Review;
+import app.frame.ControllerFrame;
 import app.impl.review.ReviewServiceImpl;
 
 /**
 * Servlet implementation class ReviewServlet
 */
 @WebServlet({"/review"})
-public class ReviewServlet extends HttpServlet {
+public class ReviewServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private ReviewServiceImpl reviewServiceImpl;
@@ -30,26 +31,30 @@ public class ReviewServlet extends HttpServlet {
         reviewServiceImpl = new ReviewServiceImpl();
     }
 	
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String next = "index.jsp";
 		String view = request.getParameter("cmd");
 
-		if(view != null){
-			build(request, view);
-		}
+		build(request, view);
 
-		RequestDispatcher rd = 
-		request.getRequestDispatcher(next);
+		RequestDispatcher rd = request.getRequestDispatcher(next);
 		rd.forward(request, response);
 	}
 	
 	 private void build(HttpServletRequest request,
 				String view){
+		 	System.out.println("리뷰 등록!");
+		 	if (view == null) {
+		 		System.out.println("리뷰 요청");
+		 	}
 			if(view.equals("register")){
 				long memberSequence = Long.parseLong(request.getParameter("memberSequence"));
 				long productSequence = Long.parseLong(request.getParameter("productSequence"));
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				String comment = request.getParameter("comment");
+				
+				System.out.println(memberSequence +" "+ productSequence +" "+ rating +" "+ comment);
 				
 				Review reviewInfo = Review.builder()
 						.rating(rating)
@@ -58,6 +63,7 @@ public class ReviewServlet extends HttpServlet {
 						.productSequence(productSequence)
 						.build();
 
+				System.out.println("리뷰 등록!");
 				try {
 					reviewServiceImpl.register(reviewInfo);
 					request.setAttribute("center", "mypage");

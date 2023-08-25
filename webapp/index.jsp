@@ -34,8 +34,6 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script defer src="js/signup.js"></script>
-<script type="text/javascript"
-	src="/js/jquery-1.2.6.min.js"></script>
 
 	
 <!-- data-aos -->

@@ -213,12 +213,6 @@ public class MainServlet implements ControllerFrame {
 				}
 				
 			}
-		} else if (view.equals("loginimpl"))
-
-		{
-			String id = request.getParameter("id");
-			String pwd = request.getParameter("pwd");
-			// 로그인
 		} else if (view.contains("mypage")) {
 			request.setAttribute("center", "mypage");
 			memberSeq = request.getParameter("memberSeq");
@@ -304,6 +298,9 @@ public class MainServlet implements ControllerFrame {
 
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
+				
+				int cartCount = cartService.getCartCount(memberSeq);
+	            request.setAttribute("cartCount", cartCount);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -346,6 +343,9 @@ public class MainServlet implements ControllerFrame {
 
 					productList.get(i).setTotalPrice(totalPrice);
 					productList.get(i).setTotalPoint(totalPoint);
+					
+					int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+		            request.setAttribute("cartCount", cartCount);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -360,7 +360,6 @@ public class MainServlet implements ControllerFrame {
 
 			String productId = request.getParameter("productId");
 			String count = request.getParameter("count");
-			String memberSeq = request.getParameter("memberSeq");
 
 			Product product = Product.builder().sequence(Integer.parseInt(productId)).build();
 			ProductServiceImpl service = new ProductServiceImpl();
@@ -379,6 +378,8 @@ public class MainServlet implements ControllerFrame {
 				productList.get(0).setTotalPrice(priceMuldiscountRate - priceMuldiscountRate % 10);
 				request.setAttribute("res", res);
 				
+				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

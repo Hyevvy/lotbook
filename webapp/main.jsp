@@ -1,27 +1,31 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-	String[] BestSeller = request.getParameterValues("BestSeller");
-	String[] Latest = request.getParameterValues("Latest");
-	String[] BigPoint = request.getParameterValues("BigPoint");
-	String[] BigDiscount = request.getParameterValues("BigDiscount");
+String[] BestSeller = request.getParameterValues("BestSeller");
+String[] Latest = request.getParameterValues("Latest");
+String[] BigPoint = request.getParameterValues("BigPoint");
+String[] BigDiscount = request.getParameterValues("BigDiscount");
 %>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<jsp:include page="popup.jsp" />
 
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
 		<div class="container">
-			<nav class="header__menu header__top__right mobile-menu" 
+			<nav class="header__menu header__top__right mobile-menu"
 				style="padding: 5px 0">
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+							<li class="active"><a
+								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="member.bit?view=logout"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -66,7 +70,9 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+								<li><a
+									href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i
+										class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -114,17 +120,23 @@
 			<div class="col-lg-9">
 				<div class="hero__search">
 					<div class="hero__search__form">
-						<form action="#">
+						<form action="#"
+							onsubmit="event.preventDefault(); search(document.getElementById('keyword').value);">
 							<div class="hero__search__categories">통합 검색</div>
-							<input type="text" placeholder="검색어를 입력해주세요">
+							<input type="text" id="keyword" placeholder="검색어를 입력해주세요">
 							<button type="submit" class="site-btn">검색</button>
 						</form>
 					</div>
 				</div>
 				<div>
-					<img class="hero__item" src="img/banner.png">
+					<a
+						href="http://127.0.0.1/lotbook/product-detail.bit?view=shop-details&sequence=264">
+						<img class="hero__item" src="img/banner.png">
+					</a>
+
 				</div>
 			</div>
+
 		</div>
 	</div>
 </section>
@@ -152,9 +164,12 @@
 					<div class="categories__slider owl-carousel">
 						<c:forEach items="${BestSeller }" var="product">
 							<div class="col-lg-3">
-								<div class="categories__item set-bg"
-									data-setbg="${product.productImgurl }" style="width: 200px;">
-								</div>
+								<a
+									href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}">
+									<div class="categories__item set-bg"
+										data-setbg="${product.productImgurl }" style="width: 200px;">
+									</div>
+								</a>
 							</div>
 						</c:forEach>
 					</div>
@@ -165,7 +180,9 @@
 	</div>
 </section>
 <!-- Featured Section End -->
-<br><br><br>
+<br>
+<br>
+<br>
 <!-- Banner Begin -->
 <div class="banner">
 	<div class="container">
@@ -184,7 +201,10 @@
 	</div>
 </div>
 <!-- Banner End -->
-<br><br><br><br>
+<br>
+<br>
+<br>
+<br>
 <!-- Latest Product Section Begin -->
 <section class="latest-product spad">
 	<div class="container">
@@ -194,58 +214,38 @@
 					<h4>따끈따끈 신작✨</h4>
 					<div class="latest-product__slider owl-carousel">
 						<div class="latest-prdouct__slider__item">
-							<a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-1.jpg" alt="">
+							<c:forEach items="${Latest}" var="product" begin="0" end="2">
+								<div class="col-lg-12">
+									<a
+										href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}"
+										class="latest-product__item">
+										<div class="latest-product__item__pic">
+											<img src="${product.productImgurl}" alt="">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>${product.name}</h6>
+											<span>${product.price}</span>
+										</div>
+									</a>
 								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-2.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-3.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a>
+							</c:forEach>
 						</div>
 						<div class="latest-prdouct__slider__item">
-							<a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-1.jpg" alt="">
+							<c:forEach items="${Latest}" var="product" begin="3" end="5">
+								<div class="col-lg-12">
+									<a
+										href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}"
+										class="latest-product__item">
+										<div class="latest-product__item__pic">
+											<img src="${product.productImgurl}" alt="">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>${product.name}</h6>
+											<span>${product.price}</span>
+										</div>
+									</a>
 								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-2.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-3.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -255,58 +255,38 @@
 					<h4>포인트 팡팡🎉</h4>
 					<div class="latest-product__slider owl-carousel">
 						<div class="latest-prdouct__slider__item">
-							<a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-1.jpg" alt="">
+							<c:forEach items="${BigPoint}" var="product" begin="0" end="2">
+								<div class="col-lg-12">
+									<a
+										href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}"
+										class="latest-product__item">
+										<div class="latest-product__item__pic">
+											<img src="${product.productImgurl}" alt="">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>${product.name}</h6>
+											<span>${product.price}</span>
+										</div>
+									</a>
 								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-2.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-3.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a>
+							</c:forEach>
 						</div>
 						<div class="latest-prdouct__slider__item">
-							<a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-1.jpg" alt="">
+							<c:forEach items="${BigPoint}" var="product" begin="3" end="5">
+								<div class="col-lg-12">
+									<a
+										href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}"
+										class="latest-product__item">
+										<div class="latest-product__item__pic">
+											<img src="${product.productImgurl}" alt="">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>${product.name}</h6>
+											<span>${product.price}</span>
+										</div>
+									</a>
 								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-2.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-3.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -316,58 +296,38 @@
 					<h4>사장님이 미쳤어요😆</h4>
 					<div class="latest-product__slider owl-carousel">
 						<div class="latest-prdouct__slider__item">
-							<a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-1.jpg" alt="">
+							<c:forEach items="${BigDiscount}" var="product" begin="0" end="2">
+								<div class="col-lg-12">
+									<a
+										href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}"
+										class="latest-product__item">
+										<div class="latest-product__item__pic">
+											<img src="${product.productImgurl}" alt="">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>${product.name}</h6>
+											<span>${product.price}</span>
+										</div>
+									</a>
 								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-2.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-3.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a>
+							</c:forEach>
 						</div>
 						<div class="latest-prdouct__slider__item">
-							<a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-1.jpg" alt="">
+							<c:forEach items="${BigDiscount}" var="product" begin="3" end="5">
+								<div class="col-lg-12">
+									<a
+										href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}"
+										class="latest-product__item">
+										<div class="latest-product__item__pic">
+											<img src="${product.productImgurl}" alt="">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>${product.name}</h6>
+											<span>${product.price}</span>
+										</div>
+									</a>
 								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-2.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a> <a href="#" class="latest-product__item">
-								<div class="latest-product__item__pic">
-									<img src="img/latest-product/lp-3.jpg" alt="">
-								</div>
-								<div class="latest-product__item__text">
-									<h6>Crab Pool Security</h6>
-									<span>$30.00</span>
-								</div>
-							</a>
+							</c:forEach>
 						</div>
 					</div>
 				</div>

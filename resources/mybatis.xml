@@ -13,6 +13,7 @@
 		<typeAlias type="app.dto.entity.Product" alias="product" />
 		<typeAlias type="app.dto.entity.Review" alias="review" />
 		<typeAlias type="app.dto.response.ReviewDetails" alias="reviewDetails" />
+		<typeAlias type="app.dto.entity.Point" alias="point" />
 	</typeAliases>
 	<typeHandlers>
 		<typeHandler javaType="boolean" jdbcType="TINYINT" handler="org.apache.ibatis.type.BooleanTypeHandler" />
@@ -39,7 +40,8 @@
 		<!-- <mapper resource="mapper/ProductDetailMapper.xml" /> -->
 		<mapper resource="mapper/ProductMapper.xml" />
 		<mapper resource="mapper/ReviewMapper.xml" />
-		<mapper resource="mapper/SearchbarMapper.xml" />
+		<mapper resource="mapper/SearchMapper.xml" />
+		<mapper resource="mapper/PointMapper.xml" />
 
 	</mappers>
 </configuration>

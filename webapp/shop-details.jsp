@@ -21,6 +21,36 @@ if (productDetailWithReviews != null) {
 			$("#addToCartModal").modal("show");
 		});
 	});
+	
+	function addToCart(productSeq, memberSeq) {
+		if (memberSeq === undefined) {
+	        alert("로그인이 필요합니다.");
+	        return;
+	    }
+		
+		var count = Number($('#productQuantity').val());
+		console.log(productSeq, memberSeq)
+		$.ajax({
+			url:'rest.bit?view=addToCart&productSequence=' + productSeq + '&count=' + count + '&memberSeq=' + memberSeq,
+			success:function(result){
+				console.log(result);
+				if (result === 0) {
+					alert("카트에 넣는 도중 오류가 발생했습니다. 다시 시도해주세요.");
+				} else {
+					 $('#addToCartModal').modal('show');
+					
+				}
+			}
+		});
+	}
+	
+	function checkOutBuyNow(productId, memberSeq) {
+	    var count = Number($('#productQuantity').val());
+	    
+	    // Redirect to the checkout page with the specified count and product ID
+	    window.location.href = 'main.bit?view=checkoutbuynow&count=' + count + '&productId=' + productId + '&memberSeq=' + memberSeq;
+	}
+
 </script>
 
 
@@ -127,9 +157,10 @@ if (productDetailWithReviews != null) {
 			<div class="col-lg-9">
 				<div class="hero__search">
 					<div class="hero__search__form">
-						<form action="#">
+						<form action="#"
+							onsubmit="event.preventDefault(); search(document.getElementById('keyword').value);">
 							<div class="hero__search__categories">통합 검색</div>
-							<input type="text" placeholder="검색어를 입력해주세요">
+							<input type="text" id="keyword" placeholder="검색어를 입력해주세요">
 							<button type="submit" class="site-btn">검색</button>
 						</form>
 					</div>
@@ -182,13 +213,15 @@ if (productDetailWithReviews != null) {
 							class="fa fa-star-half-o"></i> <span>(${ productDetailWithReviews.getReviews().size() }
 							개의 리뷰)</span>
 					</div>
-					<div class="product__details__price">(5천원) 원래가격, 할인가격 이펙트
-						넣어줘야함.</div>
+					<div class="product__details__price">${productDetailWithReviews.getDiscountRate()}%</div>
+					<del class="text-muted">${productDetailWithReviews.getOriginalPrice() }</del>
+					<div class="product__details__price">(${ productDetailWithReviews.getPrice() }원) 원래가격 ${productDetailWithReviews.getOriginalPrice() }, 할인가격 이펙트
+						넣어줘야함.</div>	
 					<p>${productDetailWithReviews.getContent()}</p>
 					<div class="product__details__quantity">
 						<div class="quantity">
 							<div class="pro-qty">
-								<input type="text" value="1">
+								<input type="text" value="1" id="productQuantity">
 							</div>
 						</div>
 					</div>
@@ -197,10 +230,11 @@ if (productDetailWithReviews != null) {
 					<c:choose>
 						<c:when test="${productDetailWithReviews.getStock() > 0}">
 							<button type="button" class="primary-btn border_none"
+								onclick='addToCart(${productDetailWithReviews.getSequence()}, ${logincust.sequence})' 
 								id="addToCartButton">장바구니에 담기</button>
-							<a
-								href="main.bit?view=checkoutbuynow&count=${2}&productId=${productDetailWithReviews.getSequence()}"
-								class="primary-btn">바로 구매</a>
+							<button type="button" class="primary-btn border_none"
+								onclick='checkOutBuyNow(${productDetailWithReviews.getSequence()}, ${logincust.sequence})' 
+								id="checkoutbuynow">바로 구매</button>	
 						</c:when>
 						<c:otherwise>
 							<button type="button" class="primary-btn border_none"
@@ -275,7 +309,7 @@ if (productDetailWithReviews != null) {
 			<div class="modal-body">장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-				<a href="main.bit?view=shoping-cart" class="btn btn-danger">장바구니로
+				<a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence}" class="btn btn-danger">장바구니로
 					가기</a>
 			</div>
 		</div>

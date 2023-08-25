@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,38 +12,34 @@ import org.apache.log4j.Logger;
 
 import app.dto.entity.Product;
 import app.dto.response.ProductDetailWithReviews;
+import app.frame.ControllerFrame;
 import app.impl.product.ProductServiceImpl;
 
 @WebServlet("/product-detail")
-public class ProductDetailServlet extends HttpServlet {
+public class ProductDetailServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	private ProductServiceImpl productServiceImpl;
-	private Logger product_detail_log = Logger.getLogger("productDetailController");
+	private Logger product_detail_log = Logger.getLogger("product-detail");
 
 	public ProductDetailServlet() {
 		super();
 		productServiceImpl = new ProductServiceImpl();
 	}
 
-	protected void service(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		System.out.println("서비스 메소드 입장");
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String next = "index.jsp";
-		System.out.println(next);
 		String view = request.getParameter("view");
-		System.out.println(view);
-		product_detail_log.debug("상품 디테일 컨트롤러로 들어옴");
+
 		if (view != null) {
 			build(request, view);
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher(next);
 		rd.forward(request, response);
-
 	}
 
 	private void build(HttpServletRequest request, String view) {
-		System.out.println("빌드메소드 입장");
 		switch (view) {
 		case "shop-details":
 			handleProductDetails(request);
@@ -100,11 +95,11 @@ public class ProductDetailServlet extends HttpServlet {
 		String viewTest = request.getParameter("view");
 		product_detail_log.debug(stringProductSequence);
 		product_detail_log.debug("일단 여기로 들어오긴했어.");
-		System.out.println(stringProductSequence);
-		System.out.println(viewTest);
-		System.out.println("여기인가?");
-		int productSequence = Integer.parseInt(stringProductSequence);
-
+		
+		int productSequence = 3;
+		if (stringProductSequence != null) {
+			productSequence = Integer.parseInt(stringProductSequence);
+		}
 		// 상품 정보와 관련 리뷰를 가져옴
 		ProductDetailWithReviews productDetailWithReviews = getProductDetailWithReviews(productSequence);
 		product_detail_log.debug("여기에요");

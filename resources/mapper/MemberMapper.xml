@@ -21,7 +21,7 @@
 	</select>
 	
 	<update id="update" parameterType="member">
-		UPDATE member SET last_login_at=now() WHERE sequence=#{sequence}
+      	UPDATE member SET last_login_at=now() WHERE sequence=#{sequence}
 	</update>
 	
 	<update id="updateInfo" parameterType="member">

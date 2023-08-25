@@ -22,6 +22,7 @@ public class ProductDetailWithReviews {
 	private String name;
 	private int originalPrice;
 	private int price;
+	private double discountRate;
 	private String content;
 	private int stock;
 	private String createdAt;

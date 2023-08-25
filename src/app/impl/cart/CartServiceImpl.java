@@ -65,8 +65,9 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 			
 			session.commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			session.rollback();
+			throw e;
 		} finally {
 			session.close();
 		}
@@ -123,7 +124,6 @@ public class CartServiceImpl implements ServiceFrame<Cart, Cart>{
 		int count = 0;
 		try {
 			count = dao.getCount(sequence, session);
-			System.out.println(count);
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception("ER2003 - 장바구니 개수 조회 에러");

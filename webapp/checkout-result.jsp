@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
@@ -18,7 +19,8 @@ request.setCharacterEncoding("UTF-8");
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+							<li class="active"><a
+								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -62,7 +64,9 @@ request.setCharacterEncoding("UTF-8");
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+								<li><a
+									href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i
+										class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -149,8 +153,10 @@ request.setCharacterEncoding("UTF-8");
 			<div class="checkout__order">
 				<h4>결제 내역</h4>
 				<div class="checkout__order__total">
-					${orderResult.sequence} 받는 분 성함 <span>
-						${orderResult.receiverName} 님 </span>
+					받는 분 성함 <span> ${orderResult.receiverName} 님 </span>
+				</div>
+				<div class="checkout__order__total">
+					받는 분 이메일 <span> ${orderResult.receiverEmail} </span>
 				</div>
 				<div class="checkout__order__total">
 					연락처 <span> ${orderResult.orderPhone} </span>
@@ -165,25 +171,30 @@ request.setCharacterEncoding("UTF-8");
 					상세주소 <span> ${orderResult.addressDetail} </span>
 				</div>
 				<div class="checkout__order__total">
-					상세주소 <span> ${orderResult.addressDetail} </span>
+					배송메시지 <span> ${orderResult.vendorMessage} </span>
 				</div>
 				<div class="checkout__order__products">
 					상품 목록 <span>금액</span>
 				</div>
 
-				<c:forEach items="${orderDetailResult}" var="orderDetail">
-					<ul>
-						<li>${orderDetail.orderDetailProduct.name } ${orderDetail.count }X ${orderDetail.productPrice}</li>
-					</ul>
+				<c:forEach items="${orderDetailResult}" var="orderDetail" varStatus="status">
+					<div id="productCount" style="display: none;">${fn:length(orderDetailResult)}</div>
+					<div class="checkout__order__total text-muted">
+						<span id="productName${status.index }">${orderDetail.orderDetailProduct.name }</span> <span class="text-muted">
+							${orderDetail.productPrice} X ${orderDetail.count} 원</span>
+					</div>
 				</c:forEach>
 				<div class="checkout__order__total">
-					적립 예정 포인트 <span>${totalPoint} </span>
+					적립 예정 포인트 <span>${totalPoint} 점</span>
 				</div>
 				<div class="checkout__order__total">
-					총 금액 <span>${totalPrice}원</span>
+					사용 포인트 <span>${usedPoint } 점</span>
 				</div>
-				<button type="button" class="site-btn" id="order__btn"
-					onclick={sendRequest}>홈으로 이동하기</button>
+				<div class="checkout__order__total">
+					총 금액 <span>${totalPrice - usedPoint}원</span>
+				</div>
+				<button type="button" name="submit" class="site-btn" id="order__btn">홈으로
+					이동하기</button>
 			</div>
 		</div>
 	</div>
@@ -192,34 +203,52 @@ request.setCharacterEncoding("UTF-8");
 </section>
 <!-- Checkout Section End -->
 
-<script>
-
-function sendRequest(){
-	$.ajax({
-		url : "request_ajax.jsp",
-		type : "post",
-		data : {"receiver_name" : receiver_name, "zipcode" : zipcode, "order_phone": order_phone},
-		dataType : "text",
-		success : function(result){
-			document.getElementById("text").innerHTML = result;
-		}
-	});
-}
 
 
-document.querySelector("#order__btn").addEventListener("click",function(){
-	const receiver_name = document.querySelector('#input__receiverName').value;
-	const order_phone = document.querySelector('#input__phone').value;
+<script type="text/javascript">
 	
-	const zipcode = document.querySelector('#sample6_postcode').value;
-	const street_address = document.querySelector('#sample6_address').value;
-	const address_detail = document.querySelector('#sample6_extraAddress').value;
-	const vendor_message = document.querySelector('#sample6_detailAddress').value;
-	
-	
-	console.log(receiver_name, order_phone);
-	console.log('hi');
-});
-		
-</script>
+$(document).ready(function() {
+	emailjs.init("BeCe_Kl2PZg0CGUoO");		
 
+    $('button[name=submit]').click(function(){       
+    	var message = "ㅇㅇ";
+    	const firstProductName = document.getElementById('productName0').innerText;
+
+    	const productListLength = document.getElementById('productCount').innerText;
+    	if(productListLength > 1) {
+    		// 2종류 이상의 책을 구매
+    		message = firstProductName + `외 ` + (Number(productListLength) - 1) + `건 구매 완료되었습니다.`
+    	} else {
+    		message = firstProductName + ` 구매 완료되었습니다.`
+    	}
+   
+      var templateParams = {	
+    		receiverName: `${orderResult.receiverName}`,
+    		receiverEmail: `${orderResult.receiverEmail}`,
+    		orderPhone : `${orderResult.orderPhone}`,
+    		zipcode:  `${orderResult.receiverName}`,
+    		streetAddress:  `${orderResult.streetAddress}`,
+    		addressDetail:  `${orderResult.addressDetail}`,
+    		vendorMessage:  `${orderResult.vendorMessage}`,
+    		totalPrice: ${totalPrice},
+    		usedPoint: ${usedPoint},
+    		finalPrice: ${totalPrice - usedPoint},
+            message : message
+       		};
+           
+            	
+   	  emailjs.send('service_dwb08qj', 'template_o71nji7', templateParams)
+     	    .then(function(response) {
+     	       console.log('SUCCESS!', response.status, response.text);
+     	    }, function(error) {
+     	       console.log('FAILED...', error);
+     	    });
+          
+
+
+    });
+    
+  });
+    
+
+	</script>

@@ -148,25 +148,7 @@ function use_point(value, totalPrice, myPoint) {
 					<div class="hero__categories__all">
 						<i class="fa fa-bars"></i> <span>카테고리</span>
 					</div>
-					<ul>
-						<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
-								IT</a>
-						<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
-								공학</a>
-						<li value="3"><a href="#" style="text-indent: 20px">데이터베이스</a>
-						<li value="4"><a href="#" style="text-indent: 20px">네트워크</a>
-						<li value="5"><a href="#" style="text-indent: 20px">프로그래밍</a>
-						<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-						<li value="7"><a href="#" style="text-indent: 20px">한국소설</a>
-						<li value="8"><a href="#" style="text-indent: 20px">영미소설</a>
-						<li value="9"><a href="#" style="text-indent: 20px">일본소설</a>
-						<li value="10"><a href="#" class="font-weight-bold">경제 /
-								경영</a></li>
-						<li value="11"><a href="#" style="text-indent: 20px">경영일반</a>
-						<li value="12"><a href="#" style="text-indent: 20px">재테크/금융</a>
-						<li value="13"><a href="#" style="text-indent: 20px">유통/창업</a>
-						<li value="14"><a href="#" style="text-indent: 20px">세무/회계</a>
-					</ul>
+						<jsp:include page="common_categories.jsp" />
 				</div>
 			</div>
 			<div class="col-lg-9">

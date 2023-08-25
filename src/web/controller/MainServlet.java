@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import app.cust.CustServiceImpl;
 import app.dto.entity.Cart;
+import app.dto.entity.Member;
 import app.dto.entity.Order;
 import app.dto.entity.OrderDetail;
 import app.dto.entity.Point;
 import app.dto.entity.Product;
 import app.dto.response.CartProduct;
+import app.dto.response.ReviewDetails;
 import app.enums.PointStateEnum;
 import app.frame.ControllerFrame;
 import app.impl.cart.CartServiceImpl;
@@ -22,6 +24,7 @@ import app.impl.order.OrderServiceImpl;
 import app.impl.orderdetail.OrderDetailServiceImpl;
 import app.impl.point.PointServiceImpl;
 import app.impl.product.ProductServiceImpl;
+import app.impl.review.ReviewServiceImpl;
 
 /**
  * Servlet implementation class CustServlet
@@ -236,21 +239,27 @@ public class MainServlet implements ControllerFrame {
 			}
 
 			List<Order> orderList = new ArrayList<>();
+			List<ReviewDetails> reviewDetailList = null;
 			OrderServiceImpl orderService = new OrderServiceImpl();
 			ProductServiceImpl productService = new ProductServiceImpl();
 
 			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
+			ReviewServiceImpl reviewServiceImpl = new ReviewServiceImpl();
 
 			Order order = Order.builder().memberSequence(Integer.parseInt(memberSeq)).build();
+			Member memberInfo = Member.builder().sequence(Integer.parseInt(memberSeq)).build();
 
 			try {
 				orderList = orderService.getAll(order); // 1. user sequence에 해당하는 order 내역 전체 조회
+				reviewDetailList = reviewServiceImpl.get(memberInfo);
+//				reviewDetailList = new ArrayList<>(reviewList.size());
 
 				// 2. order sequence에 해당하는 orderDetail 채워주기
 				for (int i = 0; i < orderList.size(); i++) {
 					List<OrderDetail> orderDetail = new ArrayList<>();
+					
 					orderDetail = orderDetailService.get(orderList.get(i).getSequence());
-
+						
 					// 3. orderDetail 각각에 해당하는 Product 채워주기
 					for (int j = 0; j < orderDetail.size(); j++) {
 						Product product = Product.builder().sequence(orderDetail.get(j).getProductSequence()).build();
@@ -258,10 +267,19 @@ public class MainServlet implements ControllerFrame {
 					}
 
 					orderList.get(i).setOrderDetailList(orderDetail);
+					
+				}
+				
+				// 2-2. review의 product_sequence에 해당하는 Product 정보 채워주기
+				for(int i=0; i< reviewDetailList.size(); i++) {
+					Product product = Product.builder().sequence(reviewDetailList.get(i).getProductSequence()).build();
+					reviewDetailList.get(i).setReviewDetailProduct(productService.get(product));
 				}
 
 				// 3. myPage로 보내기
 				request.setAttribute("myOrderList", orderList);
+				request.setAttribute("myReviewList", reviewDetailList);
+
 				
 				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
 	            request.setAttribute("cartCount", cartCount);

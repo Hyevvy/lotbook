@@ -292,7 +292,11 @@
 										<h6>
 											<a href="#">${product.name}</a>
 										</h6>
-										<h5>${product.price}</h5>
+										<c:set var="price" value="${product.price}"/>
+	                                 			<span class="price">
+	                                 			<fmt:formatNumber type="number" maxFractionDigits="0" value="${price}"/>
+	                                      		원
+	                                      		</span>
 									</div>
 								</div>
 							</div>

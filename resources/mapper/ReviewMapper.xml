@@ -11,10 +11,31 @@
 		<result property="memberSequence" column="member_sequence" />
 		<result property="productSequence" column="product_sequence" />
 	</resultMap>
+	
+	<resultMap id="reviewDetailsResultMap" type="reviewDetails">
+		<id property="sequence" column="sequence" />
+		<result property="rating" column="rating" />
+		<result property="comment" column="comment" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="isDeleted" column="is_deleted" />
+		<result property="memberSequence" column="member_sequence" />
+		<result property="productSequence" column="product_sequence" />
+	</resultMap>
 
 	<select id="selectReviewsByProduct" resultMap="reviewResultMap" parameterType="product">
 		SELECT sequence, rating, comment, created_at, updated_at, is_deleted, member_sequence, product_sequence
 		FROM review
 		WHERE product_sequence = #{sequence} AND is_deleted = 0
 	</select>
+	
+	<select id="selectReviewsByMember" resultMap="reviewDetailsResultMap" parameterType="member">
+		SELECT sequence, rating, comment, created_at, updated_at, is_deleted, member_sequence, product_sequence
+		FROM review
+		WHERE member_sequence = #{sequence} AND is_deleted = 0
+	</select>
+
+	<insert id="insert" parameterType="review">
+		INSERT INTO review (rating, comment, created_at, updated_at, member_sequence, product_sequence) VALUES (#{rating}, #{comment}, now(), now(), #{memberSequence}, #{productSequence})
+	</insert>
 </mapper>

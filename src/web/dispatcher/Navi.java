@@ -10,4 +10,5 @@ public class Navi {
 	public static String custGet = home + " > cust > get";
 	
 	public static String category = home + " > category";
+
 }

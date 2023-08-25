@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import app.frame.ControllerFrame;
+import web.controller.CategoryServlet;
 import web.controller.MainServlet;
 import web.controller.MemberServlet;
 import web.controller.ProductDetailServlet;
@@ -32,6 +33,7 @@ public class DispatcherServlet extends HttpServlet {
         controllerMapper.put("/member",new MemberServlet());
         controllerMapper.put("/rest",new RestController());
         controllerMapper.put("/product-detail",new ProductDetailServlet());
+        controllerMapper.put("/category",new CategoryServlet());
         controllerMapper.put("/search", new SearchServlet());
     }
 

@@ -151,12 +151,14 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}" method="post">
+			<form
+				action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}"
+				method="post">
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
 						<div class="d-flex flex-col align-items-center">
-							<input id="check_box" type="checkbox" class="mb-3"
+							<input id="check_box" type="checkbox" class="mb-3 text-dark"
 								onclick="get_my_info('${logincust.name }', '${logincust.email }', '${logincust.memberPhone }', '${logincust.zipcode }', '${logincust.streetAddress }', '${logincust.addressDetail }')">
 							<p class="ml-2 text-muted">내 정보 불러오기</p>
 						</div>
@@ -205,11 +207,9 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 								class="text-dark" type="text" id="sample6_extraAddress"
 								placeholder="배송 메세지" name="input__vendor_message">
 						</div>
+						
 					</div>
-			</form>
-
-			<div>---</div>
-			<div class="col-lg-4 col-md-6">
+					<div class="col-lg-4 col-md-6">
 				<div class="checkout__order">
 					<h4>주문 내역</h4>
 					<div class="checkout__order__products">
@@ -231,14 +231,26 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 						적립 예정 포인트 <span>${orderProductList[fn:length(orderProductList) -1].totalPoint }
 							점</span>
 					</div>
+					<div style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(225, 225, 225); padding-bottom: 10px; margin-bottom: 15px;">
+						<div class="checkout__order__total" style="border: none; margin-bottom: -5px">
+						포인트 사용<span><input id="usePoint" name="usePoint" type="text" value=0 style="width: 100px; text-align: right; border: none;" onchange="use_point(this.value, ${orderProductList[fn:length(orderProductList) - 1].totalPrice }, ${logincust.accumulatedPoint })"></span>
+						</div>
+						<div class="text-muted" style="text-align: right; font-size: 8px;">
+							사용 가능 포인트: ${logincust.accumulatedPoint } 점
+						</div>
+						<div style="width: 100%; text-align: right;">
+							<input id="checkbox" type="checkbox" onclick="use_all_point(${logincust.accumulatedPoint }, ${orderProductList[fn:length(orderProductList) - 1].totalPrice })"><label style="text-align: right; margin-left: 5px;">전액 사용</label>
+						</div>
+					</div>
 					<div class="checkout__order__total">
-						총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice }
+						총 결제 금액 <span id="totalPrice">${orderProductList[fn:length(orderProductList) - 1].totalPrice }
 							원</span>
 					</div>
-
 					<button type="submit" class="site-btn">주문하기</button>
 				</div>
+
 			</div>
+			</form>
 		</div>
 	</div>
 </section>
@@ -247,6 +259,7 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
 	const checkbox = document.getElementById("check_box");
 	
+	console.log( $('input[name=temp]'));
 	if (checkbox.checked) {
 		document.getElementById("custName").value = name;
 		document.getElementById("custEmail").value = email;
@@ -262,5 +275,27 @@ function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDe
 		document.getElementById("sample6_address").value = "";
 		document.getElementById("sample6_detailAddress").value = "";
 	}
+}
+function use_all_point(totalPoint, totalPrice) {
+	var checkbox = document.getElementById("checkbox");
+	
+	if (checkbox.checked) {
+		document.getElementById("usePoint").value = totalPoint;
+		document.getElementById("totalPrice").innerHTML = totalPrice - totalPoint + " 원";
+		payPrice = totalPrice - totalPoint;
+		usePoint = totalPoint
+	}
+}
+function use_point(value, totalPrice, myPoint) {
+	if (value > myPoint) {
+		alert("사용할 수 있는 포인트를 초과했습니다.");
+		document.getElementById("usePoint").value = myPoint;
+		document.getElementById("totalPrice").innerHTML = totalPrice - myPoint + " 원";
+	} else {
+		document.getElementById("totalPrice").innerHTML = totalPrice - value + " 원";
+		payPrice = totalPrice - value;
+		usePoint = value;
+	}
+	
 }
 </script>

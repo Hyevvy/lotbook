@@ -2110,6 +2110,7 @@ ul, ol {
 	font-size: 16px;
 	color: #b2b2b2;
 	border-radius: 4px;
+	margin-bottom: 10px;
 }
 
 .checkout__input input.checkout__input__add {

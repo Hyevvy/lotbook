@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <%
 String[] BestSeller = request.getParameterValues("BestSeller");
 String[] Latest = request.getParameterValues("Latest");
@@ -14,6 +16,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+<jsp:include page="popup.jsp" />
 
 <!-- Header Section Begin -->
 <header class="header">
@@ -46,7 +49,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="header__logo">
-					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+					<a href="main.bit"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -97,7 +100,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 						<i class="fa fa-bars"></i> <span>카테고리</span>
 					</div>
 					<ul>
-						<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
+						<li value="1"><a href="category?view=computer" class="font-weight-bold">컴퓨터 /
 								IT</a>
 						<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
 								공학</a>
@@ -129,7 +132,11 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 					</div>
 				</div>
 				<div>
-					<img class="hero__item" src="img/banner.png">
+					<a
+						href="http://127.0.0.1/lotbook/product-detail.bit?view=shop-details&sequence=264">
+						<img class="hero__item" src="img/banner.png">
+					</a>
+
 				</div>
 			</div>
 
@@ -220,7 +227,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.name}</h6>
-											<span>${product.price}</span>
+											<span><fmt:formatNumber value="${product.price}" pattern="#,###"/>원</span>
 										</div>
 									</a>
 								</div>

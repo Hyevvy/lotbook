@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import app.cust.CustServiceImpl;
 import app.dto.entity.Cust;
 import app.frame.ControllerFrame;
-import app.impl.product.ProductServiceImpl;
+import app.impl.category.CategoryServiceImpl;
 import web.dispatcher.Navi;
 
 /**
@@ -22,12 +22,12 @@ import web.dispatcher.Navi;
 @WebServlet({"/category"})
 public class CategoryServlet extends HttpServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
-	private ProductServiceImpl productServiceImpl;
+	private CategoryServiceImpl categoryServiceImpl;
 	
 
     public CategoryServlet() {
         super();
-        productServiceImpl = new ProductServiceImpl();
+        categoryServiceImpl = new CategoryServiceImpl();
     }
 
     
@@ -62,16 +62,13 @@ public class CategoryServlet extends HttpServlet implements ControllerFrame {
 
     
 	private void build(HttpServletRequest request, String view) throws Exception {
-	    if (view.equals("computer")) {
-	    	request.setAttribute("selectComputerCategory", productServiceImpl.selectComputerCategory());
+		if (view.equals("1") || view.equals("6") || view.equals("10")) {
+	    	request.setAttribute("selectCategory",categoryServiceImpl.selectCategoryByView(view));
 	    	request.setAttribute("center", "category");
-	        //request.setAttribute("navi", Navi.register);
-	    } else if (view.equals("novel")) {
-	        // ...
-	    } else if (view.equals("economy")){
-	        // 기본값 설정 또는 처리
-	    } else {
-	    	
+	    } 
+		else {
+			request.setAttribute("selectCategory",categoryServiceImpl.selectCategoryByView(view));
+	    	request.setAttribute("center", "category");
 	    }
 	}
 

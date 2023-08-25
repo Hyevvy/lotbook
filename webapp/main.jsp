@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <%
 String[] BestSeller = request.getParameterValues("BestSeller");
 String[] Latest = request.getParameterValues("Latest");
@@ -219,7 +221,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.name}</h6>
-											<span>${product.price}</span>
+											<span><fmt:formatNumber value="${product.price}" pattern="#,###"/>원</span>
 										</div>
 									</a>
 								</div>

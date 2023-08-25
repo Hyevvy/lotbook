@@ -68,7 +68,5 @@ public class ProductDaoImpl implements DaoFrame<Product, Product> {
 		return session.update("product.updateByProductKeyWithSalesCount", k);
 	}
 
-	public List<Product> selectComputerCategory(List<Product> v, SqlSession session) throws Exception {
-		return session.selectList("product.selectComputerCategory", v);
-	}
+
 }

@@ -188,7 +188,7 @@
 															  <p class="font-italic text-dark">총 누적 포인트: </p>
 															  &nbsp;&nbsp;&nbsp;
 															  <p class="font-italic text-danger" id="point${product.sequence }">
-															  	<c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
+															  	<c:set var="totalPoint" value="${((product.price * product.count) * product.pointAccumulationRate * 0.01) - ((product.price * product.count) * product.pointAccumulationRate * 0.01)%1 }"/>
 									  							<fmt:formatNumber type="number" maxFractionDigits="3" value="${totalPoint}"/>
 															  </p>
 															  &nbsp;

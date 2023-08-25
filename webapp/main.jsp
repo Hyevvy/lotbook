@@ -51,7 +51,7 @@ String[] BigDiscount = request.getParameterValues("BigDiscount");
 				<nav class="header__menu">
 					<ul id="header__menus">
 						<li class="active"><a href="./index.jsp">Home</a></li>
-						<li><a href="main.bit?view=shop-grid">Shop</a></li>
+						<li><a href="category.bit?view=1">Shop</a></li>
 						<li><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
 								<li><a href="main.bit?view=shop-details">Shop Details</a></li>

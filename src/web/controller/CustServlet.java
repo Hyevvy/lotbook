@@ -33,9 +33,6 @@ public class CustServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String next = "main.jsp";
 		String view = request.getParameter("view");
-		System.out.println(request);
-		System.out.println(next);
-		System.out.println(view);
 
 		if(view != null){
 			build(request, view);

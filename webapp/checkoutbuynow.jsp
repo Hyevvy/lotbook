@@ -10,6 +10,52 @@ request.setCharacterEncoding("UTF-8");
 String[] orderProductList = request.getParameterValues("orderProductList");
 %>
 
+<script>
+function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
+	const checkbox = document.getElementById("check_box");
+	
+	console.log( $('input[name=temp]'));
+	if (checkbox.checked) {
+		document.getElementById("custName").value = name;
+		document.getElementById("custEmail").value = email;
+		document.getElementById("custPhone").value = memberPhone;
+		document.getElementById("sample6_postcode").value = zipcode;
+		document.getElementById("sample6_address").value = streetAddress;
+		document.getElementById("sample6_detailAddress").value = addressDetail;
+	} else {
+		document.getElementById("custName").value = "";
+		document.getElementById("custEmail").value = "";
+		document.getElementById("custPhone").value = "";
+		document.getElementById("sample6_postcode").value = "";
+		document.getElementById("sample6_address").value = "";
+		document.getElementById("sample6_detailAddress").value = "";
+	}
+}
+function use_all_point(totalPoint, totalPrice) {
+	console.log(totalPoint + " " + totalPrice);
+	var checkbox = document.getElementById("checkbox");
+	
+	if (checkbox.checked) {
+		document.getElementById("usePoint").value = totalPoint;
+		document.getElementById("totalPrice").innerText = (totalPrice - totalPoint) + " 원";
+		payPrice = totalPrice - totalPoint;
+		usePoint = totalPoint
+	}
+}
+function use_point(value, totalPrice, myPoint) {
+	if (value > myPoint) {
+		alert("사용할 수 있는 포인트를 초과했습니다.");
+		document.getElementById("usePoint").value = myPoint;
+		document.getElementById("totalPrice").innerHTML = totalPrice - myPoint + " 원";
+	} else {
+		document.getElementById("totalPrice").innerHTML = totalPrice - value + " 원";
+		payPrice = totalPrice - value;
+		usePoint = value;
+	}
+	
+}
+</script>
+
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -237,47 +283,4 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 	</div>
 </section>
 <!-- Checkout Section End -->
-<script>
-function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
-	const checkbox = document.getElementById("check_box");
-	
-	console.log( $('input[name=temp]'));
-	if (checkbox.checked) {
-		document.getElementById("custName").value = name;
-		document.getElementById("custEmail").value = email;
-		document.getElementById("custPhone").value = memberPhone;
-		document.getElementById("sample6_postcode").value = zipcode;
-		document.getElementById("sample6_address").value = streetAddress;
-		document.getElementById("sample6_detailAddress").value = addressDetail;
-	} else {
-		document.getElementById("custName").value = "";
-		document.getElementById("custEmail").value = "";
-		document.getElementById("custPhone").value = "";
-		document.getElementById("sample6_postcode").value = "";
-		document.getElementById("sample6_address").value = "";
-		document.getElementById("sample6_detailAddress").value = "";
-	}
-}
-function use_all_point(totalPoint, totalPrice) {
-	var checkbox = document.getElementById("checkbox");
-	
-	if (checkbox.checked) {
-		document.getElementById("usePoint").value = totalPoint;
-		document.getElementById("totalPrice").innerHTML = totalPrice - totalPoint + " 원";
-		payPrice = totalPrice - totalPoint;
-		usePoint = totalPoint
-	}
-}
-function use_point(value, totalPrice, myPoint) {
-	if (value > myPoint) {
-		alert("사용할 수 있는 포인트를 초과했습니다.");
-		document.getElementById("usePoint").value = myPoint;
-		document.getElementById("totalPrice").innerHTML = totalPrice - myPoint + " 원";
-	} else {
-		document.getElementById("totalPrice").innerHTML = totalPrice - value + " 원";
-		payPrice = totalPrice - value;
-		usePoint = value;
-	}
-	
-}
-</script>
+

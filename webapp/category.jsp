@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page import="java.util.Arrays, java.util.List" %>
+<%@ page import="java.util.Arrays, java.util.List"%>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -21,7 +21,8 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+							<li class="active"><a
+								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="/lotbook/index.jsp"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -65,7 +66,9 @@
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+								<li><a
+									href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i
+										class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -109,13 +112,30 @@
 <!-- Hero Section End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg"
-	data-setbg="img/books.jpg">
+<section class="breadcrumb-section set-bg" data-setbg="img/books.jpg">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>Organi Shop</h2>
+					<h2>
+						<c:choose>
+							<c:when test="${param.view == '1'}">컴퓨터 / IT</c:when>
+							<c:when test="${param.view == '2'}">컴퓨터 공학</c:when>
+							<c:when test="${param.view == '3'}">데이터베이스</c:when>
+							<c:when test="${param.view == '4'}">네트워크</c:when>
+							<c:when test="${param.view == '5'}">프로그래밍</c:when>
+							<c:when test="${param.view == '6'}">소설</c:when>
+							<c:when test="${param.view == '7'}">한국소설</c:when>
+							<c:when test="${param.view == '8'}">영미소설</c:when>
+							<c:when test="${param.view == '9'}">일본소설</c:when>
+							<c:when test="${param.view == '10'}">경제 / 경영</c:when>
+							<c:when test="${param.view == '11'}">경영일반</c:when>
+							<c:when test="${param.view == '12'}">재테크/금융</c:when>
+							<c:when test="${param.view == '13'}">유통/창업</c:when>
+							<c:when test="${param.view == '14'}">세무/회계</c:when>
+							<c:otherwise>카테고리</c:otherwise>
+						</c:choose>
+					</h2>
 					<div class="breadcrumb__option">
 						<a href="./index.jsp">Home</a> <span>Shop</span>
 					</div>
@@ -133,157 +153,81 @@
 			<div class="col-lg-3 col-md-5">
 				<div class="sidebar">
 					<div class="sidebar__item">
-						<h4>Department</h4>
+						<h4>
+							<c:choose>
+								<c:when test="${param.view == '1'}">컴퓨터 / IT</c:when>
+								<c:when test="${param.view == '2'}">컴퓨터 공학</c:when>
+								<c:when test="${param.view == '3'}">데이터베이스</c:when>
+								<c:when test="${param.view == '4'}">네트워크</c:when>
+								<c:when test="${param.view == '5'}">프로그래밍</c:when>
+								<c:when test="${param.view == '6'}">소설</c:when>
+								<c:when test="${param.view == '7'}">한국소설</c:when>
+								<c:when test="${param.view == '8'}">영미소설</c:when>
+								<c:when test="${param.view == '9'}">일본소설</c:when>
+								<c:when test="${param.view == '10'}">경제 / 경영</c:when>
+								<c:when test="${param.view == '11'}">경영일반</c:when>
+								<c:when test="${param.view == '12'}">재테크/금융</c:when>
+								<c:when test="${param.view == '13'}">유통/창업</c:when>
+								<c:when test="${param.view == '14'}">세무/회계</c:when>
+							</c:choose>
+						</h4>
 						<ul>
-							<li><a href="#">Fresh Meat</a></li>
-							<li><a href="#">Vegetables</a></li>
-							<li><a href="#">Fruit & Nut Gifts</a></li>
-							<li><a href="#">Fresh Berries</a></li>
-							<li><a href="#">Ocean Foods</a></li>
-							<li><a href="#">Butter & Eggs</a></li>
-							<li><a href="#">Fastfood</a></li>
-							<li><a href="#">Fresh Onion</a></li>
-							<li><a href="#">Papayaya & Crisps</a></li>
-							<li><a href="#">Oatmeal</a></li>
+							<jsp:include page="common_categories.jsp" />
 						</ul>
 					</div>
-					<div class="sidebar__item">
-						<h4>Price</h4>
-						<div class="price-range-wrap">
-							<div
-								class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-								data-min="10" data-max="540">
-								<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-								<span tabindex="0"
-									class="ui-slider-handle ui-corner-all ui-state-default"></span>
-								<span tabindex="0"
-									class="ui-slider-handle ui-corner-all ui-state-default"></span>
-							</div>
-							<div class="range-slider">
-								<div class="price-input">
-									<input type="text" id="minamount"> <input type="text"
-										id="maxamount">
-								</div>
+				</div>
+			</div>
+			<div class="col-lg-9 col-md-7">
+				<div class="filter__item">
+					<div class="row">
+						<div class="col-lg-4 col-md-5">
+							<div style="margin-left: auto; text-align: right;">
+								<!-- 드롭다운 메뉴를 생성하고 선택한 옵션에 따라 요청을 보내는 함수를 호출합니다. -->
+								<label for="orderby"></label> <select id="orderby"
+									style="margin-left: auto;" onchange="changeOrderBy(this.value)">
+									<option value="sales">판매량순</option>
+									<option value="high_to_low">높은 가격순</option>
+									<option value="low_to_high">낮은 가격순</option>
+									<option value="latest">최신순</option>
+								</select>
 							</div>
 						</div>
-					</div>
-					
-					
-					<div class="sidebar__item">
-						<div class="latest-product__text">
-							<h4>Latest Products</h4>
-							<div class="latest-product__slider owl-carousel">
-								<div class="latest-prdouct__slider__item">
-									<a href="#" class="latest-product__item">
-										<div class="latest-product__item__pic">
-											<img src="img/latest-product/lp-1.jpg" alt="">
-										</div>
-										<div class="latest-product__item__text">
-											<h6>Crab Pool Security</h6>
-											<span>$30.00</span>
-										</div>
-									</a> <a href="#" class="latest-product__item">
-										<div class="latest-product__item__pic">
-											<img src="img/latest-product/lp-2.jpg" alt="">
-										</div>
-										<div class="latest-product__item__text">
-											<h6>Crab Pool Security</h6>
-											<span>$30.00</span>
-										</div>
-									</a> <a href="#" class="latest-product__item">
-										<div class="latest-product__item__pic">
-											<img src="img/latest-product/lp-3.jpg" alt="">
-										</div>
-										<div class="latest-product__item__text">
-											<h6>Crab Pool Security</h6>
-											<span>$30.00</span>
-										</div>
-									</a>
-								</div>
-								<div class="latest-prdouct__slider__item">
-									<a href="#" class="latest-product__item">
-										<div class="latest-product__item__pic">
-											<img src="img/latest-product/lp-1.jpg" alt="">
-										</div>
-										<div class="latest-product__item__text">
-											<h6>Crab Pool Security</h6>
-											<span>$30.00</span>
-										</div>
-									</a> <a href="#" class="latest-product__item">
-										<div class="latest-product__item__pic">
-											<img src="img/latest-product/lp-2.jpg" alt="">
-										</div>
-										<div class="latest-product__item__text">
-											<h6>Crab Pool Security</h6>
-											<span>$30.00</span>
-										</div>
-									</a> <a href="#" class="latest-product__item">
-										<div class="latest-product__item__pic">
-											<img src="img/latest-product/lp-3.jpg" alt="">
-										</div>
-										<div class="latest-product__item__text">
-											<h6>Crab Pool Security</h6>
-											<span>$30.00</span>
-										</div>
-									</a>
-								</div>
+						<div class="col-lg-4 col-md-4">
+							<div class="filter__found">
+								<h6>
+									<span>${selectCategory.size()}</span> Products found
+								</h6>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-3">
+							<div class="filter__option">
+								<span class="icon_grid-2x2"></span> <span class="icon_ul"></span>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-				<div class="col-lg-9 col-md-7">
-					<div class="filter__item">
-						<div class="row">
-							<div class="col-lg-4 col-md-5">
-								<div class="filter__sort">
-									<span>Sort By</span> <select>
-										<option value="0">Default</option>
-										<option value="0">Default</option>
-									</select>
+				<div class="row">
+					<c:forEach items="${selectCategory}" var="product">
+						<div class="col-lg-4 col-md-6 col-sm-6">
+						<a href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}">
+							<div class="product__item"> 
+								<div class="product__item__pic set-bg " 
+									data-setbg="${product.productImgurl}"  style="height:350px">>
 								</div>
-							</div>
-							<div class="col-lg-4 col-md-4">
-								<div class="filter__found">
+								<div class="product__item__text">
 									<h6>
-										<span>16</span> Products found
+										${product.name}
 									</h6>
+									<c:set var="price" value="${product.price}" />
+									<span class="price"> <fmt:formatNumber type="number"
+											maxFractionDigits="0" value="${price}" /> 원
+									</span>
 								</div>
 							</div>
-							<div class="col-lg-4 col-md-3">
-								<div class="filter__option">
-									<span class="icon_grid-2x2"></span> <span class="icon_ul"></span>
-								</div>
-							</div>
+							</a>
 						</div>
-					</div>
-					<div class="row">
-						<c:forEach items="${selectCategory}" var="product">
-						<a>
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item">
-									<div class="product__item__pic set-bg"
-										data-setbg="${product.productImgurl}">
-										<ul class="product__item__pic__hover">
-											<li><a href="#"><i class="fa fa-heart"></i></a></li>
-											<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-											<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6>
-											<a href="#">${product.name}</a>
-										</h6>
-										<c:set var="price" value="${product.price}"/>
-	                                 			<span class="price">
-	                                 			<fmt:formatNumber type="number" maxFractionDigits="0" value="${price}"/>
-	                                      		원
-	                                      		</span>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
+					</c:forEach>
+				</div>
 				<div class="product__pagination">
 					<a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#"><i
 						class="fa fa-long-arrow-right"></i></a>
@@ -292,4 +236,22 @@
 		</div>
 	</div>
 </section>
+
+<script>
+function changeOrderBy(orderBy) {
+    var currentURL = window.location.href;
+    
+    // 쿼리 스트링에서 orderby 값을 변경.
+    var newURL = currentURL.replace(/(\?|&)orderby=[^&]*/, '');
+    if (newURL.indexOf('?') === -1) {
+        newURL += '?';
+    } else {
+        newURL += '&';
+    }
+    newURL += 'orderby=' + orderBy;
+    
+    // 변경된 URL로 페이지를 이동.
+    window.location.href = newURL;
+}
+</script>
 <!-- Product Section End -->

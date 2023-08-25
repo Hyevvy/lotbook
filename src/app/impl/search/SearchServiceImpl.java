@@ -6,20 +6,26 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 
+import app.dto.entity.Category;
 import app.dto.entity.Product;
 import app.dto.mapper.SearchProductMapper;
 import app.dto.response.SearchResult;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
+import app.impl.category.CategoryDaoImpl;
 
 public class SearchServiceImpl implements ServiceFrame<String, Product> {
 	SearchDaoImpl searchDao;
+	CategoryDaoImpl categoryDao;
 	SqlSession session;
+	private Logger search_log = Logger.getLogger("search");
 
 	public SearchServiceImpl() {
 		super();
 		searchDao = new SearchDaoImpl();
+		categoryDao = new CategoryDaoImpl();
 	}
 
 	@Override
@@ -56,8 +62,11 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 		session = GetSessionFacroty.getInstance().openSession();
 		List<SearchProductMapper> searchedList = searchDao.selectProductsByKeyword(keyword, session);
 		List<SearchProductMapper> filteredList;
-		searchedList.forEach(item -> System.out.println(item.toString()));
-		session.close();
+		
+		
+		
+		
+		
 
 		// popularity, pointAccumulation, discountedPrice 계산 및 설정
 		searchedList.forEach(item -> {
@@ -101,15 +110,25 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 				.collect(Collectors.groupingBy(SearchProductMapper::getCategoryName, Collectors.summingInt(item -> 1)));
 		countByCategory.put("전체", searchedList.size());
 		
-		System.out.println(countByCategory.toString());
+		
 
 		
 		// 카테고리 기본값 0 -> 전체를 의미. 나머지는 매칭되는거를 걸러줌.
 		int categorySequence = 0;
+		String categoryName = "전체";
 		if (category != null) {
 			categorySequence = Integer.parseInt(category);
+			Category categoryInstance = Category.builder()
+					.sequence(categorySequence)
+					.build();
+			Category resultCategoryInstance = categoryDao.select(categoryInstance, session);
+			categoryName = resultCategoryInstance.getName();
+		} else {
 		}
-
+		
+		
+		
+		
 		switch (categorySequence) {
 		case 0:
 			// 모든 검색결과 할당
@@ -128,13 +147,13 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 												.categoryCount(filteredList.size())
 												.countByCategory(countByCategory)
 												.currentCategorySequence(categorySequence)
-												.currentCategoryName("컴퓨터 공학") // 이후 수정
+												.currentCategoryName(categoryName)
 												.orderBy(orderby)
 												.searchList(filteredList)
 												.build();
-		System.out.println(searchedList);
-		System.out.println(category);
-
+		
+		
+		session.close();
 		return searchResult;
 	}
 

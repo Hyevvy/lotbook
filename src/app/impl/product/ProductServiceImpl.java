@@ -8,6 +8,7 @@ import app.dto.entity.OrderDetail;
 import app.dto.entity.Product;
 import app.dto.entity.Review;
 import app.dto.mapper.ProductRelatedNameMapper;
+import app.dto.mapper.ReviewWithNameMapper;
 import app.dto.response.ProductDetailWithReviews;
 import app.enums.ProductStateEnum;
 import app.frame.GetSessionFacroty;
@@ -77,11 +78,11 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 	public ProductDetailWithReviews getProductDetailWithReviews(Product k) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
 		Product product = productDao.select(k, session);
-		List<Review> reviews = reviewDao.selectReviewsByProduct(product, session);
+		List<ReviewWithNameMapper> reviews = reviewDao.selectReviewsByProduct(product, session);
 		double avgRating = 0;
 		if (!reviews.isEmpty()) {
 		    avgRating = reviews.stream()
-		        .mapToInt(Review::getRating)
+		        .mapToInt(ReviewWithNameMapper::getRating)
 		        .average()
 		        .orElse(0.0);
 		}

@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <%@ page
 	import="app.dto.entity.Product, app.dto.entity.Review, app.dto.response.ProductDetailWithReviews, java.util.List"%>
 <%
@@ -12,7 +14,6 @@ String selectedProduct = "";
 if (productDetailWithReviews != null) {
 	selectedProduct = productDetailWithReviews.getContent();
 }
-// List<Review> reviews = productDetailWithReviews.getReviews();
 %>
 
 <style type="text/css">
@@ -48,6 +49,19 @@ if (productDetailWithReviews != null) {
 
 .q-quantity {
 	background-color: gray;
+}
+
+.review-star {
+	color: #EDBB0E;
+	letter-spacing: -1px;
+}
+
+.d-inline {
+	display: inline;
+}
+
+.created-at {
+	font-size: 0.6em;
 }
 </style>
 
@@ -324,17 +338,6 @@ if (productDetailWithReviews != null) {
 							style="line-height: 1.1;"></div>
 					</div>
 
-
-
-
-
-					<!--  
-               <button type="button" class="primary-btn border_none"
-                  id="addToCartButton">장바구니에 담기</button>
-               <a href="#" class="primary-btn">장바구니에 담기</a>
-               <a href="main.bit?view=checkoutbuynow&count=${2}&productId=${productDetailWithReviews.getSequence()}"
-                  class="primary-btn">바로 구매</a>
-                  -->
 					<ul>
 						<li><b>구매가능 여부</b> <span><c:choose>
 									<c:when test="${productDetailWithReviews.getStock() > 0}">구매가능</c:when>
@@ -381,12 +384,56 @@ if (productDetailWithReviews != null) {
 
 							</div>
 						</div>
+
 						<div class="tab-pane" id="tabs-2" role="tabpanel">
 							<div class="product__details__tab__desc">
 								<h6>리뷰</h6>
-								<p>${productDetailWithReviews.getReviews() }</p>
+								<div class="reviews">
+									<c:forEach items="${productDetailWithReviews.getReviews()}"
+										var="review">
+										<fmt:parseDate value="${review.createdAt}"
+											pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
+										<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월 dd일"
+											var="formattedDate" />
+
+										<div class="review mb-4">
+											<div class="review__header">
+												<h5 class="review__author d-inline">${review.name.substring(0, 2)}****</h5>
+												<div
+													class="product__details__rating review-star d-inline ml-3">
+													<c:set var="fullStars" value="${Math.floor(review.rating)}" />
+													<c:set var="halfStar"
+														value="${review.rating % 1 >= 0.5 ? 1 : 0}" />
+													<c:set var="emptyStars" value="${5 - fullStars - halfStar}" />
+													<c:forEach var="i" begin="1" end="${fullStars}">
+														<i class="fa fa-star"></i>
+													</c:forEach>
+
+													<c:if test="${halfStar == 1}">
+														<i class="fa fa-star-half-o"></i>
+													</c:if>
+
+													<c:forEach var="i" begin="1" end="${emptyStars}">
+														<i class="fa fa-star-o"></i>
+													</c:forEach>
+
+													<span>${review.rating }</span> <span>점</span>
+												</div>
+												<p class="review__date d-inline created-at ml-2">${formattedDate}</p>
+
+											</div>
+											<div class="review__content mt-2">
+												<p class="review__comment">${review.comment}</p>
+											</div>
+										</div>
+
+
+
+									</c:forEach>
+								</div>
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -431,7 +478,9 @@ if (productDetailWithReviews != null) {
 	function addToCart(productSeq, memberSeq) {
 		console.log("addtocart발동")
 		if (memberSeq === undefined) {
-	        alert("로그인이 필요합니다.");
+	        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+	        window.location.href = 'main.bit?view=signin';
+	        
 	        return;
 	    }
 		
@@ -454,6 +503,12 @@ if (productDetailWithReviews != null) {
 	
 	function checkOutBuyNow(productId, memberSeq) {
 	    var count = Number($('#productQuantity').val());
+	    if (memberSeq === undefined) {
+	        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+	        window.location.href = 'main.bit?view=signin';
+	        
+	        return;
+	    }
 	    
 	    // Redirect to the checkout page with the specified count and product ID
 	    window.location.href = 'main.bit?view=checkoutbuynow&count=' + count + '&productId=' + productId + '&memberSeq=' + memberSeq;

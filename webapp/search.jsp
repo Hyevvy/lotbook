@@ -28,7 +28,6 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 <!-- Header Section Begin -->
 <header class="header">
-	${searchResult.countByCategory }
 	<div class="header__top">
 		<div class="container">
 			<nav class="header__menu header__top__right mobile-menu"
@@ -169,14 +168,15 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 	<div class="container mb-4">
 		<div class="row">
 			<div class="col-lg-3 col-md-5">
-				<span>${searchResult.searchKeyword}</span> <span>검색결과</span> <span>${searchResult.totalCount}</span>
+				<span>"${searchResult.searchKeyword}"</span> <span>검색결과</span> <span>${searchResult.totalCount}</span>
 				<span>건</span>
 			</div>
-			
+
 			<c:if test="${searchResult.categoryCount != null}">
-				<div>${searchResult.currentCategoryName} 카테고리 ${searchResult.categoryCount}건 </div>										
+				<div>"${searchResult.currentCategoryName}" 카테고리
+					${searchResult.categoryCount}건</div>
 			</c:if>
-			
+
 
 
 			<div style="margin-left: auto; text-align: right;">
@@ -203,61 +203,51 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 					<div class="sidebar__item">
 						<h4>전체 카테고리</h4>
 						<ul>
-							<li value="1"><span href="#" class="font-weight-bold">컴퓨터 /
-									IT</span></li>
-							<li value="2" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">컴퓨터
-									공학 (${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
-							<li value="3" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">데이터베이스
+							<li value="1"><span href="#" class="font-weight-bold">컴퓨터
+									/ IT</span></li>
+							<li value="2" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">컴퓨터 공학
+									(${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
+							<li value="3" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">데이터베이스
 									(${searchResult.countByCategory['데이터베이스'] != null ? searchResult.countByCategory['데이터베이스'] : 0})</a></li>
-							<li value="4" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">네트워크
+							<li value="4" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">네트워크
 									(${searchResult.countByCategory['네트워크'] != null ? searchResult.countByCategory['네트워크'] : 0})</a></li>
-							<li value="5" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">프로그래밍
+							<li value="5" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">프로그래밍
 									(${searchResult.countByCategory['프로그래밍'] != null ? searchResult.countByCategory['프로그래밍'] : 0})</a></li>
 							<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-							<li value="7" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">한국소설
+							<li value="7" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">한국소설
 									(${searchResult.countByCategory['한국소설'] != null ? searchResult.countByCategory['한국소설'] : 0})</a></li>
-							<li value="8" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">영미소설
+							<li value="8" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">영미소설
 									(${searchResult.countByCategory['영미소설'] != null ? searchResult.countByCategory['영미소설'] : 0})</a></li>
-							<li value="9" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">일본소설
+							<li value="9" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">일본소설
 									(${searchResult.countByCategory['일본소설'] != null ? searchResult.countByCategory['일본소설'] : 0})</a></li>
 							<li value="10"><a href="#" class="font-weight-bold">경제 /
 									경영</a></li>
-							<li value="11" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">경영일반
+							<li value="11" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">경영일반
 									(${searchResult.countByCategory['경영일반'] != null ? searchResult.countByCategory['경영일반'] : 0})</a></li>
-							<li value="12" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">재테크/금융
+							<li value="12" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">재테크/금융
 									(${searchResult.countByCategory['재테크/금융'] != null ? searchResult.countByCategory['재테크/금융'] : 0})</a></li>
-							<li value="13" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">유통/창업
+							<li value="13" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">유통/창업
 									(${searchResult.countByCategory['유통/창업'] != null ? searchResult.countByCategory['유통/창업'] : 0})</a></li>
-							<li value="14" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">세무/회계
+							<li value="14" onclick="updateCategory(this)"><a href="#"
+								style="text-indent: 20px">세무/회계
 									(${searchResult.countByCategory['세무/회계'] != null ? searchResult.countByCategory['세무/회계'] : 0})</a></li>
 						</ul>
-					</div>
-
-					<div class="sidebar__item">
-						<h4>Price</h4>
-						<div class="price-range-wrap">
-							<div
-								class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-								data-min="10" data-max="540">
-								<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-								<span tabindex="0"
-									class="ui-slider-handle ui-corner-all ui-state-default"></span>
-								<span tabindex="0"
-									class="ui-slider-handle ui-corner-all ui-state-default"></span>
-							</div>
-							<div class="range-slider">
-								<div class="price-input">
-									<input type="text" id="minamount"> <input type="text"
-										id="maxamount">
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 
 			<!-- TODO:조건부로 검색결과 없다고 띄우기  -->
-			
+
 			<c:choose>
 				<c:when test="${searchResult.totalCount eq 0}">
 					<div
@@ -462,14 +452,8 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 		    var currentURL = new URL(window.location.href);
 		    var selectedOrderBy = currentURL.searchParams.get("orderby");
 		    
-		    console.log("정렬기준")
-		    console.log(selectedOrderBy)
-		    
 		    if (selectedOrderBy) {
 		        var orderByDropdown = document.getElementById("orderby");
-		        console.log(orderByDropdown);
-		        console.log(selectedOrderBy);
-		        
 		        orderByDropdown.value = selectedOrderBy;
 		    }
 		}
@@ -531,12 +515,12 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
     	        return;
     	    }
     		
-    		// var count = Number($('#productQuantity').val());
+    		
     		
     		$.ajax({
     			url:'rest.bit?view=addToCart&productSequence=' + productSeq + '&count=' + 1 + '&memberSeq=' + memberSeq,
     			success:function(result){
-    				console.log(result);
+    				
     				if (result === 0) {
     					alert("카트에 넣는 도중 오류가 발생했습니다. 다시 시도해주세요.");
     				} else {

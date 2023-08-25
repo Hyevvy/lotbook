@@ -2,13 +2,12 @@ package app.dto.response;
 
 import java.util.List;
 
-import app.dto.entity.Review;
+import app.dto.mapper.ReviewWithNameMapper;
 import app.enums.ProductStateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
 @Data
@@ -46,7 +45,7 @@ public class ProductDetailWithReviews {
 	
 	
 	
-	private List<Review> reviews;
+	private List<ReviewWithNameMapper> reviews;
 	private double averageRating;
 
 }

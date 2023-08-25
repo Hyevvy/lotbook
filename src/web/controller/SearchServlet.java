@@ -42,13 +42,12 @@ public class SearchServlet implements ControllerFrame {
 		
 		// 검색결과 없다는거 보내주면 jsp에서도 분기처리해서 렌더링 가능하다.
 		if (keyword != null) {
-			// System.out.println(keyword);
+			
 			String wordWithoutSpace = keyword.replaceAll("\\s+", "");
-			// System.out.println(wordWithoutSpace);
+			
 			
 			// 검색결과 데이터를 가져온다.
 			SearchResult searchResult = getSearchResult(wordWithoutSpace, orderBy, category);
-			// System.out.println(searchResult);
 			
 			// 검색결과 데이터를 request 객체에 속성으로 추가
 			request.setAttribute("searchResult", searchResult);
@@ -74,15 +73,10 @@ public class SearchServlet implements ControllerFrame {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		// System.out.println("검색컨트롤러 서비스 메소드 입장");
+		
 		String next = "index.jsp";
-		// System.out.println(next);
-		// System.out.println("qb");
 		String view = request.getParameter("view");
-		// System.out.println(view);
-		search_log.debug("상품 디테일 컨트롤러로 들어옴");
-		search_log.warn("warn도 됩니까?");
+		
 		if (view != null) {
 			build(request, view);
 		}

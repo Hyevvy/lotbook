@@ -16,7 +16,75 @@ if (productDetailWithReviews != null) {
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+	
+	var setCookie = function(name, value, exp) {
+	    var date = new Date();
+	    date.setTime(date.getTime() + exp*24*60*60*1000);
+	    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+	};
+	var getCookie = function(name) {
+	    var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+	    return value? value[2] : null;
+	};
+	
+	var prodSeqList = [];
+	var prodNameList = [];
+	var prodImgList = [];
+	
 	$(document).ready(function() {
+		prodSeqList = getCookie("prodSeqList");
+		prodNameList = getCookie("prodNameList");
+		prodImgList = getCookie("prodImgList");
+
+		if (prodSeqList == null) {
+			prodSeqList = [];
+		} else {
+			prodSeqList = getCookie("prodSeqList").split(',');
+		}
+		if (prodNameList == null) {
+			prodNameList = [];
+		} else {
+			prodNameList = getCookie("prodNameList").split(',');
+		}
+		if (prodImgList == null) {
+			prodImgList = [];
+		} else {
+			prodImgList = getCookie("prodImgList").split(',');
+		}
+		
+		var custSeq = document.getElementById("custSeq").innerText;
+		var prodSeq = document.getElementById("productSeq").innerText;
+		var prodName = document.getElementById("productName").innerText;
+		var prodImg = document.getElementById("productImgUrl").innerText;
+
+		if (custSeq !== '') {
+			var seqList = getCookie('prodSeqList');
+			var seqDup = false;
+			
+			if (seqList == null) {
+				
+			} else {
+				for(var i=0; i<prodSeqList.length; i++) {
+					if (prodSeqList[i] == prodSeq) {
+						console.log(prodSeqList[i]);
+						console.log("DUp")
+						seqDup = true;
+					}
+				}
+			}
+
+			if (seqDup) {
+				
+			} else {
+				prodSeqList.push(prodSeq);
+				prodNameList.push(prodName);
+				prodImgList.push(prodImg);
+				setCookie('prodSeqList', prodSeqList, 1);
+				setCookie('prodNameList', prodNameList, 1);
+				setCookie('prodImgList', prodImgList, 1);
+			}
+		}
+		
 		$("#addToCartButton").click(function() {
 			$("#addToCartModal").modal("show");
 		});
@@ -29,7 +97,6 @@ if (productDetailWithReviews != null) {
 	    }
 		
 		var count = Number($('#productQuantity').val());
-		console.log(productSeq, memberSeq)
 		$.ajax({
 			url:'rest.bit?view=addToCart&productSequence=' + productSeq + '&count=' + count + '&memberSeq=' + memberSeq,
 			success:function(result){
@@ -193,6 +260,10 @@ if (productDetailWithReviews != null) {
 
 <!-- Product Details Section Begin -->
 <section class="product-details spad">
+	<div style="display: none;" id="productSeq">${productDetailWithReviews.sequence }</div>
+	<div style="display: none;" id="productName">'${productDetailWithReviews.name }'</div>
+	<div style="display: none;" id="productImgUrl">'${productDetailWithReviews.productImgurl }'</div>
+	<div style="display: none;" id="custSeq">${logincust.sequence }</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 col-md-6">

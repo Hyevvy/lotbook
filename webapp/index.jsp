@@ -143,6 +143,30 @@
 		80% { opacity: 1; }
 		100% { left: 90%; opacity: 0;}
 	}
+	@keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 1;
+            transform: translateZ(0);
+        }
+    }
+    @keyframes fadeOutDown {
+        0% {
+            opacity: 1;
+            transform: translateZ(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(0);
+            display: none;
+        }
+    }
+    #recentProdItem:hover {
+    	background-color: #f3f6fa;
+    }
 </style>
 <body>
 	<!-- Page Preloder -->
@@ -162,6 +186,14 @@
 	<section class="from-blog spad">
 	<br><br><br>
 	</section>
+	<!-- 최근 본 상품 목록 -->
+	<div id="recentViewList" class="bg-white shadow-lg" style="display: none; z-index: 50; width: 390px; height: 690px; position: fixed; bottom: 90px; right: 24px; border-radius: 30px; padding: 20px;">
+		
+	</div>
+	<div style="display: none;" id="custSeq">${logincust.sequence }</div>
+	<div id="recentView" style="font-weight: 700; position: fixed; bottom: 23px; right: 100px; padding: 15px; border: none; border-radius: 10px; z-index: 20;" class="bg-warning text-white btn" onclick="show()">
+		최근 본 상품 (0)
+	</div>
 	<!-- Blog Section End -->
 	<!-- Footer Section Begin -->
 	<footer class="footer spad">
@@ -265,6 +297,67 @@
 		});
 	</script>
 	<script>
+		var setCookie = function(name, value, exp) {
+		    var date = new Date();
+		    date.setTime(date.getTime() + exp*24*60*60*1000);
+		    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+		};
+		var getCookie = function(name) {
+		    var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+		    return value? value[2] : null;
+		};
+	
+		var prodSeqList = [];
+		var prodImgList = [];
+		var prodNameList = [];
+	
+		$(document).ready(function() {
+			var custSeq = document.getElementById("custSeq").innerText;
+			const recentView = document.getElementById("recentView");
+			const recentViewList = document.getElementById("recentViewList");
+		
+			prodSeqList = getCookie("prodSeqList");
+			prodImgList = getCookie("prodImgList");
+			prodNameList = getCookie("prodNameList");
+			
+			if (prodSeqList == null) {
+				prodSeqList = [];
+			} else {
+				prodSeqList = getCookie("prodSeqList").split(',');
+			} 
+			if (prodImgList == null) {
+				prodImgList = [];
+			} else {
+				prodImgList = getCookie("prodImgList").split(',');
+			}
+			if (prodNameList == null) {
+				prodNameList = [];
+			} else {
+				prodNameList = getCookie("prodNameList").split(',');
+			}
+			
+			if(custSeq === '') {
+				recentView.style.display = "none";
+				
+				setCookie('prodSeqList', prodSeqList, 0);
+				setCookie('prodNameList', prodNameList, 0);
+				setCookie('prodImgList', prodImgList, 0);
+			} else {
+				var length = prodSeqList.length;
+				recentView.innerText = "최근 본 상품 (" + length + ")";
+
+				var result = "";
+				for(var i=0; i<prodSeqList.length; i++) {
+					result = result + '<div id="recentProdItem" onclick="goToDetail(' + prodSeqList[i] + ')" class="btn d-flex flex-col align-items-center m-3"><img style="width: 80px;" src="' + prodImgList[i].substr(1, prodImgList[i].length-2) + '"><div class="m-3" style="font-size: 18px; font-weight: 700;">' + prodNameList[i].substr(1, prodNameList[i].length-2) + '</div></div>';
+				}
+				console.log(result);
+				recentViewList.innerHTML = result;
+			}
+			
+		});
+		function goToDetail(seq) {
+			location.href="product-detail.bit?view=shop-details&sequence=" + seq;
+		}
 		function search(keyword) {
 			// 키워드가 비어있는지 확인
 			if (!keyword) {
@@ -292,6 +385,19 @@
 
 			window.location.href = 'search.bit?view=search&keyword=' + keyword
 					+ '&orderby=popular'
+		}
+		const recentViewList = document.getElementById("recentViewList");
+		function show() {
+			if (recentViewList.style.display === "none") {
+				recentViewList.style.display = "block";
+				recentViewList.style.animation = "fadeInUp 0.5s";
+			}
+			else {
+				recentViewList.style.animation = "fadeOutDown 0.5s";
+				setTimeout(function() {
+					recentViewList.style.display = "none";
+				}, 500);
+			}
 		}
 	</script>
 

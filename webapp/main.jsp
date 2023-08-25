@@ -354,12 +354,3 @@ AOS.init({
 <!-- Blog Section Begin -->
 <section class="from-blog spad"></section>
 <!-- Blog Section End -->
-
-.price {
-  display: inline-block; 
-  background-color: transparent; 
-}
-
-.price:hover {
-  background-color: white; 
-}

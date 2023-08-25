@@ -243,9 +243,10 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 						</div>
 					</div>
 					<div class="checkout__order__total">
-						총 결제 금액 <span>${orderProductList[fn:length(orderProductList) - 1].totalPrice }
+						총 결제 금액 <span id="totalPrice">${orderProductList[fn:length(orderProductList) - 1].totalPrice }
 							원</span>
 					</div>
+					<button type="submit" class="site-btn">주문하기</button>
 				</div>
 
 			</div>

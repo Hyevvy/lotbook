@@ -169,20 +169,25 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 	<div class="container mb-4">
 		<div class="row">
 			<div class="col-lg-3 col-md-5">
-				<span>${searchResult.searchKeyword}</span> <span>검색결과</span> <span>${searchResult.count}</span>
+				<span>${searchResult.searchKeyword}</span> <span>검색결과</span> <span>${searchResult.totalCount}</span>
 				<span>건</span>
 			</div>
+			
+			<c:if test="${searchResult.categoryCount != null}">
+				<div>${searchResult.currentCategoryName} 카테고리 ${searchResult.categoryCount}건 </div>										
+			</c:if>
+			
 
 
 			<div style="margin-left: auto; text-align: right;">
 				<!-- 드롭다운 메뉴를 생성하고 선택한 옵션에 따라 요청을 보내는 함수를 호출합니다. -->
 				<select id="orderby" style="margin-left: auto;"
 					onchange="changeOrderBy(this.value)">
-					<option value="popular">인기순</option>
-					<option value="high_to_low">높은 가격순</option>
-					<option value="low_to_high">낮은 가격순</option>
-					<option value="latest">최신순</option>
-					<option value="sales">판매량순</option>
+					<option name="popular" value="popular">인기순</option>
+					<option name="high_to_low" value="high_to_low">높은 가격순</option>
+					<option name="low_to_high" value="low_to_high">낮은 가격순</option>
+					<option name="latest" value="latest">최신순</option>
+					<option name="sales" value="sales">판매량순</option>
 				</select>
 			</div>
 
@@ -200,30 +205,30 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 						<ul>
 							<li value="1"><span href="#" class="font-weight-bold">컴퓨터 /
 									IT</span></li>
-							<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
+							<li value="2" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">컴퓨터
 									공학 (${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
-							<li value="3"><a href="#" style="text-indent: 20px">데이터베이스
+							<li value="3" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">데이터베이스
 									(${searchResult.countByCategory['데이터베이스'] != null ? searchResult.countByCategory['데이터베이스'] : 0})</a></li>
-							<li value="4"><a href="#" style="text-indent: 20px">네트워크
+							<li value="4" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">네트워크
 									(${searchResult.countByCategory['네트워크'] != null ? searchResult.countByCategory['네트워크'] : 0})</a></li>
-							<li value="5"><a href="#" style="text-indent: 20px">프로그래밍
+							<li value="5" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">프로그래밍
 									(${searchResult.countByCategory['프로그래밍'] != null ? searchResult.countByCategory['프로그래밍'] : 0})</a></li>
 							<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-							<li value="7"><a href="#" style="text-indent: 20px">한국소설
+							<li value="7" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">한국소설
 									(${searchResult.countByCategory['한국소설'] != null ? searchResult.countByCategory['한국소설'] : 0})</a></li>
-							<li value="8"><a href="#" style="text-indent: 20px">영미소설
+							<li value="8" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">영미소설
 									(${searchResult.countByCategory['영미소설'] != null ? searchResult.countByCategory['영미소설'] : 0})</a></li>
-							<li value="9"><a href="#" style="text-indent: 20px">일본소설
+							<li value="9" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">일본소설
 									(${searchResult.countByCategory['일본소설'] != null ? searchResult.countByCategory['일본소설'] : 0})</a></li>
 							<li value="10"><a href="#" class="font-weight-bold">경제 /
 									경영</a></li>
-							<li value="11"><a href="#" style="text-indent: 20px">경영일반
+							<li value="11" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">경영일반
 									(${searchResult.countByCategory['경영일반'] != null ? searchResult.countByCategory['경영일반'] : 0})</a></li>
-							<li value="12"><a href="#" style="text-indent: 20px">재테크/금융
+							<li value="12" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">재테크/금융
 									(${searchResult.countByCategory['재테크/금융'] != null ? searchResult.countByCategory['재테크/금융'] : 0})</a></li>
-							<li value="13"><a href="#" style="text-indent: 20px">유통/창업
+							<li value="13" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">유통/창업
 									(${searchResult.countByCategory['유통/창업'] != null ? searchResult.countByCategory['유통/창업'] : 0})</a></li>
-							<li value="14"><a href="#" style="text-indent: 20px">세무/회계
+							<li value="14" onclick="updateCategory(this)"><a href="#" style="text-indent: 20px">세무/회계
 									(${searchResult.countByCategory['세무/회계'] != null ? searchResult.countByCategory['세무/회계'] : 0})</a></li>
 						</ul>
 					</div>
@@ -252,8 +257,9 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 			</div>
 
 			<!-- TODO:조건부로 검색결과 없다고 띄우기  -->
+			
 			<c:choose>
-				<c:when test="${searchResult.count eq 0}">
+				<c:when test="${searchResult.totalCount eq 0}">
 					<div
 						class="d-flex flex-column align-items-center justify-content-center col-lg-9">
 						<div class="my-5">
@@ -417,21 +423,40 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 
 <script>
-		/*
-		window.onload = function () {
+		
+		$(document).ready(function () {
 		    var currentURL = new URL(window.location.href);
 		    var selectedOrderBy = currentURL.searchParams.get("orderby");
-		    
-		    console.log("정렬기준")
-		    console.log(selectedOrderBy)
-		    
-		    if (selectedOrderBy) {
-		        // document.getElementById("orderby").value = selectedOrderBy;
-		        var orderByDropdown = document.getElementById("orderby");
-		        orderByDropdown.value = selectedOrderBy;
+		    var displayText;
+
+		    switch (selectedOrderBy) {
+		        case 'popular':
+		            displayText = '인기순';
+		            break;
+		        case 'high_to_low':
+		            displayText = '높은 가격순';
+		            break;
+		        case 'low_to_high':
+		            displayText = '낮은 가격순';
+		            break;
+		        case 'latest':
+		            displayText = '최신순';
+		            break;
+		        case 'sales':
+		            displayText = '판매량순';
+		            break;
+		        default:
+		        	displayText = '인기순';
+		           break; 
 		    }
-		};
-		*/
+
+		    document.querySelector(".current").setAttribute("id", "current");
+		    if (selectedOrderBy !== '') {
+		    	const test = document.getElementById("current");
+		    	test.innerText = displayText; 
+		    }
+		});
+		
 		
 		function setOrderByDropdownValue() {
 		    var currentURL = new URL(window.location.href);
@@ -468,6 +493,25 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
             // 변경된 URL로 페이지를 이동.
             window.location.href = newURL;
         }
+        
+        // 카테고리 변경
+        function updateCategory(element) {
+            var categoryValue = element.getAttribute('value');
+            var url = window.location.href;
+
+            if (url.indexOf('?') > -1) {
+                if (url.indexOf('category=') > -1) {
+                    url = url.replace(/(category=)[^\&]+/, '$1' + categoryValue);
+                } else {
+                    url += '&category=' + categoryValue;
+                }
+            } else {
+                url += '?category=' + categoryValue;
+            }
+
+            window.location.href = url;
+        }
+        
         
         function redirectToProductDetail(sequence) {
             var productDetailURL = 'http://localhost:8080/lotbook/product-detail.bit?view=shop-details&sequence=' + sequence;

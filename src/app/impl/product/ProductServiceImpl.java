@@ -79,99 +79,116 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		Product product = productDao.select(k, session);
 		List<Review> reviews = reviewDao.selectReviewsByProduct(product, session);
 		ProductRelatedNameMapper productRelatedNameMapper = productDao.selectRelatedName(product, session);
-		
-		int discountedPrice = product.getPrice() * (int) (100.0 - product.getDiscountRate()) / 100; // TODO: type safe using
-																								// wrapper class
+
+		int discountedPrice = product.getPrice() * (int) (100.0 - product.getDiscountRate()) / 100; // TODO: type safe
+																									// using
+		// wrapper class
 		int pointAccumulation = (int) (product.getPrice() * product.getPointAccumulationRate() / 100);
 		ProductDetailWithReviews productDetailWithReviews = ProductDetailWithReviews.builder()
-																					.sequence(product.getSequence())
-																					.productImgurl(product.getProductImgurl())
-																					.name(product.getName())
-																					.originalPrice(product.getPrice())
-																					.discountRate(product.getDiscountRate())
-																					.price(discountedPrice)
-																					.content(product.getContent())
-																					.stock(product.getStock())
-																					.createdAt(product.getCreatedAt())
-																					.pointAccumulationRate(product.getPointAccumulationRate())
-																					.pointAccumulation(pointAccumulation)
-																					.salesCount(product.getSalesCount())
-																					// TODO: ENUM type handler-from mybatis
-																					.state(ProductStateEnum.ACTIVE)
-																					.authorSequence(product.getAuthorSequence())
-																					.authorName(productRelatedNameMapper.getAuthorName())
-																					.publisherSequence(product.getPublisherSequence())
-																					.publisherName(productRelatedNameMapper.getPublisherName())
-																					.mainCategorySequence(productRelatedNameMapper.getMainCategorySequence())
-																					.mainCategoryName(productRelatedNameMapper.getMainCategoryName())
-																					.subCategorySequence(productRelatedNameMapper.getSubCategorySequence())
-																					.subCategoryName(productRelatedNameMapper.getSubCategoryName())
-																					// TODO: reviewer name handling using dto with optional
-																					.reviews(reviews)
-																					.build();
+				.sequence(product.getSequence()).productImgurl(product.getProductImgurl()).name(product.getName())
+				.originalPrice(product.getPrice()).discountRate(product.getDiscountRate()).price(discountedPrice)
+				.content(product.getContent()).stock(product.getStock()).createdAt(product.getCreatedAt())
+				.pointAccumulationRate(product.getPointAccumulationRate()).pointAccumulation(pointAccumulation)
+				.salesCount(product.getSalesCount())
+				// TODO: ENUM type handler-from mybatis
+				.state(ProductStateEnum.ACTIVE).authorSequence(product.getAuthorSequence())
+				.authorName(productRelatedNameMapper.getAuthorName()).publisherSequence(product.getPublisherSequence())
+				.publisherName(productRelatedNameMapper.getPublisherName())
+				.mainCategorySequence(productRelatedNameMapper.getMainCategorySequence())
+				.mainCategoryName(productRelatedNameMapper.getMainCategoryName())
+				.subCategorySequence(productRelatedNameMapper.getSubCategorySequence())
+				.subCategoryName(productRelatedNameMapper.getSubCategoryName())
+				// TODO: reviewer name handling using dto with optional
+				.reviews(reviews).build();
 		session.close();
 		return productDetailWithReviews; // TODO: Optional handling
 	}
 
-   public List<Product> getLatest() throws Exception {
-	    session = GetSessionFacroty.getInstance().openSession();
-	    List<Product> list = null;
-	    try {
-	        list = productDao.getLatest(list, session);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        throw new Exception("최신작품 검색 에러", e);
-	    } finally {
-	        session.close();
-	    }
-	    return list;
+	public List<Product> getLatest() throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<Product> list = null;
+		try {
+			list = productDao.getLatest(list, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("최신작품 검색 에러", e);
+		} finally {
+			session.close();
+		}
+		
+		for (Product product : list) {
+			int currentPrice = product.getPrice();
+			double discountRate = product.getDiscountRate();
+			int newPrice = (int) (currentPrice * (1 - discountRate / 100));
+			newPrice = (newPrice / 10) * 10;
+			product.setPrice(newPrice);
+		}
+		return list;
 	}
 
-   
-   public List<Product> getPoint() throws Exception {
-      session = GetSessionFacroty.getInstance().openSession();
-      List<Product> list = null;
-      try {
-         list = productDao.getPoint(list, session);
-      } catch (Exception e) {
-         e.getStackTrace();
-         e.printStackTrace();
-         throw new Exception("적립률 높은 책 검색 에러");
-      } finally {
-	        session.close();
-	    }
-      return list;
-   }
-   
-   public List<Product> getDiscount() throws Exception {
-      session = GetSessionFacroty.getInstance().openSession();
-      List<Product> list = null;
-      try {
-         list = productDao.getDiscount(list, session);
-      } catch (Exception e) {
-         e.getStackTrace();
-         e.printStackTrace();
-         throw new Exception("할인률 높은 책 검색 에러");
-      } finally {
-	        session.close();
-	    }
-      return list;
-   }
-   
-   public List<Product> getBestseller() throws Exception {
-      session = GetSessionFacroty.getInstance().openSession();
-      List<Product> list = null;
-      try {
-         list = productDao.getBestseller(list, session);
-      } catch (Exception e) {
-         e.getStackTrace();
-         e.printStackTrace();
-         throw new Exception("베스트셀러 책 검색 에러");
-      } finally {
-	        session.close();
-	    }
-      return list;
-   }
+	public List<Product> getPoint() throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<Product> list = null;
+		try {
+			list = productDao.getPoint(list, session);
+		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
+			throw new Exception("적립률 높은 책 검색 에러");
+		} finally {
+			session.close();
+		}
+		
+		for (Product product : list) {
+			int currentPrice = product.getPrice();
+			double discountRate = product.getDiscountRate();
+			int newPrice = (int) (currentPrice * (1 - discountRate / 100));
+			newPrice = (newPrice / 10) * 10;
+			product.setPrice(newPrice);
+		}
+		
+		return list;
+	}
+
+	public List<Product> getDiscount() throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<Product> list = null;
+		try {
+			list = productDao.getDiscount(list, session);
+		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
+			throw new Exception("할인률 높은 책 검색 에러");
+		} finally {
+			session.close();
+		}
+
+		for (Product product : list) {
+			int currentPrice = product.getPrice();
+			double discountRate = product.getDiscountRate();
+			int newPrice = (int) (currentPrice * (1 - discountRate / 100));
+			newPrice = (newPrice / 10) * 10;
+			product.setPrice(newPrice);
+		}
+
+		return list;
+	}
+
+	public List<Product> getBestseller() throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		List<Product> list = null;
+		try {
+			list = productDao.getBestseller(list, session);
+		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
+			throw new Exception("베스트셀러 책 검색 에러");
+		} finally {
+			session.close();
+		}
+
+		return list;
+	}
 
 	public int updateByProductKeyWithSalesCount(OrderDetail orderDetail) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
@@ -187,7 +204,5 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		}
 		return result;
 	}
-
-
 
 }

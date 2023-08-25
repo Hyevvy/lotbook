@@ -35,9 +35,10 @@ public class CategoryServlet extends HttpServlet implements ControllerFrame {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String next = "index.jsp";
 		String view = request.getParameter("view");
+		String orderBy = request.getParameter("orderby");
 
 		if (view != null) {
-			build(request, view);
+			build(request, view, orderBy);
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher(next);
@@ -47,10 +48,12 @@ public class CategoryServlet extends HttpServlet implements ControllerFrame {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String next = "index.jsp";
         String view = request.getParameter("view");
+        String orderBy = request.getParameter("orderby");
+        
         
         if (view != null) {
             try {
-				build(request, view);
+				build(request, view, orderBy);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -61,13 +64,13 @@ public class CategoryServlet extends HttpServlet implements ControllerFrame {
     }
 
     
-	private void build(HttpServletRequest request, String view) throws Exception {
+	private void build(HttpServletRequest request, String view, String orderBy) throws Exception {
 		if (view.equals("1") || view.equals("6") || view.equals("10")) {
-	    	request.setAttribute("selectCategory",categoryServiceImpl.selectCategoryByView(view));
+	    	request.setAttribute("selectCategory",categoryServiceImpl.selectCategoryByView(view, orderBy));
 	    	request.setAttribute("center", "category");
 	    } 
 		else {
-			request.setAttribute("selectCategory",categoryServiceImpl.selectCategoryByView(view));
+			request.setAttribute("selectCategory",categoryServiceImpl.selectCategoryByView(view,orderBy));
 	    	request.setAttribute("center", "category");
 	    }
 	}

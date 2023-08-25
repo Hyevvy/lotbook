@@ -126,7 +126,7 @@ $(function(){
             if (starRate !== "" && starRate >= 1) {
                 form.find(".alert-danger").css("display", "none");
                 
-                var formData = form.serialize();
+                /* var formData = form.serialize();
                 
                 console.log(formData);
                 $.ajax({
@@ -164,7 +164,7 @@ $(function(){
                         console.error("Error submitting review:", error);
                         // You can display an error message or perform other error handling here
                     }
-                });
+                }); */
             } else {
                 form.find(".alert-danger").css("display", "block");
                 return false; // Prevent form submission

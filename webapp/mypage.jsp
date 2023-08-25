@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%    
-	request.setCharacterEncoding("UTF-8");
-	String[] myCartList = request.getParameterValues("myCartList");
-	String[] myCartProductList = request.getParameterValues("myCartProductList");
-  	String[] myOrderList = request.getParameterValues("myOrderList");
+<%
+request.setCharacterEncoding("UTF-8");
+String[] myCartList = request.getParameterValues("myCartList");
+String[] myCartProductList = request.getParameterValues("myCartProductList");
+String[] myOrderList = request.getParameterValues("myOrderList");
 %>
 <style>
 #modal {
@@ -71,14 +71,46 @@ to {
 	margin-right: 5px;
 }
 </style>
-
 <script>
-$(function(){
-	//$("#alert-danger").hide();
+function enableTextarea(sequence) {
+	console.log(sequence);
+//	const textarea = document.getElementById('updateComment');
+	console.log("textarea-"+sequence);
+    const textarea = document.getElementById("textarea-"+sequence);
+    console.log("수정");
+	
+	textarea.disabled = false;
+	
+	console.log(textarea.disabled);
+	var editBtn = document.getElementById("editBtn-"+sequence);
+	editBtn.textContent = "저장"; // 버튼 텍스트 변경
+
+	/* var test = $(`#reviewList-${sequence} textarea[id='updateComment']`).val();
+	console.log(test); */
+	/* console.log(textarea.disabled);
+
+	if (textarea.disabled) {
+		textarea.disabled = false;
+        editBtn.textContent = "저장"; // 버튼 텍스트 변경
+        // 필요한 경우 다른 스타일 변경도 추가할 수 있습니다.
+        
+        // 수정 완료 후 저장 버튼을 클릭하면 다시 textarea를 비활성화하는 로직을 추가해야 합니다.
+        // 저장 버튼에 onclick 이벤트 핸들러를 추가하여 처리할 수 있습니다.
+        
+    } else {
+    	saveChanges(sequence); // 수정된 내용 저장 함수 호출
+    } */
+};
+</script>
+<script>
+$(document).ready(function(){
+	//document.getElementById('updateComment').disabled = true;
+
+	$("#alert-danger").hide();
 	
 	$('.stars .fa').click(function() {
 	    $(this).addClass('active');
-	
+		console.log('test');
 	    // 클릭한 별을 기준으로 (.fa) 그 이전 별은 보이게 그 뒤에 별들은 안보이게
 	    $(this).prevAll().addClass('active');
 	    $(this).nextAll().removeClass('active');
@@ -88,27 +120,15 @@ $(function(){
 	    var num = $(this).index();
 	    var starRate = num + 1;
 	    
-	    //$(this).closest("form").find('.print').text(starRate);
-	    $(this).closest("form").find('.rating-input').val(starRate);
-	    /* if(starRate == 1) {
-	        $('.print').text('별로에요');
-	        $('.print').html('<img src="img/icon/star-lv1.png">' + '별로에요');
-	    } else if(starRate == 2) {
-	        $('.print').html('<img src="img/icon/star-lv2.png">' + '보통 이에요');
-	    } else if(starRate == 3) {
-	        $('.print').html('<img src="img/icon/star-lv3.png">' + '그냥 그래요');
-	    } else if(starRate == 4) {
-	        $('.print').html('<img src="img/icon/star-lv4.png">' + '맘에 들어요');
-	    } else {
-	        $('.print').html('<img src="img/icon/star-lv4.png">' + '아주 좋아요');
-	    }  */
+	    $('input[name=rating]').val(starRate);
+	    
 	});
-	
+	   $('#updateComment1').select(function(){console.log('hi');});
+	   
 	$(".site-btn").click(function() {
-		event.preventDefault();
+		//event.preventDefault();
 		console.log("유효성 검사!");
         var form = $(this).closest("form");
-        
         /* console.log($(this).val());
         var btnId = $(this).val();
         var findBtn = form.parent().find(btnId);
@@ -124,12 +144,13 @@ $(function(){
         if ($(this).attr("id") === "submitBtn") {
             var starRate = form.find('.rating-input').val();
 
-            if (starRate !== "" && starRate >= 1) {
+            if (starRate !== "" && starRate >= 1 ) {
                 form.find(".alert-danger").css("display", "none");
                 
-                /* var formData = form.serialize();
+                var formData = form.serialize();
                 
                 console.log(formData);
+                console.log("url => "+ form.attr("action"));
                 $.ajax({
                 	type: "POST",
                 	url: form.attr("action"),
@@ -139,8 +160,9 @@ $(function(){
                         console.log("Review submitted successfully:", response);
                         // You can update the UI or perform other actions here
                         alert("리뷰가 성공적으로 반영되었습니다!");
+                        document.location.reload();
                      	
-                        var collapseElement = form.parent().find(".collapse").prevObject; // 해당 폼의 부모 노드에서 .collapse 요소를 찾음
+                        /* var collapseElement = form.parent().find(".collapse").prevObject; // 해당 폼의 부모 노드에서 .collapse 요소를 찾음
                         
                         if (collapseElement.hasClass("show")) {
                             // 현재 상태가 보이는 상태라면 숨김
@@ -156,26 +178,81 @@ $(function(){
                         } else {
                             // 현재 상태가 숨겨진 상태라면 보이게 함
                             collapseElement.collapse("show"); 
-                            console.log("보이기!");
+                            console.log("보이기!"); 
                             
-                        }
+                        }*/
                 	},
                     error: function(error) {
                         // Handle error response from the server
                         console.error("Error submitting review:", error);
                         // You can display an error message or perform other error handling here
                     }
-                }); */
-            } else {
+                }); 
+            } else if(starRate == "" || starRate === 0){
                 form.find(".alert-danger").css("display", "block");
-                return false; // Prevent form submission
+	            return false; // Prevent form submission
+            } else if(form.find(".review-textarea").value == ""){
+            	form.find(".review-textarea").focus();
+            	return false;
+            } else{
+	            return true;
+            	
             }
         }
     });
-	
-	
-	
 });
+function saveChanges(sequence) {
+	var textarea = document.querySelector(`#reviewCollapse-${sequence} textarea[name='comment']`);
+	var editBtn = document.querySelector(`#editBtn-${sequence}`);
+	
+    var updatedComment = textarea.value;
+    
+    // 수정된 내용을 서버로 전송하는 등의 로직을 구현합니다.
+    
+    // 저장이 완료되면 다음과 같이 처리합니다.
+    textarea.disabled = true;
+	editBtn.textContent = "수정";  // 버튼 텍스트 원래대로 되돌리기
+}
+
+
+
+/* function valid_check(a, b){
+	//var form = $(this).closest("form");
+	console.log('here');
+	const starRate = $('input[name=rating]').val();
+	//var starRate = form.find('.rating-input').val();
+	console.log(starRate);
+	if(starRate !== "" && starRate >=1){
+		//form.find(".alert-danger").css("display", "none");
+		console.log($("#alert-danger"));
+		console.log(' 들어옴');
+		$("#alert-danger").css("color", "#eeeeee");
+		$('.star-rating').css("display", "none");
+		$('#alert-14-20').css('display', 'none');
+		$("input[name=rating]").val(5);
+		$("input[name=rating]").css("display", "none");
+		return true;
+	}else if(starRate == "" || starRate === 0){
+		$("#alert-danger").show();
+	}
+	 
+	
+    if (starRate !== "" && starRate >= 1) {
+        //form.find(".alert-danger").css("display", "none");
+    	$("#alert-danger").hide();
+    } else if(starRate == "" || starRate === 0){
+        //form.find(".alert-danger").css("display", "block");
+    	$("#alert-danger").show();
+    } else if(form.find(".review-textarea").value == ""){
+    	form.find(".review-textarea").focus();
+    }
+    else{
+    	console.log("성공!");
+	    //form.submit();
+    	//return true;
+    } 
+    return false;
+} */
 
 
 
@@ -340,85 +417,102 @@ $(function(){
 </section>
 <!-- Profile Section End -->
 <!-- Cart Section Begin -->
-    <section class="checkout spad">
-        <div class="container">
-            <div class="row">
-            </div>
-            <div class="checkout__form">
-                <h4>장바구니</h4>
-                <c:choose>
-                	<c:when test="${fn:length(myCartProductList) == 0 }">
-                		<div class="text-muted" style="text-align: center;">
-                			<i class="bi bi-info-circle-fill" style="font-size: 50px;"></i>
-                			<div class="text-muted" style="font-size: 20px;">장바구니에 담긴 상품이 없습니다.</div>
-                		</div>
-                	</c:when>
-                	<c:otherwise>
-                		<c:forEach items="${myCartProductList }" var="product">
-			                <div class="card mb-3 overflow-auto">
-			                  <div class="card-body">
-			                    <div class="d-flex justify-content-between">
-			                      <div class="d-flex flex-row align-items-center">
-			                        <div class="col-2">
-			                          <img
-			                            src="${product.productImgurl }"
-			                            class="img-fluid rounded-3" alt="Shopping item" style="width: 85px;">
-			                        </div>
-			                        <div class="col-6 mt-3">
-			                          <h5 class="font-weight-bold">${product.name }</h5>
-			                          <p class="small mb-0">${product.content.substring(0, 75) }...</p>
-			                          <div class="d-flex flex-col mt-2">
-			                          <p class="text-warning font-weight-bold">
-			                          	<c:set var="discount" value="${product.discountRate }"/>
-										<fmt:formatNumber type="number" value="${discount}" />
-										% 할인
-									  </p>
-									  &nbsp;&nbsp;&nbsp;&nbsp;
-									  <p class="font-italic text-dark">총 누적 포인트: </p>
-									  &nbsp;&nbsp;&nbsp;
-									  <p class="font-italic text-danger" id="point${product.sequence }">
-										  <c:set var="totalPoint" value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }"/>
-										  <fmt:formatNumber type="number" maxFractionDigits="3" value="${totalPoint}"/>
-									  </p>
-									  &nbsp;
-									  <p class="font-italic text-dark">점</p>
-			                          </div>
-			                          
-			                        </div>
-			                        <div class="d-flex flex-row align-items-center col-4">
-				                        <div class="d-flex flex-row align-items-center bg-light">
-				                          	<span id="countButtonDiv${product.sequence }" class="p-3 text-dark btn" onclick="reduceCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">-</span>
-				                          	<h5 class="fw-normal mb-0 ml-2" id="product-count${product.sequence }">${product.count }</h5>
-				                        	<span id="countButtonDiv${product.sequence }" class="p-3 text-dark btn" onclick="addCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">+</span>
-				                        </div>
-				                        <div class="ml-4" style="width: 100px;">
-				                          <h5 class="mb-0" style="font-size: 15px; font-weight: 700;" id="price${product.sequence }">
-				                          	<c:set var="price" value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }"/>
-											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-				                          원</h5>
-				                        </div>
-				                        <span class="icon_close btn" onclick="open_modal(${product.productSequence }, ${logincust.sequence }, '${product.name }')"></span>
-				                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
-			                        </div>
-			                      </div>
-			                    </div>
-			                  </div>
-			                </div>
-		                </c:forEach>
-		                <br/>
-		                <div class="d-flex flex-col">
-		                	<h4 id="totalCount" style="border: none">총 주문 금액: 0원</h4>
-		                	 &nbsp;&nbsp;&nbsp;&nbsp;
-		                	<h4 id="totalPoint" style="border: none">총 누적 포인트: 0점</h4>
-		                </div>
-		                <button type="submit" class="site-btn bg-danger text-white border-0 rounded-sm col-12" onclick="cart_to_order()">주문하기</button>
-                	</c:otherwise>
-                </c:choose>
-                
-            </div>
-        </div>
-    </section>
-    <!-- Cart Section End -->
+<section class="checkout spad">
+	<div class="container">
+		<div class="row"></div>
+		<div class="checkout__form">
+			<h4>장바구니</h4>
+			<c:choose>
+				<c:when test="${fn:length(myCartProductList) == 0 }">
+					<div class="text-muted" style="text-align: center;">
+						<i class="bi bi-info-circle-fill" style="font-size: 50px;"></i>
+						<div class="text-muted" style="font-size: 20px;">장바구니에 담긴
+							상품이 없습니다.</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${myCartProductList }" var="product">
+						<div class="card mb-3 overflow-auto">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<div class="d-flex flex-row align-items-center">
+										<div class="col-2">
+											<img src="${product.productImgurl }"
+												class="img-fluid rounded-3" alt="Shopping item"
+												style="width: 85px;">
+										</div>
+										<div class="col-6 mt-3">
+											<h5 class="font-weight-bold">${product.name }</h5>
+											<p class="small mb-0">${product.content.substring(0, 75) }...</p>
+											<div class="d-flex flex-col mt-2">
+												<p class="text-warning font-weight-bold">
+													<c:set var="discount" value="${product.discountRate }" />
+													<fmt:formatNumber type="number" value="${discount}" />
+													% 할인
+												</p>
+												&nbsp;&nbsp;&nbsp;&nbsp;
+												<p class="font-italic text-dark">총 누적 포인트:</p>
+												&nbsp;&nbsp;&nbsp;
+												<p class="font-italic text-danger"
+													id="point${product.sequence }">
+													<c:set var="totalPoint"
+														value="${(product.price * product.count) * product.pointAccumulationRate * 0.01 }" />
+													<fmt:formatNumber type="number" maxFractionDigits="3"
+														value="${totalPoint}" />
+												</p>
+												&nbsp;
+												<p class="font-italic text-dark">점</p>
+											</div>
+
+										</div>
+										<div class="d-flex flex-row align-items-center col-4">
+											<div class="d-flex flex-row align-items-center bg-light">
+												<span id="countButtonDiv${product.sequence }"
+													class="p-3 text-dark btn"
+													onclick="reduceCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">-</span>
+												<h5 class="fw-normal mb-0 ml-2"
+													id="product-count${product.sequence }">${product.count }</h5>
+												<span id="countButtonDiv${product.sequence }"
+													class="p-3 text-dark btn"
+													onclick="addCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">+</span>
+											</div>
+											<div class="ml-4" style="width: 100px;">
+												<h5 class="mb-0" style="font-size: 15px; font-weight: 700;"
+													id="price${product.sequence }">
+													<c:set var="price"
+														value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
+													<fmt:formatNumber type="number" maxFractionDigits="3"
+														value="${price}" />
+													원
+												</h5>
+											</div>
+											<span class="icon_close btn"
+												onclick="open_modal(${product.productSequence }, ${logincust.sequence }, '${product.name }')"></span>
+											<input id="cart_checkbox${product.sequence }" class="ml-4"
+												type="checkbox"
+												onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+					<br />
+					<div class="d-flex flex-col">
+						<h4 id="totalCount" style="border: none">총 주문 금액: 0원</h4>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<h4 id="totalPoint" style="border: none">총 누적 포인트: 0점</h4>
+					</div>
+					<button type="submit"
+						class="site-btn bg-danger text-white border-0 rounded-sm col-12"
+						onclick="cart_to_order()">주문하기</button>
+				</c:otherwise>
+			</c:choose>
+
+		</div>
+	</div>
+</section>
+<!-- Cart Section End -->
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
 	<div class="container">
@@ -475,14 +569,13 @@ $(function(){
 						</div>
 						<div id="reviewCollapse-${order.sequence}-${orderDetail.sequence}"
 							class="collapse">
-							<form id="ratingForm" action="review.bit" method="post">
+							<form name="frm" id="ratingForm" action="review.bit">
 								<input type="hidden" name="cmd" value="register"> <input
 									type="hidden" name="memberSequence"
 									value="${logincust.sequence }"> <input type="hidden"
 									name="productSequence" value="${orderDetail.productSequence}">
-								<input class="rating-input" type="hidden" name="rating" value=""
-									required> <span> 별점을 남겨주세요 </span> <span
-									style="color: red;">*</span>
+								<input class="rating-input" type="hidden" name="rating" required>
+								<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
 								<div class="star-rating">
 									<div class="stars">
 										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
@@ -490,15 +583,20 @@ $(function(){
 											class="fa fa-star"></i>
 									</div>
 								</div>
-								<div class="alert alert-danger mt-4" id="alert-danger"
+								<div class="alert alert-danger mt-4"
+									id="alert-${order.sequence}-${orderDetail.sequence}"
 									style="display: none;">별점을 클릭해주세요</div>
 
 
-								<textarea name="comment" class="form-control" rows="3"
-									placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" required></textarea>
-								<button type="submit" id="submitBtn"
-									class="site-btn mx-1 text-white border-0 rounded-sm mt-2"
-									value="#reviewButton-${order.sequence}-${orderDetail.sequence}">리뷰
+								<textarea name="comment" class="form-control review-textarea"
+									rows="3" placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200"
+									
+									required></textarea>
+								<button type="button" id="submitBtn"
+									class="site-btn mx-1 text-white border-0 rounded-sm mt-2"<%-- value="#reviewButton-${order.sequence}-${orderDetail.sequence}" --%>
+									<%-- onclick="valid_check();" --%>
+									<%-- onClick="valid_check(alert-${order.sequence}-${orderDetail.sequence},${orderDetail.sequence})" --%>
+									>리뷰
 									제출</button>
 								<button type="button"
 									class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
@@ -562,7 +660,8 @@ $(function(){
 
 						</div>
 					</div>
-					<div id="reviewCollapse-${review.sequence}">
+					<div id="reviewList-${review.sequence}">
+
 						<%-- <input type="hidden" name="cmd" value="register"> <input
 								type="hidden" name="memberSequence"
 								value="${logincust.sequence }"> <input type="hidden"
@@ -571,32 +670,32 @@ $(function(){
 								required> <span> 별점을 남겨주세요 </span> <span
 								style="color: red;">*</span> --%>
 
-						<div class="star-rating" >
+						<div class="star-rating">
 							<div class="stars">
 								<c:forEach var="i" begin="1" end="5">
 									<c:choose>
 										<c:when test="${i <= review.rating}">
-											<i class="fa fa-star active" style="pointer-events:none;"></i>
+											<i class="fa fa-star active"></i>
 										</c:when>
 										<c:otherwise>
-											<i class="fa fa-star" style="pointer-events:none;"></i>
+											<i class="fa fa-star"></i>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 							</div>
 						</div>
 
-						<!-- <div class="alert alert-danger mt-4" id="alert-danger"
-								style="display: none;">별점을 클릭해주세요</div> -->
-
-						<%-- <div
-							style="background-color: #f1f3f5; padding: 5%;">
-							${review.comment }</div> --%>
-						<textarea name="comment" class="form-control" rows="3" style="background-color: #f1f3f5; resize:none;"
-								placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled >${review.comment } </textarea>
-						<button type="submit" id="submitBtn"
-							class="site-btn mx-1 text-white border-0 rounded-sm mt-2"
-							value="#reviewButton-${review.sequence}">수정</button>
+						<textarea id="textarea-${review.sequence}" name="comment" class="form-control"
+							rows="3" style="background-color: #f1f3f5; resize: none;"
+							placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled
+							>${review.comment } </textarea>
+						<button type="button" id="editBtn-${review.sequence}"
+							class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
+							onclick="enableTextarea(${review.sequence })"
+							>수정</button>
+						<%-- 						<button type="submit" id="submitBtn"
+							class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
+							value="#reviewButton-${review.sequence}" onclick="enableEdit(${review.sequence})">수정</button> --%>
 						<button type="button"
 							class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
 							data-toggle="collapse"
@@ -613,28 +712,30 @@ $(function(){
 		</div>
 	</div>
 </section>
-    <!-- Review Section End -->
-    
-    <!-- Modal -->
-    <div id="modal">
-    	<div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">장바구니 삭제</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="close_modal()">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body" id="modal-body">
-	        해당 상품을 장바구니에서 삭제하시겠습니까?
-	      </div>
-	      <div class="modal-footer">
-	       	<button class="btn btn-secondary text-light" data-dismiss="modal" onclick="close_modal()">아니오</button>
-	        <button id="delete_yes" class="btn btn-danger text-light" data-dismiss="modal" onclick="cart_delete()">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
-	      </div>
-	    </div>
-	  </div>
-  </div>
+<!-- Review Section End -->
+
+<!-- Modal -->
+<div id="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">장바구니 삭제</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close" onclick="close_modal()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="modal-body">해당 상품을 장바구니에서 삭제하시겠습니까?
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary text-light" data-dismiss="modal"
+					onclick="close_modal()">아니오</button>
+				<button id="delete_yes" class="btn btn-danger text-light"
+					data-dismiss="modal" onclick="cart_delete()">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 	var totalPrice = 0;
 	var totalPoint = 0;

@@ -16,7 +16,6 @@ if (productDetailWithReviews != null) {
 }
 %>
 
-<<<<<<< HEAD
 <style type="text/css">
 .info-tag {
 	width: 5vw;
@@ -65,111 +64,6 @@ if (productDetailWithReviews != null) {
 	font-size: 0.6em;
 }
 </style>
-=======
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-	
-	var setCookie = function(name, value, exp) {
-	    var date = new Date();
-	    date.setTime(date.getTime() + exp*24*60*60*1000);
-	    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
-	};
-	var getCookie = function(name) {
-	    var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-	    return value? value[2] : null;
-	};
-	
-	var prodSeqList = [];
-	var prodNameList = [];
-	var prodImgList = [];
-	
-	$(document).ready(function() {
-		prodSeqList = getCookie("prodSeqList");
-		prodNameList = getCookie("prodNameList");
-		prodImgList = getCookie("prodImgList");
-
-		if (prodSeqList == null) {
-			prodSeqList = [];
-		} else {
-			prodSeqList = getCookie("prodSeqList").split(',');
-		}
-		if (prodNameList == null) {
-			prodNameList = [];
-		} else {
-			prodNameList = getCookie("prodNameList").split(',');
-		}
-		if (prodImgList == null) {
-			prodImgList = [];
-		} else {
-			prodImgList = getCookie("prodImgList").split(',');
-		}
-		
-		var custSeq = document.getElementById("custSeq").innerText;
-		var prodSeq = document.getElementById("productSeq").innerText;
-		var prodName = document.getElementById("productName").innerText;
-		var prodImg = document.getElementById("productImgUrl").innerText;
-
-		if (custSeq !== '') {
-			var seqList = getCookie('prodSeqList');
-			var seqDup = false;
-			
-			if (seqList == null) {
-				
-			} else {
-				for(var i=0; i<prodSeqList.length; i++) {
-					if (prodSeqList[i] == prodSeq) {
-						console.log(prodSeqList[i]);
-						console.log("DUp")
-						seqDup = true;
-					}
-				}
-			}
-
-			if (seqDup) {
-				
-			} else {
-				prodSeqList.push(prodSeq);
-				prodNameList.push(prodName);
-				prodImgList.push(prodImg);
-				setCookie('prodSeqList', prodSeqList, 1);
-				setCookie('prodNameList', prodNameList, 1);
-				setCookie('prodImgList', prodImgList, 1);
-			}
-		}
-		
-		$("#addToCartButton").click(function() {
-			$("#addToCartModal").modal("show");
-		});
-	});
-	
-	function addToCart(productSeq, memberSeq) {
-		if (memberSeq === undefined) {
-	        alert("로그인이 필요합니다.");
-	        return;
-	    }
-		
-		var count = Number($('#productQuantity').val());
-		$.ajax({
-			url:'rest.bit?view=addToCart&productSequence=' + productSeq + '&count=' + count + '&memberSeq=' + memberSeq,
-			success:function(result){
-				console.log(result);
-				if (result === 0) {
-					alert("카트에 넣는 도중 오류가 발생했습니다. 다시 시도해주세요.");
-				} else {
-					 $('#addToCartModal').modal('show');
-					
-				}
-			}
-		});
-	}
-	
-	function checkOutBuyNow(productId, memberSeq) {
-	    var count = Number($('#productQuantity').val());
-	    
-	    // Redirect to the checkout page with the specified count and product ID
-	    window.location.href = 'main.bit?view=checkoutbuynow&count=' + count + '&productId=' + productId + '&memberSeq=' + memberSeq;
-	}
->>>>>>> 684df098a0f4228f805662c7ef219a8983094ea1
 
 
 
@@ -567,6 +461,8 @@ if (productDetailWithReviews != null) {
 		});
 	});
 	
+	let count = 1;
+	
 	function addToCart(productSeq, memberSeq) {
 		console.log("addtocart발동")
 		if (memberSeq === undefined) {
@@ -576,8 +472,9 @@ if (productDetailWithReviews != null) {
 	        return;
 	    }
 		
-		var count = Number($('#productQuantity').val());
+		var count = Number($('#product-count').val());
 		console.log(productSeq, memberSeq, count)
+		console.log("고쳐야")
 		
 		$.ajax({
 			url:'rest.bit?view=addToCart&productSequence=' + productSeq + '&count=' + count + '&memberSeq=' + memberSeq,
@@ -607,7 +504,7 @@ if (productDetailWithReviews != null) {
 	}
 	
 	
-    let count = 1;
+    
 
     function increaseQuantity() {
       count++;

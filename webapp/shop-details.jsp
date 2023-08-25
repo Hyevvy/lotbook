@@ -16,6 +16,7 @@ if (productDetailWithReviews != null) {
 }
 %>
 
+<<<<<<< HEAD
 <style type="text/css">
 .info-tag {
 	width: 5vw;
@@ -64,6 +65,111 @@ if (productDetailWithReviews != null) {
 	font-size: 0.6em;
 }
 </style>
+=======
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	
+	var setCookie = function(name, value, exp) {
+	    var date = new Date();
+	    date.setTime(date.getTime() + exp*24*60*60*1000);
+	    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+	};
+	var getCookie = function(name) {
+	    var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+	    return value? value[2] : null;
+	};
+	
+	var prodSeqList = [];
+	var prodNameList = [];
+	var prodImgList = [];
+	
+	$(document).ready(function() {
+		prodSeqList = getCookie("prodSeqList");
+		prodNameList = getCookie("prodNameList");
+		prodImgList = getCookie("prodImgList");
+
+		if (prodSeqList == null) {
+			prodSeqList = [];
+		} else {
+			prodSeqList = getCookie("prodSeqList").split(',');
+		}
+		if (prodNameList == null) {
+			prodNameList = [];
+		} else {
+			prodNameList = getCookie("prodNameList").split(',');
+		}
+		if (prodImgList == null) {
+			prodImgList = [];
+		} else {
+			prodImgList = getCookie("prodImgList").split(',');
+		}
+		
+		var custSeq = document.getElementById("custSeq").innerText;
+		var prodSeq = document.getElementById("productSeq").innerText;
+		var prodName = document.getElementById("productName").innerText;
+		var prodImg = document.getElementById("productImgUrl").innerText;
+
+		if (custSeq !== '') {
+			var seqList = getCookie('prodSeqList');
+			var seqDup = false;
+			
+			if (seqList == null) {
+				
+			} else {
+				for(var i=0; i<prodSeqList.length; i++) {
+					if (prodSeqList[i] == prodSeq) {
+						console.log(prodSeqList[i]);
+						console.log("DUp")
+						seqDup = true;
+					}
+				}
+			}
+
+			if (seqDup) {
+				
+			} else {
+				prodSeqList.push(prodSeq);
+				prodNameList.push(prodName);
+				prodImgList.push(prodImg);
+				setCookie('prodSeqList', prodSeqList, 1);
+				setCookie('prodNameList', prodNameList, 1);
+				setCookie('prodImgList', prodImgList, 1);
+			}
+		}
+		
+		$("#addToCartButton").click(function() {
+			$("#addToCartModal").modal("show");
+		});
+	});
+	
+	function addToCart(productSeq, memberSeq) {
+		if (memberSeq === undefined) {
+	        alert("로그인이 필요합니다.");
+	        return;
+	    }
+		
+		var count = Number($('#productQuantity').val());
+		$.ajax({
+			url:'rest.bit?view=addToCart&productSequence=' + productSeq + '&count=' + count + '&memberSeq=' + memberSeq,
+			success:function(result){
+				console.log(result);
+				if (result === 0) {
+					alert("카트에 넣는 도중 오류가 발생했습니다. 다시 시도해주세요.");
+				} else {
+					 $('#addToCartModal').modal('show');
+					
+				}
+			}
+		});
+	}
+	
+	function checkOutBuyNow(productId, memberSeq) {
+	    var count = Number($('#productQuantity').val());
+	    
+	    // Redirect to the checkout page with the specified count and product ID
+	    window.location.href = 'main.bit?view=checkoutbuynow&count=' + count + '&productId=' + productId + '&memberSeq=' + memberSeq;
+	}
+>>>>>>> 684df098a0f4228f805662c7ef219a8983094ea1
 
 
 
@@ -104,7 +210,7 @@ if (productDetailWithReviews != null) {
 				<nav class="header__menu">
 					<ul id="header__menus">
 						<li><a href="./index.jsp">Home</a></li>
-						<li><a href="main.bit?view=shop-grid">Shop</a></li>
+						<li><a href="category.bit?view=1">Shop</a></li>
 						<li class="active"><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
 								<li><a
@@ -149,25 +255,7 @@ if (productDetailWithReviews != null) {
 					<div class="hero__categories__all">
 						<i class="fa fa-bars"></i> <span>카테고리</span>
 					</div>
-					<ul>
-						<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
-								IT</a>
-						<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
-								공학</a>
-						<li value="3"><a href="#" style="text-indent: 20px">데이터베이스</a>
-						<li value="4"><a href="#" style="text-indent: 20px">네트워크</a>
-						<li value="5"><a href="#" style="text-indent: 20px">프로그래밍</a>
-						<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-						<li value="7"><a href="#" style="text-indent: 20px">한국소설</a>
-						<li value="8"><a href="#" style="text-indent: 20px">영미소설</a>
-						<li value="9"><a href="#" style="text-indent: 20px">일본소설</a>
-						<li value="10"><a href="#" class="font-weight-bold">경제 /
-								경영</a></li>
-						<li value="11"><a href="#" style="text-indent: 20px">경영일반</a>
-						<li value="12"><a href="#" style="text-indent: 20px">재테크/금융</a>
-						<li value="13"><a href="#" style="text-indent: 20px">유통/창업</a>
-						<li value="14"><a href="#" style="text-indent: 20px">세무/회계</a>
-					</ul>
+					<jsp:include page="common_categories.jsp" />
 				</div>
 			</div>
 			<div class="col-lg-9">
@@ -208,6 +296,10 @@ if (productDetailWithReviews != null) {
 
 <!-- Product Details Section Begin -->
 <section class="product-details spad">
+	<div style="display: none;" id="productSeq">${productDetailWithReviews.sequence }</div>
+	<div style="display: none;" id="productName">'${productDetailWithReviews.name }'</div>
+	<div style="display: none;" id="productImgUrl">'${productDetailWithReviews.productImgurl }'</div>
+	<div style="display: none;" id="custSeq">${logincust.sequence }</div>
 	<div class="container">
 		<div class="row d-flex justify-content-center">
 			<div class="col-lg-5 col-md-5 mr-3">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
@@ -46,7 +47,7 @@ request.setCharacterEncoding("UTF-8");
 				<nav class="header__menu">
 					<ul id="header__menus">
 						<li><a href="./index.jsp">Home</a></li>
-						<li><a href="main.bit?view=shop-grid">Shop</a></li>
+						<li><a href="category.bit?view=1">Shop</a></li>
 						<li class="active"><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
 								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
@@ -90,25 +91,7 @@ request.setCharacterEncoding("UTF-8");
 					<div class="hero__categories__all">
 						<i class="fa fa-bars"></i> <span>카테고리</span>
 					</div>
-					<ul>
-						<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
-								IT</a>
-						<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
-								공학</a>
-						<li value="3"><a href="#" style="text-indent: 20px">데이터베이스</a>
-						<li value="4"><a href="#" style="text-indent: 20px">네트워크</a>
-						<li value="5"><a href="#" style="text-indent: 20px">프로그래밍</a>
-						<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-						<li value="7"><a href="#" style="text-indent: 20px">한국소설</a>
-						<li value="8"><a href="#" style="text-indent: 20px">영미소설</a>
-						<li value="9"><a href="#" style="text-indent: 20px">일본소설</a>
-						<li value="10"><a href="#" class="font-weight-bold">경제 /
-								경영</a></li>
-						<li value="11"><a href="#" style="text-indent: 20px">경영일반</a>
-						<li value="12"><a href="#" style="text-indent: 20px">재테크/금융</a>
-						<li value="13"><a href="#" style="text-indent: 20px">유통/창업</a>
-						<li value="14"><a href="#" style="text-indent: 20px">세무/회계</a>
-					</ul>
+					<jsp:include page="common_categories.jsp" />
 				</div>
 			</div>
 			<div class="col-lg-9">
@@ -155,6 +138,9 @@ request.setCharacterEncoding("UTF-8");
 					받는 분 성함 <span> ${orderResult.receiverName} 님 </span>
 				</div>
 				<div class="checkout__order__total">
+					받는 분 이메일 <span> ${orderResult.receiverEmail} </span>
+				</div>
+				<div class="checkout__order__total">
 					연락처 <span> ${orderResult.orderPhone} </span>
 				</div>
 				<div class="checkout__order__total">
@@ -173,9 +159,10 @@ request.setCharacterEncoding("UTF-8");
 					상품 목록 <span>금액</span>
 				</div>
 
-				<c:forEach items="${orderDetailResult}" var="orderDetail">
-					<div class="checkout__order__total">
-						${orderDetail.orderDetailProduct.name } <span>
+				<c:forEach items="${orderDetailResult}" var="orderDetail" varStatus="status">
+					<div id="productCount" style="display: none;">${fn:length(orderDetailResult)}</div>
+					<div class="checkout__order__total text-muted">
+						<span id="productName${status.index }">${orderDetail.orderDetailProduct.name }</span> <span class="text-muted">
 							${orderDetail.productPrice} X ${orderDetail.count} 원</span>
 					</div>
 				</c:forEach>
@@ -188,8 +175,8 @@ request.setCharacterEncoding("UTF-8");
 				<div class="checkout__order__total">
 					총 금액 <span>${totalPrice - usedPoint}원</span>
 				</div>
-				<button type="button" class="site-btn" id="order__btn"
-					onclick={sendRequest}>홈으로 이동하기</button>
+				<button type="button" name="submit" class="site-btn" id="order__btn">홈으로
+					이동하기</button>
 			</div>
 		</div>
 	</div>
@@ -198,34 +185,52 @@ request.setCharacterEncoding("UTF-8");
 </section>
 <!-- Checkout Section End -->
 
-<script>
-
-function sendRequest(){
-	$.ajax({
-		url : "request_ajax.jsp",
-		type : "post",
-		data : {"receiver_name" : receiver_name, "zipcode" : zipcode, "order_phone": order_phone},
-		dataType : "text",
-		success : function(result){
-			document.getElementById("text").innerHTML = result;
-		}
-	});
-}
 
 
-document.querySelector("#order__btn").addEventListener("click",function(){
-	const receiver_name = document.querySelector('#input__receiverName').value;
-	const order_phone = document.querySelector('#input__phone').value;
+<script type="text/javascript">
 	
-	const zipcode = document.querySelector('#sample6_postcode').value;
-	const street_address = document.querySelector('#sample6_address').value;
-	const address_detail = document.querySelector('#sample6_extraAddress').value;
-	const vendor_message = document.querySelector('#sample6_detailAddress').value;
-	
-	
-	console.log(receiver_name, order_phone);
-	console.log('hi');
-});
-		
-</script>
+$(document).ready(function() {
+	emailjs.init("BeCe_Kl2PZg0CGUoO");		
 
+    $('button[name=submit]').click(function(){       
+    	var message = "ㅇㅇ";
+    	const firstProductName = document.getElementById('productName0').innerText;
+
+    	const productListLength = document.getElementById('productCount').innerText;
+    	if(productListLength > 1) {
+    		// 2종류 이상의 책을 구매
+    		message = firstProductName + `외 ` + (Number(productListLength) - 1) + `건 구매 완료되었습니다.`
+    	} else {
+    		message = firstProductName + ` 구매 완료되었습니다.`
+    	}
+   
+      var templateParams = {	
+    		receiverName: `${orderResult.receiverName}`,
+    		receiverEmail: `${orderResult.receiverEmail}`,
+    		orderPhone : `${orderResult.orderPhone}`,
+    		zipcode:  `${orderResult.receiverName}`,
+    		streetAddress:  `${orderResult.streetAddress}`,
+    		addressDetail:  `${orderResult.addressDetail}`,
+    		vendorMessage:  `${orderResult.vendorMessage}`,
+    		totalPrice: ${totalPrice},
+    		usedPoint: ${usedPoint},
+    		finalPrice: ${totalPrice - usedPoint},
+            message : message
+       		};
+           
+            	
+   	  emailjs.send('service_dwb08qj', 'template_o71nji7', templateParams)
+     	    .then(function(response) {
+     	       console.log('SUCCESS!', response.status, response.text);
+     	    }, function(error) {
+     	       console.log('FAILED...', error);
+     	    });
+          
+
+
+    });
+    
+  });
+    
+
+	</script>

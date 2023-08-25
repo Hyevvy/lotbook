@@ -137,7 +137,9 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
          e.getStackTrace();
          e.printStackTrace();
          throw new Exception("적립률 높은 책 검색 에러");
-      }
+      } finally {
+	        session.close();
+	    }
       return list;
    }
    
@@ -150,7 +152,9 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
          e.getStackTrace();
          e.printStackTrace();
          throw new Exception("할인률 높은 책 검색 에러");
-      }
+      } finally {
+	        session.close();
+	    }
       return list;
    }
    
@@ -163,7 +167,9 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
          e.getStackTrace();
          e.printStackTrace();
          throw new Exception("베스트셀러 책 검색 에러");
-      }
+      } finally {
+	        session.close();
+	    }
       return list;
    }
 
@@ -181,5 +187,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		}
 		return result;
 	}
+
+
 
 }

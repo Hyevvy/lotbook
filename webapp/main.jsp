@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 String[] BestSeller = request.getParameterValues("BestSeller");
 String[] Latest = request.getParameterValues("Latest");
@@ -8,12 +11,7 @@ String[] BigPoint = request.getParameterValues("BigPoint");
 String[] BigDiscount = request.getParameterValues("BigDiscount");
 %>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-<jsp:include page="popup.jsp"/>
+<jsp:include page="popup.jsp" />
 
 <script>
 AOS.init({
@@ -60,7 +58,7 @@ AOS.init({
 				<nav class="header__menu">
 					<ul id="header__menus">
 						<li class="active"><a href="./index.jsp">Home</a></li>
-						<li><a href="main.bit?view=shop-grid">Shop</a></li>
+						<li><a href="category.bit?view=1">Shop</a></li>
 						<li><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
 								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
@@ -79,7 +77,7 @@ AOS.init({
 							<ul>
 								<li><a
 									href="main.bit?view=shopping-cart&memberSeq=${logincust.sequence }"><i
-										class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
+									class="fa fa-shopping-bag"></i> <span>${cartCount }</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -103,25 +101,7 @@ AOS.init({
 					<div class="hero__categories__all">
 						<i class="fa fa-bars"></i> <span>카테고리</span>
 					</div>
-					<ul>
-						<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
-								IT</a>
-						<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
-								공학</a>
-						<li value="3"><a href="#" style="text-indent: 20px">데이터베이스</a>
-						<li value="4"><a href="#" style="text-indent: 20px">네트워크</a>
-						<li value="5"><a href="#" style="text-indent: 20px">프로그래밍</a>
-						<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-						<li value="7"><a href="#" style="text-indent: 20px">한국소설</a>
-						<li value="8"><a href="#" style="text-indent: 20px">영미소설</a>
-						<li value="9"><a href="#" style="text-indent: 20px">일본소설</a>
-						<li value="10"><a href="#" class="font-weight-bold">경제 /
-								경영</a></li>
-						<li value="11"><a href="#" style="text-indent: 20px">경영일반</a>
-						<li value="12"><a href="#" style="text-indent: 20px">재테크/금융</a>
-						<li value="13"><a href="#" style="text-indent: 20px">유통/창업</a>
-						<li value="14"><a href="#" style="text-indent: 20px">세무/회계</a>
-					</ul>
+					<jsp:include page="common_categories.jsp" />
 				</div>
 			</div>
 			<div class="col-lg-9">
@@ -136,7 +116,11 @@ AOS.init({
 					</div>
 				</div>
 				<div>
-					<img class="hero__item" src="img/banner.png">
+					<a
+						href="http://127.0.0.1/lotbook/product-detail.bit?view=shop-details&sequence=264">
+						<img class="hero__item" src="img/banner.png">
+					</a>
+
 				</div>
 			</div>
 
@@ -228,7 +212,11 @@ AOS.init({
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.name}</h6>
-											<span>${product.price}</span>
+												<c:set var="price" value="${product.price}"/>
+	                                 			<span class="price">
+	                                 			<fmt:formatNumber type="number" maxFractionDigits="0" value="${price}"/>
+	                                      		원
+	                                      		</span>
 										</div>
 									</a>
 								</div>
@@ -245,7 +233,11 @@ AOS.init({
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.name}</h6>
-											<span>${product.price}</span>
+											<c:set var="price" value="${product.price}"/>
+	                                 			<span class="price">
+	                                 			<fmt:formatNumber type="number" maxFractionDigits="0" value="${price}"/>
+	                                      		원
+	                                      		</span>
 										</div>
 									</a>
 								</div>
@@ -269,7 +261,11 @@ AOS.init({
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.name}</h6>
-											<span>${product.price}</span>
+											<c:set var="price" value="${product.price}"/>
+	                                 			<span class="price">
+	                                 			<fmt:formatNumber type="number" maxFractionDigits="0" value="${price}"/>
+	                                      		원
+	                                      		</span>
 										</div>
 									</a>
 								</div>
@@ -286,7 +282,11 @@ AOS.init({
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.name}</h6>
-											<span>${product.price}</span>
+											<c:set var="price" value="${product.price}"/>
+	                                 			<span class="price">
+	                                 			<fmt:formatNumber type="number" maxFractionDigits="0" value="${price}"/>
+	                                      		원
+	                                      		</span>
 										</div>
 									</a>
 								</div>
@@ -310,7 +310,11 @@ AOS.init({
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.name}</h6>
-											<span>${product.price}</span>
+											<c:set var="price" value="${product.price}"/>
+	                                 			<span class="price">
+	                                 			<fmt:formatNumber type="number" maxFractionDigits="0" value="${price}"/>
+	                                      		원
+	                                      		</span>
 										</div>
 									</a>
 								</div>
@@ -327,7 +331,11 @@ AOS.init({
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.name}</h6>
-											<span>${product.price}</span>
+											<c:set var="price" value="${product.price}"/>
+	                                 			<span class="price">
+	                                 			<fmt:formatNumber type="number" maxFractionDigits="0" value="${price}"/>
+	                                      		원
+	                                      		</span>
 										</div>
 									</a>
 								</div>
@@ -340,4 +348,18 @@ AOS.init({
 	</div>
 </section>
 <!-- Latest Product Section End -->
+
 </div>
+
+<!-- Blog Section Begin -->
+<section class="from-blog spad"></section>
+<!-- Blog Section End -->
+
+.price {
+  display: inline-block; 
+  background-color: transparent; 
+}
+
+.price:hover {
+  background-color: white; 
+}

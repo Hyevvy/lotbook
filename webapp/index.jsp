@@ -27,19 +27,24 @@
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="css/style.css" type="text/css">
 <link rel="stylesheet" href="css/common-style.css">
-
+<link rel="icon" href="img/favicon.ico">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script defer src="js/signup.js"></script>
-<script language="JavaScript" type="text/javascript"
+<script type="text/javascript"
 	src="/js/jquery-1.2.6.min.js"></script>
+
 	
 <!-- data-aos -->
 <link rel="stylesheet" href="https://cdn.rawgit.com/michalsnik/aos/2.0.1/dist/aos.css" />
 <script src="https://cdn.rawgit.com/michalsnik/aos/2.0.1/dist/aos.js"></script>
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+
 </head>
 
 <style>

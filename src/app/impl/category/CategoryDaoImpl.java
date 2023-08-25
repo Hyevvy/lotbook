@@ -46,5 +46,20 @@ public class CategoryDaoImpl implements DaoFrame<Category, Category>{
 		
 	}
 	
+	public List<Product> selectComputerCategory(List<Product> v, SqlSession session) {
+		return session.selectList("category.selectComputerCategory", v);
+	}
+
+
+	public List<Product> selectBigCategory(int categoryCode, SqlSession session) {
+	    List<Product> products = session.selectList("selectBigCategory", categoryCode);
+	    return products;
+	}
+
+
+	public List<Product> selectSmallCategory(int categoryCode, SqlSession session) {
+	    List<Product> products = session.selectList("selectSmallCategory", categoryCode);
+	    return products;
+	}
 	
 }

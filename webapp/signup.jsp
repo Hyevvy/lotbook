@@ -37,9 +37,6 @@
 	}
 }
 </style>
-<script type="text/javascript"
-	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
-</script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.form_ip_pw i').on('click',function(){
@@ -91,7 +88,7 @@
 				<nav class="header__menu">
 					<ul id="header__menus">
 						<li><a href="./index.jsp">Home</a></li>
-						<li><a href="main.bit?view=shop-grid">Shop</a></li>
+						<li><a href="category.bit?view=1">Shop</a></li>
 						<li><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
 								<li><a href="main.bit?view=shop-details">Shop Details</a></li>

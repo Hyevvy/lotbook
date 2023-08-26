@@ -8,9 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import app.dto.entity.Member;
 import app.dto.entity.Review;
 import app.frame.ControllerFrame;
 import app.impl.review.ReviewServiceImpl;
@@ -33,22 +35,21 @@ public class ReviewServlet implements ControllerFrame {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String next = "index.jsp";
-		String view = request.getParameter("cmd");
+		String next = "mypage.jsp";
+		String cmd = request.getParameter("cmd");
 
-		build(request, view);
+		next = build(request, cmd);
 
 		RequestDispatcher rd = request.getRequestDispatcher(next);
 		rd.forward(request, response);
 	}
 	
-	 private void build(HttpServletRequest request,
-				String view){
-		 	System.out.println("리뷰 등록!");
-		 	if (view == null) {
+	 private String build(HttpServletRequest request,
+				String cmd){
+		 	if (cmd == null) {
 		 		System.out.println("리뷰 요청");
 		 	}
-			if(view.equals("register")){
+			if(cmd.equals("register")){
 				long memberSequence = Long.parseLong(request.getParameter("memberSequence"));
 				long productSequence = Long.parseLong(request.getParameter("productSequence"));
 				int rating = Integer.parseInt(request.getParameter("rating"));
@@ -70,8 +71,31 @@ public class ReviewServlet implements ControllerFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}else if(view.equals("login")){
-				request.setAttribute("center", "signin");
+			}else if(cmd.equals("update")){
+				long sequence = Long.parseLong(request.getParameter("sequence"));
+				long memberSequence = Long.parseLong(request.getParameter("memberSequence"));
+				long productSequence = Long.parseLong(request.getParameter("productSequence"));
+				int rating = Integer.parseInt(request.getParameter("rating"));
+				String comment = request.getParameter("comment");
+				
+				Review reviewInfo = Review.builder()
+						.sequence(sequence)
+						.rating(rating)
+						.comment(comment)
+						.memberSequence(memberSequence)
+						.productSequence(productSequence)
+						.build();
+				
+				try {
+					HttpSession session = request.getSession();
+					reviewServiceImpl.modify(reviewInfo);
+					request.setAttribute("center", "mypage");
+					return "main.bit?view=mypage&memberSeq="+((Member)session.getAttribute("logincust")).getSequence();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+			return "mypage";
 	 }
 }

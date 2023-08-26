@@ -252,7 +252,6 @@ public class MainServlet implements ControllerFrame {
 			try {
 				orderList = orderService.getAll(order); // 1. user sequence에 해당하는 order 내역 전체 조회
 				reviewDetailList = reviewServiceImpl.get(memberInfo);
-//				reviewDetailList = new ArrayList<>(reviewList.size());
 
 				// 2. order sequence에 해당하는 orderDetail 채워주기
 				for (int i = 0; i < orderList.size(); i++) {

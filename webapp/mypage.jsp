@@ -83,7 +83,30 @@ function enableTextarea(sequence) {
 	
 	console.log(textarea.disabled);
 	var editBtn = document.getElementById("editBtn-"+sequence);
-	editBtn.textContent = "저장"; // 버튼 텍스트 변경
+	//editBtn.textContent = "저장"; // 버튼 텍스트 변경
+	editBtn.style.display = "none";
+	
+	var submitBtn = document.getElementById("submitBtn-"+sequence);
+	submitBtn.style.display = "inline-block";
+	
+	
+	/* var editStars1 = document.getElementById("star-update-"+sequence+"-1");
+	var editStars2 = document.getElementById("star-update-"+sequence+"-2");
+	var editStars3 = document.getElementById("star-update-"+sequence+"-3");
+	var editStars4 = document.getElementById("star-update-"+sequence+"-4");
+	var editStars5 = document.getElementById("star-update-"+sequence+"-5");
+	editStars1.style['pointer-events'] = 'auto';
+	editStars2.style['pointer-events'] = 'auto';
+	editStars3.style['pointer-events'] = 'auto';
+	editStars4.style['pointer-events'] = 'auto';
+	editStars5.style['pointer-events'] = 'auto'; */
+	
+	const editStars = document.getElementsByClassName("star-update-"+sequence);
+	for(let i=0; i<editStars.length; i++){
+		editStars[i].style['pointer-events'] = 'auto';
+	}
+	
+	
 
 	/* var test = $(`#reviewList-${sequence} textarea[id='updateComment']`).val();
 	console.log(test); */
@@ -108,9 +131,8 @@ $(document).ready(function(){
 
 	$("#alert-danger").hide();
 	
-	$('.stars .fa').click(function() {
+	$('.stars .fa').click(function(event) {
 	    $(this).addClass('active');
-		console.log('test');
 	    // 클릭한 별을 기준으로 (.fa) 그 이전 별은 보이게 그 뒤에 별들은 안보이게
 	    $(this).prevAll().addClass('active');
 	    $(this).nextAll().removeClass('active');
@@ -120,7 +142,11 @@ $(document).ready(function(){
 	    var num = $(this).index();
 	    var starRate = num + 1;
 	    
-	    $('input[name=rating]').val(starRate);
+	    console.log(event.target.id);
+	    const inputId = event.target.id;
+	    
+	    //$('input[name=rating]').val(starRate);
+	    $('input[id="'+event.target.id + '"]').val(starRate);
 	    
 	});
 	   $('#updateComment1').select(function(){console.log('hi');});
@@ -140,18 +166,23 @@ $(document).ready(function(){
 
         console.log(findNode);
         findNode.hide(); */
+        console.log(form);
+        //var comments = document.getElementById("textarea-${orderDetail.sequence }");
          
         if ($(this).attr("id") === "submitBtn") {
+        //if ($(this).attr("id").startsWith("submitBtn")) {
+        	
             var starRate = form.find('.rating-input').val();
-
-            if (starRate !== "" && starRate >= 1 ) {
+            var comments = form.find('.form-control').val();
+            
+            if (starRate !== "" && starRate >= 1 && comments !== "") {
                 form.find(".alert-danger").css("display", "none");
                 
                 var formData = form.serialize();
                 
                 console.log(formData);
                 console.log("url => "+ form.attr("action"));
-                $.ajax({
+                /* $.ajax({
                 	type: "POST",
                 	url: form.attr("action"),
                 	data: formData,
@@ -162,37 +193,20 @@ $(document).ready(function(){
                         alert("리뷰가 성공적으로 반영되었습니다!");
                         document.location.reload();
                      	
-                        /* var collapseElement = form.parent().find(".collapse").prevObject; // 해당 폼의 부모 노드에서 .collapse 요소를 찾음
-                        
-                        if (collapseElement.hasClass("show")) {
-                            // 현재 상태가 보이는 상태라면 숨김
-                            collapseElement.collapse("hide");
-                            console.log("숨기기!");
-                            
-                            var btnId = $(this).val();
-                            console.log($(this).val());
-                            
-                            var findBtn = $($(this).val());
-                            
-                            findBtn.css("display", "none");
-                        } else {
-                            // 현재 상태가 숨겨진 상태라면 보이게 함
-                            collapseElement.collapse("show"); 
-                            console.log("보이기!"); 
-                            
-                        }*/
                 	},
                     error: function(error) {
                         // Handle error response from the server
                         console.error("Error submitting review:", error);
                         // You can display an error message or perform other error handling here
                     }
-                }); 
+                }); */
             } else if(starRate == "" || starRate === 0){
                 form.find(".alert-danger").css("display", "block");
 	            return false; // Prevent form submission
-            } else if(form.find(".review-textarea").value == ""){
-            	form.find(".review-textarea").focus();
+            } else if(comments == ""){
+            	form.find(".alert-danger").css("display", "none");
+            	form.find(".form-control").focus();
+            	form.find(".form-control").attr('placeholder', '후기를 입력해주세요~! :)');
             	return false;
             } else{
 	            return true;
@@ -563,13 +577,15 @@ $(document).ready(function(){
 									type="hidden" name="memberSequence"
 									value="${logincust.sequence }"> <input type="hidden"
 									name="productSequence" value="${orderDetail.productSequence}">
-								<input class="rating-input" type="hidden" name="rating" required>
+								<input class="rating-input" type="hidden" id="star-input-${orderDetail.sequence}" name="rating" required value="">
 								<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
 								<div class="star-rating">
 									<div class="stars">
-										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i>
+										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
+										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
+										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
+										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
+										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i>
 									</div>
 								</div>
 								<div class="alert alert-danger mt-4"
@@ -577,9 +593,8 @@ $(document).ready(function(){
 									style="display: none;">별점을 클릭해주세요</div>
 
 
-								<textarea name="comment" class="form-control review-textarea"
+								<textarea class="form-control" name="comment"
 									rows="3" placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200"
-									
 									required></textarea>
 								<button type="button" id="submitBtn"
 									class="site-btn mx-1 text-white border-0 rounded-sm mt-2"<%-- value="#reviewButton-${order.sequence}-${orderDetail.sequence}" --%>
@@ -650,45 +665,64 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<div id="reviewList-${review.sequence}">
-
-						<%-- <input type="hidden" name="cmd" value="register"> <input
+						<form action="review.bit" method="post">
+							<input type="hidden" name="cmd" value="update"> 
+							<input type="hidden" name="sequence" value="${review.sequence }">
+							<input
 								type="hidden" name="memberSequence"
-								value="${logincust.sequence }"> <input type="hidden"
-								name="productSequence" value="${orderDetail.productSequence}">
-							<input class="rating-input" type="hidden" name="rating" value=""
-								required> <span> 별점을 남겨주세요 </span> <span
-								style="color: red;">*</span> --%>
-
-						<div class="star-rating">
-							<div class="stars">
-								<c:forEach var="i" begin="1" end="5">
-									<c:choose>
-										<c:when test="${i <= review.rating}">
-											<i class="fa fa-star active"></i>
-										</c:when>
-										<c:otherwise>
-											<i class="fa fa-star"></i>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
+								value="${logincust.sequence }"> 
+							<input type="hidden"
+								name="productSequence" value="${review.reviewDetailProduct.sequence}">
+							<input class="rating-input" type="hidden" name="rating" value="${review.rating }"
+								id="star-update-${review.sequence}" 
+								required> 
+							<span> 별점을 남겨주세요 </span> <span
+								style="color: red;">*</span> 
+	
+							<div class="star-rating">
+								<div class="stars">
+									<c:forEach var="i" begin="1" end="5">
+										<c:choose>
+											<%-- <c:when test="${i <= review.rating}">
+												<i class="fa fa-star active" id="star-update-${review.sequence}-${i}" style="pointer-events:none;" ></i>
+											</c:when>
+											<c:otherwise>
+												<i class="fa fa-star" id="star-update-${review.sequence}-${i}" style="pointer-events:none;"></i>
+											</c:otherwise> --%>
+											<c:when test="${i <= review.rating}">
+												<i class="fa fa-star active star-update-${review.sequence}" id="star-update-${review.sequence}" style="pointer-events:none;" ></i>
+											</c:when>
+											<c:otherwise>
+												<i class="fa fa-star star-update-${review.sequence}" id="star-update-${review.sequence}" style="pointer-events:none;"></i>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</div>
 							</div>
-						</div>
-
-						<textarea id="textarea-${review.sequence}" name="comment" class="form-control"
-							rows="3" style="background-color: #f1f3f5; resize: none;"
-							placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled
-							>${review.comment } </textarea>
-						<button type="button" id="editBtn-${review.sequence}"
-							class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
-							onclick="enableTextarea(${review.sequence })"
-							>수정</button>
-						<%-- 						<button type="submit" id="submitBtn"
-							class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
-							value="#reviewButton-${review.sequence}" onclick="enableEdit(${review.sequence})">수정</button> --%>
-						<button type="button"
-							class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
-							data-toggle="collapse"
-							data-target="#reviewCollapse-${review.sequence}">삭제</button>
+	
+							<textarea id="textarea-${review.sequence}" name="comment" class="form-control"
+								rows="3" style="background-color: #f1f3f5; resize: none;"
+								placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled required
+								>${review.comment } </textarea>
+							<button type="button" id="editBtn-${review.sequence}"
+								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
+								onclick="enableTextarea(${review.sequence })"
+								>수정</button>
+							<button type="submit" id="submitBtn-${review.sequence }"
+								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
+								style="display:none;"
+								>제출</button>
+							<%-- 						<button type="submit" id="submitBtn"
+								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
+								value="#reviewButton-${review.sequence}" onclick="enableEdit(${review.sequence})">수정</button> --%>
+							<button type="button"
+								class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
+								data-toggle="collapse"
+								data-target="#reviewCollapse-${review.sequence}">삭제</button>
+						
+						</form>
+	
+						
 					</div>
 
 				</div>

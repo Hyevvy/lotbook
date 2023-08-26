@@ -32,7 +32,7 @@ public class ReviewServiceImpl implements ServiceFrame<Review, Review>{
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.rollback();
-			throw new Exception("ER1003");
+			throw new Exception("ER7001 - 리뷰 생성 에러");
 		} finally {
 			session.close();
 		}
@@ -50,7 +50,8 @@ public class ReviewServiceImpl implements ServiceFrame<Review, Review>{
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("ER1003");
+			session.rollback();
+			throw new Exception("ER7002 - 리뷰 수정 에러");
 		} finally {
 			session.close();
 		}
@@ -60,8 +61,19 @@ public class ReviewServiceImpl implements ServiceFrame<Review, Review>{
 
 	@Override
 	public int remove(Review k) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		session = GetSessionFacroty.getInstance().openSession();
+		int result = 0;
+		try {
+			result = dao.delete(k, session);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.rollback();
+			throw new Exception("ER7003 - 리뷰 삭제 에러");
+		} finally {
+			session.close();
+		}
+		return result;
 	}
 
 	@Override

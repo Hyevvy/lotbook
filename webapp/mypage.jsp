@@ -124,6 +124,27 @@ function enableTextarea(sequence) {
     	saveChanges(sequence); // 수정된 내용 저장 함수 호출
     } */
 };
+
+function confirmDelete(sequence){
+	var confirmed = confirm("정말 삭제하시겠습니까?");
+	
+	if (confirmed) {
+        // "Yes" 버튼이 클릭된 경우에만 아래의 코드 블록이 실행됩니다.
+        
+        // 폼을 찾아서 제출합니다.
+        //var form = $(this).closest("form");
+        var form = document.getElementById("review-delete-"+sequence); // 여기에 폼의 ID를 넣으세요.
+        
+        if (form) {
+            form.submit();
+            console.log("삭제 작업을 실행합니다.");
+        } else {
+            console.log("폼을 찾지 못했습니다.");
+        } 
+    } else {
+        console.log("삭제 작업을 취소했습니다.");
+    }
+}
 </script>
 <script>
 $(document).ready(function(){
@@ -634,7 +655,8 @@ $(document).ready(function(){
 		<div class="checkout__form">
 			<h4>작성된 리뷰 목록</h4>
 			<c:forEach items="${myReviewList}" var="review" varStatus="status">
-				<div class="card mb-3 border-0">
+				<%-- <c:if test="${review.isDeleted == false}"> --%>
+					<div class="card mb-3 border-0">
 					<div class="card-body">
 						<div class="d-flex justify-content-between">
 							<div class="d-flex flex-row align-items-center w-100">
@@ -707,6 +729,7 @@ $(document).ready(function(){
 							<button type="button" id="editBtn-${review.sequence}"
 								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
 								onclick="enableTextarea(${review.sequence })"
+								style="display:inline-block;"
 								>수정</button>
 							<button type="submit" id="submitBtn-${review.sequence }"
 								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
@@ -715,13 +738,18 @@ $(document).ready(function(){
 							<%-- 						<button type="submit" id="submitBtn"
 								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
 								value="#reviewButton-${review.sequence}" onclick="enableEdit(${review.sequence})">수정</button> --%>
-							<button type="button"
-								class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
-								data-toggle="collapse"
-								data-target="#reviewCollapse-${review.sequence}">삭제</button>
-						
+							
 						</form>
-	
+						<form id="review-delete-${review.sequence }" action="review.bit" method="post">
+							<input type="hidden" name="cmd" value="delete">
+							<input type="hidden" name="sequence" value="${review.sequence }">
+							<!-- <button type="button"
+								class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
+								onclick="confirmDelete();"
+								style="position:absolute; right: 5%; top:10%;"
+								>삭제</button> -->
+							<i class="fa fa-trash-o" aria-hidden="true" style="position:absolute; right: 5%; top:10%; cursor:pointer; font-size: 130%;" onclick="confirmDelete(${review.sequence });"></i>
+						</form>
 						
 					</div>
 
@@ -730,7 +758,7 @@ $(document).ready(function(){
 				<div style="padding-top: 20px;">
 					<hr>
 				</div>
-
+		<%-- 	</c:if> --%>
 			</c:forEach>
 		</div>
 	</div>

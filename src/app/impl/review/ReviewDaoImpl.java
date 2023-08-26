@@ -24,8 +24,7 @@ public class ReviewDaoImpl implements DaoFrame<Review, Review>{
 
 	@Override
 	public int delete(Review k, SqlSession session) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.update("review.updateReviewState", k);
 	}
 
 	@Override

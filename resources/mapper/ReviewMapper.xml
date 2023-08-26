@@ -42,4 +42,10 @@
 	<update id="update" parameterType="review">
       	UPDATE review SET rating=#{rating}, comment=#{comment}, updated_at=now() WHERE sequence=#{sequence}
 	</update>
+	
+	<update id="updateReviewState" parameterType="review">
+      	UPDATE review SET is_deleted=1 WHERE sequence=#{sequence}
+	</update>
+	
+	
 </mapper>

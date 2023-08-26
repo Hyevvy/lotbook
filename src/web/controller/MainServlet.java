@@ -273,6 +273,7 @@ public class MainServlet implements ControllerFrame {
 				for(int i=0; i< reviewDetailList.size(); i++) {
 					Product product = Product.builder().sequence(reviewDetailList.get(i).getProductSequence()).build();
 					reviewDetailList.get(i).setReviewDetailProduct(productService.get(product));
+					System.out.println("삭제됨?:"+reviewDetailList.get(i).isDeleted());
 				}
 
 				// 3. myPage로 보내기

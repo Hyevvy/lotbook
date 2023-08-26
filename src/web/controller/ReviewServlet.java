@@ -95,6 +95,22 @@ public class ReviewServlet implements ControllerFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}else if(cmd.equals("delete")){
+				long sequence = Long.parseLong(request.getParameter("sequence"));
+				
+				Review reviewInfo = Review.builder()
+						.sequence(sequence)
+						.build();
+				
+				try {
+					HttpSession session = request.getSession();
+					reviewServiceImpl.remove(reviewInfo);
+					request.setAttribute("center", "mypage");
+					return "main.bit?view=mypage&memberSeq="+((Member)session.getAttribute("logincust")).getSequence();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			return "mypage";
 	 }

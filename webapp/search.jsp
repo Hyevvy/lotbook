@@ -21,6 +21,15 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 	color: #ffc107;
 	letter-spacing: -1.2px;
 }
+
+.book-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline;
+	
+	font-size: 1.3em; /* 글자 크기 */
+    font-weight: bold; /* 글자 두께 */    
+}
 </style>
 
 
@@ -264,9 +273,9 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 									</div>
 
 									<div class="d-flex flex-column justify-content-center">
-										<div class="my-2">
-											<span>[도서]</span>
-											<h5 class="font-weight-bold d-inline">${item.name}</h5>
+										<div class="my-2" style="max-width:25vw;">
+											<span>[도서] </span>
+											<span class="font-weight-bold  book-title">${item.name}</span>
 										</div>
 										<div>
 											<span>${item.authorName}</span> <span>저</span> <br

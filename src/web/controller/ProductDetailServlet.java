@@ -47,22 +47,7 @@ public class ProductDetailServlet implements ControllerFrame {
 		default:
 
 		}
-
-//    	if(view.equals("register")){
-//			
-//			request.setAttribute("center", "cust/register");
-//			request.setAttribute("navi", Navi.custRegister);
-//		}else if(view.equals("getall")){
-//			List<Cust> list = null;
-//			try {
-//				list = service.get();
-//				request.setAttribute("clist", list);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			request.setAttribute("center", "cust/getall");
-//			request.setAttribute("navi", Navi.custGet);
-//		}
+		
 
 	}
 

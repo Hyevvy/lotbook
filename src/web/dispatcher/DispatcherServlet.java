@@ -18,6 +18,7 @@ import web.controller.MainServlet;
 import web.controller.MemberServlet;
 import web.controller.ProductDetailServlet;
 import web.controller.RestController;
+import web.controller.ReviewServlet;
 import web.controller.SearchServlet;
 
 @WebServlet({ "/DispatcherServlet", "/dispatcher", "*.bit"})
@@ -35,6 +36,8 @@ public class DispatcherServlet extends HttpServlet {
         controllerMapper.put("/product-detail",new ProductDetailServlet());
         controllerMapper.put("/category",new CategoryServlet());
         controllerMapper.put("/search", new SearchServlet());
+        controllerMapper.put("/review", new ReviewServlet());
+        
     }
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

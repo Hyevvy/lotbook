@@ -22,7 +22,7 @@ request.setCharacterEncoding("UTF-8");
 							<li class="active"><a
 								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
-							<li class=""><a href="/lotbook/index.jsp"><i
+							<li class=""><a href="member.bit?view=logout"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
 						</c:when>
 						<c:otherwise>
@@ -45,17 +45,10 @@ request.setCharacterEncoding("UTF-8");
 			</div>
 			<div class="col-lg-6">
 				<nav class="header__menu">
-					<ul id="header__menus">
-						<li><a href="./index.jsp">Home</a></li>
-						<li><a href="category.bit?view=1">Shop</a></li>
-						<li class="active"><a href="#">Pages</a>
-							<ul class="header__menu__dropdown">
-								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
-								<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
-								<li><a href="main.bit?view=checkout">Check Out</a></li>
-
-							</ul></li>
-						<li><a href="main.bit?view=contact" onclick=li_click(3)>Contact</a></li>
+					<ul id="header__menus" >
+						<li><a href="main.bit"  style="font-size: 20px; font-weight: 700;">홈</a></li>
+						<li><a href="category.bit?view=1"  style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
+						<li><a href="main.bit?view=contact"  style="font-size: 20px; font-weight: 700;">고객센터</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -74,9 +67,6 @@ request.setCharacterEncoding("UTF-8");
 				<c:otherwise>
 				</c:otherwise>
 			</c:choose>
-		</div>
-		<div class="humberger__open">
-			<i class="fa fa-bars"></i>
 		</div>
 	</div>
 </header>
@@ -97,9 +87,10 @@ request.setCharacterEncoding("UTF-8");
 			<div class="col-lg-9">
 				<div class="hero__search">
 					<div class="hero__search__form">
-						<form action="#">
+						<form action="#"
+							onsubmit="event.preventDefault(); search(document.getElementById('keyword').value);">
 							<div class="hero__search__categories">통합 검색</div>
-							<input type="text" placeholder="검색어를 입력해주세요">
+							<input type="text" id="keyword" placeholder="검색어를 입력해주세요">
 							<button type="submit" class="site-btn">검색</button>
 						</form>
 					</div>

@@ -49,7 +49,7 @@
 	
 	<!-- 중복 상품 여부 판별 -->
 	<select id="checkDuplicatedProduct" parameterType="cart" resultType="_int">
-		SELECT IFNULL(SUM(sequence), 0) sequence FROM `CART` WHERE member_sequence = #{memberSequence} AND product_sequence = #{productSequence}
+		SELECT IFNULL(SUM(sequence), 0) sequence FROM `CART` WHERE member_sequence = #{memberSequence} AND product_sequence = #{productSequence} AND is_deleted = 0
 	</select>
 	
 	<!-- 중복 상품 장바구니 개수 증가 -->

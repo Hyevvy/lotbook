@@ -300,7 +300,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 									</div>
 
 									<div class="d-flex flex-column justify-content-center"
-										style="margin-left: auto;">
+										style="margin-left: auto; margin-right: 10px;">
 
 										<a href="#" class="primary-btn cart-btn cart-btn-right mb-2"
 											onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>장바구니에

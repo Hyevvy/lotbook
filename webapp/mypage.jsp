@@ -106,7 +106,6 @@ function enableTextarea(sequence) {
 		editStars[i].style['pointer-events'] = 'auto';
 	}
 	
-	
 
 	/* var test = $(`#reviewList-${sequence} textarea[id='updateComment']`).val();
 	console.log(test); */
@@ -203,7 +202,7 @@ $(document).ready(function(){
                 
                 console.log(formData);
                 console.log("url => "+ form.attr("action"));
-                /* $.ajax({
+                $.ajax({
                 	type: "POST",
                 	url: form.attr("action"),
                 	data: formData,
@@ -220,7 +219,7 @@ $(document).ready(function(){
                         console.error("Error submitting review:", error);
                         // You can display an error message or perform other error handling here
                     }
-                }); */
+                });
             } else if(starRate == "" || starRate === 0){
                 form.find(".alert-danger").css("display", "block");
 	            return false; // Prevent form submission
@@ -519,16 +518,17 @@ $(document).ready(function(){
 											class="py-2 col-sm-3 bg-primary text-white border-0 rounded-sm review-toggle-btn"
 											data-toggle="collapse"
 											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
-											style="display: inline-block; ${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰
+											<%-- style="${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰 --%>
+											style="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'NONEXIST' ? 'display: inline-block;' : 'display:none;'}">리뷰
 											작성하기</button>
 
 										<button type="submit"
 											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">환불
+											style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">환불
 											요청</button>
 										<button type="submit"
 											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">주문
+											style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">주문
 											확정</button>
 									</div>
 									<!-- <div
@@ -553,6 +553,8 @@ $(document).ready(function(){
 									type="hidden" name="memberSequence"
 									value="${logincust.sequence }"> <input type="hidden"
 									name="productSequence" value="${orderDetail.productSequence}">
+									<input type="hidden"
+									name="orderdetailSequence" value="${orderDetail.sequence}">
 								<input class="rating-input" type="hidden" id="star-input-${orderDetail.sequence}" name="rating" required value="">
 								<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
 								<div class="star-rating">

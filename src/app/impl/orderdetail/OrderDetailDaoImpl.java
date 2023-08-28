@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import app.dto.entity.OrderDetail;
+import app.dto.response.OrderDetailResponse;
 import app.frame.DaoFrame;
 
 public class OrderDetailDaoImpl implements DaoFrame<OrderDetail, OrderDetail> {
@@ -36,7 +37,7 @@ public class OrderDetailDaoImpl implements DaoFrame<OrderDetail, OrderDetail> {
 	
 	
 	
-	public List<OrderDetail> selectAll(@RequestParam("orderId")long orderId, SqlSession session) throws Exception {
+	public List<OrderDetailResponse> selectAll(@RequestParam("orderId")long orderId, SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectList("orderdetail.selectAllOrderDetailByOrderSequence", Integer.toString((int) orderId));
 	}

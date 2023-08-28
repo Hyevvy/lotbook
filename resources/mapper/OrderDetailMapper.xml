@@ -12,6 +12,15 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		<result property="orderSequence" column="order_sequence" />
 		<result property="productSequence" column="product_sequence" />
 	</resultMap>
+	<resultMap type="orderdetailresponse" id="orderDetailResponseMap">
+		<id property="sequence" column="sequence" />
+		<result property="count" column="count" />
+		<result property="productPrice" column="product_price" />
+		<result property="productPoint" column="product_point" />
+		<result property="state" column="state" />
+		<result property="orderSequence" column="order_sequence" />
+		<result property="productSequence" column="product_sequence" />
+	</resultMap>
 
 	<!-- 상품 구매 -->
 	<insert id="insert" parameterType="orderdetail">
@@ -39,7 +48,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- orderSequence 번호에 해당하는 orderDetail 전체 조회 -->
 	<select id="selectAllOrderDetailByOrderSequence"
 	parameterType="string"
-		resultMap="orderDetailMap">
+		resultMap="orderDetailResponseMap">
 		SELECT * FROM ORDERDETAIL
 		WHERE order_sequence = #{orderId}
 	</select>

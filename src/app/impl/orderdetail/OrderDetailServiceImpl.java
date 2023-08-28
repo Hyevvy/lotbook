@@ -5,10 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import app.dto.entity.Order;
 import app.dto.entity.OrderDetail;
-import app.dto.entity.Product;
-import app.frame.DaoFrame;
+import app.dto.response.OrderDetailResponse;
 import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 import app.impl.product.ProductDaoImpl;
@@ -94,9 +92,9 @@ public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDe
 	}
 
 	
-	public List<OrderDetail> get(long orderId) throws Exception {
+	public List<OrderDetailResponse> get(long orderId) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
-		List<OrderDetail> orderDetail = new ArrayList<>();
+		List<OrderDetailResponse> orderDetail = new ArrayList<>();
 		try {
 			orderDetail = dao.selectAll(orderId, session);
 		} catch(Exception e) {

@@ -78,8 +78,20 @@ public class ReviewServiceImpl implements ServiceFrame<Review, Review>{
 
 	@Override
 	public Review get(Review k) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		session = GetSessionFacroty.getInstance().openSession();
+
+		Review review = null;
+
+		try {
+			review = dao.selectReviewByOrderdetail(k, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER7004");
+		} finally {
+			session.close();
+		}
+
+		return review;
 	}
 
 	@Override
@@ -94,7 +106,7 @@ public class ReviewServiceImpl implements ServiceFrame<Review, Review>{
 			reviewDetail = dao.selectReviewsByMember(member, session);
 		} catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception("ER1003");
+			throw new Exception("ER7005");
 		} finally {
 			session.close();
 		}

@@ -552,7 +552,10 @@ $(document).ready(function(){
 										<h5 class="fw-normal mb-0">${orderDetail.count}</h5>
 									</div>
 									<div style="width: 100px;">
-										<h5 class="mb-0">${orderDetail.productPrice * orderDetail.count}원</h5>
+										<h5 class="mb-0" style="font-size: 15px; font-weight: 700;" id="price${product.sequence }">
+				                          	<c:set var="price" value="${orderDetail.productPrice * orderDetail.count}"/>
+											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+			                          	원</h5>
 									</div>
 								</div>
 							</div>

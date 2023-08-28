@@ -106,7 +106,6 @@ function enableTextarea(sequence) {
 		editStars[i].style['pointer-events'] = 'auto';
 	}
 	
-	
 
 	/* var test = $(`#reviewList-${sequence} textarea[id='updateComment']`).val();
 	console.log(test); */
@@ -203,7 +202,7 @@ $(document).ready(function(){
                 
                 console.log(formData);
                 console.log("url => "+ form.attr("action"));
-                /* $.ajax({
+                $.ajax({
                 	type: "POST",
                 	url: form.attr("action"),
                 	data: formData,
@@ -220,7 +219,7 @@ $(document).ready(function(){
                         console.error("Error submitting review:", error);
                         // You can display an error message or perform other error handling here
                     }
-                }); */
+                });
             } else if(starRate == "" || starRate === 0){
                 form.find(".alert-danger").css("display", "block");
 	            return false; // Prevent form submission
@@ -514,22 +513,34 @@ $(document).ready(function(){
 									<div class="ml-3 w-100">
 										<h5>${orderDetail.orderDetailProduct.name}</h5>
 										<p class="small mb-0">${orderDetail.state}</p>
+										<button type="submit"
+											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
+											style="${orderDetail.state eq 'ORDERED' || orderDetail.state eq 'DEPARTED' ? 'display: inline-block;' : 'display: none;'}">
+										주문 취소
+										</button>
+										<button type="submit"
+											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
+											style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
+										주문 확정
+										</button>
 										<button type="button"
 											id="reviewButton-${order.sequence}-${orderDetail.sequence}"
 											class="py-2 col-sm-3 bg-primary text-white border-0 rounded-sm review-toggle-btn"
 											data-toggle="collapse"
 											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
-											style="display: inline-block; ${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰
-											작성하기</button>
-
+											<%-- style="${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰 --%>
+											style="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'NONEXIST' ? 'display: inline-block;' : 'display:none;'}">
+										리뷰	작성하기
+										</button>
+										<!-- 주문 상태 메시지 -->
+										<c:if test="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'EXIST'}"> 
+											주문 확정됨
+										</c:if>
 										<button type="submit"
 											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">환불
-											요청</button>
-										<button type="submit"
-											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">주문
-											확정</button>
+											style="${orderDetail.state eq 'ARRIVED' || orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
+										환불 요청
+										</button>
 									</div>
 									<!-- <div
 										class="ml-3 d-flex justify-content-between align-items-center">
@@ -541,7 +552,10 @@ $(document).ready(function(){
 										<h5 class="fw-normal mb-0">${orderDetail.count}</h5>
 									</div>
 									<div style="width: 100px;">
-										<h5 class="mb-0">${orderDetail.productPrice * orderDetail.count}원</h5>
+										<h5 class="mb-0" style="font-size: 15px; font-weight: 700;" id="price${product.sequence }">
+				                          	<c:set var="price" value="${orderDetail.productPrice * orderDetail.count}"/>
+											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+			                          	원</h5>
 									</div>
 								</div>
 							</div>
@@ -553,6 +567,8 @@ $(document).ready(function(){
 									type="hidden" name="memberSequence"
 									value="${logincust.sequence }"> <input type="hidden"
 									name="productSequence" value="${orderDetail.productSequence}">
+									<input type="hidden"
+									name="orderdetailSequence" value="${orderDetail.sequence}">
 								<input class="rating-input" type="hidden" id="star-input-${orderDetail.sequence}" name="rating" required value="">
 								<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
 								<div class="star-rating">

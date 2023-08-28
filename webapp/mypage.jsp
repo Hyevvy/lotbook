@@ -513,23 +513,34 @@ $(document).ready(function(){
 									<div class="ml-3 w-100">
 										<h5>${orderDetail.orderDetailProduct.name}</h5>
 										<p class="small mb-0">${orderDetail.state}</p>
+										<button type="submit"
+											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
+											style="${orderDetail.state eq 'ORDERED' || orderDetail.state eq 'DEPARTED' ? 'display: inline-block;' : 'display: none;'}">
+										주문 취소
+										</button>
+										<button type="submit"
+											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
+											style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
+										주문 확정
+										</button>
 										<button type="button"
 											id="reviewButton-${order.sequence}-${orderDetail.sequence}"
 											class="py-2 col-sm-3 bg-primary text-white border-0 rounded-sm review-toggle-btn"
 											data-toggle="collapse"
 											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
 											<%-- style="${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰 --%>
-											style="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'NONEXIST' ? 'display: inline-block;' : 'display:none;'}">리뷰
-											작성하기</button>
-
+											style="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'NONEXIST' ? 'display: inline-block;' : 'display:none;'}">
+										리뷰	작성하기
+										</button>
+										<!-- 주문 상태 메시지 -->
+										<c:if test="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'EXIST'}"> 
+											주문 확정됨
+										</c:if>
 										<button type="submit"
 											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">환불
-											요청</button>
-										<button type="submit"
-											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">주문
-											확정</button>
+											style="${orderDetail.state eq 'ARRIVED' || orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
+										환불 요청
+										</button>
 									</div>
 									<!-- <div
 										class="ml-3 d-flex justify-content-between align-items-center">

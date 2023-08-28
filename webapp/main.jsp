@@ -126,11 +126,6 @@ AOS.init({
 				<div class="section-title">
 					<h2>🥰꾸준히 사랑받는 작품🥰</h2>
 				</div>
-				<div class="featured__controls">
-					<ul>
-						<li data-filter="*">전체</li>
-					</ul>
-				</div>
 			</div>
 		</div>
 		<!-- Categories Section Begin -->

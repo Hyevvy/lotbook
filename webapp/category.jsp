@@ -216,12 +216,11 @@
 						</div>
 					</c:forEach>
 				</div>
-				<div class="product__pagination">
-					<h4>페이지</h4>
+				<div style="text-align: center;" class="product__pagination">
 					<c:set var="end" value="${selectCategory.size()/9}" />
 
 					<c:forEach begin="1" end="${end}" var="pageNum">
-						<a href="javascript:void(0);" onclick="showPage(${pageNum})" id="btnNum${pageNum}">${pageNum} </a>
+						<a style="margin: 0" href="javascript:void(0);" onclick="showPage(${pageNum})" id="btnNum${pageNum}">${pageNum} </a>
 					</c:forEach>
 				</div>
 			</div>
@@ -269,8 +268,10 @@ function setActiveButton(buttonId) {
     buttons.forEach(function(button) {
         if (button.id === buttonId) {
             button.classList.add("bg-danger"); // 선택된 버튼에 빨간색 스타일 추가
+            button.classList.add("text-white");
         } else {
             button.classList.remove("bg-danger"); // 다른 버튼에서 빨간색 스타일 제거
+            button.classList.remove("text-white");
         }
     });
 }

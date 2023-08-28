@@ -6,8 +6,12 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
+<meta property="og:title" content="LOTBOOK">
+<meta property="og:url" content="http://main.lotbook.kro.kr/index.jsp">
+<meta property="og:image" content="https://github.com/Hyevvy/lotbook/assets/72402747/cdd38456-7c67-4d54-b4b9-e66d7cd9099b">
+<meta property="og:description" content="오늘의 이야기, 내일을 엽니다.">
+<meta name="description" content="오늘의 이야기, 내일을 엽니다.">
+<meta name="keywords" content="LOTBOOK, lotbook">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>LOTBOOK</title>

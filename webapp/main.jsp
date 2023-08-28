@@ -56,7 +56,7 @@ AOS.init({
 			</div>
 			<div class="col-lg-6">
 				<nav class="header__menu">
-					<ul id="header__menuscategory.bit?view=1="active"><a href="./index.jsp">Home</a></li>
+					<ul id="header__menus="active"><a href="./index.jsp">Home</a></li>
 						<li><a href="category.bit?view=1">Shop</a></li>
 						<li><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">

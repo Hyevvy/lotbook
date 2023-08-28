@@ -36,6 +36,8 @@ public class MainServlet implements ControllerFrame {
 	ProductServiceImpl productService;
 	CartServiceImpl cartService;
 	PointServiceImpl pointService;
+	OrderDetailServiceImpl orderDetailService;
+	
 	String memberSeq = null;
 
 	public MainServlet() {
@@ -44,6 +46,7 @@ public class MainServlet implements ControllerFrame {
 		productService = new ProductServiceImpl();
 		cartService = new CartServiceImpl();
 		pointService = new PointServiceImpl();
+		orderDetailService = new OrderDetailServiceImpl();
 	}
 
 	@Override
@@ -246,7 +249,6 @@ public class MainServlet implements ControllerFrame {
 			try {
 				orderList = orderService.getAll(order); // 1. user sequence에 해당하는 order 내역 전체 조회
 				reviewDetailList = reviewServiceImpl.get(memberInfo);
-//				reviewDetailList = new ArrayList<>(reviewList.size());
 
 				// 2. order sequence에 해당하는 orderDetail 채워주기
 				for (int i = 0; i < orderList.size(); i++) {
@@ -268,6 +270,7 @@ public class MainServlet implements ControllerFrame {
 				for(int i=0; i< reviewDetailList.size(); i++) {
 					Product product = Product.builder().sequence(reviewDetailList.get(i).getProductSequence()).build();
 					reviewDetailList.get(i).setReviewDetailProduct(productService.get(product));
+					System.out.println("삭제됨?:"+reviewDetailList.get(i).isDeleted());
 				}
 
 				// 3. myPage로 보내기
@@ -309,6 +312,7 @@ public class MainServlet implements ControllerFrame {
 			request.setAttribute("center", "checkout");
 
 			String parameter = request.getParameter("sequences");
+
 			request.setAttribute("sequences", parameter);
 			String[] cartSequences = parameter.split(",");
 			List<CartProduct> productList = new ArrayList<>();
@@ -417,6 +421,19 @@ public class MainServlet implements ControllerFrame {
 				e.printStackTrace();
 			}
 
+		} else if (view.contains("changeOrderState")) {
+			request.setAttribute("center", "mypage");
+			long orderSeq = Long.parseLong(request.getParameter("sequence"));
+			String state = request.getParameter("state");
+			
+			OrderDetail orderDetail = OrderDetail.builder().sequence(orderSeq).state(state).build();
+			
+			try {
+				orderDetailService.modify(orderDetail);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

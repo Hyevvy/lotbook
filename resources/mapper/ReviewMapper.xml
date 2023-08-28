@@ -44,4 +44,14 @@
 	<insert id="insert" parameterType="review">
 		INSERT INTO review (rating, comment, created_at, updated_at, member_sequence, product_sequence) VALUES (#{rating}, #{comment}, now(), now(), #{memberSequence}, #{productSequence})
 	</insert>
+	
+	<update id="update" parameterType="review">
+      	UPDATE review SET rating=#{rating}, comment=#{comment}, updated_at=now() WHERE sequence=#{sequence}
+	</update>
+	
+	<update id="updateReviewState" parameterType="review">
+      	UPDATE review SET is_deleted=1 WHERE sequence=#{sequence}
+	</update>
+	
+	
 </mapper>

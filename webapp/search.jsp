@@ -184,8 +184,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 					<div class="sidebar__item">
 						<h4>전체 카테고리</h4>
 						<ul>
-							<li value="1"><span href="#" class="font-weight-bold">컴퓨터
-									/ IT</span></li>
+							<li value="1" onclick="updateCategory(this)"><a href="#" class="font-weight-bold">컴퓨터 / IT</a></li>
 							<li value="2" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">컴퓨터 공학
 									(${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
@@ -198,7 +197,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 							<li value="5" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">프로그래밍
 									(${searchResult.countByCategory['프로그래밍'] != null ? searchResult.countByCategory['프로그래밍'] : 0})</a></li>
-							<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
+							<li value="6" onclick="updateCategory(this)"><a href="#" class="font-weight-bold">소설</a></li>
 							<li value="7" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">한국소설
 									(${searchResult.countByCategory['한국소설'] != null ? searchResult.countByCategory['한국소설'] : 0})</a></li>
@@ -208,7 +207,7 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 							<li value="9" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">일본소설
 									(${searchResult.countByCategory['일본소설'] != null ? searchResult.countByCategory['일본소설'] : 0})</a></li>
-							<li value="10"><a href="#" class="font-weight-bold">경제 /
+							<li value="10" onclick="updateCategory(this)"><a href="#" class="font-weight-bold">경제 /
 									경영</a></li>
 							<li value="11" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">경영일반
@@ -361,6 +360,14 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 			</div>
 		</div>
 		 -->
+		 
+		 <div style="text-align: center;" class="product__pagination">
+					<c:set var="end" value="${searchResult.totalCount/9}" />
+
+					<c:forEach begin="1" end="${end}" var="pageNum">
+						<a style="margin: 0" href="javascript:void(0);" onclick="showPage(${pageNum})" id="btnNum${pageNum}">${pageNum} </a>
+					</c:forEach>
+				</div>
 	</div>
 </section>
 <!-- Product Section End -->
@@ -521,4 +528,49 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
     	    // Redirect to the checkout page with the specified count and product ID
     	    window.location.href = 'main.bit?view=checkoutbuynow&count=' + 1 + '&productId=' + productSeq + '&memberSeq=' + memberSeq;
     	}
+    	
+    	
+    	
+    	// 이하, 페이지네이션 관련 코드
+    	var itemsPerPage = 9; // 페이지당 아이템 개수
+    	var currentPage = 1; // 현재 페이지 번호
+    	var totalItems = ${selectCategory.size()}; // 총 아이템 개수
+    	var totalPages = Math.ceil(totalItems / itemsPerPage); // 총 페이지 개수
+
+    	function setActiveButton(buttonId) {
+    	    var buttons = document.querySelectorAll(".product__pagination a");
+    	    buttons.forEach(function(button) {
+    	        if (button.id === buttonId) {
+    	            button.classList.add("bg-danger"); // 선택된 버튼에 빨간색 스타일 추가
+    	            button.classList.add("text-white");
+    	        } else {
+    	            button.classList.remove("bg-danger"); // 다른 버튼에서 빨간색 스타일 제거
+    	            button.classList.remove("text-white");
+    	        }
+    	    });
+    	}
+    	
+    	
+    	function showPage(pageNum) {
+
+    	    currentPage = pageNum;
+
+    	    
+    	    var startIndex = (currentPage - 1) * itemsPerPage;
+    	    var endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+    	    
+    	    var allItems = document.querySelectorAll('.product__item');
+    	    allItems.forEach(function(item, index) {
+    	        if (index >= startIndex && index < endIndex) {
+    	            item.style.display	 = 'block';
+    	        } else {
+    	            item.style.display = 'none';
+    	        }
+    	    });
+    	    setActiveButton("btnNum" + currentPage);
+    	}
+
+
+    	showPage(currentPage);
 </script>

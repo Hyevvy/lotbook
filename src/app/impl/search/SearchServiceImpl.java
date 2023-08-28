@@ -134,11 +134,15 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 			// 모든 검색결과 할당
 			filteredList = searchedList; // 모든 검색결과 할당
 			break;
-		default:
-			final int categoryNumber = categorySequence;
+		default:			
+			List<Integer> subcategoryIds = categoryDao.selectSubcategorySequences(categorySequence, session);
+			subcategoryIds.add(categorySequence); // 하위카테고리 선택을 위한 자기 자신 넣기.
+
 			filteredList = searchedList.stream()
-									   .filter(item -> item.getCategorySequence() == categoryNumber)
+									   .filter(item -> subcategoryIds.contains(item.getCategorySequence()))
 									   .collect(Collectors.toList());
+			
+			
 		}
 
 		SearchResult searchResult = SearchResult.builder()

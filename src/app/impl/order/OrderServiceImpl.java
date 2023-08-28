@@ -33,7 +33,7 @@ public class OrderServiceImpl implements ServiceFrame<Order, Order> {
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.rollback();
-			throw new Exception("ER1001");
+			throw new Exception("ER3001");
 		} finally {
 			session.close();
 		}
@@ -64,7 +64,7 @@ public class OrderServiceImpl implements ServiceFrame<Order, Order> {
 			order = dao.select(k, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("ER1001");
+			throw new Exception("ER3002");
 		} finally {
 			session.close();
 		}

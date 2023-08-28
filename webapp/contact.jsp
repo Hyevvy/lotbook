@@ -56,9 +56,6 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div class="humberger__open">
-			<i class="fa fa-bars"></i>
-		</div>
 	</div>
 </header>
 
@@ -172,31 +169,3 @@ AOS.init({
 	</div>
 </div>
 <!-- Map End -->
-
-<!-- Contact Form Begin -->
-<div class="contact-form spad">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="contact__form__title">
-					<h2>문의 하기</h2>
-				</div>
-			</div>
-		</div>
-		<form action="#">
-			<div class="row">
-				<div class="col-lg-6 col-md-6">
-					<input type="text" placeholder="이름">
-				</div>
-				<div class="col-lg-6 col-md-6">
-					<input type="text" placeholder="이메일 주소">
-				</div>
-				<div class="col-lg-12 text-center">
-					<textarea placeholder="문의 내용"></textarea>
-					<button type="submit" class="site-btn">보내기</button>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-<!-- Contact Form End -->

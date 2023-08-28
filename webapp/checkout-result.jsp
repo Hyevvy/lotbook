@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 request.setCharacterEncoding("UTF-8");
@@ -47,7 +47,7 @@ request.setCharacterEncoding("UTF-8");
 				<nav class="header__menu">
 					<ul id="header__menus">
 						<li><a href="./index.jsp">Home</a></li>
-						<li><a href="main.bit?view=shop-grid">Shop</a></li>
+						<li><a href="category.bit?view=1">Shop</a></li>
 						<li class="active"><a href="#">Pages</a>
 							<ul class="header__menu__dropdown">
 								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
@@ -91,25 +91,7 @@ request.setCharacterEncoding("UTF-8");
 					<div class="hero__categories__all">
 						<i class="fa fa-bars"></i> <span>카테고리</span>
 					</div>
-					<ul>
-						<li value="1"><a href="#" class="font-weight-bold">컴퓨터 /
-								IT</a>
-						<li value="2"><a href="#" style="text-indent: 20px">컴퓨터
-								공학</a>
-						<li value="3"><a href="#" style="text-indent: 20px">데이터베이스</a>
-						<li value="4"><a href="#" style="text-indent: 20px">네트워크</a>
-						<li value="5"><a href="#" style="text-indent: 20px">프로그래밍</a>
-						<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
-						<li value="7"><a href="#" style="text-indent: 20px">한국소설</a>
-						<li value="8"><a href="#" style="text-indent: 20px">영미소설</a>
-						<li value="9"><a href="#" style="text-indent: 20px">일본소설</a>
-						<li value="10"><a href="#" class="font-weight-bold">경제 /
-								경영</a></li>
-						<li value="11"><a href="#" style="text-indent: 20px">경영일반</a>
-						<li value="12"><a href="#" style="text-indent: 20px">재테크/금융</a>
-						<li value="13"><a href="#" style="text-indent: 20px">유통/창업</a>
-						<li value="14"><a href="#" style="text-indent: 20px">세무/회계</a>
-					</ul>
+					<jsp:include page="common_categories.jsp" />
 				</div>
 			</div>
 			<div class="col-lg-9">
@@ -173,32 +155,38 @@ request.setCharacterEncoding("UTF-8");
 				<div class="checkout__order__total">
 					배송메시지 <span> ${orderResult.vendorMessage} </span>
 				</div>
-				<div class="checkout__order__products">
-					상품 목록 <span>금액</span>
-				</div>
-
-				<c:forEach items="${orderDetailResult}" var="orderDetail" varStatus="status">
-					<div id="productCount" style="display: none;">${fn:length(orderDetailResult)}</div>
-					<div class="checkout__order__total text-muted">
-						<span id="productName${status.index }">${orderDetail.orderDetailProduct.name }</span> <span class="text-muted">
-							${orderDetail.productPrice} X ${orderDetail.count} 원</span>
-					</div>
-				</c:forEach>
 				<div class="checkout__order__total">
-					적립 예정 포인트 <span>${totalPoint} 점</span>
+					상품 목록 
+					<c:forEach items="${orderDetailResult}" var="orderDetail" varStatus="status">
+						<span id="productName${status.index }">${orderDetail.orderDetailProduct.name } X ${orderDetail.count}</span>
+						<br>
+					</c:forEach>
 				</div>
 				<div class="checkout__order__total">
-					사용 포인트 <span>${usedPoint } 점</span>
+					적립 예정 포인트 
+					<span>
+						<c:set var="price" value="${totalPoint}"/>
+						<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+                    점</span>
 				</div>
 				<div class="checkout__order__total">
-					총 금액 <span>${totalPrice - usedPoint}원</span>
+					사용 포인트 
+					<span>
+						<c:set var="price" value="${usedPoint }"/>
+						<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+                    점</span>
 				</div>
-				<button type="button" name="submit" class="site-btn" id="order__btn">홈으로
+				<div class="checkout__order__total">
+					총 금액 
+					<span>
+						<c:set var="price" value="${totalPrice - usedPoint}"/>
+						<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+                    원</span>
+				</div>
+				<button type="button" name="submit" class="site-btn" id="order__btn" onclick="goHome()">홈으로
 					이동하기</button>
 			</div>
 		</div>
-	</div>
-	</div>
 	</div>
 </section>
 <!-- Checkout Section End -->
@@ -206,7 +194,9 @@ request.setCharacterEncoding("UTF-8");
 
 
 <script type="text/javascript">
-	
+function goHome() {
+	location.href="main.bit";
+}
 $(document).ready(function() {
 	emailjs.init("BeCe_Kl2PZg0CGUoO");		
 

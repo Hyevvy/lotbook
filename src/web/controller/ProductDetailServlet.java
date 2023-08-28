@@ -93,8 +93,7 @@ public class ProductDetailServlet implements ControllerFrame {
 		// 원하는 상품의 pk를 받아옴
 		String stringProductSequence = request.getParameter("sequence");
 		String viewTest = request.getParameter("view");
-		product_detail_log.debug(stringProductSequence);
-		product_detail_log.debug("일단 여기로 들어오긴했어.");
+		
 		
 		int productSequence = 3;
 		if (stringProductSequence != null) {
@@ -102,8 +101,7 @@ public class ProductDetailServlet implements ControllerFrame {
 		}
 		// 상품 정보와 관련 리뷰를 가져옴
 		ProductDetailWithReviews productDetailWithReviews = getProductDetailWithReviews(productSequence);
-		product_detail_log.debug("여기에요");
-		product_detail_log.debug(productDetailWithReviews.toString());
+		
 
 		// 상품 상세 정보를 request 객체에 속성으로 추가
 		request.setAttribute("productDetailWithReviews", productDetailWithReviews);

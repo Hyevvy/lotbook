@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="review">
-	<resultMap id="reviewResultMap" type="review">
+	<resultMap id="reviewResultMap" type="app.dto.mapper.ReviewWithNameMapper">
 		<id property="sequence" column="sequence" />
 		<result property="rating" column="rating" />
 		<result property="comment" column="comment" />
@@ -10,8 +10,10 @@
 		<result property="isDeleted" column="is_deleted" />
 		<result property="memberSequence" column="member_sequence" />
 		<result property="productSequence" column="product_sequence" />
+		
+		<result property="name" column="member_name" />
 	</resultMap>
-	
+
 	<resultMap id="reviewDetailsResultMap" type="reviewDetails">
 		<id property="sequence" column="sequence" />
 		<result property="rating" column="rating" />
@@ -24,11 +26,15 @@
 	</resultMap>
 
 	<select id="selectReviewsByProduct" resultMap="reviewResultMap" parameterType="product">
-		SELECT sequence, rating, comment, created_at, updated_at, is_deleted, member_sequence, product_sequence
-		FROM review
-		WHERE product_sequence = #{sequence} AND is_deleted = 0
+		SELECT 
+		    r.sequence, r.rating, r.comment, r.created_at, r.updated_at, 
+    		r.is_deleted, r.member_sequence, r.product_sequence,
+    		m.name as member_name
+		FROM review as r
+			INNER JOIN member as m ON m.sequence = r.member_sequence
+		WHERE product_sequence = #{sequence} AND is_deleted = 0;
 	</select>
-	
+
 	<select id="selectReviewsByMember" resultMap="reviewDetailsResultMap" parameterType="member">
 		SELECT sequence, rating, comment, created_at, updated_at, is_deleted, member_sequence, product_sequence
 		FROM review

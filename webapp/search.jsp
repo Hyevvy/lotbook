@@ -13,7 +13,7 @@
 SearchResult searchResult = (SearchResult) request.getAttribute("searchResult");
 List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
-int endPage = (int) Math.ceil((double) searchResult.getCategoryCount()/9.0);
+int endPage = (int) Math.ceil((double) searchResult.getCategoryCount() / 9.0);
 pageContext.setAttribute("endPage", endPage);
 %>
 
@@ -187,7 +187,8 @@ pageContext.setAttribute("endPage", endPage);
 			<div class="col-lg-3 col-md-5">
 				<div class="sidebar" style="position: sticky; top: 32px;">
 					<div class="sidebar__item">
-						<h4 onclick="removeCategory()" style="cursor:pointer;">전체 카테고리</h4>
+						<h4 onclick="removeCategory()" style="cursor: pointer;">전체
+							카테고리</h4>
 						<ul>
 							<li value="1" onclick="updateCategory(this)"><a href="#"
 								class="font-weight-bold">컴퓨터 / IT</a></li>
@@ -318,13 +319,26 @@ pageContext.setAttribute("endPage", endPage);
 
 										<div class="d-flex flex-column justify-content-center"
 											style="margin-left: auto; margin-right: 10px;">
-
-											<a href="#" class="primary-btn cart-btn cart-btn-right mb-2"
-												onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>장바구니에
-												넣기</a> <a href="#" class="primary-btn text-white btn"
-												onclick='checkOutBuyNow(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>바로
-												구매</a>
-
+											<c:choose>
+												<c:when test="${item.getStock() > 0}">
+													<a href="#"
+														class="primary-btn cart-btn cart-btn-right mb-2"
+														onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>장바구니에
+														넣기</a>
+													<a href="#" class="primary-btn text-white btn"
+														onclick='checkOutBuyNow(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>바로
+														구매</a>
+												</c:when>
+												<c:otherwise>
+													<a href="#"
+														class="primary-btn cart-btn cart-btn-right mb-2" style="background:#c8c8c8;"
+														onclick='event.stopPropagation(); return false;'>장바구니에
+														넣기</a>
+													<a href="#" class="primary-btn text-white btn" style="background:#c8c8c8;"
+														onclick='event.stopPropagation(); return false;'>풍절
+														상품</a>
+												</c:otherwise>
+											</c:choose>
 										</div>
 
 									</div>
@@ -340,18 +354,18 @@ pageContext.setAttribute("endPage", endPage);
 
 
 		<div style="text-align: center;" class="product__pagination">
-		
-		
-			
-			
+
+
+
+
 			<c:forEach begin="1" end="${endPage}" var="pageNum">
 				<a style="margin: 0" href="javascript:void(0);"
 					onclick="showSelectedPage(${pageNum}); console.log(${pageNum});"
 					id="btnNum${pageNum}">${pageNum} </a>
 			</c:forEach>
 		</div>
-		
-		
+
+
 	</div>
 </section>
 <!-- Product Section End -->

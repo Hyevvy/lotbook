@@ -96,8 +96,8 @@ $(document).ready(function(){
 <div class="checkout__form">
 	<form action="member.bit" method="post">
 		<input type="hidden" name="view" value="loginimpl">
-		<div class="row">
-			<div class="col-lg-8 col-md-6 m-auto">
+		<div class="row" style="margin-top:5vh;">
+			<div class="col-lg-5 col-md-6 m-auto d-flex flex-column align-items-center">
 
 				<div class="col-lg-8">
 					<div class="checkout__input m-auto">

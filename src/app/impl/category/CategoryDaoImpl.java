@@ -63,4 +63,10 @@ public class CategoryDaoImpl implements DaoFrame<Category, Category>{
 	    return products;
 	}
 	
+	
+	public List<Integer> selectSubcategorySequences(int sequence, SqlSession session) {
+		return session.selectList("category.selectSubCategorySequences", sequence);
+	}
+	
+	
 }

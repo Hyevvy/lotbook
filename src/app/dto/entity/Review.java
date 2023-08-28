@@ -20,4 +20,5 @@ public class Review {
 	// FK
 	private long memberSequence;
 	private long productSequence;
+	private long orderdetailSequence;
 }

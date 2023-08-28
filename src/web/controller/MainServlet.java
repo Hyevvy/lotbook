@@ -15,7 +15,9 @@ import app.dto.entity.Order;
 import app.dto.entity.OrderDetail;
 import app.dto.entity.Point;
 import app.dto.entity.Product;
+import app.dto.entity.Review;
 import app.dto.response.CartProduct;
+import app.dto.response.OrderDetailResponse;
 import app.dto.response.ReviewDetails;
 import app.enums.PointStateEnum;
 import app.frame.ControllerFrame;
@@ -188,7 +190,7 @@ public class MainServlet implements ControllerFrame {
 							.getAll(Order.builder().memberSequence(Long.parseLong(memberSeq)).build());
 					request.setAttribute("orderResult", orderList.get(0)); // 방금 생성된 Order
 
-					List<OrderDetail> orderDetail = new ArrayList<>();
+					List<OrderDetailResponse> orderDetail = new ArrayList<>();
 					orderDetail = orderDetailService.get(orderList.get(0).getSequence());
 
 					for (int j = 0; j < orderDetail.size(); j++) {
@@ -213,6 +215,12 @@ public class MainServlet implements ControllerFrame {
 				}
 				
 			}
+		} else if (view.equals("loginimpl"))
+
+		{
+			String id = request.getParameter("id");
+			String pwd = request.getParameter("pwd");
+			// 로그인
 		} else if (view.contains("mypage")) {
 			request.setAttribute("center", "mypage");
 			memberSeq = request.getParameter("memberSeq");
@@ -249,14 +257,22 @@ public class MainServlet implements ControllerFrame {
 
 				// 2. order sequence에 해당하는 orderDetail 채워주기
 				for (int i = 0; i < orderList.size(); i++) {
-					List<OrderDetail> orderDetail = new ArrayList<>();
+					List<OrderDetailResponse> orderDetail = new ArrayList<>();
 					
 					orderDetail = orderDetailService.get(orderList.get(i).getSequence());
 						
-					// 3. orderDetail 각각에 해당하는 Product 채워주기
+					// 3. orderDetail 각각에 해당하는 Product, Review 작성여부 채워주기
 					for (int j = 0; j < orderDetail.size(); j++) {
 						Product product = Product.builder().sequence(orderDetail.get(j).getProductSequence()).build();
 						orderDetail.get(j).setOrderDetailProduct(productService.get(product));
+						// 리뷰 기 작성여부 채워주기
+						Review reviewInfo = Review.builder().orderdetailSequence(orderDetail.get(j).getSequence()).build();
+						Review result = reviewServiceImpl.get(reviewInfo);
+						if(result == null) {
+							orderDetail.get(j).setReviewState("NONEXIST");
+						}else {
+							orderDetail.get(j).setReviewState("EXIST");
+						}
 					}
 
 					orderList.get(i).setOrderDetailList(orderDetail);
@@ -298,9 +314,6 @@ public class MainServlet implements ControllerFrame {
 
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
-				
-				int cartCount = cartService.getCartCount(memberSeq);
-	            request.setAttribute("cartCount", cartCount);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -343,9 +356,6 @@ public class MainServlet implements ControllerFrame {
 
 					productList.get(i).setTotalPrice(totalPrice);
 					productList.get(i).setTotalPoint(totalPoint);
-					
-					int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
-		            request.setAttribute("cartCount", cartCount);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -360,6 +370,7 @@ public class MainServlet implements ControllerFrame {
 
 			String productId = request.getParameter("productId");
 			String count = request.getParameter("count");
+			String memberSeq = request.getParameter("memberSeq");
 
 			Product product = Product.builder().sequence(Integer.parseInt(productId)).build();
 			ProductServiceImpl service = new ProductServiceImpl();
@@ -378,8 +389,6 @@ public class MainServlet implements ControllerFrame {
 				productList.get(0).setTotalPrice(priceMuldiscountRate - priceMuldiscountRate % 10);
 				request.setAttribute("res", res);
 				
-				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
-	            request.setAttribute("cartCount", cartCount);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

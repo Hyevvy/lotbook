@@ -52,6 +52,7 @@ public class ReviewServlet implements ControllerFrame {
 			if(cmd.equals("register")){
 				long memberSequence = Long.parseLong(request.getParameter("memberSequence"));
 				long productSequence = Long.parseLong(request.getParameter("productSequence"));
+				long orderdetailSequence = Long.parseLong(request.getParameter("orderdetailSequence"));
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				String comment = request.getParameter("comment");
 				
@@ -62,6 +63,7 @@ public class ReviewServlet implements ControllerFrame {
 						.comment(comment)
 						.memberSequence(memberSequence)
 						.productSequence(productSequence)
+						.orderdetailSequence(orderdetailSequence)
 						.build();
 
 				System.out.println("리뷰 등록!");

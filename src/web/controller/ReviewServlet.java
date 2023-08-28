@@ -1,11 +1,7 @@
 package web.controller;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +11,7 @@ import org.apache.log4j.Logger;
 import app.dto.entity.Member;
 import app.dto.entity.Review;
 import app.frame.ControllerFrame;
+import app.impl.member.MemberServiceImpl;
 import app.impl.review.ReviewServiceImpl;
 
 /**
@@ -25,12 +22,14 @@ public class ReviewServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private ReviewServiceImpl reviewServiceImpl;
+	private MemberServiceImpl memberServiceImpl;
 	
 	private Logger user_log = Logger.getLogger("user");
 	
 	public ReviewServlet() {
         super();
         reviewServiceImpl = new ReviewServiceImpl();
+        memberServiceImpl = new MemberServiceImpl();
     }
 	
 	@Override
@@ -66,9 +65,12 @@ public class ReviewServlet implements ControllerFrame {
 						.orderdetailSequence(orderdetailSequence)
 						.build();
 
-				System.out.println("리뷰 등록!");
 				try {
+					// 리뷰 등록
 					reviewServiceImpl.register(reviewInfo);
+					// 포인트 적립 
+					memberServiceImpl.updatePoint(memberSequence);
+					
 					request.setAttribute("center", "mypage");
 				} catch (Exception e) {
 					e.printStackTrace();

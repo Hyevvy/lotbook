@@ -97,5 +97,22 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 		
 		return result;
 	}
+
+	public int updatePoint(long memberSequence) {
+		session = GetSessionFacroty.getInstance().openSession();
+		
+		int result = 0;
+		try {
+			result = ((MemberDaoImpl) dao).updatePoint(memberSequence, session);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return result;
+		
+	}
 	
 }

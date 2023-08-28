@@ -80,7 +80,6 @@ public class RestController implements ControllerFrame {
 				e.printStackTrace();
 				result = 0;
 			} 
-			
 		}
 		return result; 
 	}

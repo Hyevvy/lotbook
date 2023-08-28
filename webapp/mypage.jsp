@@ -89,6 +89,8 @@ function enableTextarea(sequence) {
 	var submitBtn = document.getElementById("submitBtn-"+sequence);
 	submitBtn.style.display = "inline-block";
 	
+	var cancelBtn = document.getElementById("cancelBtn-"+sequence);
+	cancelBtn.style.display = "inline-block";
 	
 	/* var editStars1 = document.getElementById("star-update-"+sequence+"-1");
 	var editStars2 = document.getElementById("star-update-"+sequence+"-2");
@@ -143,6 +145,14 @@ function confirmDelete(sequence){
     } else {
         console.log("삭제 작업을 취소했습니다.");
     }
+}
+
+function cancelEdit(){
+	var confirmed = confirm("리뷰 수정을 취소하시겠습니까?");
+	
+	if(confirmed){
+		location.reload();
+	}
 }
 </script>
 <script>
@@ -327,6 +337,7 @@ $(document).ready(function(){
 			</div>
 			<c:choose>
 				<c:when test="${logincust != null }">
+				
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
@@ -669,8 +680,6 @@ $(document).ready(function(){
 							<input class="rating-input" type="hidden" name="rating" value="${review.rating }"
 								id="star-update-${review.sequence}" 
 								required> 
-							<span> 별점을 남겨주세요 </span> <span
-								style="color: red;">*</span> 
 	
 							<div class="star-rating">
 								<div class="stars">
@@ -706,10 +715,14 @@ $(document).ready(function(){
 								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
 								style="display:none;"
 								>제출</button>
-							<%-- 						<button type="submit" id="submitBtn"
+							<button type="button" id="cancelBtn-${review.sequence }"
+								class="site-btn bg-secondary text-white border-0 rounded-sm"
+								style="display:none;"
+								onclick="cancelEdit()"
+								>취소</button>
+							<%-- <button type="submit" id="submitBtn"
 								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
 								value="#reviewButton-${review.sequence}" onclick="enableEdit(${review.sequence})">수정</button> --%>
-							
 						</form>
 						<form id="review-delete-${review.sequence }" action="review.bit" method="post">
 							<input type="hidden" name="cmd" value="delete">
@@ -721,9 +734,7 @@ $(document).ready(function(){
 								>삭제</button> -->
 							<i class="fa fa-trash-o" aria-hidden="true" style="position:absolute; right: 5%; top:10%; cursor:pointer; font-size: 130%;" onclick="confirmDelete(${review.sequence });"></i>
 						</form>
-						
 					</div>
-
 				</div>
 
 				<div style="padding-top: 20px;">

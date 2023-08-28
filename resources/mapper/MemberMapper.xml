@@ -28,6 +28,10 @@
 		UPDATE member SET hashed_pwd=#{hashedPwd}, name=#{name}, member_phone=#{memberPhone}, zipcode=#{zipcode}, street_address=#{streetAddress}, address_detail=#{addressDetail} WHERE sequence=#{sequence}
 	</update>
 	
+	<update id="updatePoint" parameterType="long">
+		UPDATE member SET accumulated_point = accumulated_point + 500 WHERE sequence=#{sequence}
+	</update>
+	
 	<insert id="insert" parameterType="member">
 		INSERT INTO member(email,hashed_pwd,name,member_phone,zipcode,street_address,address_detail,created_at) VALUES (#{email},#{hashedPwd},#{name},#{memberPhone},#{zipcode},#{streetAddress},#{addressDetail},now())
 	</insert>

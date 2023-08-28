@@ -35,13 +35,13 @@ public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDe
 				productDao.updateByProductKeyWithSalesCount(v, session);
 				
 			} else {
-				throw new Exception("주문 삽입 실패");
+				throw new Exception("ER3002");
 			}
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.rollback();
-			throw new Exception("ER1001");
+			throw new Exception("ER3003");
 		} finally {
 			session.close();
 		}
@@ -59,7 +59,7 @@ public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDe
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("ER1001");
+			throw new Exception("ER3004");
 		} finally {
 			session.close();
 		}
@@ -83,7 +83,7 @@ public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDe
 			orderDetail = dao.select(k, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("ER1001");
+			throw new Exception("ER3005");
 		} finally {
 			session.close();
 		}
@@ -99,7 +99,7 @@ public class OrderDetailServiceImpl implements ServiceFrame<OrderDetail, OrderDe
 			orderDetail = dao.selectAll(orderId, session);
 		} catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception("ER2000 - 장바구니 에러");
+			throw new Exception("ER3006");
 		} finally {
 			session.close();
 		}

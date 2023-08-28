@@ -24,7 +24,7 @@
 							<li class="active"><a
 								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
-							<li class=""><a href="/lotbook/index.jsp"><i
+							<li class=""><a href="member.bit?view=logout"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
 						</c:when>
 						<c:otherwise>
@@ -47,17 +47,10 @@
 			</div>
 			<div class="col-lg-6">
 				<nav class="header__menu">
-					<ul id="header__menus">
-						<li><a href="./index.jsp">Home</a></li>
-						<li class="active"><a href="category.bit?view=1">Shop</a></li>
-						<li><a href="#">Pages</a>
-							<ul class="header__menu__dropdown">
-								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
-								<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
-								<li><a href="main.bit?view=checkout">Check Out</a></li>
-
-							</ul></li>
-						<li><a href="main.bit?view=contact" onclick=li_click(3)>Contact</a></li>
+					<ul id="header__menus" >
+						<li><a href="main.bit"  style="font-size: 20px; font-weight: 700;">홈</a></li>
+						<li class="active"><a href="category.bit?view=1"  style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
+						<li><a href="main.bit?view=contact"  style="font-size: 20px; font-weight: 700;">고객센터</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -77,9 +70,6 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div class="humberger__open">
-			<i class="fa fa-bars"></i>
-		</div>
 	</div>
 </header>
 <!-- Header Section End -->
@@ -98,9 +88,10 @@
 			<div class="col-lg-9">
 				<div class="hero__search">
 					<div class="hero__search__form">
-						<form action="#">
+						<form action="#"
+							onsubmit="event.preventDefault(); search(document.getElementById('keyword').value);">
 							<div class="hero__search__categories">통합 검색</div>
-							<input type="text" placeholder="검색어를 입력해주세요">
+							<input type="text" id="keyword" placeholder="검색어를 입력해주세요">
 							<button type="submit" class="site-btn">검색</button>
 						</form>
 					</div>
@@ -183,7 +174,8 @@
 						<div class="col-lg-4 col-md-5">
 							<div style="margin-left: auto; text-align: right;">
 								<!-- 드롭다운 메뉴를 생성하고 선택한 옵션에 따라 요청을 보내는 함수를 호출합니다. -->
-								<label for="orderby"></label> <select id="orderby"
+								<label for="orderby"></label>
+								<select id="orderby" 
 									style="margin-left: auto;" onchange="changeOrderBy(this.value)">
 									<option value="sales">판매량순</option>
 									<option value="high_to_low">높은 가격순</option>
@@ -199,27 +191,23 @@
 								</h6>
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-3">
-							<div class="filter__option">
-								<span class="icon_grid-2x2"></span> <span class="icon_ul"></span>
-							</div>
-						</div>
 					</div>
 				</div>
 				<div class="row">
 					<c:forEach items="${selectCategory}" var="product">
 						<div class="col-lg-4 col-md-6 col-sm-6">
-						<a href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}">
-							<div class="product__item"> 
-								<div class="product__item__pic set-bg " 
-									data-setbg="${product.productImgurl}"  style="height:350px">>
-								</div>
+							<a
+								href="/lotbook/product-detail.bit?view=shop-details&sequence=${product.sequence}">
+								<div class="product__item">
+									<div class="product__item__pic set-bg "
+										data-setbg="${product.productImgurl}" style="height: 350px">
+									</div>
 								<div class="product__item__text">
 									<h6>
 										${product.name}
 									</h6>
 									<c:set var="price" value="${product.price}" />
-									<span class="price"> <fmt:formatNumber type="number"
+									<span class="price text-dark" style="font-weight: 900;"> <fmt:formatNumber type="number"
 											maxFractionDigits="0" value="${price}" /> 원
 									</span>
 								</div>
@@ -228,30 +216,87 @@
 						</div>
 					</c:forEach>
 				</div>
-				<div class="product__pagination">
-					<a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#"><i
-						class="fa fa-long-arrow-right"></i></a>
+				<div style="text-align: center;" class="product__pagination">
+					<c:set var="end" value="${selectCategory.size()/9}" />
+
+					<c:forEach begin="1" end="${end}" var="pageNum">
+						<a style="margin: 0" href="javascript:void(0);" onclick="showPage(${pageNum})" id="btnNum${pageNum}">${pageNum} </a>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
-	</div>
 </section>
+
+
 
 <script>
 function changeOrderBy(orderBy) {
     var currentURL = window.location.href;
-    
-    // 쿼리 스트링에서 orderby 값을 변경.
     var newURL = currentURL.replace(/(\?|&)orderby=[^&]*/, '');
+    
     if (newURL.indexOf('?') === -1) {
         newURL += '?';
     } else {
         newURL += '&';
     }
-    newURL += 'orderby=' + orderBy;
     
-    // 변경된 URL로 페이지를 이동.
+    newURL += 'orderby=' + orderBy;
     window.location.href = newURL;
 }
+
+
+function setOrderByDropdownValue() {
+    var currentURL = new URL(window.location.href);
+    var selectedOrderBy = currentURL.searchParams.get("orderby");
+    
+    if (selectedOrderBy) {
+        var orderByDropdown = document.getElementById("orderby");
+        orderByDropdown.value = selectedOrderBy;
+    }
+}
+
+window.onload = setOrderByDropdownValue();
+
+
+var itemsPerPage = 9; // 페이지당 아이템 개수
+var currentPage = 1; // 현재 페이지 번호
+var totalItems = ${selectCategory.size()}; // 총 아이템 개수
+var totalPages = Math.ceil(totalItems / itemsPerPage); // 총 페이지 개수
+
+function setActiveButton(buttonId) {
+    var buttons = document.querySelectorAll(".product__pagination a");
+    buttons.forEach(function(button) {
+        if (button.id === buttonId) {
+            button.classList.add("bg-danger"); // 선택된 버튼에 빨간색 스타일 추가
+            button.classList.add("text-white");
+        } else {
+            button.classList.remove("bg-danger"); // 다른 버튼에서 빨간색 스타일 제거
+            button.classList.remove("text-white");
+        }
+    });
+}
+
+
+function showPage(pageNum) {
+
+    currentPage = pageNum;
+
+    
+    var startIndex = (currentPage - 1) * itemsPerPage;
+    var endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+    
+    var allItems = document.querySelectorAll('.product__item');
+    allItems.forEach(function(item, index) {
+        if (index >= startIndex && index < endIndex) {
+            item.style.display	 = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+    setActiveButton("btnNum" + currentPage);
+}
+
+
+showPage(currentPage);
 </script>
-<!-- Product Section End -->

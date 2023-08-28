@@ -109,7 +109,7 @@ AOS.init({
 				</div>
 				<div>
 					<a
-						href="http://127.0.0.1/lotbook/product-detail.bit?view=shop-details&sequence=264">
+						href="/lotbook/product-detail.bit?view=shop-details&sequence=264">
 						<img class="hero__item" src="img/banner.png">
 					</a>
 
@@ -168,12 +168,16 @@ AOS.init({
 		<div class="row">
 			<div class="col-lg-6 col-md-6 col-sm-6">
 				<div class="banner__pic" data-aos="fade-right" data-aos-duration="1000">
-					<img src="img/banner/banner01.jpg" style="max-height: 100%" alt="">
+					<a
+						href="/lotbook/product-detail.bit?view=shop-details&sequence=250">
+					<img src="img/banner/banner01.jpg" style="max-height: 100%" alt=""></a>
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6">
 				<div class="banner__pic" data-aos="fade-left" data-aos-duration="1000">
-					<img src="img/banner/banner02.jpg" alt="">
+					<a
+						href="/lotbook/product-detail.bit?view=shop-details&sequence=1">
+					<img src="img/banner/banner02.jpg" alt=""></a>
 				</div>
 			</div>
 		</div>

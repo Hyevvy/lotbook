@@ -239,13 +239,26 @@ function use_point(value, totalPrice, myPoint) {
 					</div>
 					<ul>
 						<c:forEach items="${orderProductList }" var="product">
-							<li>${product.name.substring(0, 10) }...X ${product.count }
-								<span> <c:set var="price"
-										value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
-									<fmt:formatNumber type="number" maxFractionDigits="3"
-										value="${price}" /> 원
-							</span>
-							</li>
+							<c:choose>
+								<c:when test="${fn:length(product.name) < 10 }">
+									<li>${product.name }X${product.count }
+										<span> <c:set var="price"
+												value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
+											<fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${price}" /> 원
+									</span>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li>${product.name.substring(0, 10) }...X${product.count }
+										<span> <c:set var="price"
+												value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
+											<fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${price}" /> 원
+									</span>
+									</li>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</ul>
 					<div class="checkout__order__total">

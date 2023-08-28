@@ -312,6 +312,7 @@ public class MainServlet implements ControllerFrame {
 			request.setAttribute("center", "checkout");
 
 			String parameter = request.getParameter("sequences");
+
 			request.setAttribute("sequences", parameter);
 			String[] cartSequences = parameter.split(",");
 			List<CartProduct> productList = new ArrayList<>();

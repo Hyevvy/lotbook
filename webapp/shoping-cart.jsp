@@ -47,7 +47,7 @@
 						<c:when test="${logincust != null }">
 							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
-							<li class=""><a href="/lotbook/index.jsp"><i
+							<li class=""><a href="member.bit?view=logout"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
 						</c:when>
 						<c:otherwise>
@@ -70,17 +70,10 @@
 			</div>
 			<div class="col-lg-6">
 				<nav class="header__menu">
-					<ul id="header__menus">
-						<li><a href="./index.jsp">Home</a></li>
-						<li><a href="category.bit?view=1">Shop</a></li>
-						<li class="active"><a href="#">Pages</a>
-							<ul class="header__menu__dropdown">
-								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
-								<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
-								<li><a href="main.bit?view=checkout">Check Out</a></li>
-
-							</ul></li>
-						<li><a href="main.bit?view=contact" onclick=li_click(3)>Contact</a></li>
+					<ul id="header__menus" >
+						<li><a href="main.bit"  style="font-size: 20px; font-weight: 700;">홈</a></li>
+						<li><a href="category.bit?view=1"  style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
+						<li><a href="main.bit?view=contact"  style="font-size: 20px; font-weight: 700;">고객센터</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -188,7 +181,7 @@
 															  <p class="font-italic text-dark">총 누적 포인트: </p>
 															  &nbsp;&nbsp;&nbsp;
 															  <p class="font-italic text-danger" id="point${product.sequence }">
-															  	<c:set var="totalPoint" value="${((product.price * product.count) * product.pointAccumulationRate * 0.01) - ((product.price * product.count) * product.pointAccumulationRate * 0.01)%1 }"/>
+															  	<c:set var="totalPoint" value="${((product.price * product.count) * product.pointAccumulationRate * 0.01) - ((product.price * product.count) * product.pointAccumulationRate * 0.01)%11 }"/>
 									  							<fmt:formatNumber type="number" maxFractionDigits="3" value="${totalPoint}"/>
 															  </p>
 															  &nbsp;

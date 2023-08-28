@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page isErrorPage="true"%>
 <%response.setStatus(200);%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -36,16 +36,26 @@
     <header class="header">
         <div class="header__top">
             <div class="container">
-                <nav class="header__menu header__top__right mobile-menu" style="padding: 5px 0">
-			        <ul>
-			          	<li class="active">
-                            <a href="/lotbook/signin.jsp"><i class="fa fa-user"></i> 로그인</a>
-                        </li>
-                        <li class="">
-                            <a href="/lotbook/signup.jsp"><i class="fa fa-user"></i> 회원가입</a>
-                        </li>
-			        </ul>
-			    </nav>
+                <nav class="header__menu header__top__right mobile-menu"
+				style="padding: 5px 0">
+				<ul>
+					<c:choose>
+						<c:when test="${logincust != null }">
+							<li class="active"><a
+								href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
+									class="fa fa-user"></i> 마이페이지</a></li>
+							<li class=""><a href="member.bit?view=logout"><i
+									class="fa fa-user"></i> 로그아웃</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="active"><a href="main.bit?view=signin"><i
+									class="fa fa-user"></i> 로그인</a></li>
+							<li class=""><a href="main.bit?view=signup"><i
+									class="fa fa-user"></i> 회원가입</a></li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</nav>
             </div>
         </div>
         <div class="container">
@@ -57,21 +67,12 @@
                 </div>
                 <div class="col-lg-6">
                     <nav class="header__menu">
-                        <ul>
-                            <li class="active"><a href="./index.jsp">Home</a></li>
-                            <li><a href="./shop-grid.jsp">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.jsp">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                                    <li><a href="./checkout.jsp">Check Out</a></li>
-                                    
-                                </ul>
-                            </li>
-                            
-                            <li><a href="./contact.jsp">Contact</a></li>
-                        </ul>
-                    </nav>
+						<ul id="header__menus" >
+							<li class="active"><a href="main.bit"  style="font-size: 20px; font-weight: 700;">홈</a></li>
+							<li><a href="category.bit?view=1"  style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
+							<li><a href="main.bit?view=contact"  style="font-size: 20px; font-weight: 700;">고객센터</a></li>
+						</ul>
+					</nav>
                 </div>
             </div>
             <div class="humberger__open">

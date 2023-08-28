@@ -71,119 +71,7 @@ to {
 	margin-right: 5px;
 }
 </style>
-
-<script>
-$(function(){
-	//$("#alert-danger").hide();
-	
-	$('.stars .fa').click(function() {
-	    $(this).addClass('active');
-	
-	    // 클릭한 별을 기준으로 (.fa) 그 이전 별은 보이게 그 뒤에 별들은 안보이게
-	    $(this).prevAll().addClass('active');
-	    $(this).nextAll().removeClass('active');
-	
-	    // 순서를 찾는 메서드 index 0 1 2 3 4
-	    // 텍스트내용을 출력 text, 태그+텍스트 html
-	    var num = $(this).index();
-	    var starRate = num + 1;
-	    
-	    //$(this).closest("form").find('.print').text(starRate);
-	    $(this).closest("form").find('.rating-input').val(starRate);
-	    /* if(starRate == 1) {
-	        $('.print').text('별로에요');
-	        $('.print').html('<img src="img/icon/star-lv1.png">' + '별로에요');
-	    } else if(starRate == 2) {
-	        $('.print').html('<img src="img/icon/star-lv2.png">' + '보통 이에요');
-	    } else if(starRate == 3) {
-	        $('.print').html('<img src="img/icon/star-lv3.png">' + '그냥 그래요');
-	    } else if(starRate == 4) {
-	        $('.print').html('<img src="img/icon/star-lv4.png">' + '맘에 들어요');
-	    } else {
-	        $('.print').html('<img src="img/icon/star-lv4.png">' + '아주 좋아요');
-	    }  */
-	});
-	
-	$(".site-btn").click(function() {
-		event.preventDefault();
-		console.log("유효성 검사!");
-        var form = $(this).closest("form");
-        
-        /* console.log($(this).val());
-        var btnId = $(this).val();
-        var findBtn = form.parent().find(btnId);
-        console.log(findBtn); */
-        
-        
-        //console.log(form.hasClass(""))
-        /* var findNode = form.parent().find(".card-body").childNodes[0].childNodes[0].childNodes[1].find(".review-toggle-btn"); // 해당 폼의 부모 노드에서 .collapse 요소를 찾음
-
-        console.log(findNode);
-        findNode.hide(); */
-         
-        if ($(this).attr("id") === "submitBtn") {
-            var starRate = form.find('.rating-input').val();
-
-            if (starRate !== "" && starRate >= 1) {
-                form.find(".alert-danger").css("display", "none");
-                
-                /* var formData = form.serialize();
-                
-                console.log(formData);
-                $.ajax({
-                	type: "POST",
-                	url: form.attr("action"),
-                	data: formData,
-                	success: function(response){
-                		// Handle success response from the server
-                        console.log("Review submitted successfully:", response);
-                        // You can update the UI or perform other actions here
-                        alert("리뷰가 성공적으로 반영되었습니다!");
-                     	
-                        var collapseElement = form.parent().find(".collapse").prevObject; // 해당 폼의 부모 노드에서 .collapse 요소를 찾음
-                        
-                        if (collapseElement.hasClass("show")) {
-                            // 현재 상태가 보이는 상태라면 숨김
-                            collapseElement.collapse("hide");
-                            console.log("숨기기!");
-                            
-                            var btnId = $(this).val();
-                            console.log($(this).val());
-                            
-                            var findBtn = $($(this).val());
-                            
-                            findBtn.css("display", "none");
-                        } else {
-                            // 현재 상태가 숨겨진 상태라면 보이게 함
-                            collapseElement.collapse("show"); 
-                            console.log("보이기!");
-                            
-                        }
-                	},
-                    error: function(error) {
-                        // Handle error response from the server
-                        console.error("Error submitting review:", error);
-                        // You can display an error message or perform other error handling here
-                    }
-                }); */
-            } else {
-                form.find(".alert-danger").css("display", "block");
-                return false; // Prevent form submission
-            }
-        }
-    });
-	
-	
-	
-});
-
-
-
-</script>
-
 <!-- Header Section Begin -->
-
-
 <header class="header">
 	<div class="header__top">
 		<div class="container">
@@ -218,17 +106,10 @@ $(function(){
 			</div>
 			<div class="col-lg-6">
 				<nav class="header__menu">
-					<ul id="header__menus">
-						<li><a href="./index.jsp">Home</a></li>
-						<li><a href="category.bit?view=1">Shop</a></li>
-						<li><a href="#">Pages</a>
-							<ul class="header__menu__dropdown">
-								<li><a href="main.bit?view=shop-details">Shop Details</a></li>
-								<li><a href="main.bit?view=shoping-cart">Shoping Cart</a></li>
-								<li><a href="main.bit?view=checkout">Check Out</a></li>
-
-							</ul></li>
-						<li><a href="main.bit?view=contact">Contact</a></li>
+					<ul id="header__menus" >
+						<li><a href="main.bit"  style="font-size: 20px; font-weight: 700;">홈</a></li>
+						<li><a href="category.bit?view=1"  style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
+						<li><a href="main.bit?view=contact"  style="font-size: 20px; font-weight: 700;">고객센터</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -410,11 +291,13 @@ $(function(){
 			<c:forEach items="${myOrderList}" var="order">
 				<div class="card mb-3 border-0">
 					<h6 class="bg-light text-danger border-top border-danger m-0">주문번호
-						${order.sequence} ${order.createdAt} ⌵</h6>
+						${order.sequence} ${order.createdAt}</h6>
 					<c:forEach items="${order.orderDetailList}" var="orderDetail">
 						<div class="card-body">
 							<div class="d-flex justify-content-between">
 								<div class="d-flex flex-row align-items-center w-100">
+									<div id="orderSeq" style="display: none;">${orderDetail.sequence }</div>
+									<div id="orderState" style="display: none;">${orderDetail.state }</div>
 									<div>
 										<img src=${orderDetail.orderDetailProduct.productImgurl }
 											class="img-fluid rounded-3" alt="Shopping item"
@@ -422,28 +305,28 @@ $(function(){
 									</div>
 									<div class="ml-3 w-100">
 										<h5>${orderDetail.orderDetailProduct.name}</h5>
-										<p class="small mb-0">${orderDetail.state}</p>
+										<p class="small mb-0">${orderDetail.state }</p>
 										<button type="button"
 											id="reviewButton-${order.sequence}-${orderDetail.sequence}"
-											class="py-2 col-sm-3 bg-primary text-white border-0 rounded-sm review-toggle-btn"
-											data-toggle="collapse"
-											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
+											class="py-2 col-sm-3 bg-warning text-white border-0 rounded-sm"
 											style="display: inline-block; ${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰
 											작성하기</button>
-
 										<button type="submit"
+											onclick="modifyOrderState(${orderDetail.sequence })"
 											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
 											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">환불
 											요청</button>
 										<button type="submit"
+											onclick="modifyOrderState(${orderDetail.sequence })"
 											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
 											style="${orderDetail.state eq 'RECEIVED' ? '' : 'display: none;'}">주문
 											확정</button>
+										<button type="submit"
+											onclick="modifyOrderState(${orderDetail.sequence })"
+											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
+											style="${orderDetail.state eq 'ORDERED' ? '' : orderDetail.state eq 'DEPARTED' ? '' : 'display: none;'}">주문
+											취소</button>
 									</div>
-									<!-- <div
-										class="ml-3 d-flex justify-content-between align-items-center">
-										
-									</div> -->
 								</div>
 								<div class="d-flex flex-row align-items-center">
 									<div style="width: 50px;">
@@ -455,58 +338,14 @@ $(function(){
 								</div>
 							</div>
 						</div>
-						<div id="reviewCollapse-${order.sequence}-${orderDetail.sequence}"
-							class="collapse">
-							<form id="ratingForm" action="review.bit" method="post">
-								<input type="hidden" name="cmd" value="register"> <input
-									type="hidden" name="memberSequence"
-									value="${logincust.sequence }"> <input type="hidden"
-									name="productSequence" value="${orderDetail.productSequence}">
-								<input class="rating-input" type="hidden" name="rating" value=""
-									required> <span> 별점을 남겨주세요 </span> <span
-									style="color: red;">*</span>
-								<div class="star-rating">
-									<div class="stars">
-										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i>
-									</div>
-								</div>
-								<div class="alert alert-danger mt-4" id="alert-danger"
-									style="display: none;">별점을 클릭해주세요</div>
-
-
-								<textarea name="comment" class="form-control" rows="3"
-									placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" required></textarea>
-								<button type="submit" id="submitBtn"
-									class="site-btn mx-1 text-white border-0 rounded-sm mt-2"
-									value="#reviewButton-${order.sequence}-${orderDetail.sequence}">리뷰
-									제출</button>
-								<button type="button"
-									class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
-									data-toggle="collapse"
-									data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}">취소</button>
-							</form>
-						</div>
 					</c:forEach>
 				</div>
-
 			</c:forEach>
 		</div>
 
 	</div>
 </section>
 <!-- Checkout Section End -->
-<!-- Review Section Begin -->
-<section class="checkout spad">
-	<div class="container">
-		<div class="row"></div>
-		<div class="checkout__form">
-			<h4>작성 가능한 리뷰</h4>
-			주문 확정 목록
-		</div>
-	</div>
-</section>
 <!-- Review Section Begin -->
 <section class="checkout spad">
 	<div class="container">
@@ -753,5 +592,11 @@ $(function(){
 			});
 		}
 		
+	}
+	
+	// 주문 정보
+	function modifyOrderState(state) {
+		console.log(document.getElementById("orderState").innerText);
+		console.log(state);
 	}
 </script>

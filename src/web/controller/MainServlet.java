@@ -36,6 +36,8 @@ public class MainServlet implements ControllerFrame {
 	ProductServiceImpl productService;
 	CartServiceImpl cartService;
 	PointServiceImpl pointService;
+	OrderDetailServiceImpl orderDetailService;
+	
 	String memberSeq = null;
 
 	public MainServlet() {
@@ -44,6 +46,7 @@ public class MainServlet implements ControllerFrame {
 		productService = new ProductServiceImpl();
 		cartService = new CartServiceImpl();
 		pointService = new PointServiceImpl();
+		orderDetailService = new OrderDetailServiceImpl();
 	}
 
 	@Override
@@ -417,6 +420,19 @@ public class MainServlet implements ControllerFrame {
 				e.printStackTrace();
 			}
 
+		} else if (view.contains("changeOrderState")) {
+			request.setAttribute("center", "mypage");
+			long orderSeq = Long.parseLong(request.getParameter("sequence"));
+			String state = request.getParameter("state");
+			
+			OrderDetail orderDetail = OrderDetail.builder().sequence(orderSeq).state(state).build();
+			
+			try {
+				orderDetailService.modify(orderDetail);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

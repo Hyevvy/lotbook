@@ -303,7 +303,7 @@ $(document).ready(function(){
 			</div>
 			<div class="col-sm-6">
 				<p>포인트</p>
-				<h4>315P</h4>
+				<h4>${logincust.accumulatedPoint }</h4>
 			</div>
 			<button type="submit" class="site-btn"
 				onclick="location.href='member.bit?view=myinfo'">회원 정보 수정</button>
@@ -402,7 +402,8 @@ $(document).ready(function(){
 					<h6 class="bg-light text-danger border-top border-danger m-0">주문번호
 						${order.sequence} ${order.createdAt} ⌵</h6>
 					<c:forEach items="${order.orderDetailList}" var="orderDetail">
-						<div class="card-body">
+						<div class="card-body ${orderDetail.state eq 'CANCELED' ? 'bg-light' : ''}"
+        					 style="${orderDetail.state eq 'CANCELED' ? 'filter: brightness(90%);' : ''}">
 							<div class="d-flex justify-content-between">
 								<div class="d-flex flex-row align-items-center w-100">
 									<div>
@@ -412,7 +413,19 @@ $(document).ready(function(){
 									</div>
 									<div class="ml-3 w-100">
 										<h5>${orderDetail.orderDetailProduct.name}</h5>
-										<p class="small mb-0">${orderDetail.state}</p>
+										<p class="small mb-0">
+										    <c:choose>
+										        <c:when test="${orderDetail.state eq 'ORDERED'}">주문 완료</c:when>
+										        <c:when test="${orderDetail.state eq 'CANCELED'}">주문 취소</c:when>
+										        <c:when test="${orderDetail.state eq 'DEPARTED'}">배송 중</c:when>
+										        <c:when test="${orderDetail.state eq 'ARRIVED'}">배송 완료</c:when>
+										        <c:when test="${orderDetail.state eq 'RECEIVED'}">수령 완료</c:when>
+										        <c:when test="${orderDetail.state eq 'REFUNDED'}">환불 완료</c:when>
+										        <c:when test="${orderDetail.state eq 'CONFIRMED'}">주문 확정</c:when>
+										        <c:otherwise>알 수 없는 상태</c:otherwise>
+										    </c:choose>
+										</p>
+
 										<button type="submit"
 											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
 											style="${orderDetail.state eq 'ORDERED' || orderDetail.state eq 'DEPARTED' ? 'display: inline-block;' : 'display: none;'}">
@@ -503,16 +516,6 @@ $(document).ready(function(){
 	</div>
 </section>
 <!-- Checkout Section End -->
-<!-- Review Section Begin -->
-<section class="checkout spad">
-	<div class="container">
-		<div class="row"></div>
-		<div class="checkout__form">
-			<h4>작성 가능한 리뷰</h4>
-			주문 확정 목록
-		</div>
-	</div>
-</section>
 <!-- Review Section Begin -->
 <section class="checkout spad">
 	<div class="container">

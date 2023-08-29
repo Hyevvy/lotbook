@@ -65,6 +65,11 @@ public class ReviewServlet implements ControllerFrame {
 					// 포인트 적립 
 					memberServiceImpl.updatePoint(memberSequence);
 					
+					HttpSession session = request.getSession();
+					Member loggedInUser = (Member) session.getAttribute("logincust");
+					
+					Member updatedUserInfo = memberServiceImpl.get(Member.builder().email(loggedInUser.getEmail()).build());
+					session.setAttribute("logincust", updatedUserInfo);
 					request.setAttribute("center", "mypage");
 				} catch (Exception e) {
 					e.printStackTrace();

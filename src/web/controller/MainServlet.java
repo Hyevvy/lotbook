@@ -7,6 +7,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import app.cust.CustServiceImpl;
 import app.dto.entity.Cart;
@@ -22,6 +23,7 @@ import app.dto.response.ReviewDetails;
 import app.enums.PointStateEnum;
 import app.frame.ControllerFrame;
 import app.impl.cart.CartServiceImpl;
+import app.impl.member.MemberServiceImpl;
 import app.impl.order.OrderServiceImpl;
 import app.impl.orderdetail.OrderDetailServiceImpl;
 import app.impl.point.PointServiceImpl;
@@ -39,6 +41,7 @@ public class MainServlet implements ControllerFrame {
 	CartServiceImpl cartService;
 	PointServiceImpl pointService;
 	OrderDetailServiceImpl orderDetailService;
+	MemberServiceImpl memberService;
 	
 	String memberSeq = null;
 
@@ -49,6 +52,7 @@ public class MainServlet implements ControllerFrame {
 		cartService = new CartServiceImpl();
 		pointService = new PointServiceImpl();
 		orderDetailService = new OrderDetailServiceImpl();
+		memberService = new MemberServiceImpl();
 	}
 
 	@Override
@@ -64,7 +68,15 @@ public class MainServlet implements ControllerFrame {
 
 	private void build(HttpServletRequest request, String view) {
 
-		if (view == null) {			
+		if (view == null) {		
+			HttpSession session = request.getSession();
+			Member loggedInUser = (Member) session.getAttribute("logincust");
+			System.out.println(loggedInUser);
+			
+			if (loggedInUser != null) {
+				memberSeq = loggedInUser.getSequence() + "";
+			}
+			
 	         // 책 리스트 불러오기
 			 try {
 			    request.setAttribute("BestSeller", productService.getBestseller());
@@ -159,6 +171,11 @@ public class MainServlet implements ControllerFrame {
 		            pointService.register(point);
 		            pointService.modify(point);
 		            
+		            HttpSession session = request.getSession();
+					Member loggedInUser = (Member) session.getAttribute("logincust");
+					
+					Member updatedUserInfo = memberService.get(Member.builder().email(loggedInUser.getEmail()).build());
+					session.setAttribute("logincust", updatedUserInfo);
 		           
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -213,6 +230,12 @@ public class MainServlet implements ControllerFrame {
 					Point point = Point.builder().point(usePoint).state(PointStateEnum.USED).memberSequence(Long.parseLong(memberSeq)).build();
 		            pointService.register(point);
 		            pointService.modify(point);
+		            
+		            HttpSession session = request.getSession();
+					Member loggedInUser = (Member) session.getAttribute("logincust");
+					
+					Member updatedUserInfo = memberService.get(Member.builder().email(loggedInUser.getEmail()).build());
+					session.setAttribute("logincust", updatedUserInfo);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

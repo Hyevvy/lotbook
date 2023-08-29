@@ -303,7 +303,7 @@ $(document).ready(function(){
 			</div>
 			<div class="col-sm-6">
 				<p>포인트</p>
-				<h4>315P</h4>
+				<h4>${logincust.accumulatedPoint }</h4>
 			</div>
 			<button type="submit" class="site-btn"
 				onclick="location.href='member.bit?view=myinfo'">회원 정보 수정</button>
@@ -397,110 +397,132 @@ $(document).ready(function(){
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>주문 내역</h4>
-			<c:forEach items="${myOrderList}" var="order">
-				<div class="card mb-3 border-0">
-					<h6 class="bg-light text-danger border-top border-danger m-0">주문번호
-						${order.sequence} ${order.createdAt} ⌵</h6>
-					<c:forEach items="${order.orderDetailList}" var="orderDetail">
-						<div class="card-body">
-							<div class="d-flex justify-content-between">
-								<div class="d-flex flex-row align-items-center w-100">
-									<div>
-										<img src=${orderDetail.orderDetailProduct.productImgurl }
-											class="img-fluid rounded-3" alt="Shopping item"
-											style="width: 65px;">
+			<c:choose>
+				<c:when test="${fn:length(myOrderList) == 0 }">
+	           		<div class="text-muted" style="text-align: center;">
+	           			<i class="bi bi-info-circle-fill" style="font-size: 50px;"></i>
+	           			<div class="text-muted" style="font-size: 20px;">주문 내역이 없습니다.</div>
+	           		</div>
+	           	</c:when>
+	           	<c:otherwise>
+					<c:forEach items="${myOrderList}" var="order">
+						<div class="card mb-3 border-0">
+							<h6 class="bg-light text-danger border-top border-danger m-0">주문번호
+								${order.sequence} ${order.createdAt} ⌵</h6>
+							<c:forEach items="${order.orderDetailList}" var="orderDetail">
+								<div class="card-body ${orderDetail.state eq 'CANCELED' ? 'bg-light' : ''}"
+		        					 style="${orderDetail.state eq 'CANCELED' ? 'filter: brightness(90%);' : ''}">
+									<div class="d-flex justify-content-between">
+										<div class="d-flex flex-row align-items-center w-100">
+											<div>
+												<img src=${orderDetail.orderDetailProduct.productImgurl }
+													class="img-fluid rounded-3" alt="Shopping item"
+													style="width: 65px;">
+											</div>
+											<div class="ml-3 w-100">
+												<h5>${orderDetail.orderDetailProduct.name}</h5>
+												<p class="small mb-0">
+												    <c:choose>
+												        <c:when test="${orderDetail.state eq 'ORDERED'}">주문 완료</c:when>
+												        <c:when test="${orderDetail.state eq 'CANCELED'}">주문 취소</c:when>
+												        <c:when test="${orderDetail.state eq 'DEPARTED'}">배송 중</c:when>
+												        <c:when test="${orderDetail.state eq 'ARRIVED'}">배송 완료</c:when>
+												        <c:when test="${orderDetail.state eq 'RECEIVED'}">수령 완료</c:when>
+												        <c:when test="${orderDetail.state eq 'REFUNDED'}">환불 완료</c:when>
+												        <c:when test="${orderDetail.state eq 'CONFIRMED'}">주문 확정</c:when>
+												        <c:otherwise>알 수 없는 상태</c:otherwise>
+												    </c:choose>
+												</p>
+		
+												<button type="submit"
+													onclick="clickOrderDetailBtn('CANCELED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
+													class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
+													style="${orderDetail.state eq 'ORDERED' || orderDetail.state eq 'DEPARTED' ? 'display: inline-block;' : 'display: none;'}">
+												주문 취소
+												</button>
+												<button type="submit"
+													onclick="clickOrderDetailBtn('CONFIRMED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
+													class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
+													style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
+												주문 확정
+												</button>
+												<button type="button"
+													id="reviewButton-${order.sequence}-${orderDetail.sequence}"
+													class="py-2 col-sm-3 bg-warning text-white border-0 rounded-sm review-toggle-btn"
+													data-toggle="collapse"
+													data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
+													<%-- style="${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰 --%>
+													style="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'NONEXIST' ? 'display: inline-block;' : 'display:none;'}">
+												리뷰	작성하기
+												</button>
+												<!-- 주문 상태 메시지 -->
+												<c:if test="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'EXIST'}"> 
+													주문 확정됨
+												</c:if>
+												<button type="submit"
+													onclick="clickOrderDetailBtn('REFUNDED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
+													class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
+													style="${orderDetail.state eq 'ARRIVED' || orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
+												환불 요청
+												</button>
+											</div>
+										</div>
+										<div class="d-flex flex-row align-items-center">
+											<div style="width: 50px;">
+												<h5 class="fw-normal mb-0">${orderDetail.count}</h5>
+											</div>
+											<div style="width: 100px;">
+												<h5 class="mb-0" style="font-size: 15px; font-weight: 700;" id="price${product.sequence }">
+						                          	<c:set var="price" value="${orderDetail.productPrice * orderDetail.count}"/>
+													<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
+					                          	원</h5>
+											</div>
+										</div>
 									</div>
-									<div class="ml-3 w-100">
-										<h5>${orderDetail.orderDetailProduct.name}</h5>
-										<p class="small mb-0">${orderDetail.state}</p>
-										<button type="submit"
-											onclick="clickOrderDetailBtn('CANCLED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
-											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'ORDERED' || orderDetail.state eq 'DEPARTED' ? 'display: inline-block;' : 'display: none;'}">
-										주문 취소
-										</button>
-										<button type="submit"
-											onclick="clickOrderDetailBtn('CONFIRMED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
-											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
-										주문 확정
-										</button>
+								</div>
+								<div id="reviewCollapse-${order.sequence}-${orderDetail.sequence}"
+									class="collapse">
+									<form name="frm" id="ratingForm" action="review.bit">
+										<input type="hidden" name="cmd" value="register"> <input
+											type="hidden" name="memberSequence"
+											value="${logincust.sequence }"> <input type="hidden"
+											name="productSequence" value="${orderDetail.productSequence}">
+											<input type="hidden"
+											name="orderdetailSequence" value="${orderDetail.sequence}">
+										<input class="rating-input" type="hidden" id="star-input-${orderDetail.sequence}" name="rating" required value="">
+										<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
+										<div class="star-rating">
+											<div class="stars">
+												<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
+												<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
+												<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
+												<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
+												<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i>
+											</div>
+										</div>
+										<div class="alert alert-danger mt-4"
+											id="alert-${order.sequence}-${orderDetail.sequence}"
+											style="display: none;">별점을 클릭해주세요</div>
+		
+		
+										<textarea class="form-control" name="comment"
+											rows="3" placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200"
+											required></textarea>
+										<button type="button" id="submitBtn"
+											class="site-btn mx-1 text-white border-0 rounded-sm mt-2"
+											>리뷰
+											제출</button>
 										<button type="button"
-											id="reviewButton-${order.sequence}-${orderDetail.sequence}"
-											class="py-2 col-sm-3 bg-warning text-white border-0 rounded-sm review-toggle-btn"
+											class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
 											data-toggle="collapse"
-											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
-											<%-- style="${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰 --%>
-											style="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'NONEXIST' ? 'display: inline-block;' : 'display:none;'}">
-										리뷰	작성하기
-										</button>
-										<!-- 주문 상태 메시지 -->
-										<c:if test="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'EXIST'}"> 
-											주문 확정됨
-										</c:if>
-										<button type="submit"
-											onclick="clickOrderDetailBtn('REFUNDED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
-											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
-											style="${orderDetail.state eq 'ARRIVED' || orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
-										환불 요청
-										</button>
-									</div>
+											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}">취소</button>
+									</form>
 								</div>
-								<div class="d-flex flex-row align-items-center">
-									<div style="width: 50px;">
-										<h5 class="fw-normal mb-0">${orderDetail.count}</h5>
-									</div>
-									<div style="width: 100px;">
-										<h5 class="mb-0" style="font-size: 15px; font-weight: 700;" id="price${product.sequence }">
-				                          	<c:set var="price" value="${orderDetail.productPrice * orderDetail.count}"/>
-											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-			                          	원</h5>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="reviewCollapse-${order.sequence}-${orderDetail.sequence}"
-							class="collapse">
-							<form name="frm" id="ratingForm" action="review.bit">
-								<input type="hidden" name="cmd" value="register"> <input
-									type="hidden" name="memberSequence"
-									value="${logincust.sequence }"> <input type="hidden"
-									name="productSequence" value="${orderDetail.productSequence}">
-									<input type="hidden"
-									name="orderdetailSequence" value="${orderDetail.sequence}">
-								<input class="rating-input" type="hidden" id="star-input-${orderDetail.sequence}" name="rating" required value="">
-								<span> 별점을 남겨주세요 </span> <span style="color: red;">*</span>
-								<div class="star-rating">
-									<div class="stars">
-										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
-										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
-										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
-										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i> 
-										<i class="fa fa-star" id="star-input-${orderDetail.sequence}"></i>
-									</div>
-								</div>
-								<div class="alert alert-danger mt-4"
-									id="alert-${order.sequence}-${orderDetail.sequence}"
-									style="display: none;">별점을 클릭해주세요</div>
-
-
-								<textarea class="form-control" name="comment"
-									rows="3" placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200"
-									required></textarea>
-								<button type="button" id="submitBtn"
-									class="site-btn mx-1 text-white border-0 rounded-sm mt-2"
-									>리뷰
-									제출</button>
-								<button type="button"
-									class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
-									data-toggle="collapse"
-									data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}">취소</button>
-							</form>
+							</c:forEach>
 						</div>
 					</c:forEach>
-				</div>
-
-			</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 
 	</div>
@@ -511,97 +533,97 @@ $(document).ready(function(){
 	<div class="container">
 		<div class="row"></div>
 		<div class="checkout__form">
-			<h4>작성 가능한 리뷰</h4>
-			주문 확정 목록
-		</div>
-	</div>
-</section>
-<!-- Review Section Begin -->
-<section class="checkout spad">
-	<div class="container">
-		<div class="row"></div>
-		<div class="checkout__form">
 			<h4>작성된 리뷰 목록</h4>
-			<c:forEach items="${myReviewList}" var="review" varStatus="status">
-					<div class="card mb-3 border-0">
-					<div class="card-body">
-						<div class="d-flex justify-content-between">
-							<div class="d-flex flex-row align-items-center w-100">
-								<div class="mr-3">${status.index+1 }.</div>
-								<div>
-									<img src=${review.reviewDetailProduct.productImgurl }
-										class="img-fluid rounded-3" alt="Shopping item"
-										style="width: 65px;">
-								</div>
-								<div class="ml-3 w-100">
-									<h5>${review.reviewDetailProduct.name }</h5>
+			<c:choose>
+				<c:when test="${fn:length(myReviewList) == 0 }">
+		           		<div class="text-muted" style="text-align: center;">
+	           			<i class="bi bi-info-circle-fill" style="font-size: 50px;"></i>
+	           			<div class="text-muted" style="font-size: 20px;">리뷰 내역이 없습니다.</div>
+	           		</div>
+	           	</c:when>
+	           	<c:otherwise>
+					<c:forEach items="${myReviewList}" var="review" varStatus="status">
+							<div class="card mb-3 border-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<div class="d-flex flex-row align-items-center w-100">
+										<div class="mr-3">${status.index+1 }.</div>
+										<div>
+											<img src=${review.reviewDetailProduct.productImgurl }
+												class="img-fluid rounded-3" alt="Shopping item"
+												style="width: 65px;">
+										</div>
+										<div class="ml-3 w-100">
+											<h5>${review.reviewDetailProduct.name }</h5>
+										</div>
+									</div>
+									<div class="d-flex flex-row align-items-center">
+									</div>
+		
 								</div>
 							</div>
-							<div class="d-flex flex-row align-items-center">
+							<div id="reviewList-${review.sequence}">
+								<form id="review-edit-${review.sequence }" action="review.bit" method="post">
+									<input type="hidden" name="cmd" value="update"> 
+									<input type="hidden" name="sequence" value="${review.sequence }">
+									<input
+										type="hidden" name="memberSequence"
+										value="${logincust.sequence }"> 
+									<input type="hidden"
+										name="productSequence" value="${review.reviewDetailProduct.sequence}">
+									<input class="rating-input" type="hidden" name="rating" value="${review.rating }"
+										id="star-update-${review.sequence}" 
+										required> 
+			
+									<div class="star-rating">
+										<div class="stars">
+											<c:forEach var="i" begin="1" end="5">
+												<c:choose>
+													<c:when test="${i <= review.rating}">
+														<i class="fa fa-star active star-update-${review.sequence}" id="star-update-${review.sequence}" style="pointer-events:none;" ></i>
+													</c:when>
+													<c:otherwise>
+														<i class="fa fa-star star-update-${review.sequence}" id="star-update-${review.sequence}" style="pointer-events:none;"></i>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</div>
+									</div>
+			
+									<textarea id="textarea-${review.sequence}" name="comment" class="form-control"
+										rows="3" style="background-color: #f1f3f5; resize: none;"
+										placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled required
+										>${review.comment } </textarea>
+									<button type="button" id="editBtn-${review.sequence}"
+										class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
+										onclick="enableTextarea(${review.sequence })"
+										style="display:inline-block;"
+										>수정</button>
+									<button type="submit" id="submitBtn-${review.sequence }"
+										class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
+										style="display:none;"
+										onclick="submitEdit(${review.sequence })"
+										>제출</button>
+									<button type="button" id="cancelBtn-${review.sequence }"
+										class="site-btn bg-secondary text-white border-0 rounded-sm"
+										style="display:none;"
+										onclick="cancelEdit()"
+										>취소</button>
+								</form>
+								<form id="review-delete-${review.sequence }" action="review.bit" method="post">
+									<input type="hidden" name="cmd" value="delete">
+									<input type="hidden" name="sequence" value="${review.sequence }">
+									<i class="fa fa-trash-o" aria-hidden="true" style="position:absolute; right: 5%; top:10%; cursor:pointer; font-size: 130%;" onclick="confirmDelete(${review.sequence });"></i>
+								</form>
 							</div>
-
 						</div>
-					</div>
-					<div id="reviewList-${review.sequence}">
-						<form id="review-edit-${review.sequence }" action="review.bit" method="post">
-							<input type="hidden" name="cmd" value="update"> 
-							<input type="hidden" name="sequence" value="${review.sequence }">
-							<input
-								type="hidden" name="memberSequence"
-								value="${logincust.sequence }"> 
-							<input type="hidden"
-								name="productSequence" value="${review.reviewDetailProduct.sequence}">
-							<input class="rating-input" type="hidden" name="rating" value="${review.rating }"
-								id="star-update-${review.sequence}" 
-								required> 
-	
-							<div class="star-rating">
-								<div class="stars">
-									<c:forEach var="i" begin="1" end="5">
-										<c:choose>
-											<c:when test="${i <= review.rating}">
-												<i class="fa fa-star active star-update-${review.sequence}" id="star-update-${review.sequence}" style="pointer-events:none;" ></i>
-											</c:when>
-											<c:otherwise>
-												<i class="fa fa-star star-update-${review.sequence}" id="star-update-${review.sequence}" style="pointer-events:none;"></i>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</div>
-							</div>
-	
-							<textarea id="textarea-${review.sequence}" name="comment" class="form-control"
-								rows="3" style="background-color: #f1f3f5; resize: none;"
-								placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled required
-								>${review.comment } </textarea>
-							<button type="button" id="editBtn-${review.sequence}"
-								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
-								onclick="enableTextarea(${review.sequence })"
-								style="display:inline-block;"
-								>수정</button>
-							<button type="submit" id="submitBtn-${review.sequence }"
-								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
-								style="display:none;"
-								onclick="submitEdit(${review.sequence })"
-								>제출</button>
-							<button type="button" id="cancelBtn-${review.sequence }"
-								class="site-btn bg-secondary text-white border-0 rounded-sm"
-								style="display:none;"
-								onclick="cancelEdit()"
-								>취소</button>
-						</form>
-						<form id="review-delete-${review.sequence }" action="review.bit" method="post">
-							<input type="hidden" name="cmd" value="delete">
-							<input type="hidden" name="sequence" value="${review.sequence }">
-							<i class="fa fa-trash-o" aria-hidden="true" style="position:absolute; right: 5%; top:10%; cursor:pointer; font-size: 130%;" onclick="confirmDelete(${review.sequence });"></i>
-						</form>
-					</div>
-				</div>
-
-				<div style="padding-top: 20px;">
-					<hr>
-				</div>
-			</c:forEach>
+		
+						<div style="padding-top: 20px;">
+							<hr>
+						</div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </section>

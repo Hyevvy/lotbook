@@ -295,15 +295,16 @@ if (productDetailWithReviews != null) {
 							<c:when test="${productDetailWithReviews.getStock() > 0}">
 								<button type="button" class="primary-btn border_none"
 									onclick='addToCart(${productDetailWithReviews.getSequence()}, ${logincust.sequence})'
-									id="addToCartButton">장바구니에 담기</button>
+									 id="addToCartButton">장바구니에 담기</button>
 								<button type="button" class="primary-btn border_none"
 									onclick='checkOutBuyNow(${productDetailWithReviews.getSequence()}, ${logincust.sequence})'
 									id="checkoutbuynow">바로 구매</button>
 							</c:when>
 							<c:otherwise>
 								<button type="button" class="primary-btn border_none"
-									id="addToCartButton" disabled>장바구니에 담기</button>
-								<a href="" class="primary-btn" onclick="return false;">바로 구매</a>
+									id="addToCartButton" style="background: #C8C8C8;" disabled>장바구니에 담기</button>
+								<button type="button" class="primary-btn border_none"
+									id="checkoutbuynow" style="background: #C8C8C8;" disabled>바로 구매</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -318,7 +319,7 @@ if (productDetailWithReviews != null) {
 					<ul>
 						<li><b>구매가능 여부</b> <span><c:choose>
 									<c:when test="${productDetailWithReviews.getStock() > 0}">구매가능</c:when>
-									<c:otherwise>품절</c:otherwise>
+									<c:otherwise><span style="color: black; font-weight:bolder;">품절</span></c:otherwise>
 								</c:choose></span></li>
 						<li><b>작가</b> <span>${productDetailWithReviews.getAuthorName() }</span></li>
 						<li><b>출판사</b> <span>${productDetailWithReviews.getPublisherName() }</span></li>

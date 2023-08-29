@@ -74,5 +74,11 @@
 		WHERE sequence = #{sequence};
 	</select>
 
+	<select id="selectSubCategorySequences" parameterType="int" resultType="int">
+	    SELECT sequence
+	    FROM category
+	    WHERE parent_category = #{parentCategoryId}
+	</select>
+	
 
 </mapper>

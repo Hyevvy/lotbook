@@ -393,7 +393,8 @@
 			}
 
 			//특수문자나 공백이 있는지 확인
-			let special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+			// let special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+			let special_pattern = /[`~@$%^&*|\\\'\";:\/\[\]}{}]/gi;
 			if (special_pattern.test(keyword)) {
 				alert("특수문자는 검색어로 사용하실 수 없습니다.");
 				return;
@@ -404,7 +405,11 @@
 				return;
 			}
 
-			window.location.href = 'search.bit?view=search&keyword=' + keyword
+			let encodedKeyword = encodeURIComponent(keyword);
+
+			// window.location.href = 'search.bit?view=search&keyword=' + keyword
+			// 		+ '&orderby=popular'
+			window.location.href = 'search.bit?view=search&keyword=' + encodedKeyword
 					+ '&orderby=popular'
 		}
 		const recentViewList = document.getElementById("recentViewList");

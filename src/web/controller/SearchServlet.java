@@ -1,5 +1,7 @@
 package web.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,16 +44,24 @@ public class SearchServlet implements ControllerFrame {
 		
 		// 검색결과 없다는거 보내주면 jsp에서도 분기처리해서 렌더링 가능하다.
 		if (keyword != null) {
+			String decodedKeyword;
+			try {
+				decodedKeyword = java.net.URLDecoder.decode(keyword, "UTF-8");
+				String wordWithoutSpace = decodedKeyword.replaceAll("\\s+", "");
+				
+				
+				// 검색결과 데이터를 가져온다.
+				SearchResult searchResult = getSearchResult(wordWithoutSpace, orderBy, category);
+				
+				// 검색결과 데이터를 request 객체에 속성으로 추가
+				request.setAttribute("searchResult", searchResult);
+				request.setAttribute("center", "search"); // 여기서 어떤 jsp를 렌더링하는지 결정.
+				
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			String wordWithoutSpace = keyword.replaceAll("\\s+", "");
-			
-			
-			// 검색결과 데이터를 가져온다.
-			SearchResult searchResult = getSearchResult(wordWithoutSpace, orderBy, category);
-			
-			// 검색결과 데이터를 request 객체에 속성으로 추가
-			request.setAttribute("searchResult", searchResult);
-			request.setAttribute("center", "search"); // 여기서 어떤 jsp를 렌더링하는지 결정.
 		}
 	}
 

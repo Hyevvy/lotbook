@@ -12,6 +12,9 @@
 // ProductDetailWithReviews 객체 받아오기
 SearchResult searchResult = (SearchResult) request.getAttribute("searchResult");
 List<SearchProductMapper> searchedList = searchResult.getSearchList();
+
+int endPage = (int) Math.ceil((double) searchResult.getCategoryCount() / 9.0);
+pageContext.setAttribute("endPage", endPage);
 %>
 
 
@@ -20,6 +23,14 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 	color: #EDBB0E;
 	color: #ffc107;
 	letter-spacing: -1.2px;
+}
+
+.book-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline;
+	font-size: 1.3em; /* 글자 크기 */
+	font-weight: bold; /* 글자 두께 */
 }
 </style>
 
@@ -61,10 +72,13 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 			</div>
 			<div class="col-lg-6">
 				<nav class="header__menu">
-					<ul id="header__menus" >
-						<li><a href="main.bit"  style="font-size: 20px; font-weight: 700;">홈</a></li>
-						<li  class="active"><a href="category.bit?view=1"  style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
-						<li><a href="main.bit?view=contact"  style="font-size: 20px; font-weight: 700;">고객센터</a></li>
+					<ul id="header__menus">
+						<li><a href="main.bit"
+							style="font-size: 20px; font-weight: 700;">홈</a></li>
+						<li class="active"><a href="category.bit?view=1"
+							style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
+						<li><a href="main.bit?view=contact"
+							style="font-size: 20px; font-weight: 700;">고객센터</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -173,10 +187,11 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 			<div class="col-lg-3 col-md-5">
 				<div class="sidebar" style="position: sticky; top: 32px;">
 					<div class="sidebar__item">
-						<h4>전체 카테고리</h4>
+						<h4 onclick="removeCategory()" style="cursor: pointer;">전체
+							카테고리</h4>
 						<ul>
-							<li value="1"><span href="#" class="font-weight-bold">컴퓨터
-									/ IT</span></li>
+							<li value="1" onclick="updateCategory(this)"><a href="#"
+								class="font-weight-bold">컴퓨터 / IT</a></li>
 							<li value="2" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">컴퓨터 공학
 									(${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
@@ -189,7 +204,8 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 							<li value="5" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">프로그래밍
 									(${searchResult.countByCategory['프로그래밍'] != null ? searchResult.countByCategory['프로그래밍'] : 0})</a></li>
-							<li value="6"><a href="#" class="font-weight-bold">소설</a></li>
+							<li value="6" onclick="updateCategory(this)"><a href="#"
+								class="font-weight-bold">소설</a></li>
 							<li value="7" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">한국소설
 									(${searchResult.countByCategory['한국소설'] != null ? searchResult.countByCategory['한국소설'] : 0})</a></li>
@@ -199,8 +215,8 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 							<li value="9" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">일본소설
 									(${searchResult.countByCategory['일본소설'] != null ? searchResult.countByCategory['일본소설'] : 0})</a></li>
-							<li value="10"><a href="#" class="font-weight-bold">경제 /
-									경영</a></li>
+							<li value="10" onclick="updateCategory(this)"><a href="#"
+								class="font-weight-bold">경제 / 경영</a></li>
 							<li value="11" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">경영일반
 									(${searchResult.countByCategory['경영일반'] != null ? searchResult.countByCategory['경영일반'] : 0})</a></li>
@@ -237,79 +253,95 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 						<div class="shoping__cart__table">
 
 							<c:forEach var="item" items="${searchResult.searchList}">
-								<fmt:parseDate value="${item.createdAt}"
-									pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
-								<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월"
-									var="formattedDate" />
+								<div class="pagination_item">
+									<fmt:parseDate value="${item.createdAt}"
+										pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate" />
+									<fmt:formatDate value="${parsedDate}" pattern="yyyy년 MM월"
+										var="formattedDate" />
 
-								<div class="d-flex col-lg-12 py-4 pr-0"
-									style="border-top: 1px solid #d5d5d5; transition: box-shadow 0.3s, cursor 0.3s;"
-									onmouseover="this.style.cursor='pointer'; this.style.boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)'"
-									onmouseout="this.style.cursor='default'; this.style.boxShadow='none'"
-									onclick="redirectToProductDetail(${item.sequence}); return false;">
+									<div class="d-flex col-lg-12 py-4 pr-0"
+										style="border-top: 1px solid #d5d5d5; transition: box-shadow 0.3s, cursor 0.3s;"
+										onmouseover="this.style.cursor='pointer'; this.style.boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)'"
+										onmouseout="this.style.cursor='default'; this.style.boxShadow='none'"
+										onclick="redirectToProductDetail(${item.sequence}); return false;">
 
-									<div class="mr-4 shoping__cart__item">
-										<img src="${item.productImgurl }" class="img-fluid rounded-3"
-											style="width: 150px;" alt="" />
+										<div class="mr-4 shoping__cart__item">
+											<img src="${item.productImgurl }" class="img-fluid rounded-3"
+												style="width: 150px;" alt="" />
+										</div>
+
+										<div class="d-flex flex-column justify-content-center">
+											<div class="my-2" style="max-width: 25vw;">
+												<span>[도서] </span> <span
+													class="font-weight-bold  book-title">${item.name}</span>
+											</div>
+											<div>
+												<span>${item.authorName}</span> <span>저</span> <br
+													class="my-2" /> <span>${item.publisherName}</span> <span>${formattedDate}</span>
+											</div>
+											<div class="mt-1">
+												<span class="text-warning font-weight-bold"> <c:set
+														var="discount" value="${item.discountRate }" /> <fmt:formatNumber
+														type="number" value="${ discount }" pattern="#,##0" /> %
+													할인
+												</span><span> <fmt:formatNumber type="number"
+														value="${item.discountedPrice }" pattern="#,##0" />
+												</span> 원 <span
+													style="text-decoration: line-through; color: #767676;">
+													<fmt:formatNumber type="number" value="${item.price}"
+														pattern="#,##0" />
+												</span> <span> | ${item.pointAccumulation}p
+													(${item.pointAccumulationRate}%)</span>
+											</div>
+											<div class="mt-2">
+												<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span>
+												<span class="text-primary">${item.reviewCount }</span> <span>건)</span>
+
+
+
+												<span class="product__details__rating star"> <c:set
+														var="fullStars" value="${Math.floor(item.ratingAvg)}" />
+													<c:set var="halfStar"
+														value="${item.ratingAvg % 1 >= 0.5 ? 1 : 0}" /> <c:set
+														var="emptyStars" value="${5 - fullStars - halfStar}" /> <c:forEach
+														var="i" begin="1" end="${fullStars}">
+														<i class="fa fa-star"></i>
+													</c:forEach> <c:if test="${halfStar == 1}">
+														<i class="fa fa-star-half-o"></i>
+													</c:if> <c:forEach var="i" begin="1" end="${emptyStars}">
+														<i class="fa fa-star-o"></i>
+													</c:forEach>
+
+
+												</span> <span>${item.ratingAvg}</span>
+											</div>
+										</div>
+
+										<div class="d-flex flex-column justify-content-center"
+											style="margin-left: auto; margin-right: 10px;">
+											<c:choose>
+												<c:when test="${item.getStock() > 0}">
+													<a href="#"
+														class="primary-btn cart-btn cart-btn-right mb-2"
+														onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>장바구니에
+														넣기</a>
+													<a href="#" class="primary-btn text-white btn"
+														onclick='checkOutBuyNow(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>바로
+														구매</a>
+												</c:when>
+												<c:otherwise>
+													<a href="#"
+														class="primary-btn cart-btn cart-btn-right mb-2" style="background:#c8c8c8;"
+														onclick='event.stopPropagation(); return false;'>장바구니에
+														넣기</a>
+													<a href="#" class="primary-btn text-white btn" style="background:#c8c8c8;"
+														onclick='event.stopPropagation(); return false;'>풍절
+														상품</a>
+												</c:otherwise>
+											</c:choose>
+										</div>
+
 									</div>
-
-									<div class="d-flex flex-column justify-content-center">
-										<div class="my-2">
-											<span>[도서]</span>
-											<h5 class="font-weight-bold d-inline">${item.name}</h5>
-										</div>
-										<div>
-											<span>${item.authorName}</span> <span>저</span> <br
-												class="my-2" /> <span>${item.publisherName}</span> <span>${formattedDate}</span>
-										</div>
-										<div class="mt-1">
-											<span class="text-warning font-weight-bold"> <c:set
-													var="discount" value="${item.discountRate }" /> <fmt:formatNumber
-													type="number" value="${ discount }" pattern="#,##0" /> %
-												할인
-											</span><span> <fmt:formatNumber type="number"
-													value="${item.discountedPrice }" pattern="#,##0" />
-											</span> 원 <span
-												style="text-decoration: line-through; color: #767676;">
-												<fmt:formatNumber type="number" value="${item.price}"
-													pattern="#,##0" />
-											</span> <span> | ${item.pointAccumulation}p
-												(${item.pointAccumulationRate}%)</span>
-										</div>
-										<div class="mt-2">
-											<span>판매지수: ${item.popularity } |</span> <span>회원리뷰(</span> <span
-												class="text-primary">${item.reviewCount }</span> <span>건)</span>
-
-
-
-											<span class="product__details__rating star"> <c:set
-													var="fullStars" value="${Math.floor(item.ratingAvg)}" /> <c:set
-													var="halfStar" value="${item.ratingAvg % 1 >= 0.5 ? 1 : 0}" />
-												<c:set var="emptyStars" value="${5 - fullStars - halfStar}" />
-												<c:forEach var="i" begin="1" end="${fullStars}">
-													<i class="fa fa-star"></i>
-												</c:forEach> <c:if test="${halfStar == 1}">
-													<i class="fa fa-star-half-o"></i>
-												</c:if> <c:forEach var="i" begin="1" end="${emptyStars}">
-													<i class="fa fa-star-o"></i>
-												</c:forEach>
-
-
-											</span> <span>${item.ratingAvg}</span>
-										</div>
-									</div>
-
-									<div class="d-flex flex-column justify-content-center"
-										style="margin-left: auto; margin-right: 10px;">
-
-										<a href="#" class="primary-btn cart-btn cart-btn-right mb-2"
-											onclick='addToCart(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>장바구니에
-											넣기</a> <a href="#" class="primary-btn text-white btn"
-											onclick='checkOutBuyNow(${item.sequence}, ${logincust.sequence}); event.stopPropagation(); return false;'>바로
-											구매</a>
-
-									</div>
-
 								</div>
 							</c:forEach>
 
@@ -320,38 +352,20 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
 
 		</div>
 
-		<!-- 페이지네이션
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="shoping__cart__btns">
-					<a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a> <a
-						href="#" class="primary-btn cart-btn cart-btn-right"><span
-						class="icon_loading"></span> Upadate Cart</a>
-				</div>
-			</div>
-			<div class="col-lg-6">
-				<div class="shoping__continue">
-					<div class="shoping__discount">
-						<h5>Discount Codes</h5>
-						<form action="#">
-							<input type="text" placeholder="Enter your coupon code">
-							<button type="submit" class="site-btn">APPLY COUPON</button>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6">
-				<div class="shoping__checkout">
-					<h5>Cart Total</h5>
-					<ul>
-						<li>Subtotal <span>$454.98</span></li>
-						<li>Total <span>$454.98</span></li>
-					</ul>
-					<a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
-				</div>
-			</div>
+
+		<div style="text-align: center;" class="product__pagination">
+
+
+
+
+			<c:forEach begin="1" end="${endPage}" var="pageNum">
+				<a style="margin: 0" href="javascript:void(0);"
+					onclick="showSelectedPage(${pageNum}); console.log(${pageNum});"
+					id="btnNum${pageNum}">${pageNum} </a>
+			</c:forEach>
 		</div>
-		 -->
+
+
 	</div>
 </section>
 <!-- Product Section End -->
@@ -512,4 +526,58 @@ List<SearchProductMapper> searchedList = searchResult.getSearchList();
     	    // Redirect to the checkout page with the specified count and product ID
     	    window.location.href = 'main.bit?view=checkoutbuynow&count=' + 1 + '&productId=' + productSeq + '&memberSeq=' + memberSeq;
     	}
+    	
+        // 이하, 페이지네이션 관련 코드
+        let itemsPerPage = 9; // 페이지당 아이템 개수
+        let currentPage = 1; // 현재 페이지 번호
+        let totalItems = ${searchResult.categoryCount}; // 해당 카테고리 총 개수
+        let totalPages = Math.ceil(totalItems / itemsPerPage); // 총 페이지 개수
+    	
+    	 function setActiveButton(buttonId) {
+           let buttons = document.querySelectorAll(".product__pagination a");
+           buttons.forEach(function(button) {
+               if (button.id === buttonId) {
+                   button.classList.add("bg-danger"); // 선택된 버튼에 빨간색 스타일 추가
+                   button.classList.add("text-white");
+               } else {
+                   button.classList.remove("bg-danger"); // 다른 버튼에서 빨간색 스타일 제거
+                   button.classList.remove("text-white");
+               }
+           });
+       }
+       
+       
+       function showSelectedPage(pageNum) {
+          console.log(pageNum);
+
+           currentPage = pageNum;
+
+           
+           let startIndex = (currentPage - 1) * itemsPerPage;
+           let endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+           
+           let allItems = document.querySelectorAll('.pagination_item');
+           allItems.forEach(function(item, index) {
+               if (index >= startIndex && index < endIndex) {
+                   item.style.display    = 'block';
+               } else {
+                   item.style.display = 'none';
+               }
+           });
+           setActiveButton("btnNum" + currentPage);
+       }
+       
+       function removeCategory() {
+    	    var url = new URL(window.location.href);
+    	    var params = url.searchParams;
+    	    params.delete('category');
+    	    window.location.href = url.toString();
+    	}
+
+
+
+       showSelectedPage(currentPage);
+    	
+
 </script>

@@ -43,6 +43,7 @@ public class PointServiceImpl implements ServiceFrame<Point, Point>{
 		int result = 0;
 		try {
 			result = dao.update(v, session);
+			System.out.println(result);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

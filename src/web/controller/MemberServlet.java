@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import app.dto.entity.Member;
@@ -34,6 +35,7 @@ public class MemberServlet implements ControllerFrame {
 	private PointServiceImpl pointServiceImpl;
 	ProductServiceImpl productService;
 	private Logger user_log = Logger.getLogger("user");
+	private HttpServletResponse servletResponse;
 	
     public MemberServlet() {
         super();
@@ -47,15 +49,19 @@ public class MemberServlet implements ControllerFrame {
 
     @Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String next = "index.jsp";
+		String next = "/index.jsp";
 		String view = request.getParameter("view");
-
+		
+		this.servletResponse = response;
+		
 		if (view != null) {
 			next = build(request, view);
 		}
-
+		
 		RequestDispatcher rd = request.getRequestDispatcher(next);
-		rd.forward(request, response);			
+		
+		if ( rd != null)
+			rd.forward(request, response);
 	}
 
     
@@ -215,6 +221,23 @@ public class MemberServlet implements ControllerFrame {
 			
 			return "main.bit?view=mypage&memberSeq="+((Member)session.getAttribute("logincust")).getSequence();
 			
+		}else if(view.equals("checkDuplicateEmail")){
+			String emailToCheck = request.getParameter("email");
+
+		    boolean isDuplicate = memServiceImpl.isEmailDuplicate(emailToCheck);
+
+		    JSONObject responseJson = new JSONObject();
+		    responseJson.put("isDuplicate", isDuplicate);
+
+		    servletResponse.setContentType("application/json");
+		    servletResponse.setCharacterEncoding("UTF-8");
+		    try {
+		    	servletResponse.getWriter().write(responseJson.toString());
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+
+		    return null; // 페이지 전환 없음
 		}
       	return "index.jsp";
    }

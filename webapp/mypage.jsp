@@ -435,7 +435,7 @@ $(document).ready(function(){
 												</p>
 		
 												<button type="submit"
-													onclick="clickOrderDetailBtn('CANCLED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
+													onclick="clickOrderDetailBtn('CANCELED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
 													class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
 													style="${orderDetail.state eq 'ORDERED' || orderDetail.state eq 'DEPARTED' ? 'display: inline-block;' : 'display: none;'}">
 												주문 취소
@@ -535,7 +535,7 @@ $(document).ready(function(){
 		<div class="checkout__form">
 			<h4>작성된 리뷰 목록</h4>
 			<c:choose>
-				<c:when test="${fn:length(myOrderList) == 0 }">
+				<c:when test="${fn:length(myReviewList) == 0 }">
 		           		<div class="text-muted" style="text-align: center;">
 	           			<i class="bi bi-info-circle-fill" style="font-size: 50px;"></i>
 	           			<div class="text-muted" style="font-size: 20px;">리뷰 내역이 없습니다.</div>

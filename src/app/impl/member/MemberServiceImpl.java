@@ -115,4 +115,11 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 		
 	}
 	
+
+    public boolean isEmailDuplicate(String email) {
+    	session = GetSessionFacroty.getInstance().openSession();
+    	Member member = ((MemberDaoImpl) dao).selectMemberByEmail(email, session);
+        return member != null; // 이메일이 이미 존재하면 true 반환
+    }
+	
 }

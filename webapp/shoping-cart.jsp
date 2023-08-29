@@ -158,7 +158,8 @@
 								<div class="shoping__cart__table">
 									<table>
 										<tbody>
-											<c:forEach items="${myCartProductList }" var="product">	                    
+											<c:forEach items="${myCartProductList }" var="product">	
+												<span id="productStock" style="display: none;">${product.stock }</span>                    
 												<tr>
 													<td>
 														<input id="cart_checkbox${product.sequence }" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
@@ -334,26 +335,21 @@
 	}
 	
 	function cart_delete() {
-<<<<<<< HEAD
-		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence;
-=======
 		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence + '&isCart=1';
->>>>>>> branch 'master' of https://github.com/Hyevvy/lotbook.git
 		
 		close_modal();
 	}
 	function cart_to_order() {
+		const stock = document.getElementById("productStock").innerText * 1;
 		if (selectedCart.length === 0) {
 			alert("구매 상품을 1개 이상 담아주세요!!");
 		} else {
-			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
-		}
-	}
-	function cart_to_order() {
-		if (selectedCart.length === 0) {
-			alert("구매 상품을 1개 이상 담아주세요!!");
-		} else {
-			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+			
+			if (stock === 0) {
+				alert("품절 - 재고 없음");
+			} else {
+				location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+			}
 		}
 	}
 	function addCount(sequence, productSeq, memberSeq, price, discountRate, pointAccumulationRate) {

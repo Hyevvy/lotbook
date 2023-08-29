@@ -7,6 +7,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import app.cust.CustServiceImpl;
 import app.dto.entity.Cart;
@@ -22,6 +23,7 @@ import app.dto.response.ReviewDetails;
 import app.enums.PointStateEnum;
 import app.frame.ControllerFrame;
 import app.impl.cart.CartServiceImpl;
+import app.impl.member.MemberServiceImpl;
 import app.impl.order.OrderServiceImpl;
 import app.impl.orderdetail.OrderDetailServiceImpl;
 import app.impl.point.PointServiceImpl;
@@ -39,6 +41,7 @@ public class MainServlet implements ControllerFrame {
 	CartServiceImpl cartService;
 	PointServiceImpl pointService;
 	OrderDetailServiceImpl orderDetailService;
+	MemberServiceImpl memberService;
 	
 	String memberSeq = null;
 
@@ -49,6 +52,7 @@ public class MainServlet implements ControllerFrame {
 		cartService = new CartServiceImpl();
 		pointService = new PointServiceImpl();
 		orderDetailService = new OrderDetailServiceImpl();
+		memberService = new MemberServiceImpl();
 	}
 
 	@Override
@@ -64,7 +68,15 @@ public class MainServlet implements ControllerFrame {
 
 	private void build(HttpServletRequest request, String view) {
 
-		if (view == null) {			
+		if (view == null) {		
+			HttpSession session = request.getSession();
+			Member loggedInUser = (Member) session.getAttribute("logincust");
+			System.out.println(loggedInUser);
+			
+			if (loggedInUser != null) {
+				memberSeq = loggedInUser.getSequence() + "";
+			}
+			
 	         // 책 리스트 불러오기
 			 try {
 			    request.setAttribute("BestSeller", productService.getBestseller());
@@ -87,18 +99,24 @@ public class MainServlet implements ControllerFrame {
 			request.setAttribute("center", "signin");
 
 	} else if (view.contains("checkout-result")) {
+		System.out.println("결제 내역");
+		System.out.println(view);
 			OrderServiceImpl orderService = new OrderServiceImpl();
 			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
 			ProductServiceImpl productService = new ProductServiceImpl();
 			request.setAttribute("center", "checkout-result");
 
 			String receiver_name = request.getParameter("input__receiverName");
+			System.out.println(receiver_name);
 			String order_phone = request.getParameter("input__phone");
 			String zipcode = request.getParameter("input__zipcode");
 			String street_address = request.getParameter("input__street_address");
 			String address_detail = request.getParameter("input__address_detail");
 			String vendor_message = request.getParameter("input__vendor_message");
 			String email = request.getParameter("input__email");
+			
+			
+			
 			Order order = Order.builder().receiverName(receiver_name).orderPhone(order_phone)
 					.vendorMessage(vendor_message).addressDetail(address_detail).streetAddress(street_address)
 					.receiverEmail(email).zipcode(zipcode).memberSequence(Long.parseLong(memberSeq)).build();
@@ -159,12 +177,18 @@ public class MainServlet implements ControllerFrame {
 		            pointService.register(point);
 		            pointService.modify(point);
 		            
+		            HttpSession session = request.getSession();
+					Member loggedInUser = (Member) session.getAttribute("logincust");
+					
+					Member updatedUserInfo = memberService.get(Member.builder().email(loggedInUser.getEmail()).build());
+					session.setAttribute("logincust", updatedUserInfo);
 		           
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			} else if (cmd.equals("2")) {
 				// 바로 구매한 경우
+				System.out.println("바로 구매 결과");
 				try {
 					orderService.register(order);
 					
@@ -172,7 +196,7 @@ public class MainServlet implements ControllerFrame {
 					int productId = Integer.parseInt(request.getParameter("productId"));
 					double pointAccumulationRate = Double.valueOf(request.getParameter("point"));
 					Integer price = Integer.parseInt(request.getParameter("price"));
-					
+
 					List<Order> orderList = orderService
 							.getAll(Order.builder().memberSequence(Long.parseLong(memberSeq)).build());
 					OrderDetail orderDetail = OrderDetail.builder().orderSequence(orderList.get(0).getSequence())
@@ -213,6 +237,12 @@ public class MainServlet implements ControllerFrame {
 					Point point = Point.builder().point(usePoint).state(PointStateEnum.USED).memberSequence(Long.parseLong(memberSeq)).build();
 		            pointService.register(point);
 		            pointService.modify(point);
+		            
+		            HttpSession session = request.getSession();
+					Member loggedInUser = (Member) session.getAttribute("logincust");
+					
+					Member updatedUserInfo = memberService.get(Member.builder().email(loggedInUser.getEmail()).build());
+					session.setAttribute("logincust", updatedUserInfo);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

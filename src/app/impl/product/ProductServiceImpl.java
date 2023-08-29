@@ -219,6 +219,7 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		int result = 0;
 		try {
 			result = productDao.updateByProductKeyWithOrderDetail(orderDetail, session);
+			session.commit();
 		} catch (Exception e) {
 			e.getStackTrace();
 			throw new Exception("주문 상태 변경 에러");

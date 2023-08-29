@@ -334,7 +334,11 @@
 	}
 	
 	function cart_delete() {
+<<<<<<< HEAD
 		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence;
+=======
+		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence + '&isCart=1';
+>>>>>>> branch 'master' of https://github.com/Hyevvy/lotbook.git
 		
 		close_modal();
 	}

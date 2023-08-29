@@ -19,12 +19,8 @@ import app.impl.review.ReviewServiceImpl;
 */
 @WebServlet({"/review"})
 public class ReviewServlet implements ControllerFrame {
-	private static final long serialVersionUID = 1L;
-	
 	private ReviewServiceImpl reviewServiceImpl;
 	private MemberServiceImpl memberServiceImpl;
-	
-	private Logger user_log = Logger.getLogger("user");
 	
 	public ReviewServlet() {
         super();
@@ -54,8 +50,6 @@ public class ReviewServlet implements ControllerFrame {
 				long orderdetailSequence = Long.parseLong(request.getParameter("orderdetailSequence"));
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				String comment = request.getParameter("comment");
-				
-				System.out.println(memberSequence +" "+ productSequence +" "+ rating +" "+ comment);
 				
 				Review reviewInfo = Review.builder()
 						.rating(rating)

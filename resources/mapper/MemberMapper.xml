@@ -36,7 +36,5 @@
 		INSERT INTO member(email,hashed_pwd,name,member_phone,zipcode,street_address,address_detail,created_at) VALUES (#{email},#{hashedPwd},#{name},#{memberPhone},#{zipcode},#{streetAddress},#{addressDetail},now())
 	</insert>
 	
-	
-	
 </mapper>
 

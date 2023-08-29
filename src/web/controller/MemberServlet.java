@@ -22,12 +22,11 @@ import app.impl.product.ProductServiceImpl;
 import web.dispatcher.Navi;
 
 /**
-* Servlet implementation class CustServlet
+* Servlet implementation class MemberServlet
 */
 @WebServlet({"/member"})
 
 public class MemberServlet implements ControllerFrame {
-	private static final long serialVersionUID = 1L;
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private MemberServiceImpl memServiceImpl;

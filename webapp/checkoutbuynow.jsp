@@ -170,9 +170,9 @@ function use_point(value, totalPrice, myPoint) {
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form
-				action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}"
-				method="post">
+
+				<span style="display: none;" id="pointAccumulationRate">${res.pointAccumulationRate }</span>
+				<span style="display: none;" id="productId">${productId }</span>
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">
@@ -235,7 +235,10 @@ function use_point(value, totalPrice, myPoint) {
 						상품 목록 <span>금액</span>
 					</div>
 					<ul>
+						
 						<c:forEach items="${orderProductList }" var="product">
+							<span style="display: none;" id="productName">${product.name }</span>
+							<span style="display: none;" id="productCount">${product.count }</span>
 							<c:choose>
 								<c:when test="${fn:length(product.name) < 10 }">
 									<li>${product.name }X${product.count }
@@ -285,13 +288,72 @@ function use_point(value, totalPrice, myPoint) {
 							<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
 	                    원</span>
 					</div>
-					<button type="submit" class="site-btn">주문하기</button>
+					<button class="site-btn" id="btn-kakaopay" onclick="kakaopay()">주문하기</button>
 				</div>
-
 			</div>
-			</form>
+
 		</div>
 	</div>
 </section>
 <!-- Checkout Section End -->
+<script>
+
+
+var productName = document.getElementById("productName").innerText;
+var productCount = document.getElementById("productCount").innerText;
+var totalPrice = document.getElementById("totalPrice").innerText;
+var pointAccumulationRate = document.getElementById("pointAccumulationRate").innerText;
+var productId = document.getElementById("productId").innerText;
+
+function kakaopay() {
+	
+	var receiverName = document.getElementById("custName").value;
+	var receiverEmail = document.getElementById("custEmail").value;
+	var receiverPhone = document.getElementById("custPhone").value;
+	var receiverPostCode = document.getElementById("sample6_postcode").value;
+	var receiverAddress = document.getElementById("sample6_address").value;
+	var receiverDetailAddress = document.getElementById("sample6_detailAddress").value;
+	var receiverMessage = document.getElementById("sample6_extraAddress").value;
+	
+	console.log(receiverName);
+	if (receiverName === "") {
+		document.getElementById("custName").focus();
+	} else if (receiverEmail === "") {
+		console.log("none email")
+		document.getElementById("custEmail").focus();
+	} else if (receiverPhone === "") {
+		document.getElementById("custPhone").focus();
+	} else if (receiverPostCode === "") {
+		document.getElementById("sample6_postcode").focus();
+	} else if (receiverAddress === "") {
+		document.getElementById("sample6_address").focus()
+	} else if (receiverDetailAddress === "") {
+		document.getElementById("sample6_detailAddress").focus();
+	} else {
+		$.ajax({
+			url:"rest.bit?view=kakaopay&name=" + encodeURIComponent(productName) + "&count=" + productCount + "&price=" + totalPrice + "&pointAccumulationRate=" + pointAccumulationRate + "&productId=" + productId
+					+ "&input__receiverName=" + receiverName
+					+ "&input__phone=" + receiverPhone
+					+ "&input__zipcode=" + receiverPostCode
+					+ "&input__street_address=" + receiverAddress
+					+ "&input__address_detail=" + receiverDetailAddress
+					+ "&input__vendor_message=" + receiverMessage
+					+ "&input__email=" + receiverEmail
+		}).done(function(resp){
+			console.log(resp)
+			if(resp.status === 500){
+				alert("카카오페이결제를 실패하였습니다.")
+			} else{
+				 // alert(resp.tid); //결제 고유 번호
+				var box = resp.next_redirect_pc_url;
+				window.open(box); // 새창 열기
+			}
+		
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+		}); 
+	}
+	
+}
+</script>
 

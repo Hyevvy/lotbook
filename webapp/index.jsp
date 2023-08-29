@@ -240,7 +240,7 @@
 								<img src="img/family.png" class="family" />
 							</article>		
 						<div class="footer__about__logo" style="position: absolute; right: 0;">
-							<a href="./index.html"><img src="img/logo.png" alt=""></a>
+							<img src="img/logo.png" alt="">
 						</div>
 					</div>
 				</div>

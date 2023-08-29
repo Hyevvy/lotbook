@@ -38,18 +38,27 @@
 }
 </style>
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('.form_ip_pw i').on('click',function(){
-			$('input').toggleClass('active');
-			if($('input').hasClass('active')){
-				$(this).attr('class', "fa fa-eye fa-lg")
-				.prev('input').attr('type', "text");
-			}else{
-				$(this).attr('class', "fa fa-eye-slash fa-lg")
-				.prev('input').attr('type',"password");
-			}
-		});
-	});
+	$(document).ready(
+			function() {
+				$('.form_ip_pw i')
+						.on(
+								'click',
+								function() {
+									$('input').toggleClass('active');
+									if ($('input').hasClass('active')) {
+										$(this)
+												.attr('class',
+														"fa fa-eye fa-lg")
+												.prev('input').attr('type',
+														"text");
+									} else {
+										$(this).attr('class',
+												"fa fa-eye-slash fa-lg").prev(
+												'input').attr('type',
+												"password");
+									}
+								});
+			});
 </script>
 
 <header class="header">
@@ -86,10 +95,13 @@
 			</div>
 			<div class="col-lg-6">
 				<nav class="header__menu">
-					<ul id="header__menus" >
-						<li class="active"><a href="main.bit"  style="font-size: 20px; font-weight: 700;">홈</a></li>
-						<li><a href="category.bit?view=1"  style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
-						<li><a href="main.bit?view=contact"  style="font-size: 20px; font-weight: 700;">고객센터</a></li>
+					<ul id="header__menus">
+						<li class="active"><a href="main.bit"
+							style="font-size: 20px; font-weight: 700;">홈</a></li>
+						<li><a href="category.bit?view=1"
+							style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
+						<li><a href="main.bit?view=contact"
+							style="font-size: 20px; font-weight: 700;">고객센터</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -113,7 +125,7 @@
 </header>
 
 
-<form id="register_form" method="post" action="member.bit">
+<form id="register_form" method="post" action="member.bit" onsubmit="return validateForm();">
 	<input type="hidden" name="view" value="signup" />
 	<div class="d-flex flex-row justify-content-center ">
 		<div class="justify-content-center" align="center">
@@ -131,11 +143,17 @@
 					<td width="5%" class="first-td text-danger" align="center"><span>*</span></td>
 					<td width="20%" class="second-td"><label for="email">이메일</label></td>
 					<td>
-						<div class="row">
+						<div class="row" style="display: flex;">
 							<input type="email" class="form-control" name="email" id="email"
-								placeholder="ex) abc@gmail.com" required>
+								style="flex: 0.7;" placeholder="ex) abc@gmail.com" required>
+							<input type="button" onclick="checkDuplicateEmail()"
+								value="중복 검사" style="flex: 0.3;">
 						</div>
-					</td>
+				</tr>
+				<tr class="register" height="30">
+					<td width="5%"></td>
+					<td width="15%"></td>
+					<td id="email_message" align="center">중복확인을 해주세요</td>
 				</tr>
 				<tr height="7">
 					<td colspan="3"><hr /></td>
@@ -225,31 +243,78 @@
 </form>
 
 <script type="text/javascript">
-	
-	$(document).ready(function() {
-		emailjs.init("BeCe_Kl2PZg0CGUoO");		
-		
-        $('button[name=submit]').click(function(){       	 
-          var templateParams = {	
+	 $(document)
+			.ready(
+					function() {
+						emailjs.init("BeCe_Kl2PZg0CGUoO");
 
-                name: $('input[name=name]').val(),
-                email : $('input[name=email]').val(),
-                message : "회원 가입을 진심으로 축하드립니다. 기타 궁금한 점은 이 메일로 회신 부탁드립니다."
-           				};
-                    
-                	
-         emailjs.send('service_dwb08qj', 'template_8411y7q', templateParams)
-         	    .then(function(response) {
-         	       console.log('SUCCESS!', response.status, response.text);
-         	    }, function(error) {
-         	       console.log('FAILED...', error);
-         	    });
-         	       
+						$('button[name=submit]')
+								.click(
+										function() {
+											var templateParams = {
+
+												name : $('input[name=name]')
+														.val(),
+												email : $('input[name=email]')
+														.val(),
+												message : "회원 가입을 진심으로 축하드립니다. 기타 궁금한 점은 이 메일로 회신 부탁드립니다."
+											};
+
+											emailjs
+													.send('service_dwb08qj',
+															'template_8411y7q',
+															templateParams)
+													.then(
+															function(response) {
+																console
+																		.log(
+																				'SUCCESS!',
+														 							response.status,
+																				response.text);
+															},
+															function(error) {
+																console
+																		.log(
+																				'FAILED...',
+																				error);
+															});
+
+										});
+
+					});
+	 
+	function checkDuplicateEmail() {
+	    const emailInput = document.getElementById("email");
+	    const email = emailInput.value;
+
+	    $.ajax({
+	        url: "/lotbook/member.bit?view=checkDuplicateEmail&email=" + email,
+	        method: "GET",
+	        success: function(data) {
+	        	const messageElement = document.getElementById("email_message");
+	            const registerButton = document.getElementById("register_btn");
+	            
+	            console.log(data.isDuplicate);
+	            if (data.isDuplicate === false) {
+	            	messageElement.innerText = "사용 가능한 이메일입니다.";
+	                messageElement.style.color = "green";
+	                registerButton.disabled = false;
+	            } else if (data.isDuplicate === true) {
+	            	 messageElement.innerText = "중복된 이메일입니다.";
+	                 messageElement.style.color = "red";
+	                 registerButton.disabled = true;
+	            } else {
+	                console.log(data);
+	                alert("오류가 발생했습니다.");
+	            }
+	        },
+	        error: function(error) {
+	            console.log(error);	
+	            console.log("에러입니다.");
+	        }
+	    });
+
+	}
 
 
-        });
-        
-	  });
-    
-
-	</script>
+</script>

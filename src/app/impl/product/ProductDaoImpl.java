@@ -67,6 +67,10 @@ public class ProductDaoImpl implements DaoFrame<Product, Product> {
 	public int updateByProductKeyWithSalesCount(OrderDetail k, SqlSession session) throws Exception {
 		return session.update("product.updateByProductKeyWithSalesCount", k);
 	}
+	
+	public int updateByProductKeyWithOrderDetail(OrderDetail k, SqlSession session) throws Exception {
+		return session.update("product.updateByProductKeyWithOrderDetail", k);
+	}
 
 
 }

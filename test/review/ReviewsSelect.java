@@ -29,7 +29,6 @@ public class ReviewsSelect {
 								 .sequence(1)
 								 .build();
 		
-				
 		try {
 			List<ReviewWithNameMapper> reviews = dao.selectReviewsByProduct(product, session);
 			 reviews.forEach(review -> {

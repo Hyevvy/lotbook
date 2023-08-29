@@ -40,5 +40,8 @@ public class MemberDaoImpl implements DaoFrame<Member, Member> {
 		return session.update("member.updateInfo", v);
 	}
 
+	public int updatePoint(long v, SqlSession session) {
+		return session.update("member.updatePoint", v);
+	}
 
 }

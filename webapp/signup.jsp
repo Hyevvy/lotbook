@@ -293,16 +293,15 @@
 	        success: function(data) {
 	        	const messageElement = document.getElementById("email_message");
 	            const registerButton = document.getElementById("register_btn");
-	            
+	            const emailInput = document.getElementById("email");
 	            console.log(data.isDuplicate);
 	            if (data.isDuplicate === false) {
 	            	messageElement.innerText = "사용 가능한 이메일입니다.";
 	                messageElement.style.color = "green";
-	                registerButton.disabled = false;
 	            } else if (data.isDuplicate === true) {
-	            	 messageElement.innerText = "중복된 이메일입니다.";
+	            	 messageElement.innerText = "중복된 이메일입니다. 다시 입력해 주세요.";
+	            	 emailInput.value = "";
 	                 messageElement.style.color = "red";
-	                 registerButton.disabled = true;
 	            } else {
 	                console.log(data);
 	                alert("오류가 발생했습니다.");

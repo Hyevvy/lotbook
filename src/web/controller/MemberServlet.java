@@ -84,8 +84,10 @@ public class MemberServlet implements ControllerFrame {
 
          try {
             Member loginUser = memServiceImpl.get(loginInfo);
-            user_log.debug("로그인된 이메일 정보: "+loginUser.getEmail());
-            if(bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
+            if(loginUser != null) {
+            	user_log.debug("로그인된 이메일 정보: "+loginUser.getEmail());            	
+            }
+            if(loginUser != null && bCryptPasswordEncoder.matches(password, loginUser.getHashedPwd())) {
                
                HttpSession session = request.getSession();
                session.setAttribute("logincust", loginUser);
@@ -99,7 +101,12 @@ public class MemberServlet implements ControllerFrame {
                request.setAttribute("BigPoint", productService.getPoint());
                request.setAttribute("BigDiscount", productService.getDiscount());
                
-            } else {
+            } 
+            else if(loginUser == null) {
+            	request.setAttribute("center", "signin");
+                request.setAttribute("msg", "존재하지 않는 아이디입니다.");
+            }
+            else {
                request.setAttribute("center", "signin");
                request.setAttribute("msg", "email 또는 password가 일치하지 않습니다.");
             }

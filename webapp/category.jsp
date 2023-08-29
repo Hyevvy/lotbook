@@ -127,8 +127,8 @@
 							<c:otherwise>카테고리</c:otherwise>
 						</c:choose>
 					</h2>
-					<div class="breadcrumb__option">
-						<a href="./index.jsp">Home</a> <span>Shop</span>
+					<div>
+						<a href="./category.bit?view=1"  style="color:white">도서전체</a>
 					</div>
 				</div>
 			</div>
@@ -187,7 +187,7 @@
 						<div class="col-lg-4 col-md-4">
 							<div class="filter__found">
 								<h6>
-									<span>${selectCategory.size()}</span> Products found
+									<span>${selectCategory.size()}</span> 개의 상품이 있습니다.
 								</h6>
 							</div>
 						</div>

@@ -10,6 +10,7 @@
 		<typeAlias type="app.dto.entity.Member" alias="member" />
 		<typeAlias type="app.dto.entity.Order" alias="order" />
 		<typeAlias type="app.dto.entity.OrderDetail" alias="orderdetail" />
+		<typeAlias type="app.dto.response.OrderDetailResponse" alias="orderdetailresponse" />
 		<typeAlias type="app.dto.entity.Product" alias="product" />
 		<typeAlias type="app.dto.entity.Review" alias="review" />
 		<typeAlias type="app.dto.response.ReviewDetails" alias="reviewDetails" />

@@ -92,7 +92,7 @@ $(document).ready(function(){
 						<p>
 							아이디(이메일)<span>*</span>
 						</p>
-						<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com">
+						<input type="email" class="form-control" name="email" id="email" placeholder="ex) abc@gmail.com" required>
 					</div>
 
 				</div>

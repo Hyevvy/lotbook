@@ -50,5 +50,9 @@ public class ReviewDaoImpl implements DaoFrame<Review, Review>{
 		List<ReviewDetails> reviews = session.selectList("review.selectReviewsByMember", k);
 		return reviews;
 	}
+	
+	public Review selectReviewByOrderdetail(Review k, SqlSession session) throws Exception {
+		return session.selectOne("review.selectReviewByOrderdetail", k);
+	}
 
 }

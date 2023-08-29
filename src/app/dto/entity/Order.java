@@ -2,8 +2,7 @@ package app.dto.entity;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
+import app.dto.response.OrderDetailResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +26,5 @@ public class Order {
 	private String vendorMessage;
 	private long memberSequence;
 	
-	private List<OrderDetail> orderDetailList;
+	private List<OrderDetailResponse> orderDetailList;
 }

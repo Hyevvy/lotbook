@@ -25,6 +25,17 @@
 		<result property="productSequence" column="product_sequence" />
 	</resultMap>
 
+	<resultMap id="reviewMap" type="review">
+		<id property="sequence" column="sequence" />
+		<result property="rating" column="rating" />
+		<result property="comment" column="comment" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="isDeleted" column="is_deleted" />
+		<result property="memberSequence" column="member_sequence" />
+		<result property="productSequence" column="product_sequence" />
+	</resultMap>
+	
 	<select id="selectReviewsByProduct" resultMap="reviewResultMap" parameterType="product">
 		SELECT 
 		    r.sequence, r.rating, r.comment, r.created_at, r.updated_at, 
@@ -42,7 +53,7 @@
 	</select>
 
 	<insert id="insert" parameterType="review">
-		INSERT INTO review (rating, comment, created_at, updated_at, member_sequence, product_sequence) VALUES (#{rating}, #{comment}, now(), now(), #{memberSequence}, #{productSequence})
+		INSERT INTO review (rating, comment, created_at, updated_at, member_sequence, product_sequence, orderdetail_sequence) VALUES (#{rating}, #{comment}, now(), now(), #{memberSequence}, #{productSequence}, #{orderdetailSequence})
 	</insert>
 	
 	<update id="update" parameterType="review">
@@ -52,6 +63,12 @@
 	<update id="updateReviewState" parameterType="review">
       	UPDATE review SET is_deleted=1 WHERE sequence=#{sequence}
 	</update>
+	
+	<select id="selectReviewByOrderdetail" parameterType="review" resultMap="reviewMap">
+		SELECT *
+		FROM review
+		WHERE orderdetail_sequence = #{orderdetailSequence}
+	</select>
 	
 	
 </mapper>

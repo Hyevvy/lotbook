@@ -24,6 +24,8 @@ if (productDetailWithReviews != null) {
 .normal-info {
 	vertical-align: bottom;
 	line-height: 1.2;
+	display: block;
+	min-width: 100px;
 }
 
 .bold-info {
@@ -65,7 +67,11 @@ if (productDetailWithReviews != null) {
 </style>
 
 
-
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+</svg>
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -248,13 +254,19 @@ if (productDetailWithReviews != null) {
 							<h5 class="my-2 info-tag normal-info">배송료</h5>
 							<div class="my-2">무료</div>
 						</div>
-						<a id="kakaotalk-sharing-btn">test</a>
+						<div class="d-flex flex-col" style="margin-top: 5px; margin-bottom: 5px; display: relative;">
+							<a id="kakaotalk-sharing-btn" class="btn" style="padding: 0px;">
+								<img style="width: 40px;" src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_sns_kakao_48x48@2x.png">
+							</a>
+							<a id="copy-link-btn" class="btn" style="padding: 0px; margin-left: 20px;">
+								<img style="width: 40px;" src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_sns_url_48x48@2x.png">
+							</a>
+							<div class="bg-warning text-white" id="success-alert" style="margin-left: 10px; display: absolute; height: 40px; border-radius: 20px; padding-top: 7px; padding-right: 10px; padding-left: 10px;">
+							  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+							  복사되었습니다
+							</div>
+						</div>
 					</div>
-
-
-
-
-
 					<div class="mb-4">
 						<p style="display: inline;">${productDetailWithReviews.getContent().substring(0, 100)}...<a
 								href="#details-description" class="text-muted"> 더보기</a>
@@ -283,15 +295,16 @@ if (productDetailWithReviews != null) {
 							<c:when test="${productDetailWithReviews.getStock() > 0}">
 								<button type="button" class="primary-btn border_none"
 									onclick='addToCart(${productDetailWithReviews.getSequence()}, ${logincust.sequence})'
-									id="addToCartButton">장바구니에 담기</button>
+									 id="addToCartButton">장바구니에 담기</button>
 								<button type="button" class="primary-btn border_none"
 									onclick='checkOutBuyNow(${productDetailWithReviews.getSequence()}, ${logincust.sequence})'
 									id="checkoutbuynow">바로 구매</button>
 							</c:when>
 							<c:otherwise>
 								<button type="button" class="primary-btn border_none"
-									id="addToCartButton" disabled>장바구니에 담기</button>
-								<a href="" class="primary-btn" onclick="return false;">바로 구매</a>
+									id="addToCartButton" style="background: #C8C8C8;" disabled>장바구니에 담기</button>
+								<button type="button" class="primary-btn border_none"
+									id="checkoutbuynow" style="background: #C8C8C8;" disabled>바로 구매</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -306,7 +319,7 @@ if (productDetailWithReviews != null) {
 					<ul>
 						<li><b>구매가능 여부</b> <span><c:choose>
 									<c:when test="${productDetailWithReviews.getStock() > 0}">구매가능</c:when>
-									<c:otherwise>품절</c:otherwise>
+									<c:otherwise><span style="color: black; font-weight:bolder;">품절</span></c:otherwise>
 								</c:choose></span></li>
 						<li><b>작가</b> <span>${productDetailWithReviews.getAuthorName() }</span></li>
 						<li><b>출판사</b> <span>${productDetailWithReviews.getPublisherName() }</span></li>
@@ -440,10 +453,10 @@ if (productDetailWithReviews != null) {
 	</div>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
    $(document).ready(function() {
+	   $("#success-alert").hide();
 	   
 	   Kakao.init('893713b29c0f17f54e1560263bc47e13');
 	   
@@ -477,7 +490,14 @@ if (productDetailWithReviews != null) {
  		   ],
  		 });})
 	  
-	   
+	  $("#copy-link-btn").click(function() {
+		  let url = window.location.href;
+		  navigator.clipboard.writeText(url).then(res => {
+			  $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+			      $("#success-alert").slideUp(500);
+			    });
+		  })
+	  });
 	   
       $("#addToCartButton").click(function() {
          $("#addToCartModal").modal("show");

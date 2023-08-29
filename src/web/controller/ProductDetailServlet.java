@@ -30,11 +30,9 @@ public class ProductDetailServlet implements ControllerFrame {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String next = "index.jsp";
 		String view = request.getParameter("view");
-
 		if (view != null) {
 			build(request, view);
 		}
-
 		RequestDispatcher rd = request.getRequestDispatcher(next);
 		rd.forward(request, response);
 	}
@@ -47,7 +45,6 @@ public class ProductDetailServlet implements ControllerFrame {
 		default:
 
 		}
-		
 
 	}
 
@@ -78,19 +75,16 @@ public class ProductDetailServlet implements ControllerFrame {
 		// 원하는 상품의 pk를 받아옴
 		String stringProductSequence = request.getParameter("sequence");
 		String viewTest = request.getParameter("view");
-		
-		
+
 		int productSequence = 3;
 		if (stringProductSequence != null) {
 			productSequence = Integer.parseInt(stringProductSequence);
 		}
 		// 상품 정보와 관련 리뷰를 가져옴
 		ProductDetailWithReviews productDetailWithReviews = getProductDetailWithReviews(productSequence);
-		
 
 		// 상품 상세 정보를 request 객체에 속성으로 추가
 		request.setAttribute("productDetailWithReviews", productDetailWithReviews);
-
 		request.setAttribute("center", "shop-details");
 	}
 
@@ -100,11 +94,10 @@ public class ProductDetailServlet implements ControllerFrame {
 		Product selectedProduct = Product.builder().sequence(productId).build();
 		try {
 			productDetailWithReviews = productServiceImpl.getProductDetailWithReviews(selectedProduct);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		return productDetailWithReviews;
 	}
 

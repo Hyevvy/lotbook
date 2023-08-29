@@ -63,55 +63,24 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 		List<SearchProductMapper> searchedList = searchDao.selectProductsByKeyword(keyword, session);
 		List<SearchProductMapper> filteredList;
 		
-		
-		
-		
-		
-
 		// popularity, pointAccumulation, discountedPrice 계산 및 설정
 		searchedList.forEach(item -> {
-			long popularity = item.getSalesCount()
-					+ (item.getRatingAvg() == 0 ? 300 : (long) item.getRatingAvg() * 100);
-			int pointAccumulation = (int) (item.getPrice() * item.getPointAccumulationRate() / 100);
-
-			// 할인된 가격 계산 및 10의 단위 절삭
-			double discountRate = item.getDiscountRate();
-			int discountedPrice = (int) (item.getPrice() * (1 - discountRate / 100));
-			discountedPrice = (discountedPrice / 10) * 10;
-
+			long popularity = calculatePopularity(item);
+	        int pointAccumulation = calculatePointAccumulation(item);
+	        int discountedPrice = calculateDiscountedPrice(item);
+	        
 			item.setPopularity(popularity);
 			item.setPointAccumulation(pointAccumulation);
 			item.setDiscountedPrice(discountedPrice);
 		});
 
 		// 정렬 기준을 적용
-		switch (orderby.toLowerCase()) {
-		case "latest":
-			searchedList.sort(Comparator.comparing(SearchProductMapper::getCreatedAt).reversed());
-			break;
-		case "sales":
-			searchedList.sort(Comparator.comparing(SearchProductMapper::getSalesCount).reversed());
-			break;
-		case "high_to_low":
-			searchedList.sort(Comparator.comparing(SearchProductMapper::getDiscountedPrice).reversed());
-			break;
-		case "low_to_high":
-			searchedList.sort(Comparator.comparing(SearchProductMapper::getDiscountedPrice));
-			break;
-		case "popular": // 기본이 popular. popular 점수에 리뷰점수가 없는(쿼리에서 null 대용으로 0 넣었음.) 경우 3점으로 세팅
-		default:
-			searchedList.sort(Comparator.comparingLong(SearchProductMapper::getPopularity).reversed());
-			break;
-		// throw new IllegalArgumentException("Invalid orderby parameter");
-		}
+		orderBy(searchedList, orderby);
 
 		// 카테고리별 검색결과 수 계산하기. -> 카테고리 별 검색결과 screening 하기 전에 개수만 파악.
 		Map<String, Integer> countByCategory = searchedList.stream()
 				.collect(Collectors.groupingBy(SearchProductMapper::getCategoryName, Collectors.summingInt(item -> 1)));
 		countByCategory.put("전체", searchedList.size());
-		
-		
-
 		
 		// 카테고리 기본값 0 -> 전체를 의미. 나머지는 매칭되는거를 걸러줌.
 		int categorySequence = 0;
@@ -123,11 +92,7 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 					.build();
 			Category resultCategoryInstance = categoryDao.select(categoryInstance, session);
 			categoryName = resultCategoryInstance.getName();
-		} else {
 		}
-		
-		
-		
 		
 		switch (categorySequence) {
 		case 0:
@@ -141,8 +106,6 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 			filteredList = searchedList.stream()
 									   .filter(item -> subcategoryIds.contains(item.getCategorySequence()))
 									   .collect(Collectors.toList());
-			
-			
 		}
 
 		SearchResult searchResult = SearchResult.builder()
@@ -156,9 +119,43 @@ public class SearchServiceImpl implements ServiceFrame<String, Product> {
 												.searchList(filteredList)
 												.build();
 		
-		
 		session.close();
 		return searchResult;
+	}
+	
+	private void orderBy(List<SearchProductMapper> list, String orderBy) {
+	    switch (orderBy.toLowerCase()) {
+	        case "latest":
+	            list.sort(Comparator.comparing(SearchProductMapper::getCreatedAt).reversed());
+	            break;
+	        case "sales":
+	            list.sort(Comparator.comparing(SearchProductMapper::getSalesCount).reversed());
+	            break;
+	        case "high_to_low":
+	            list.sort(Comparator.comparing(SearchProductMapper::getDiscountedPrice).reversed());
+	            break;
+	        case "low_to_high":
+	            list.sort(Comparator.comparing(SearchProductMapper::getDiscountedPrice));
+	            break;
+	        case "popular":
+	        default:
+	            list.sort(Comparator.comparingLong(SearchProductMapper::getPopularity).reversed());
+	            break;
+	    }
+	}
+	
+	private long calculatePopularity(SearchProductMapper item) {
+	    return item.getSalesCount() + (item.getRatingAvg() == 0 ? 300 : (long) item.getRatingAvg() * 100);
+	}
+
+	private int calculatePointAccumulation(SearchProductMapper item) {
+	    return (int) (item.getPrice() * item.getPointAccumulationRate() / 100);
+	}
+
+	private int calculateDiscountedPrice(SearchProductMapper item) {
+	    double discountRate = item.getDiscountRate();
+	    int discountedPrice = (int) (item.getPrice() * (1 - discountRate / 100));
+	    return (discountedPrice / 10) * 10;
 	}
 
 }

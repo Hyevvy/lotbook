@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- Header Section Begin -->
-<%-- <script>
-	<%=request.set(request.getAttribute("memberSeq"))%>
-</script> --%>
 <script>
 	$(document).ready(function(){
 		$('.form_ip_pw i, .form_ip_pw_redo i').on('click',function(){
@@ -26,7 +22,6 @@
         $("#inputPwRedo").keyup(function(){
             var pwd1=$("#inputPw").val();
             var pwd2=$("#inputPwRedo").val();
-            console.log(pwd1+" ,"+pwd2);
             if(pwd1 != "" || pwd2 != ""){
                 if(pwd1 == pwd2){
                     $("#alert-success").show();
@@ -41,6 +36,7 @@
         });
 	})
 </script>
+<!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
 		<div class="container">

@@ -300,8 +300,7 @@ public class MainServlet implements ControllerFrame {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (view.contains("deleteCart")) {
-			
+		} else if (view.contains("deleteCart")) {		
 			int sequence = Integer.parseInt(request.getParameter("sequence"));
 			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
 			int isCart = Integer.parseInt(request.getParameter("isCart"));

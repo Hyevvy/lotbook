@@ -19,16 +19,6 @@ public class ReviewsSelect {
 	private final static Logger LOGGER = Logger.getLogger(ReviewsSelect.class.getName());
 	ServiceFrame<Review, Review> service;
 	
-	@Before
-	public void before() throws Exception {
-//		SqlSession session;
-//		session = GetSessionFacroty.getInstance().openSession();
-//		ReviewDaoImpl dao = new ReviewDaoImpl();
-		
-//		service = new ReviewServiceImpl();
-		
-	}
-
 	@Test
 	public void test() {
 		SqlSession session;
@@ -39,7 +29,6 @@ public class ReviewsSelect {
 								 .sequence(1)
 								 .build();
 		
-				
 		try {
 			List<ReviewWithNameMapper> reviews = dao.selectReviewsByProduct(product, session);
 			 reviews.forEach(review -> {

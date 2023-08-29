@@ -39,6 +39,13 @@ public class MemberDaoImpl implements DaoFrame<Member, Member> {
 	public int updateInfo(Member v, SqlSession session) {
 		return session.update("member.updateInfo", v);
 	}
+	
+	public Member selectMemberByEmail(String email, SqlSession session) {
+        return session.selectOne("member.emailCheck", email);
+    }
 
+	public int updatePoint(long v, SqlSession session) {
+		return session.update("member.updatePoint", v);
+	}
 
 }

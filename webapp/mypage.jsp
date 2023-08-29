@@ -37,28 +37,23 @@ to {
 <style>
 .star-rating {
 	width: 260px;
-	/*  padding: 5px;
-    text-align: center;
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.829); */
 }
 
 .star-rating div {
-	/* float: left; */
 	width: 50%;
 }
 
 .stars {
-	
 }
 
 .stars .fa {
+	color: #c8c8c8;
 	font-size: 18px;
 	cursor: pointer;
 }
 
 .stars .fa.active {
-	color: red;
+	color: #F2EA2E;
 }
 
 .print {
@@ -73,125 +68,83 @@ to {
 </style>
 <script>
 function enableTextarea(sequence) {
-	console.log(sequence);
-//	const textarea = document.getElementById('updateComment');
-	console.log("textarea-"+sequence);
     const textarea = document.getElementById("textarea-"+sequence);
-    console.log("수정");
 	
 	textarea.disabled = false;
 	
-	console.log(textarea.disabled);
 	var editBtn = document.getElementById("editBtn-"+sequence);
-	//editBtn.textContent = "저장"; // 버튼 텍스트 변경
 	editBtn.style.display = "none";
 	
 	var submitBtn = document.getElementById("submitBtn-"+sequence);
 	submitBtn.style.display = "inline-block";
 	
-	
-	/* var editStars1 = document.getElementById("star-update-"+sequence+"-1");
-	var editStars2 = document.getElementById("star-update-"+sequence+"-2");
-	var editStars3 = document.getElementById("star-update-"+sequence+"-3");
-	var editStars4 = document.getElementById("star-update-"+sequence+"-4");
-	var editStars5 = document.getElementById("star-update-"+sequence+"-5");
-	editStars1.style['pointer-events'] = 'auto';
-	editStars2.style['pointer-events'] = 'auto';
-	editStars3.style['pointer-events'] = 'auto';
-	editStars4.style['pointer-events'] = 'auto';
-	editStars5.style['pointer-events'] = 'auto'; */
+	var cancelBtn = document.getElementById("cancelBtn-"+sequence);
+	cancelBtn.style.display = "inline-block";
 	
 	const editStars = document.getElementsByClassName("star-update-"+sequence);
 	for(let i=0; i<editStars.length; i++){
 		editStars[i].style['pointer-events'] = 'auto';
 	}
 	
-
-	/* var test = $(`#reviewList-${sequence} textarea[id='updateComment']`).val();
-	console.log(test); */
-	/* console.log(textarea.disabled);
-
-	if (textarea.disabled) {
-		textarea.disabled = false;
-        editBtn.textContent = "저장"; // 버튼 텍스트 변경
-        // 필요한 경우 다른 스타일 변경도 추가할 수 있습니다.
-        
-        // 수정 완료 후 저장 버튼을 클릭하면 다시 textarea를 비활성화하는 로직을 추가해야 합니다.
-        // 저장 버튼에 onclick 이벤트 핸들러를 추가하여 처리할 수 있습니다.
-        
-    } else {
-    	saveChanges(sequence); // 수정된 내용 저장 함수 호출
-    } */
 };
 
 function confirmDelete(sequence){
 	var confirmed = confirm("정말 삭제하시겠습니까?");
 	
 	if (confirmed) {
-        // "Yes" 버튼이 클릭된 경우에만 아래의 코드 블록이 실행됩니다.
-        
-        // 폼을 찾아서 제출합니다.
-        //var form = $(this).closest("form");
-        var form = document.getElementById("review-delete-"+sequence); // 여기에 폼의 ID를 넣으세요.
+        var form = document.getElementById("review-delete-"+sequence); 
         
         if (form) {
             form.submit();
-            console.log("삭제 작업을 실행합니다.");
         } else {
-            console.log("폼을 찾지 못했습니다.");
         } 
     } else {
-        console.log("삭제 작업을 취소했습니다.");
     }
+}
+
+function cancelEdit(){
+	var confirmed = confirm("리뷰 수정을 취소하시겠습니까?");
+	
+	if(confirmed){
+		location.reload();
+	}
+}
+
+function submitEdit(sequence){
+	var confirmed = confirm("리뷰 수정을 완료하시겠습니까?");
+	
+	if(confirmed){
+		var form = document.getElementById("review-edit-"+sequence);
+        
+        if (form) {
+            form.submit();
+        }
+	}else{
+		
+	}
 }
 </script>
 <script>
 $(document).ready(function(){
-	//document.getElementById('updateComment').disabled = true;
-
 	$("#alert-danger").hide();
 	
 	$('.stars .fa').click(function(event) {
 	    $(this).addClass('active');
-	    // 클릭한 별을 기준으로 (.fa) 그 이전 별은 보이게 그 뒤에 별들은 안보이게
 	    $(this).prevAll().addClass('active');
 	    $(this).nextAll().removeClass('active');
 	
-	    // 순서를 찾는 메서드 index 0 1 2 3 4
-	    // 텍스트내용을 출력 text, 태그+텍스트 html
 	    var num = $(this).index();
 	    var starRate = num + 1;
 	    
-	    console.log(event.target.id);
 	    const inputId = event.target.id;
 	    
-	    //$('input[name=rating]').val(starRate);
 	    $('input[id="'+event.target.id + '"]').val(starRate);
 	    
 	});
-	   $('#updateComment1').select(function(){console.log('hi');});
-	   
+	
 	$(".site-btn").click(function() {
-		//event.preventDefault();
-		console.log("유효성 검사!");
         var form = $(this).closest("form");
-        /* console.log($(this).val());
-        var btnId = $(this).val();
-        var findBtn = form.parent().find(btnId);
-        console.log(findBtn); */
-        
-        
-        //console.log(form.hasClass(""))
-        /* var findNode = form.parent().find(".card-body").childNodes[0].childNodes[0].childNodes[1].find(".review-toggle-btn"); // 해당 폼의 부모 노드에서 .collapse 요소를 찾음
-
-        console.log(findNode);
-        findNode.hide(); */
-        console.log(form);
-        //var comments = document.getElementById("textarea-${orderDetail.sequence }");
-         
         if ($(this).attr("id") === "submitBtn") {
-        //if ($(this).attr("id").startsWith("submitBtn")) {
-        	
             var starRate = form.find('.rating-input').val();
             var comments = form.find('.form-control').val();
             
@@ -200,29 +153,20 @@ $(document).ready(function(){
                 
                 var formData = form.serialize();
                 
-                console.log(formData);
-                console.log("url => "+ form.attr("action"));
                 $.ajax({
                 	type: "POST",
                 	url: form.attr("action"),
                 	data: formData,
                 	success: function(response){
-                		// Handle success response from the server
-                        console.log("Review submitted successfully:", response);
-                        // You can update the UI or perform other actions here
                         alert("리뷰가 성공적으로 반영되었습니다!");
                         document.location.reload();
-                     	
                 	},
                     error: function(error) {
-                        // Handle error response from the server
-                        console.error("Error submitting review:", error);
-                        // You can display an error message or perform other error handling here
                     }
                 });
             } else if(starRate == "" || starRate === 0){
                 form.find(".alert-danger").css("display", "block");
-	            return false; // Prevent form submission
+	            return false;
             } else if(comments == ""){
             	form.find(".alert-danger").css("display", "none");
             	form.find(".form-control").focus();
@@ -236,54 +180,9 @@ $(document).ready(function(){
     });
 });
 
-
-
-
-/* function valid_check(a, b){
-	//var form = $(this).closest("form");
-	console.log('here');
-	const starRate = $('input[name=rating]').val();
-	//var starRate = form.find('.rating-input').val();
-	console.log(starRate);
-	if(starRate !== "" && starRate >=1){
-		//form.find(".alert-danger").css("display", "none");
-		console.log($("#alert-danger"));
-		console.log(' 들어옴');
-		$("#alert-danger").css("color", "#eeeeee");
-		$('.star-rating').css("display", "none");
-		$('#alert-14-20').css('display', 'none');
-		$("input[name=rating]").val(5);
-		$("input[name=rating]").css("display", "none");
-		return true;
-	}else if(starRate == "" || starRate === 0){
-		$("#alert-danger").show();
-	}
-	 
-	
-    if (starRate !== "" && starRate >= 1) {
-        //form.find(".alert-danger").css("display", "none");
-    	$("#alert-danger").hide();
-    } else if(starRate == "" || starRate === 0){
-        //form.find(".alert-danger").css("display", "block");
-    	$("#alert-danger").show();
-    } else if(form.find(".review-textarea").value == ""){
-    	form.find(".review-textarea").focus();
-    }
-    else{
-    	console.log("성공!");
-	    //form.submit();
-    	//return true;
-    } 
-    return false;
-} */
-
-
-
 </script>
 
 <!-- Header Section Begin -->
-
-
 <header class="header">
 	<div class="header__top">
 		<div class="container">
@@ -327,6 +226,7 @@ $(document).ready(function(){
 			</div>
 			<c:choose>
 				<c:when test="${logincust != null }">
+				
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
@@ -469,7 +369,7 @@ $(document).ready(function(){
 											<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
 				                          원</h5>
 				                        </div>
-				                        <span class="icon_close btn" onclick="open_modal(${product.productSequence }, ${logincust.sequence }, '${product.name }')"></span>
+				                        <span class="icon_close btn" onclick="open_modal(${product.sequence }, ${logincust.sequence }, '${product.name }')"></span>
 				                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
 			                        </div>
 			                      </div>
@@ -542,10 +442,6 @@ $(document).ready(function(){
 										환불 요청
 										</button>
 									</div>
-									<!-- <div
-										class="ml-3 d-flex justify-content-between align-items-center">
-										
-									</div> -->
 								</div>
 								<div class="d-flex flex-row align-items-center">
 									<div style="width: 50px;">
@@ -589,9 +485,7 @@ $(document).ready(function(){
 									rows="3" placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200"
 									required></textarea>
 								<button type="button" id="submitBtn"
-									class="site-btn mx-1 text-white border-0 rounded-sm mt-2"<%-- value="#reviewButton-${order.sequence}-${orderDetail.sequence}" --%>
-									<%-- onclick="valid_check();" --%>
-									<%-- onClick="valid_check(alert-${order.sequence}-${orderDetail.sequence},${orderDetail.sequence})" --%>
+									class="site-btn mx-1 text-white border-0 rounded-sm mt-2"
 									>리뷰
 									제출</button>
 								<button type="button"
@@ -626,7 +520,6 @@ $(document).ready(function(){
 		<div class="checkout__form">
 			<h4>작성된 리뷰 목록</h4>
 			<c:forEach items="${myReviewList}" var="review" varStatus="status">
-				<%-- <c:if test="${review.isDeleted == false}"> --%>
 					<div class="card mb-3 border-0">
 					<div class="card-body">
 						<div class="d-flex justify-content-between">
@@ -639,26 +532,15 @@ $(document).ready(function(){
 								</div>
 								<div class="ml-3 w-100">
 									<h5>${review.reviewDetailProduct.name }</h5>
-									<%-- <p class="small mb-0">${orderDetail.state}</p> --%>
 								</div>
-								<!-- <div
-										class="ml-3 d-flex justify-content-between align-items-center">
-										
-									</div> -->
 							</div>
 							<div class="d-flex flex-row align-items-center">
-								<%-- <div style="width: 80px;">
-										<h5 class="fw-normal mb-0">수량: ${review.reviewDetailProduct.count}</h5>
-									</div> --%>
-								<%-- <div style="width: 100px;">
-										<h5 class="mb-0">${orderDetail.productPrice * orderDetail.count}원</h5>
-									</div> --%>
 							</div>
 
 						</div>
 					</div>
 					<div id="reviewList-${review.sequence}">
-						<form action="review.bit" method="post">
+						<form id="review-edit-${review.sequence }" action="review.bit" method="post">
 							<input type="hidden" name="cmd" value="update"> 
 							<input type="hidden" name="sequence" value="${review.sequence }">
 							<input
@@ -669,19 +551,11 @@ $(document).ready(function(){
 							<input class="rating-input" type="hidden" name="rating" value="${review.rating }"
 								id="star-update-${review.sequence}" 
 								required> 
-							<span> 별점을 남겨주세요 </span> <span
-								style="color: red;">*</span> 
 	
 							<div class="star-rating">
 								<div class="stars">
 									<c:forEach var="i" begin="1" end="5">
 										<c:choose>
-											<%-- <c:when test="${i <= review.rating}">
-												<i class="fa fa-star active" id="star-update-${review.sequence}-${i}" style="pointer-events:none;" ></i>
-											</c:when>
-											<c:otherwise>
-												<i class="fa fa-star" id="star-update-${review.sequence}-${i}" style="pointer-events:none;"></i>
-											</c:otherwise> --%>
 											<c:when test="${i <= review.rating}">
 												<i class="fa fa-star active star-update-${review.sequence}" id="star-update-${review.sequence}" style="pointer-events:none;" ></i>
 											</c:when>
@@ -705,31 +579,25 @@ $(document).ready(function(){
 							<button type="submit" id="submitBtn-${review.sequence }"
 								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
 								style="display:none;"
+								onclick="submitEdit(${review.sequence })"
 								>제출</button>
-							<%-- 						<button type="submit" id="submitBtn"
-								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
-								value="#reviewButton-${review.sequence}" onclick="enableEdit(${review.sequence})">수정</button> --%>
-							
+							<button type="button" id="cancelBtn-${review.sequence }"
+								class="site-btn bg-secondary text-white border-0 rounded-sm"
+								style="display:none;"
+								onclick="cancelEdit()"
+								>취소</button>
 						</form>
 						<form id="review-delete-${review.sequence }" action="review.bit" method="post">
 							<input type="hidden" name="cmd" value="delete">
 							<input type="hidden" name="sequence" value="${review.sequence }">
-							<!-- <button type="button"
-								class="site-btn mx-1 bg-secondary text-white border-0 rounded-sm cancel-review-btn"
-								onclick="confirmDelete();"
-								style="position:absolute; right: 5%; top:10%;"
-								>삭제</button> -->
 							<i class="fa fa-trash-o" aria-hidden="true" style="position:absolute; right: 5%; top:10%; cursor:pointer; font-size: 130%;" onclick="confirmDelete(${review.sequence });"></i>
 						</form>
-						
 					</div>
-
 				</div>
 
 				<div style="padding-top: 20px;">
 					<hr>
 				</div>
-		<%-- 	</c:if> --%>
 			</c:forEach>
 		</div>
 	</div>
@@ -835,7 +703,7 @@ $(document).ready(function(){
 	}
 	
 	function cart_delete() {
-		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence;
+		location.href = 'main.bit?view=deleteCart&sequence=' + productSequence + '&memberSeq=' + memberSequence + '&isCart=0';
 		
 		close_modal();
 	}

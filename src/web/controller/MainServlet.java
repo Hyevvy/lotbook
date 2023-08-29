@@ -300,24 +300,31 @@ public class MainServlet implements ControllerFrame {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (view.contains("deleteCart")) {
-			request.setAttribute("center", "mypage");
+		} else if (view.contains("deleteCart")) {		
 			int sequence = Integer.parseInt(request.getParameter("sequence"));
 			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
+			int isCart = Integer.parseInt(request.getParameter("isCart"));
+			
+			if (isCart == 0) {
+				request.setAttribute("center", "mypage");
+			} else {
+				request.setAttribute("center", "shoping-cart");
+			}
 			List<Cart> cartList = new ArrayList<>();
 			List<CartProduct> productList = new ArrayList<>();
 
 			Cart cart = Cart.builder().sequence(sequence).memberSequence(memberSeq).build();
-
+			
 			try {
-				cartService.remove(cart);
-
+				int result = cartService.remove(cart);
 				cartList = cartService.getAll(cart);
 				request.setAttribute("myCartList", cartList);
 
 				productList = cartService.getProductInfo(cart);
 				request.setAttribute("myCartProductList", productList);
 
+				int cartCount = cartService.getCartCount(memberSeq);
+	            request.setAttribute("cartCount", cartCount);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -97,5 +97,29 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 		
 		return result;
 	}
+
+	public int updatePoint(long memberSequence) {
+		session = GetSessionFacroty.getInstance().openSession();
+		
+		int result = 0;
+		try {
+			result = ((MemberDaoImpl) dao).updatePoint(memberSequence, session);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return result;
+		
+	}
+	
+
+    public boolean isEmailDuplicate(String email) {
+    	session = GetSessionFacroty.getInstance().openSession();
+    	Member member = ((MemberDaoImpl) dao).selectMemberByEmail(email, session);
+        return member != null; // 이메일이 이미 존재하면 true 반환
+    }
 	
 }

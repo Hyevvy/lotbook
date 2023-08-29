@@ -213,5 +213,19 @@ public class ProductServiceImpl implements ServiceFrame<Product, Product> {
 		}
 		return result;
 	}
+	
+	public int updateByProductKeyWithOrderDetail(OrderDetail orderDetail) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		int result = 0;
+		try {
+			result = productDao.updateByProductKeyWithOrderDetail(orderDetail, session);
+		} catch (Exception e) {
+			e.getStackTrace();
+			throw new Exception("주문 상태 변경 에러");
+		} finally {
+			session.close();
+		}
+		return result;
+	}
 
 }

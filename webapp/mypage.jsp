@@ -414,18 +414,20 @@ $(document).ready(function(){
 										<h5>${orderDetail.orderDetailProduct.name}</h5>
 										<p class="small mb-0">${orderDetail.state}</p>
 										<button type="submit"
-											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
+											onclick="clickOrderDetailBtn('CANCLED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
+											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
 											style="${orderDetail.state eq 'ORDERED' || orderDetail.state eq 'DEPARTED' ? 'display: inline-block;' : 'display: none;'}">
 										주문 취소
 										</button>
 										<button type="submit"
+											onclick="clickOrderDetailBtn('CONFIRMED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
 											class="py-2 col-sm-3 bg-danger text-white border-0 rounded-sm"
 											style="${orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
 										주문 확정
 										</button>
 										<button type="button"
 											id="reviewButton-${order.sequence}-${orderDetail.sequence}"
-											class="py-2 col-sm-3 bg-primary text-white border-0 rounded-sm review-toggle-btn"
+											class="py-2 col-sm-3 bg-warning text-white border-0 rounded-sm review-toggle-btn"
 											data-toggle="collapse"
 											data-target="#reviewCollapse-${order.sequence}-${orderDetail.sequence}"
 											<%-- style="${orderDetail.state eq 'CONFIRMED' ? '' : 'display: none;'}">리뷰 --%>
@@ -437,6 +439,7 @@ $(document).ready(function(){
 											주문 확정됨
 										</c:if>
 										<button type="submit"
+											onclick="clickOrderDetailBtn('REFUNDED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
 											class="py-2 col-sm-3 bg-secondary text-white border-0 rounded-sm"
 											style="${orderDetail.state eq 'ARRIVED' || orderDetail.state eq 'RECEIVED' ? 'display: inline-block;' : 'display: none;'}">
 										환불 요청
@@ -627,6 +630,11 @@ $(document).ready(function(){
 	</div>
 </div>
 <script>
+	function clickOrderDetailBtn(state, sequence, productSequence, count) {
+		console.log(state, sequence, productSequence, count);
+		location.href="main.bit?view=changeOrderState&state=" + state + "&sequence=" + sequence + "&productSeq=" + productSequence + "&count=" + count;
+	}
+	
 	var totalPrice = 0;
 	var totalPoint = 0;
 	var selectedCart = [];

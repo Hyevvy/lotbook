@@ -36,6 +36,12 @@
         });
 	})
 </script>
+<script>
+function redirectToMyPage() {
+    var memberSeq = ${logincust.sequence}; // 로그인 사용자의 sequence 값을 가져와 사용
+    window.location.href = "main.bit?view=mypage&memberSeq=" + memberSeq;
+}
+</script>
 <!-- Header Section Begin -->
 <header class="header">
 	<div class="header__top">
@@ -45,7 +51,7 @@
 				<ul>
 					<c:choose>
 						<c:when test="${logincust != null }">
-							<li class="active"><a href="main.bit?view=mypage"><i
+							<li class="active"><a href="main.bit?view=mypage&memberSeq=${logincust.sequence }"><i
 									class="fa fa-user"></i> 마이페이지</a></li>
 							<li class=""><a href="member.bit?view=logout"><i
 									class="fa fa-user"></i> 로그아웃</a></li>
@@ -213,7 +219,7 @@
 				</div>
 				<div style="display: flex; gap: 10px; justify-content: center; margin-bottom:10px;">	
 					<button type="submit" id="register_btn" class="site-btn"> 정보 수정 </button>
-					<input type="button" id="cancel_btn" class="btn btn-secondary" onclick="window.history.back();" value="취소" style="width:7.5rem; height:2.9rem; border-radius:0px; font:14px Cairo;">		
+					<input type="button" id="cancel_btn" class="btn btn-secondary" onclick="redirectToMyPage()" value="취소" style="width:7.5rem; height:2.9rem; border-radius:0px; font:14px Cairo;">							
 				</div>
 			</form>
 

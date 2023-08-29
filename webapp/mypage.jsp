@@ -154,6 +154,20 @@ function cancelEdit(){
 		location.reload();
 	}
 }
+
+function submitEdit(sequence){
+	var confirmed = confirm("리뷰 수정을 완료하시겠습니까?");
+	
+	if(confirmed){
+		var form = document.getElementById("review-edit-"+sequence);
+        
+        if (form) {
+            form.submit();
+        }
+	}else{
+		
+	}
+}
 </script>
 <script>
 $(document).ready(function(){
@@ -669,7 +683,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<div id="reviewList-${review.sequence}">
-						<form action="review.bit" method="post">
+						<form id="review-edit-${review.sequence }" action="review.bit" method="post">
 							<input type="hidden" name="cmd" value="update"> 
 							<input type="hidden" name="sequence" value="${review.sequence }">
 							<input
@@ -714,6 +728,7 @@ $(document).ready(function(){
 							<button type="submit" id="submitBtn-${review.sequence }"
 								class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
 								style="display:none;"
+								onclick="submitEdit(${review.sequence })"
 								>제출</button>
 							<button type="button" id="cancelBtn-${review.sequence }"
 								class="site-btn bg-secondary text-white border-0 rounded-sm"

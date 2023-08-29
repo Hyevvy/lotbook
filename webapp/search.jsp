@@ -331,12 +331,11 @@ pageContext.setAttribute("endPage", endPage);
 												</c:when>
 												<c:otherwise>
 													<a href="#"
-														class="primary-btn cart-btn cart-btn-right mb-2" style="background:#c8c8c8;"
-														onclick='event.stopPropagation(); return false;'>장바구니에
-														넣기</a>
-													<a href="#" class="primary-btn text-white btn" style="background:#c8c8c8;"
-														onclick='event.stopPropagation(); return false;'>풍절
-														상품</a>
+														class="primary-btn cart-btn cart-btn-right mb-2 btn"
+														style="background: #c8c8c8; width:177.05px;"
+														onclick='event.stopPropagation(); return false;'>ㅤ품절 상품ㅤ
+														</a>
+
 												</c:otherwise>
 											</c:choose>
 										</div>

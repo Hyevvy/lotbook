@@ -67,6 +67,7 @@ public class RestController implements ControllerFrame {
 			int count = Integer.parseInt(request.getParameter("count"));
 			int productSequence = Integer.parseInt(request.getParameter("productSequence"));
 			int memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
+			request.setAttribute("memberSeq", memberSeq);
 			Cart cart = Cart.builder()
 						.count(count)
 						.productSequence(productSequence)

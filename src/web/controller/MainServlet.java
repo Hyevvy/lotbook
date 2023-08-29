@@ -434,12 +434,101 @@ public class MainServlet implements ControllerFrame {
 			request.setAttribute("center", "mypage");
 			long orderSeq = Long.parseLong(request.getParameter("sequence"));
 			String state = request.getParameter("state");
+			long productSeq = Long.parseLong(request.getParameter("productSeq"));
+			int count = Integer.parseInt(request.getParameter("count"));
 			
-			OrderDetail orderDetail = OrderDetail.builder().sequence(orderSeq).state(state).build();
-			
+			OrderDetail orderDetail1 = OrderDetail.builder().sequence(orderSeq).state(state).productSequence(productSeq).count(count).build();
+
 			try {
-				orderDetailService.modify(orderDetail);
+				orderDetailService.modify(orderDetail1);
+				productService.updateByProductKeyWithOrderDetail(orderDetail1);
 				
+				if (state.equals("CONFIRMED")) {
+					Product p = Product.builder().sequence(productSeq).build();
+
+					Product productInfo = productService.get(p);
+					
+					int totalPoint = (int) Math.floor(productInfo.getPrice() * count * productInfo.getPointAccumulationRate() * 0.01);
+					System.out.println(totalPoint);
+					
+					Point accumulatedPoint = Point.builder().point(totalPoint).state(PointStateEnum.ACCUMULATED).memberSequence(Long.parseLong(memberSeq)).build();
+					pointService.register(accumulatedPoint);
+					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			List<Cart> cartList = new ArrayList<>();
+			List<CartProduct> productList = new ArrayList<>();
+			request.setAttribute("myCartList", null);
+			request.setAttribute("myCartProductList", null);
+
+			Cart cart = Cart.builder().memberSequence(Integer.parseInt(memberSeq)).build();
+
+			try {
+				cartList = cartService.getAll(cart);
+				request.setAttribute("myCartList", cartList);
+				productList = cartService.getProductInfo(cart);
+				request.setAttribute("myCartProductList", productList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			List<Order> orderList = new ArrayList<>();
+			List<ReviewDetails> reviewDetailList = null;
+			OrderServiceImpl orderService = new OrderServiceImpl();
+			ProductServiceImpl productService = new ProductServiceImpl();
+
+			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
+			ReviewServiceImpl reviewServiceImpl = new ReviewServiceImpl();
+
+			Order order = Order.builder().memberSequence(Integer.parseInt(memberSeq)).build();
+			Member memberInfo = Member.builder().sequence(Integer.parseInt(memberSeq)).build();
+
+			try {
+				orderList = orderService.getAll(order); // 1. user sequence에 해당하는 order 내역 전체 조회
+				reviewDetailList = reviewServiceImpl.get(memberInfo);
+
+				// 2. order sequence에 해당하는 orderDetail 채워주기
+				for (int i = 0; i < orderList.size(); i++) {
+					List<OrderDetailResponse> orderDetail = new ArrayList<>();
+					
+					orderDetail = orderDetailService.get(orderList.get(i).getSequence());
+						
+					// 3. orderDetail 각각에 해당하는 Product, Review 작성여부 채워주기
+					for (int j = 0; j < orderDetail.size(); j++) {
+						Product product = Product.builder().sequence(orderDetail.get(j).getProductSequence()).build();
+						orderDetail.get(j).setOrderDetailProduct(productService.get(product));
+						// 리뷰 기 작성여부 채워주기
+						Review reviewInfo = Review.builder().orderdetailSequence(orderDetail.get(j).getSequence()).build();
+						Review result = reviewServiceImpl.get(reviewInfo);
+						if(result == null) {
+							orderDetail.get(j).setReviewState("NONEXIST");
+						}else {
+							orderDetail.get(j).setReviewState("EXIST");
+						}
+					}
+
+					orderList.get(i).setOrderDetailList(orderDetail);
+					
+				}
+				
+				// 2-2. review의 product_sequence에 해당하는 Product 정보 채워주기
+				for(int i=0; i< reviewDetailList.size(); i++) {
+					Product product = Product.builder().sequence(reviewDetailList.get(i).getProductSequence()).build();
+					reviewDetailList.get(i).setReviewDetailProduct(productService.get(product));
+					System.out.println("삭제됨?:"+reviewDetailList.get(i).isDeleted());
+				}
+
+				// 3. myPage로 보내기
+				request.setAttribute("myOrderList", orderList);
+				request.setAttribute("myReviewList", reviewDetailList);
+
+				
+				int cartCount = cartService.getCartCount(Long.parseLong(memberSeq));
+	            request.setAttribute("cartCount", cartCount);
+	               
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

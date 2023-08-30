@@ -482,7 +482,7 @@ pageContext.setAttribute("endPage", endPage);
         
         
         function redirectToProductDetail(sequence) {
-            var productDetailURL = 'http://127.0.0.1:8080/lotbook/product-detail.bit?view=shop-details&sequence=' + sequence;
+            var productDetailURL = 'product-detail.bit?view=shop-details&sequence=' + sequence;
             window.location.href = productDetailURL;
         }
         

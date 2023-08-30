@@ -36,7 +36,7 @@ function use_all_point(totalPoint, totalPrice) {
 	
 	if (checkbox.checked) {
 		document.getElementById("usePoint").value = totalPoint;
-		document.getElementById("totalPrice").innerText = (totalPrice - totalPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+		document.getElementById("totalPrice").innerText = (totalPrice - totalPoint) + " 원";
 		document.getElementById("usePoint").disabled = true;
 		payPrice = totalPrice - totalPoint;
 		usePoint = totalPoint
@@ -50,7 +50,7 @@ function use_point(value, totalPrice, myPoint) {
 		document.getElementById("usePoint").value = myPoint;
 		document.getElementById("totalPrice").innerHTML = (totalPrice - myPoint) + " 원";
 	} else {
-		document.getElementById("totalPrice").innerHTML = (totalPrice - value).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+		document.getElementById("totalPrice").innerHTML = (totalPrice - value) + " 원";
 		payPrice = totalPrice - value;
 		usePoint = value;
 	}
@@ -249,9 +249,8 @@ function use_point(value, totalPrice, myPoint) {
 									<li>${product.name }X${product.count }
 										<span> <c:set var="price"
 												value="${(product.price * ((100 - product.discountRate) * 0.01)) * product.count - ((product.price * ((100 - product.discountRate) * 0.01)) * product.count)%10 }" />
-											<fmt:formatNumber type="number" maxFractionDigits="3"
-												value="${price}" /> 원
-									</span>
+										 
+									</span>원
 									</li>
 								</c:when>
 								<c:otherwise>
@@ -289,12 +288,11 @@ function use_point(value, totalPrice, myPoint) {
 					<div class="checkout__order__total">
 						총 결제 금액 
 						<span id="totalPrice">
-							<c:set var="price" value="${orderProductList[fn:length(orderProductList) - 1].totalPrice }"/>
-							<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-	                    원</span>
+							${orderProductList[fn:length(orderProductList) - 1].totalPrice }
+	                    </span>원
 					</div>
 					<button type="submit" class="site-btn" >주문하기</button>
-					<button type="button" class="site-btn" onClick={requestPay()}>주문하기</button>
+					<button type="button" class="site-btn" onClick={requestPay()}>카카오페이주문</button>
 				</div>
 			</div>
 			</form>
@@ -346,7 +344,7 @@ function requestPay() {
     }, function (rsp) { // callback
     	console.log(rsp);
 
-    	location.href="main.bit?view=checkout-result&cmd=2&name=" + encodeURIComponent(productName) + "&count=" + productCount + "&price=" + totalPrice + "&pointAccumulationRate=" + pointAccumulationRate + "&productId=" + productId
+    	location.href="main.bit?view=checkout-result&cmd=2&name=" + encodeURIComponent(productName) + "&count=" + productCount + "&price=" + totalPrice + "&point=" + pointAccumulationRate + "&productId=" + productId
 		+ "&input__receiverName=" + receiverName
 		+ "&input__phone=" + receiverPhone
 		+ "&input__zipcode=" + receiverPostCode
@@ -355,7 +353,7 @@ function requestPay() {
 		+ "&input__vendor_message=" + receiverMessage
 		+ "&input__email=" + receiverEmail
 		+ "&usePoint=" +100;
-        //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+         //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
     });
 }
 

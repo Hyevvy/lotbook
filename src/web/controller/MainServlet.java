@@ -95,7 +95,6 @@ public class MainServlet implements ControllerFrame {
 			request.setAttribute("center", "signin");
 
 	} else if (view.contains("checkout-result")) {
-		System.out.println("hi");
 			HttpSession session = request.getSession();
 			Member loggedInUser = (Member) session.getAttribute("logincust");
 
@@ -195,12 +194,15 @@ public class MainServlet implements ControllerFrame {
 					double pointAccumulationRate = Double.valueOf(request.getParameter("point"));
 					Integer price = Integer.parseInt(request.getParameter("price"));
 
+			
 					List<Order> orderList = orderService
 							.getAll(Order.builder().memberSequence(5).build());
+					System.out.println(orderList);
 					OrderDetail orderDetail = OrderDetail.builder().orderSequence(orderList.get(0).getSequence())
 							.count(count).productPoint(pointAccumulationRate * 0.01 * count * price).productPrice(price)
 							.productSequence(productId).build();
 
+					System.out.println(orderDetail);
 					orderDetailService.register(orderDetail);
 					
 					

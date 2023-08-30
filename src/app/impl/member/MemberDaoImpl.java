@@ -30,6 +30,10 @@ public class MemberDaoImpl implements DaoFrame<Member, Member> {
 		return session.selectOne("member.select", k);
 	}
 
+	public Member selectById(Member k, SqlSession session) throws Exception {
+		return session.selectOne("member.selectBySeq", k);
+	}
+	
 	@Override
 	public List<Member> select(SqlSession session) throws Exception {
 		// TODO Auto-generated method stub
@@ -46,6 +50,10 @@ public class MemberDaoImpl implements DaoFrame<Member, Member> {
 
 	public int updatePoint(long v, SqlSession session) {
 		return session.update("member.updatePoint", v);
+	}
+	
+	public int updatePointConfirm(Member v, SqlSession session) {
+		return session.update("member.updatePointConfirm", v);
 	}
 
 }

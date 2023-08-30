@@ -43,10 +43,13 @@ function use_all_point(totalPoint, totalPrice) {
 	var checkbox = document.getElementById("checkbox");
 	
 	if (checkbox.checked) {
-		document.getElementById("usePoint").value = totalPoint;
+		document.getElementById("usePoint").value = totalPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		document.getElementById("totalPrice").innerHTML = (totalPrice - totalPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+		document.getElementById("usePoint").disabled = true;
 		payPrice = totalPrice - totalPoint;
 		usePoint = totalPoint
+	} else {
+		document.getElementById("usePoint").disabled = false;
 	}
 }
 function checkout_result(sequences) {
@@ -56,7 +59,7 @@ function checkout_result(sequences) {
 function use_point(value, totalPrice, myPoint) {
 	if (value > myPoint) {
 		alert("사용할 수 있는 포인트를 초과했습니다.");
-		document.getElementById("usePoint").value = myPoint;
+		document.getElementById("usePoint").value = myPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		document.getElementById("totalPrice").innerHTML = (totalPrice - myPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
 	} else {
 		document.getElementById("totalPrice").innerHTML = (totalPrice - value).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";

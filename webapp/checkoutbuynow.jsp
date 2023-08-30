@@ -13,8 +13,7 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 <script>
 function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
 	const checkbox = document.getElementById("check_box");
-	
-	console.log( $('input[name=temp]'));
+
 	if (checkbox.checked) {
 		document.getElementById("custName").value = name;
 		document.getElementById("custEmail").value = email;
@@ -36,19 +35,22 @@ function use_all_point(totalPoint, totalPrice) {
 	var checkbox = document.getElementById("checkbox");
 	
 	if (checkbox.checked) {
-		document.getElementById("usePoint").value = totalPoint;
-		document.getElementById("totalPrice").innerText = (totalPrice - totalPoint) + " 원";
+		document.getElementById("usePoint").value = totalPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+		document.getElementById("totalPrice").innerText = (totalPrice - totalPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+		document.getElementById("usePoint").disabled = true;
 		payPrice = totalPrice - totalPoint;
 		usePoint = totalPoint
+	} else {
+		document.getElementById("usePoint").disabled = false;
 	}
 }
 function use_point(value, totalPrice, myPoint) {
 	if (value > myPoint) {
 		alert("사용할 수 있는 포인트를 초과했습니다.");
-		document.getElementById("usePoint").value = myPoint;
-		document.getElementById("totalPrice").innerHTML = totalPrice - myPoint + " 원";
+		document.getElementById("usePoint").value = myPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+		document.getElementById("totalPrice").innerHTML = (totalPrice - myPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
 	} else {
-		document.getElementById("totalPrice").innerHTML = totalPrice - value + " 원";
+		document.getElementById("totalPrice").innerHTML = (totalPrice - value).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
 		payPrice = totalPrice - value;
 		usePoint = value;
 	}
@@ -170,7 +172,9 @@ function use_point(value, totalPrice, myPoint) {
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-
+				<form
+				action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}"
+				method="post">
 				<span style="display: none;" id="pointAccumulationRate">${res.pointAccumulationRate }</span>
 				<span style="display: none;" id="productId">${productId }</span>
 				<input type="hidden" name="view" value="checkout-result" />
@@ -288,10 +292,10 @@ function use_point(value, totalPrice, myPoint) {
 							<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
 	                    원</span>
 					</div>
-					<button class="site-btn" id="btn-kakaopay" onclick="kakaopay()">주문하기</button>
+					<button type="submit" class="site-btn">주문하기</button>
 				</div>
 			</div>
-
+			</form>
 		</div>
 	</div>
 </section>
@@ -306,16 +310,10 @@ var pointAccumulationRate = document.getElementById("pointAccumulationRate").inn
 var productId = document.getElementById("productId").innerText;
 
 function kakaopay() {
+	var clientKey = '';
+	var tossPayments = TossPayments(clientKey);
 	
-	var receiverName = document.getElementById("custName").value;
-	var receiverEmail = document.getElementById("custEmail").value;
-	var receiverPhone = document.getElementById("custPhone").value;
-	var receiverPostCode = document.getElementById("sample6_postcode").value;
-	var receiverAddress = document.getElementById("sample6_address").value;
-	var receiverDetailAddress = document.getElementById("sample6_detailAddress").value;
-	var receiverMessage = document.getElementById("sample6_extraAddress").value;
-	
-	console.log(receiverName);
+
 	if (receiverName === "") {
 		document.getElementById("custName").focus();
 	} else if (receiverEmail === "") {
@@ -330,6 +328,14 @@ function kakaopay() {
 	} else if (receiverDetailAddress === "") {
 		document.getElementById("sample6_detailAddress").focus();
 	} else {
+		var receiverName = document.getElementById("custName").value;
+		var receiverEmail = document.getElementById("custEmail").value;
+		var receiverPhone = document.getElementById("custPhone").value;
+		var receiverPostCode = document.getElementById("sample6_postcode").value;
+		var receiverAddress = document.getElementById("sample6_address").value;
+		var receiverDetailAddress = document.getElementById("sample6_detailAddress").value;
+		var receiverMessage = document.getElementById("sample6_extraAddress").value;
+
 		$.ajax({
 			url:"rest.bit?view=kakaopay&name=" + encodeURIComponent(productName) + "&count=" + productCount + "&price=" + totalPrice + "&pointAccumulationRate=" + pointAccumulationRate + "&productId=" + productId
 					+ "&input__receiverName=" + receiverName
@@ -351,7 +357,7 @@ function kakaopay() {
 		
 		}).fail(function(error){
 			alert(JSON.stringify(error));
-		}); 
+		});
 	}
 	
 }

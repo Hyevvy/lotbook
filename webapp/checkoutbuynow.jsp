@@ -31,11 +31,10 @@ function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDe
 	}
 }
 function use_all_point(totalPoint, totalPrice) {
-	console.log(totalPoint + " " + totalPrice);
 	var checkbox = document.getElementById("checkbox");
 	
 	if (checkbox.checked) {
-		document.getElementById("usePoint").value = totalPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+		document.getElementById("usePoint").value = totalPoint;
 		document.getElementById("totalPrice").innerText = (totalPrice - totalPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
 		document.getElementById("usePoint").disabled = true;
 		payPrice = totalPrice - totalPoint;
@@ -47,8 +46,8 @@ function use_all_point(totalPoint, totalPrice) {
 function use_point(value, totalPrice, myPoint) {
 	if (value > myPoint) {
 		alert("사용할 수 있는 포인트를 초과했습니다.");
-		document.getElementById("usePoint").value = myPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-		document.getElementById("totalPrice").innerHTML = (totalPrice - myPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+		document.getElementById("usePoint").value = myPoint;
+		document.getElementById("totalPrice").innerHTML = (totalPrice - myPoint) + " 원";
 	} else {
 		document.getElementById("totalPrice").innerHTML = (totalPrice - value).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
 		payPrice = totalPrice - value;
@@ -173,6 +172,7 @@ function use_point(value, totalPrice, myPoint) {
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
 				<form
+				id="register_form"
 				action="main.bit?view=checkout-result&cmd=2&count=${count}&price=${res.price}&point=${res.pointAccumulationRate}&productId=${productId}"
 				method="post">
 				<span style="display: none;" id="pointAccumulationRate">${res.pointAccumulationRate }</span>
@@ -302,6 +302,12 @@ function use_point(value, totalPrice, myPoint) {
 <!-- Checkout Section End -->
 <script>
 
+$(document).ready(function(){
+	document.getElementById('register_form').addEventListener("keydown", evt => {
+		  if (evt.code === "Enter") 
+			  evt.preventDefault();
+			});	
+})
 
 var productName = document.getElementById("productName").innerText;
 var productCount = document.getElementById("productCount").innerText;

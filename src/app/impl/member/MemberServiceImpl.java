@@ -10,7 +10,7 @@ import app.frame.GetSessionFacroty;
 import app.frame.ServiceFrame;
 
 public class MemberServiceImpl implements ServiceFrame<Member, Member>{
-	DaoFrame<Member, Member> dao;
+	MemberDaoImpl dao;
 	SqlSession session;
 	
 	
@@ -77,6 +77,23 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 		return mem;
 	}
 
+	public Member getById(Member k) throws Exception {
+		session = GetSessionFacroty.getInstance().openSession();
+		
+		Member mem = null;
+		
+		try {
+			mem = dao.selectById(k, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("ER1001");
+		} finally {
+			session.close();
+		}
+		
+		return mem;
+	}
+	
 	@Override
 	public List<Member> get() throws Exception {
 		return null;
@@ -104,6 +121,23 @@ public class MemberServiceImpl implements ServiceFrame<Member, Member>{
 		int result = 0;
 		try {
 			result = ((MemberDaoImpl) dao).updatePoint(memberSequence, session);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return result;
+		
+	}
+	
+	public int updatePointConfirm(Member v) {
+		session = GetSessionFacroty.getInstance().openSession();
+		
+		int result = 0;
+		try {
+			result = dao.updatePointConfirm(v, session);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

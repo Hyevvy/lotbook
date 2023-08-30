@@ -125,7 +125,8 @@
 </header>
 
 
-<form id="register_form" method="post" action="member.bit" onsubmit="return validateForm();">
+<form id="register_form" method="post" action="member.bit"
+	onsubmit="return validateForm();">
 	<input type="hidden" name="view" value="signup" />
 	<div class="d-flex flex-row justify-content-center ">
 		<div class="justify-content-center" align="center">
@@ -243,9 +244,14 @@
 </form>
 
 <script type="text/javascript">
-	 $(document)
+$(document)
 			.ready(
 					function() {
+						document.getElementById('register_form').addEventListener("keydown", evt => {
+							  if (evt.code === "Enter") 
+								  evt.preventDefault();
+								});	
+						
 						emailjs.init("BeCe_Kl2PZg0CGUoO");
 
 						$('button[name=submit]')

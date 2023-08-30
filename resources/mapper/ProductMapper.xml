@@ -94,10 +94,10 @@
 	</select>
 
 	<update id="updateByProductKeyWithSalesCount" parameterType="app.dto.entity.OrderDetail">
-		UPDATE `PRODUCT` SET sales_count = sales_count + #{count}, stock = stock - #{count} WHERE sequence = ${productSequence};
+		UPDATE `product` SET sales_count = sales_count + #{count}, stock = stock - #{count} WHERE sequence = ${productSequence};
 	</update>
 	
 	<update id="updateByProductKeyWithOrderDetail" parameterType="app.dto.entity.OrderDetail">
-		UPDATE `PRODUCT` SET sales_count = sales_count - #{count}, stock = stock + #{count} WHERE sequence = ${productSequence};
+		UPDATE `product` SET sales_count = sales_count - #{count}, stock = stock + #{count} WHERE sequence = ${productSequence};
 	</update>
 </mapper>

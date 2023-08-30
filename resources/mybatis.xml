@@ -31,8 +31,6 @@
 		</environment>
 	</environments>
 	<mappers>
-
-		<mapper resource="custmapper.xml" />
 		<mapper resource="mapper/CartMapper.xml" />
 		<mapper resource="mapper/CategoryMapper.xml" />
 		<mapper resource="mapper/MemberMapper.xml" />

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import app.cust.CustServiceImpl;
 import app.dto.entity.Cart;
 import app.dto.entity.Member;
 import app.dto.entity.Order;
@@ -36,7 +35,6 @@ import app.impl.review.ReviewServiceImpl;
 @WebServlet({ "/main" })
 public class MainServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
-	CustServiceImpl custService;
 	ProductServiceImpl productService;
 	CartServiceImpl cartService;
 	PointServiceImpl pointService;
@@ -47,7 +45,6 @@ public class MainServlet implements ControllerFrame {
 
 	public MainServlet() {
 		super();
-		custService = new CustServiceImpl();
 		productService = new ProductServiceImpl();
 		cartService = new CartServiceImpl();
 		pointService = new PointServiceImpl();
@@ -99,8 +96,6 @@ public class MainServlet implements ControllerFrame {
 			request.setAttribute("center", "signin");
 
 	} else if (view.contains("checkout-result")) {
-		System.out.println("결제 내역");
-		System.out.println(view);
 			OrderServiceImpl orderService = new OrderServiceImpl();
 			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
 			ProductServiceImpl productService = new ProductServiceImpl();
@@ -469,6 +464,7 @@ public class MainServlet implements ControllerFrame {
 
 		} else if (view.contains("changeOrderState")) {
 			request.setAttribute("center", "mypage");
+			HttpSession session = request.getSession();
 			long orderSeq = Long.parseLong(request.getParameter("sequence"));
 			String state = request.getParameter("state");
 			long productSeq = Long.parseLong(request.getParameter("productSeq"));
@@ -486,10 +482,17 @@ public class MainServlet implements ControllerFrame {
 					Product productInfo = productService.get(p);
 					
 					int totalPoint = (int) Math.floor(productInfo.getPrice() * count * productInfo.getPointAccumulationRate() * 0.01);
-					System.out.println(totalPoint);
 					
 					Point accumulatedPoint = Point.builder().point(totalPoint).state(PointStateEnum.ACCUMULATED).memberSequence(Long.parseLong(memberSeq)).build();
 					pointService.register(accumulatedPoint);
+					
+					Member mem = Member.builder().sequence(Long.parseLong(memberSeq)).accumulatedPoint(totalPoint).build();
+					memberService.updatePointConfirm(mem);
+					
+					Member memberInfo = Member.builder().sequence(Integer.parseInt(memberSeq)).build();
+					System.out.println(memberInfo.toString());
+					Member memberResult = memberService.getById(memberInfo);
+					session.setAttribute("logincust", memberResult);
 					
 				}
 			} catch (Exception e) {

@@ -20,6 +20,10 @@
 		SELECT * FROM member WHERE email=#{email}
 	</select>
 	
+	<select id="selectBySeq" parameterType="member" resultMap="memberMap">
+		SELECT * FROM member WHERE sequence=#{sequence}
+	</select>
+	
 	<update id="update" parameterType="member">
       	UPDATE member SET last_login_at=now() WHERE sequence=#{sequence}
 	</update>
@@ -40,5 +44,8 @@
 		SELECT email FROM member WHERE email = #{email}
 	</select>
 	
+	<update id="updatePointConfirm" parameterType="member">
+		UPDATE member SET accumulated_point = accumulated_point + ${accumulatedPoint} WHERE sequence=#{sequence}
+	</update>
 </mapper>
 

@@ -3128,7 +3128,7 @@ ul, ol {
 		display: none;
 	}
 	.header__cart {
-		text-align: center;
+		text-align: right;
 		padding: 10px 0 24px;
 	}
 	.over_hid {

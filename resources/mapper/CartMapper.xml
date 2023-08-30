@@ -44,7 +44,7 @@
 	
 	<!-- 재고 확인 -->
 	<select id="checkProductStock" parameterType="cart" resultType="_int">
-		SELECT stock FROM `PRODUCT` WHERE sequence = #{productSequence}
+		SELECT stock FROM `product` WHERE sequence = #{productSequence}
 	</select>
 	
 	<!-- 중복 상품 여부 판별 -->

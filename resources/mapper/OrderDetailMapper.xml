@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 
 	<!-- 상품 구매 -->
 	<insert id="insert" parameterType="orderdetail">
-		INSERT INTO `ORDERDETAIL`
+		INSERT INTO `orderdetail`
 		(count, product_price, product_point, order_sequence, product_sequence)
 		VALUES (#{count}, #{productPrice}, #{productPoint}, #{orderSequence},
 		#{productSequence});
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- orderDetail 상태 변경 (원하는 state와 order detail sequence 넘겨주면 됨) -->
 	<update id="updateOrderDetailState"
 		parameterType="orderdetail">
-		UPDATE `ORDERDETAIL`
+		UPDATE `orderdetail`
 		SET state = #{state} WHERE sequence =
 		#{sequence}
 	</update>

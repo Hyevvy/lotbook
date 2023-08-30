@@ -48,7 +48,6 @@ public class DispatcherServlet extends HttpServlet {
 		path = path.substring(0, path.lastIndexOf("."));
 		work_log.debug(path);
 		
-		System.out.println(path);
 		try {
 			if (controllerMapper.containsKey(path)) {
 				ControllerFrame controller = controllerMapper.get(path);

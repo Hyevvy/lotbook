@@ -11,22 +11,22 @@
 	
 	<!-- 가장 최근에 가입한 사용자 sequence 조회 -->
 	<select id="select" resultType="_int">
-		SELECT sequence FROM `MEMBER` ORDER BY created_at DESC LIMIT 1;
+		SELECT sequence FROM `member` ORDER BY created_at DESC LIMIT 1;
 	</select>
 	
 	<!-- 포인트 적립 및 사용 -->
 	<insert id="insert" parameterType="point">
-		INSERT INTO `POINT` (point, state, member_sequence) values(#{point}, #{state}, #{memberSequence}) 
+		INSERT INTO `point` (point, state, member_sequence) values(#{point}, #{state}, #{memberSequence}) 
 	</insert>
 	
 	<!-- 포인트 사용 내역 조회 -->
 	<select id="selectAll" parameterType="point" resultMap="pointMap">
-		SELECT * FROM `POINT` WHERE member_sequence = #{memberSequence} ORDER BY registered_at DESC
+		SELECT * FROM `point` WHERE member_sequence = #{memberSequence} ORDER BY registered_at DESC
 	</select>
 	
 	<!-- 사용자 총 적립금 수정 -->
 	<update id="update" parameterType="point">
-		UPDATE `MEMBER` SET accumulated_point = accumulated_point + ${point} WHERE sequence = #{memberSequence}
+		UPDATE `member` SET accumulated_point = accumulated_point + ${point} WHERE sequence = #{memberSequence}
 	</update>
 	
 </mapper>

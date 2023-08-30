@@ -32,7 +32,7 @@
 	
 	<!-- 장바구니에 담은 개수 -->
 	<select id="getCartCount" parameterType="long" resultType="_int">
-		SELECT COUNT(*) FROM `CART` WHERE member_sequence = #{sequence} AND is_deleted = 0;
+		SELECT COUNT(*) FROM cart WHERE member_sequence = #{sequence} AND is_deleted = 0;
 	</select>
 	
 	<!-- 장바구니에 있는 상품 정보 조회 -->
@@ -49,38 +49,38 @@
 	
 	<!-- 중복 상품 여부 판별 -->
 	<select id="checkDuplicatedProduct" parameterType="cart" resultType="_int">
-		SELECT IFNULL(SUM(sequence), 0) sequence FROM `CART` WHERE member_sequence = #{memberSequence} AND product_sequence = #{productSequence} AND is_deleted = 0
+		SELECT IFNULL(SUM(sequence), 0) sequence FROM cart WHERE member_sequence = #{memberSequence} AND product_sequence = #{productSequence} AND is_deleted = 0
 	</select>
 	
 	<!-- 중복 상품 장바구니 개수 증가 -->
 	<update id="updateDuplicatedProduct" parameterType="cart">
-		UPDATE `CART` SET count = count + ${count} WHERE sequence = #{sequence}
+		UPDATE cart SET count = count + ${count} WHERE sequence = #{sequence}
 	</update>
 	
 	<!-- 장바구니에 책 담기 -->
 	<insert id="addToCart" parameterType="cart">
-		INSERT INTO `CART` (count, member_sequence, product_sequence) values(#{count}, #{memberSequence}, #{productSequence}) 
+		INSERT INTO cart (count, member_sequence, product_sequence) values(#{count}, #{memberSequence}, #{productSequence}) 
 	</insert>
 	
 	<!-- 내 장바구니 전체 조회 -->
 	<select id="selectCartAll" parameterType="cart" resultMap="cartMap">
-		SELECT * FROM `CART` WHERE member_sequence = ${memberSequence} AND is_deleted = 0
+		SELECT * FROM cart WHERE member_sequence = ${memberSequence} AND is_deleted = 0
 	</select>
 	
 	<!-- 장바구니 개별 상세 조회 -->
 	<select id="selectCartDetail" parameterType="cart" resultMap="cartMap">
-		SELECT * FROM `CART` WHERE sequence = ${sequence}
+		SELECT * FROM cart WHERE sequence = ${sequence}
 	</select>
 	
 	<!-- 장바구니 수량 변경 -->
 	<update id="updateCartProductCount" parameterType="cart">
-		UPDATE `CART` SET count = #{count} WHERE sequence = #{sequence}
+		UPDATE cart SET count = #{count} WHERE sequence = #{sequence}
 	</update>
 	
 	<!-- 장바구니에서 구매 -->
 	<!-- 장바구니 상태 변경(구매/삭제) -->
 	<update id="updateCartState" parameterType="cart">
-		UPDATE `CART` SET is_deleted = 1 WHERE sequence = #{sequence};
+		UPDATE cart SET is_deleted = 1 WHERE sequence = #{sequence};
 	</update>
 	
 	<!-- 선택된 장바구니 상품 정보 조회 -->
@@ -92,7 +92,7 @@
 	
 	<!-- 장바구니에서 주문 -->
 	<insert id="cartToOrder" parameterType="cart">
-		INSERT INTO `ORDER` (zipcode, street_address, address_detail, order_phone, member_sequence) SELECT `MEMBER`.zipcode, `MEMBER`.street_address, `MEMBER`.address_detail, `MEMBER`.member_phone, `MEMBER`.sequence FROM `MEMBER` WHERE `MEMBER`.sequence = #{memberSequence}
+		INSERT INTO `order` (zipcode, street_address, address_detail, order_phone, member_sequence) SELECT `member`.zipcode, `member`.street_address, `member`.address_detail, `member`.member_phone, `member`.sequence FROM `member` WHERE `member`.sequence = #{memberSequence}
 	</insert>
 	
 	<!-- 주문 상세 추가 -->

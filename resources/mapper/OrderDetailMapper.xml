@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- sequence에 해당하는 OrderDetail 내역 하나 조회 -->
 	<select id="selectOne" parameterType="orderdetail"
 		resultMap="orderDetailMap">
-		SELECT * FROM ORDERDETAIL WHERE sequence = #{sequence}
+		SELECT * FROM orderdetail WHERE sequence = #{sequence}
 	</select>
 	
 
@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectAllOrderDetailByOrderSequence"
 	parameterType="string"
 		resultMap="orderDetailResponseMap">
-		SELECT * FROM ORDERDETAIL
+		SELECT * FROM orderdetail
 		WHERE order_sequence = #{orderId}
 	</select>
 	

@@ -344,17 +344,20 @@ function requestPay() {
         buyer_postcode :receiverPostCode
     }, function (rsp) { // callback
     	console.log(rsp);
+	    if(rsp.success){
+	    	location.href="main.bit?view=checkout-result&cmd=2&name=" + encodeURIComponent(productName) + "&count=" + productCount + "&price=" + totalPrice + "&point=" + pointAccumulationRate + "&productId=" + productId
+			+ "&input__receiverName=" + receiverName
+			+ "&input__phone=" + receiverPhone
+			+ "&input__zipcode=" + receiverPostCode
+			+ "&input__street_address=" + receiverAddress
+			+ "&input__address_detail=" + receiverDetailAddress
+			+ "&input__vendor_message=" + receiverMessage
+			+ "&input__email=" + receiverEmail
+			+ "&usePoint=" + document.getElementById("usePoint").value;
+	         //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+	    }
 
-    	location.href="main.bit?view=checkout-result&cmd=2&name=" + encodeURIComponent(productName) + "&count=" + productCount + "&price=" + totalPrice + "&point=" + pointAccumulationRate + "&productId=" + productId
-		+ "&input__receiverName=" + receiverName
-		+ "&input__phone=" + receiverPhone
-		+ "&input__zipcode=" + receiverPostCode
-		+ "&input__street_address=" + receiverAddress
-		+ "&input__address_detail=" + receiverDetailAddress
-		+ "&input__vendor_message=" + receiverMessage
-		+ "&input__email=" + receiverEmail
-		+ "&usePoint=" + document.getElementById("usePoint").value;
-         //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+    	
     });
 }
 

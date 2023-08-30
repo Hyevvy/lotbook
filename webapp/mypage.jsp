@@ -97,8 +97,10 @@ function confirmDelete(sequence){
         if (form) {
             form.submit();
         } else {
+        	
         } 
     } else {
+    	
     }
 }
 
@@ -111,16 +113,43 @@ function cancelEdit(){
 }
 
 function submitEdit(sequence){
-	var confirmed = confirm("리뷰 수정을 완료하시겠습니까?");
+	/* var comments = form.find('.form-control').val();
 	
+	if(comments.length < 20){
+		form.find("#alert-2").css("display", "block");
+		return;
+	}
+	
+	var confirmed = confirm("리뷰 수정을 완료하시겠습니까?");
 	if(confirmed){
 		var form = document.getElementById("review-edit-"+sequence);
-        
-        if (form) {
+		
+        if (form && comments.length >= 20) {
+        	form.find("#alert-2").css("display", "none");
             form.submit();
+        }
+        else{
+        	form.find("#alert-2").css("display", "block");
         }
 	}else{
 		
+	} */
+	var textareaValue = $("#textarea-" + sequence).val();
+	console.log(textareaValue);
+	if (textareaValue.length >= 20) {
+		var confirmed = confirm("리뷰 수정을 완료하시겠습니까?");
+		
+		if(confirmed){
+			var form = document.getElementById("review-edit-"+sequence);
+			form.submit();
+		}
+		else{
+			return;
+		}
+	} 
+	else{
+		alert("텍스트는 최소 20자 이상이어야 합니다.");
+        return;
 	}
 }
 
@@ -583,7 +612,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div id="reviewList-${review.sequence}">
-								<form id="review-edit-${review.sequence }" action="review.bit" method="post">
+								<form id="review-edit-${review.sequence }" action="review.bit" method="post" onsubmit="event.preventDefault();">
 									<input type="hidden" name="cmd" value="update"> 
 									<input type="hidden" name="sequence" value="${review.sequence }">
 									<input
@@ -612,8 +641,14 @@ $(document).ready(function(){
 			
 									<textarea id="textarea-${review.sequence}" name="comment" class="form-control"
 										rows="3" style="background-color: #f1f3f5; resize: none;"
-										placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled required
+										placeholder="리뷰를 자유롭게 수정해주세요." maxlength="200" disabled required
 										>${review.comment } </textarea>
+										
+									<!-- <div class="alert alert-danger mt-4"
+											id="alert-2"
+											style="display: none;">리뷰를 20자 이상 작성해주세요</div> -->
+									<!-- <div class="alert alert-danger" id="alert-2">리뷰를 20자 이상 작성해주세요</div> -->
+									
 									<button type="button" id="editBtn-${review.sequence}"
 										class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
 										onclick="enableTextarea(${review.sequence })"

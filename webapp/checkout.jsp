@@ -304,7 +304,7 @@ function use_point(value, totalPrice, myPoint) {
                        </span>
                </div>
                <button type="submit" class="site-btn" >주문하기</button>
-               <button type="button" class="site-btn" onClick={requestPay()}>카카오페이주문</button>
+              <img src="./img/payment-kakao.png" style="margin-top:10px;"  alt="kakao 결제" onClick={requestPay()}/>
             </div>
          </div>
          </form>

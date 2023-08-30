@@ -291,8 +291,9 @@ function use_point(value, totalPrice, myPoint) {
 							${orderProductList[fn:length(orderProductList) - 1].totalPrice }
 	                    </span>원
 					</div>
-					<button type="submit" class="site-btn" >주문하기</button>
-					<img src="./img/payment-kakao.png" style=""  alt="kakao 결제" onClick={requestPay()}/>
+					<button type="submit" class="site-btn">주문하기</button>
+					
+					<img src="./img/payment-kakao.png" style="margin-top:10px;"  alt="kakao 결제" onClick={requestPay()}/>
 				</div>
 			</div>
 			</form>

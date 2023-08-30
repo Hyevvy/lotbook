@@ -70,7 +70,7 @@
 	            INNER JOIN author a ON p.author_sequence = a.sequence
 	            INNER JOIN publisher pb ON p.publisher_sequence = pb.sequence
 	            INNER JOIN category c ON p.category_sequence = c.sequence
-	            INNER JOIN category m ON c.parent_category = M.sequence
+	            INNER JOIN category m ON c.parent_category = m.sequence
 	    WHERE
 	        p.sequence = #{sequence}
 	</select>

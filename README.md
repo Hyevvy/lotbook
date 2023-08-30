@@ -21,7 +21,7 @@
 
 ---
 
-## 🎮 프로젝트 주소 - [LOTBOOK](http://13.124.123.74:8080/main.bit)
+## 🎮 프로젝트 주소 - [LOTBOOK](http://lotbook-alb-855234744.ap-northeast-2.elb.amazonaws.com/lotbook/main.bit)
 
 ### 🧩 ERD
 ![모의 쇼핑몰 ERD 구축 (1)](https://github.com/Hyevvy/lotbook/assets/81145399/2e24f919-c8de-4b53-ba28-a3714fa27083)

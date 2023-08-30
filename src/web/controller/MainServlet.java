@@ -95,6 +95,10 @@ public class MainServlet implements ControllerFrame {
 			request.setAttribute("center", "signin");
 
 	} else if (view.contains("checkout-result")) {
+		System.out.println("hi");
+			HttpSession session = request.getSession();
+			Member loggedInUser = (Member) session.getAttribute("logincust");
+
 			OrderServiceImpl orderService = new OrderServiceImpl();
 			OrderDetailServiceImpl orderDetailService = new OrderDetailServiceImpl();
 			ProductServiceImpl productService = new ProductServiceImpl();
@@ -108,14 +112,17 @@ public class MainServlet implements ControllerFrame {
 			String vendor_message = request.getParameter("input__vendor_message");
 			String email = request.getParameter("input__email");
 			
-			
+			System.out.println("receiver_name" + receiver_name);
 			
 			Order order = Order.builder().receiverName(receiver_name).orderPhone(order_phone)
 					.vendorMessage(vendor_message).addressDetail(address_detail).streetAddress(street_address)
 					.receiverEmail(email).zipcode(zipcode).memberSequence(Long.parseLong(memberSeq)).build();
 			String cmd = request.getParameter("cmd");
 			int usePoint = Integer.parseInt(request.getParameter("usePoint")) * -1;
-
+			System.out.println("useProint" + usePoint);
+			
+			System.out.println("cmd" + cmd);
+			System.out.println("loginUser" + loggedInUser);
 			int totalPoint = 0;
 			int totalPrice = 0;
 			if (cmd.equals("1")) {
@@ -170,9 +177,7 @@ public class MainServlet implements ControllerFrame {
 		            pointService.register(point);
 		            pointService.modify(point);
 		            
-		            HttpSession session = request.getSession();
-					Member loggedInUser = (Member) session.getAttribute("logincust");
-					
+		           
 					Member updatedUserInfo = memberService.get(Member.builder().email(loggedInUser.getEmail()).build());
 					session.setAttribute("logincust", updatedUserInfo);
 		           
@@ -191,7 +196,7 @@ public class MainServlet implements ControllerFrame {
 					Integer price = Integer.parseInt(request.getParameter("price"));
 
 					List<Order> orderList = orderService
-							.getAll(Order.builder().memberSequence(Long.parseLong(memberSeq)).build());
+							.getAll(Order.builder().memberSequence(5).build());
 					OrderDetail orderDetail = OrderDetail.builder().orderSequence(orderList.get(0).getSequence())
 							.count(count).productPoint(pointAccumulationRate * 0.01 * count * price).productPrice(price)
 							.productSequence(productId).build();
@@ -230,9 +235,7 @@ public class MainServlet implements ControllerFrame {
 					Point point = Point.builder().point(usePoint).state(PointStateEnum.USED).memberSequence(Long.parseLong(memberSeq)).build();
 		            pointService.register(point);
 		            pointService.modify(point);
-		            
-		            HttpSession session = request.getSession();
-					Member loggedInUser = (Member) session.getAttribute("logincust");
+		           
 					
 					Member updatedUserInfo = memberService.get(Member.builder().email(loggedInUser.getEmail()).build());
 					session.setAttribute("logincust", updatedUserInfo);

@@ -11,6 +11,7 @@ String[] orderProductList = request.getParameterValues("orderProductList");
 %>
 
 <script>
+
 function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDetail) {
 	const checkbox = document.getElementById("check_box");
 
@@ -292,7 +293,8 @@ function use_point(value, totalPrice, myPoint) {
 							<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
 	                    원</span>
 					</div>
-					<button type="submit" class="site-btn">주문하기</button>
+					<button type="submit" class="site-btn" >주문하기</button>
+					<button type="button" class="site-btn" onClick={requestPay()}>주문하기</button>
 				</div>
 			</div>
 			</form>
@@ -307,13 +309,56 @@ $(document).ready(function(){
 		  if (evt.code === "Enter") 
 			  evt.preventDefault();
 			});	
+	
+	IMP.init("imp56873007");
+
+	  
 })
+
 
 var productName = document.getElementById("productName").innerText;
 var productCount = document.getElementById("productCount").innerText;
 var totalPrice = document.getElementById("totalPrice").innerText;
 var pointAccumulationRate = document.getElementById("pointAccumulationRate").innerText;
 var productId = document.getElementById("productId").innerText;
+
+function requestPay() {
+	var receiverName = document.getElementById("custName").value;
+	var receiverEmail = document.getElementById("custEmail").value;
+	var receiverPhone = document.getElementById("custPhone").value;
+	var receiverPostCode = document.getElementById("sample6_postcode").value;
+	var receiverAddress = document.getElementById("sample6_address").value;
+	var receiverDetailAddress = document.getElementById("sample6_detailAddress").value;
+	var receiverMessage = document.getElementById("sample6_extraAddress").value;
+	
+	  
+    IMP.request_pay({
+        pg : 'kakaopay',
+        pay_method : 'card',
+        merchant_uid: 'merchant_' + new Date().getTime(), 
+        name : "LOTBOOK | " + encodeURIComponent(productName),
+        amount : totalPrice,
+        buyer_email : receiverEmail,
+        buyer_name : receiverName,
+        buyer_tel : receiverPhone,
+        buyer_addr : receiverAddress,
+        buyer_postcode :receiverPostCode
+    }, function (rsp) { // callback
+    	console.log(rsp);
+
+    	location.href="main.bit?view=checkout-result&cmd=2&name=" + encodeURIComponent(productName) + "&count=" + productCount + "&price=" + totalPrice + "&pointAccumulationRate=" + pointAccumulationRate + "&productId=" + productId
+		+ "&input__receiverName=" + receiverName
+		+ "&input__phone=" + receiverPhone
+		+ "&input__zipcode=" + receiverPostCode
+		+ "&input__street_address=" + receiverAddress
+		+ "&input__address_detail=" + receiverDetailAddress
+		+ "&input__vendor_message=" + receiverMessage
+		+ "&input__email=" + receiverEmail
+		+ "&usePoint=" +100;
+        //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+    });
+}
+
 
 function kakaopay() {
 	var clientKey = '';

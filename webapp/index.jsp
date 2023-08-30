@@ -47,6 +47,8 @@
 	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
 </script>
 
+<!-- 아임포트 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 </head>
 
 <style>

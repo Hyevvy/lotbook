@@ -221,8 +221,10 @@ if (productDetailWithReviews != null) {
 						<c:forEach var="i" begin="1" end="${emptyStars}">
 							<i class="fa fa-star-o"></i>
 						</c:forEach>
+						
+						
 
-						<span>${productDetailWithReviews.averageRating }</span> <span>(${ productDetailWithReviews.getReviews().size() }개의
+						<span><fmt:formatNumber value="${productDetailWithReviews.averageRating}" pattern="#0.0"/></span> <span>(${ productDetailWithReviews.getReviews().size() }개의
 							리뷰)</span>
 					</div>
 

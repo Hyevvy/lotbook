@@ -24,7 +24,8 @@
 ## 🎮 프로젝트 주소 - [LOTBOOK](http://lotbook-alb-855234744.ap-northeast-2.elb.amazonaws.com/lotbook/main.bit)
 
 ### ⚒️ 시스템 아키텍처
-![프레젠테이션1](https://github.com/Hyevvy/lotbook/assets/81145399/791d2d96-4dc4-4536-8b03-ba4d812c24f1)
+![프레젠테이션1](https://github.com/Hyevvy/lotbook/assets/81145399/0e9513e7-7531-415b-835b-23693496e1b2)
+
 
 
 ### 🧩 ERD

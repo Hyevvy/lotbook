@@ -334,7 +334,7 @@ function requestPay() {
         pg : 'kakaopay',
         pay_method : 'card',
         merchant_uid: 'merchant_' + new Date().getTime(), 
-        name : "LOTBOOK | " + encodeURIComponent(productName),
+        name : "LOTBOOK | " + productName,
         amount : totalPrice,
         buyer_email : receiverEmail,
         buyer_name : receiverName,
@@ -352,63 +352,11 @@ function requestPay() {
 		+ "&input__address_detail=" + receiverDetailAddress
 		+ "&input__vendor_message=" + receiverMessage
 		+ "&input__email=" + receiverEmail
-		+ "&usePoint=" +100;
+		+ "&usePoint=" + document.getElementById("usePoint").value;
          //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
     });
 }
 
 
-function kakaopay() {
-	var clientKey = '';
-	var tossPayments = TossPayments(clientKey);
-	
-
-	if (receiverName === "") {
-		document.getElementById("custName").focus();
-	} else if (receiverEmail === "") {
-		console.log("none email")
-		document.getElementById("custEmail").focus();
-	} else if (receiverPhone === "") {
-		document.getElementById("custPhone").focus();
-	} else if (receiverPostCode === "") {
-		document.getElementById("sample6_postcode").focus();
-	} else if (receiverAddress === "") {
-		document.getElementById("sample6_address").focus()
-	} else if (receiverDetailAddress === "") {
-		document.getElementById("sample6_detailAddress").focus();
-	} else {
-		var receiverName = document.getElementById("custName").value;
-		var receiverEmail = document.getElementById("custEmail").value;
-		var receiverPhone = document.getElementById("custPhone").value;
-		var receiverPostCode = document.getElementById("sample6_postcode").value;
-		var receiverAddress = document.getElementById("sample6_address").value;
-		var receiverDetailAddress = document.getElementById("sample6_detailAddress").value;
-		var receiverMessage = document.getElementById("sample6_extraAddress").value;
-
-		$.ajax({
-			url:"rest.bit?view=kakaopay&name=" + encodeURIComponent(productName) + "&count=" + productCount + "&price=" + totalPrice + "&pointAccumulationRate=" + pointAccumulationRate + "&productId=" + productId
-					+ "&input__receiverName=" + receiverName
-					+ "&input__phone=" + receiverPhone
-					+ "&input__zipcode=" + receiverPostCode
-					+ "&input__street_address=" + receiverAddress
-					+ "&input__address_detail=" + receiverDetailAddress
-					+ "&input__vendor_message=" + receiverMessage
-					+ "&input__email=" + receiverEmail
-		}).done(function(resp){
-			console.log(resp)
-			if(resp.status === 500){
-				alert("카카오페이결제를 실패하였습니다.")
-			} else{
-				 // alert(resp.tid); //결제 고유 번호
-				var box = resp.next_redirect_pc_url;
-				window.open(box); // 새창 열기
-			}
-		
-		}).fail(function(error){
-			alert(JSON.stringify(error));
-		});
-	}
-	
-}
 </script>
 

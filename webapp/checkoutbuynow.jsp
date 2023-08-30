@@ -31,7 +31,6 @@ function get_my_info(name, email, memberPhone, zipcode, streetAddress, addressDe
 	}
 }
 function use_all_point(totalPoint, totalPrice) {
-	console.log(totalPoint + " " + totalPrice);
 	var checkbox = document.getElementById("checkbox");
 	
 	if (checkbox.checked) {

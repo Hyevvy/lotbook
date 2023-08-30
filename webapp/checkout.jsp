@@ -12,10 +12,16 @@ String[] sequences = request.getParameterValues("sequences");
 
 
 <script>
+$(document).ready(function(){
+	document.getElementById('register_form').addEventListener("keydown", evt => {
+		  if (evt.code === "Enter") 
+			  evt.preventDefault();
+			});	
+})
+
 var payPrice = 0;
 var usePoint = 0;
 function orderProducts (sequences){
-	console.log('sequences', sequences);
 	location.href = 'main.bit?view=checkout-result&sequences=' + sequences;
 	request.setAttribute('zipcode', document.getElementById("sample6_postcode").value);
 } 
@@ -43,7 +49,7 @@ function use_all_point(totalPoint, totalPrice) {
 	var checkbox = document.getElementById("checkbox");
 	
 	if (checkbox.checked) {
-		document.getElementById("usePoint").value = totalPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+		document.getElementById("usePoint").value = totalPoint;
 		document.getElementById("totalPrice").innerHTML = (totalPrice - totalPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
 		document.getElementById("usePoint").disabled = true;
 		payPrice = totalPrice - totalPoint;
@@ -59,8 +65,8 @@ function checkout_result(sequences) {
 function use_point(value, totalPrice, myPoint) {
 	if (value > myPoint) {
 		alert("사용할 수 있는 포인트를 초과했습니다.");
-		document.getElementById("usePoint").value = myPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-		document.getElementById("totalPrice").innerHTML = (totalPrice - myPoint).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+		document.getElementById("usePoint").value = myPoint;
+		document.getElementById("totalPrice").innerHTML = (totalPrice - myPoint) + " 원";
 	} else {
 		document.getElementById("totalPrice").innerHTML = (totalPrice - value).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
 		payPrice = totalPrice - value;
@@ -184,7 +190,7 @@ function use_point(value, totalPrice, myPoint) {
 		<div class="row"></div>
 		<div class="checkout__form">
 			<h4>결제 확인서</h4>
-			<form action="main.bit?view=checkout-result&sequences=${sequences }&cmd=1" method="post">
+			<form id="register_form" action="main.bit?view=checkout-result&sequences=${sequences }&cmd=1" method="post">
 				<input type="hidden" name="view" value="checkout-result" />
 				<div class="row">
 					<div class="col-lg-8 col-md-6">

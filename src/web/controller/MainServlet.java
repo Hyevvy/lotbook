@@ -118,10 +118,7 @@ public class MainServlet implements ControllerFrame {
 					.receiverEmail(email).zipcode(zipcode).memberSequence(Long.parseLong(memberSeq)).build();
 			String cmd = request.getParameter("cmd");
 			int usePoint = Integer.parseInt(request.getParameter("usePoint")) * -1;
-			System.out.println("useProint" + usePoint);
 			
-			System.out.println("cmd" + cmd);
-			System.out.println("loginUser" + loggedInUser);
 			int totalPoint = 0;
 			int totalPrice = 0;
 			if (cmd.equals("1")) {
@@ -185,7 +182,6 @@ public class MainServlet implements ControllerFrame {
 				}
 			} else if (cmd.equals("2")) {
 				// 바로 구매한 경우
-				System.out.println("바로 구매 결과");
 				try {
 					orderService.register(order);
 					
@@ -196,13 +192,13 @@ public class MainServlet implements ControllerFrame {
 
 			
 					List<Order> orderList = orderService
-							.getAll(Order.builder().memberSequence(5).build());
-					System.out.println(orderList);
+							.getAll(Order.builder().memberSequence(loggedInUser.getSequence()).build());
+				
 					OrderDetail orderDetail = OrderDetail.builder().orderSequence(orderList.get(0).getSequence())
 							.count(count).productPoint(pointAccumulationRate * 0.01 * count * price).productPrice(price)
 							.productSequence(productId).build();
 
-					System.out.println(orderDetail);
+					
 					orderDetailService.register(orderDetail);
 					
 					

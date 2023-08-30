@@ -159,10 +159,9 @@
 									<table>
 										<tbody>
 											<c:forEach items="${myCartProductList }" var="product">	
-												<span id="productStock" style="display: none;">${product.stock }</span>                    
 												<tr>
 													<td>
-														<input id="cart_checkbox${product.sequence }" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
+														<input id="cart_checkbox${product.sequence }" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate }, ${product.stock }, '${product.name }')">
 													</td>
 													<td class="d-flex flex-col ml-4" style="margin-right: 20px; width: 500px; text-align: left; font-weight: 700; font-size: 18px;"><img
 														src="${product.productImgurl }" alt="" style="width: 85px;">
@@ -261,12 +260,15 @@
 	var totalPrice = 0;
 	var totalPoint = 0;
 	var selectedCart = [];
-	function is_checked(sequence, count, price, discountRate, pointAccumulationRate) {
-		
+	var productStock = [];
+	var productNameList = [];
+	function is_checked(sequence, count, price, discountRate, pointAccumulationRate, stock, pname) {
 		const checkbox = document.getElementById('cart_checkbox' + sequence);
 	
 		if (checkbox.checked) {
 			selectedCart.push(sequence);
+			productStock.push(stock);
+			productNameList.push(pname);
 			var strPrice = document.getElementById("price" + sequence).innerText.split(" ")[0];
 			var strPoint = document.getElementById("point" + sequence).innerText.split(": ")[0];
 			
@@ -340,14 +342,19 @@
 		close_modal();
 	}
 	function cart_to_order() {
-		const stock = document.getElementById("productStock").innerText * 1;
 		if (selectedCart.length === 0) {
 			alert("구매 상품을 1개 이상 담아주세요!!");
 		} else {
+			var isStockZero = false;
+			for (var i = 0; i < selectedCart.length; i++) {
+				if (productStock[i] === 0) {
+					isStockZero = true;
+					alert(productNameList[i] + ": 품절 - 재고 없음");
+					break;
+				}
+			}
 			
-			if (stock === 0) {
-				alert("품절 - 재고 없음");
-			} else {
+			if (!isStockZero) {
 				location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
 			}
 		}

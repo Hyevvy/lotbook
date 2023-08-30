@@ -452,7 +452,7 @@ if (productDetailWithReviews != null) {
 		</div>
 	</div>
 </div>
-
+<textarea id="urlArea" style="display: none;"></textarea>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
    $(document).ready(function() {
@@ -490,13 +490,21 @@ if (productDetailWithReviews != null) {
  		   ],
  		 });})
 	  
+ 		 
 	  $("#copy-link-btn").click(function() {
-		  let url = window.location.href;
-		  navigator.clipboard.writeText(url).then(res => {
-			  $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+		  
+		  var url = '';
+			var textarea = document.createElement("textarea");
+			document.body.appendChild(textarea);
+			url = window.document.location.href;
+			textarea.value = url;
+			textarea.select();
+			document.execCommand("copy");
+			document.body.removeChild(textarea);
+
+			$("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
 			      $("#success-alert").slideUp(500);
 			    });
-		  })
 	  });
 	   
       $("#addToCartButton").click(function() {

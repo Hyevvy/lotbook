@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import app.dto.entity.Category;
 import app.dto.entity.Product;
 import app.dto.mapper.CategoryMapper;
+import app.dto.mapper.CategoryProductWithReview;
 import app.frame.DaoFrame;
 
 public class CategoryDaoImpl implements DaoFrame<Category, Category>{
@@ -66,6 +67,10 @@ public class CategoryDaoImpl implements DaoFrame<Category, Category>{
 	
 	public List<Integer> selectSubcategorySequences(int sequence, SqlSession session) {
 		return session.selectList("category.selectSubCategorySequences", sequence);
+	}
+
+	public List<CategoryProductWithReview> selectCategory(int categoryCode, SqlSession session) {
+		return session.selectList("category.selectCategory", categoryCode);
 	}
 	
 	

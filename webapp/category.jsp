@@ -177,6 +177,7 @@
 								<label for="orderby"></label>
 								<select id="orderby" 
 									style="margin-left: auto;" onchange="changeOrderBy(this.value)">
+									<option value="popular">인기순</option>
 									<option value="sales">판매량순</option>
 									<option value="high_to_low">높은 가격순</option>
 									<option value="low_to_high">낮은 가격순</option>

@@ -7,17 +7,16 @@ import java.util.stream.Collectors;
 import org.apache.ibatis.session.SqlSession;
 
 import app.dto.entity.Product;
-import app.dto.mapper.CategoryProductWithReview;
 import app.dto.mapper.SearchProductMapper;
 import app.frame.DaoFrame;
 import app.frame.GetSessionFacroty;
 
-public class CategoryServiceImpl implements DaoFrame<Product, Product> {
+public class CategoryServiceImpl2 implements DaoFrame<Product, Product> {
 
 	SqlSession session;
 	CategoryDaoImpl categoryDao;
 
-	public CategoryServiceImpl() {
+	public CategoryServiceImpl2() {
 		super();
 		categoryDao = new CategoryDaoImpl();
 	}
@@ -65,13 +64,16 @@ public class CategoryServiceImpl implements DaoFrame<Product, Product> {
 		return list;
 	}
 
-	public List<CategoryProductWithReview> selectCategoryByView(String view, String orderby) throws Exception {
+	public List<Product> selectCategoryByView(String view, String orderby) throws Exception {
 		session = GetSessionFacroty.getInstance().openSession();
-		List<CategoryProductWithReview> productList = null;
-	
-		productList = categoryDao.selectCategory(Integer.parseInt(view), session);
+		List<Product> productList = null;
+		if ("1".equals(view) || "6".equals(view) || "10".equals(view)) {
+			productList = categoryDao.selectBigCategory(Integer.parseInt(view), session);
+		} else {
+			productList = categoryDao.selectSmallCategory(Integer.parseInt(view), session);
+		}
 		
-		for (CategoryProductWithReview product : productList) {
+		for (Product product : productList) {
 		    int currentPrice = product.getPrice();
 		    double discountRate = product.getDiscountRate();
 		    int newPrice = (int) (currentPrice * (1 - discountRate / 100));
@@ -79,35 +81,25 @@ public class CategoryServiceImpl implements DaoFrame<Product, Product> {
 		    product.setPrice(newPrice);
 		}
 		
-		for (CategoryProductWithReview product : productList) {
-		    long sales = product.getSalesCount();
-		    int score = (int) (sales + (product.getRating_avg() == 0 ? 300 : (long)  product.getRating_avg() * 100));
-		    product.setPopularity(score);	
-		}
-		
-		
-		
-		
 		if(orderby == null)
 			orderby = "sales";
 
 		switch (orderby.toLowerCase()) {
 		case "latest":
-			productList.sort(Comparator.comparing(CategoryProductWithReview::getCreatedAt).reversed());
+			productList.sort(Comparator.comparing(Product::getCreatedAt).reversed());
 			break;
 		case "sales":
-			productList.sort(Comparator.comparing(CategoryProductWithReview::getSalesCount).reversed());
+			productList.sort(Comparator.comparing(Product::getSalesCount).reversed());
 			break;
 		case "high_to_low":
-			productList.sort(Comparator.comparing(CategoryProductWithReview::getPrice).reversed());
+			productList.sort(Comparator.comparing(Product::getPrice).reversed());
 			break;
 		case "low_to_high":
-			productList.sort(Comparator.comparing(CategoryProductWithReview::getPrice));
+			productList.sort(Comparator.comparing(Product::getPrice));
 			break;
-		 case "popular":
-	        default:
-	        	productList.sort(Comparator.comparingLong(CategoryProductWithReview::getPopularity).reversed());
-	            break;
+		default:
+			productList.sort(Comparator.comparing(Product::getSalesCount).reversed());
+			break;
 		}
 
 		return productList;

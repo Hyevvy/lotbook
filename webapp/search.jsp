@@ -44,7 +44,6 @@ pageContext.setAttribute("endPage", endPage);
 			<nav class="header__menu header__top__right mobile-menu"
 				style="padding: 5px 0">
 				<ul>
-
 					<c:choose>
 						<c:when test="${logincust != null }">
 							<li class="active"><a href="main.bit?view=mypage"><i
@@ -194,7 +193,7 @@ pageContext.setAttribute("endPage", endPage);
 								class="font-weight-bold">컴퓨터 / IT</a></li>
 							<li value="2" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">컴퓨터 공학
-									(${searchResult.countByCategory['컴퓨터 공학'] != null ? searchResult.countByCategory['컴퓨터 공학'] : 0})</a></li>
+									(${searchResult.countByCategory['컴퓨터공학'] != null ? searchResult.countByCategory['컴퓨터공학'] : 0})</a></li>
 							<li value="3" onclick="updateCategory(this)"><a href="#"
 								style="text-indent: 20px">데이터베이스
 									(${searchResult.countByCategory['데이터베이스'] != null ? searchResult.countByCategory['데이터베이스'] : 0})</a></li>
@@ -483,7 +482,7 @@ pageContext.setAttribute("endPage", endPage);
         
         
         function redirectToProductDetail(sequence) {
-            var productDetailURL = 'http://localhost:8080/lotbook/product-detail.bit?view=shop-details&sequence=' + sequence;
+            var productDetailURL = 'http://127.0.0.1:8080/lotbook/product-detail.bit?view=shop-details&sequence=' + sequence;
             window.location.href = productDetailURL;
         }
         

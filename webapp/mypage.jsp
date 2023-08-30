@@ -370,7 +370,7 @@ $(document).ready(function(){
 				                          원</h5>
 				                        </div>
 				                        <span class="icon_close btn" onclick="open_modal(${product.sequence }, ${logincust.sequence }, '${product.name }')"></span>
-				                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">
+				                        <input id="cart_checkbox${product.sequence }" class="ml-4" type="checkbox" onclick="is_checked(${product.sequence }, ${product.count }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate }, ${product.stock }, '${product.name }')">
 			                        </div>
 			                      </div>
 			                    </div>
@@ -660,12 +660,16 @@ $(document).ready(function(){
 	var totalPrice = 0;
 	var totalPoint = 0;
 	var selectedCart = [];
-	function is_checked(sequence, count, price, discountRate, pointAccumulationRate) {
+	var productStock = [];
+	var productNameList = [];
+	function is_checked(sequence, count, price, discountRate, pointAccumulationRate, stock, pname) {
 		
 		const checkbox = document.getElementById('cart_checkbox' + sequence);
 
 		if (checkbox.checked) {
 			selectedCart.push(sequence);
+			productStock.push(stock);
+			productNameList.push(pname);
 			var strPrice = document.getElementById("price" + sequence).innerText.split(" ")[0];
 			var strPoint = document.getElementById("point" + sequence).innerText.split(": ")[0];
 			
@@ -741,7 +745,18 @@ $(document).ready(function(){
 		if (selectedCart.length === 0) {
 			alert("구매 상품을 1개 이상 담아주세요!!");
 		} else {
-			location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+			var isStockZero = false;
+			for (var i = 0; i < selectedCart.length; i++) {
+				if (productStock[i] === 0) {
+					isStockZero = true;
+					alert(productNameList[i] + ": 품절 - 재고 없음");
+					break;
+				}
+			}
+			
+			if (!isStockZero) {
+				location.href = 'main.bit?view=checkout&sequences=' + selectedCart;
+			}
 		}
 	}
 	function addCount(sequence, productSeq, memberSeq, price, discountRate, pointAccumulationRate) {

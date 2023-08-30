@@ -104,7 +104,7 @@
 	
 	<!-- 구매 상품 재고 업데이트 -->
 	<update id="updateProductInfo" parameterType="cart">
-		UPDATE `PRODUCT` SET sales_count = sales_count + ${count}, stock = stock - ${count} WHERE product_sequence = #{productSequence};
+		UPDATE `product` SET sales_count = sales_count + ${count}, stock = stock - ${count} WHERE product_sequence = #{productSequence};
 	</update>
 	
 </mapper>

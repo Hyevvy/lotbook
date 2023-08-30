@@ -54,7 +54,9 @@
 ![장바구니담기](https://github.com/Hyevvy/lotbook/assets/81145399/9bc5bb60-7e23-4f3a-b9a3-76bcc731654d)
 ##### 10. 장바구니 구매
 ![장바구니에서구매](https://github.com/Hyevvy/lotbook/assets/81145399/e415ea3f-9deb-4307-b71c-c191e2392b81)
-##### 11. 리뷰 작성
+##### 11. 카카오페이 결제
+![카카오페이 결제](https://github.com/Hyevvy/lotbook/assets/81145399/270e1ec5-a3c6-40e0-a7d5-12a5f8b6966a)
+##### 12. 리뷰 작성
 ![11 리뷰작성](https://github.com/Hyevvy/lotbook/assets/81145399/3705db3f-839a-4ba4-ac80-36b13ac4422d)
-##### 12. 챗봇
+##### 13. 챗봇
 ![12 챗봇](https://github.com/Hyevvy/lotbook/assets/81145399/800c0a38-59c5-4827-b049-26ff92c34852)

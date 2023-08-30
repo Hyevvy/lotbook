@@ -292,7 +292,7 @@ function use_point(value, totalPrice, myPoint) {
 	                    </span>원
 					</div>
 					<button type="submit" class="site-btn" >주문하기</button>
-					<button type="button" class="site-btn" onClick={requestPay()}>카카오페이주문</button>
+					<img src="./img/payment-kakao.png" style=""  alt="kakao 결제" onClick={requestPay()}/>
 				</div>
 			</div>
 			</form>

@@ -64,7 +64,7 @@ public class MainServlet implements ControllerFrame {
 	}
 
 	private void build(HttpServletRequest request, String view) {
-		System.out.println(memberSeq);
+	
 		if (view == null) {		
 			HttpSession session = request.getSession();
 			Member loggedInUser = (Member) session.getAttribute("logincust");
@@ -110,8 +110,7 @@ public class MainServlet implements ControllerFrame {
 			String address_detail = request.getParameter("input__address_detail");
 			String vendor_message = request.getParameter("input__vendor_message");
 			String email = request.getParameter("input__email");
-			
-			System.out.println("receiver_name" + receiver_name);
+
 			
 			Order order = Order.builder().receiverName(receiver_name).orderPhone(order_phone)
 					.vendorMessage(vendor_message).addressDetail(address_detail).streetAddress(street_address)
@@ -310,7 +309,7 @@ public class MainServlet implements ControllerFrame {
 				for(int i=0; i< reviewDetailList.size(); i++) {
 					Product product = Product.builder().sequence(reviewDetailList.get(i).getProductSequence()).build();
 					reviewDetailList.get(i).setReviewDetailProduct(productService.get(product));
-					System.out.println("삭제됨?:"+reviewDetailList.get(i).isDeleted());
+	
 				}
 
 				// 3. myPage로 보내기
@@ -397,7 +396,7 @@ public class MainServlet implements ControllerFrame {
 				for(int i=0; i< reviewDetailList.size(); i++) {
 					Product product = Product.builder().sequence(reviewDetailList.get(i).getProductSequence()).build();
 					reviewDetailList.get(i).setReviewDetailProduct(productService.get(product));
-					System.out.println("삭제됨?:"+reviewDetailList.get(i).isDeleted());
+				
 				}
 
 				// 3. myPage로 보내기
@@ -548,7 +547,7 @@ public class MainServlet implements ControllerFrame {
 					memberService.updatePointConfirm(mem);
 					
 					Member memberInfo = Member.builder().sequence(Integer.parseInt(memberSeq)).build();
-					System.out.println(memberInfo.toString());
+					
 					Member memberResult = memberService.getById(memberInfo);
 					session.setAttribute("logincust", memberResult);
 					
@@ -616,7 +615,7 @@ public class MainServlet implements ControllerFrame {
 				for(int i=0; i< reviewDetailList.size(); i++) {
 					Product product = Product.builder().sequence(reviewDetailList.get(i).getProductSequence()).build();
 					reviewDetailList.get(i).setReviewDetailProduct(productService.get(product));
-					System.out.println("삭제됨?:"+reviewDetailList.get(i).isDeleted());
+			
 				}
 
 				// 3. myPage로 보내기

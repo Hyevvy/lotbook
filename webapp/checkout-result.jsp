@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 request.setCharacterEncoding("UTF-8");
@@ -45,10 +45,13 @@ request.setCharacterEncoding("UTF-8");
 			</div>
 			<div class="col-lg-6">
 				<nav class="header__menu">
-					<ul id="header__menus" >
-						<li><a href="main.bit"  style="font-size: 20px; font-weight: 700;">홈</a></li>
-						<li><a href="category.bit?view=1"  style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
-						<li><a href="main.bit?view=contact"  style="font-size: 20px; font-weight: 700;">고객센터</a></li>
+					<ul id="header__menus">
+						<li><a href="main.bit"
+							style="font-size: 20px; font-weight: 700;">홈</a></li>
+						<li><a href="category.bit?view=1"
+							style="font-size: 20px; font-weight: 700;">도서 전체</a></li>
+						<li><a href="main.bit?view=contact"
+							style="font-size: 20px; font-weight: 700;">고객센터</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -147,35 +150,36 @@ request.setCharacterEncoding("UTF-8");
 					배송메시지 <span> ${orderResult.vendorMessage} </span>
 				</div>
 				<div class="checkout__order__total">
-					상품 목록 
-					<c:forEach items="${orderDetailResult}" var="orderDetail" varStatus="status">
-						<span id="productName${status.index }">${orderDetail.orderDetailProduct.name } X ${orderDetail.count}</span>
+					상품 목록
+					<c:forEach items="${orderDetailResult}" var="orderDetail"
+						varStatus="status">
+						<div style="display:none;" id="productCount">${fn:length(orderDetailResult)}</div>
+						<span id="productName${status.index }">${orderDetail.orderDetailProduct.name }
+							X ${orderDetail.count}</span>
 						<br>
 					</c:forEach>
 				</div>
 				<div class="checkout__order__total">
-					적립 예정 포인트 
-					<span>
-						<c:set var="price" value="${totalPoint}"/>
-						<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-                    점</span>
+					적립 예정 포인트 <span> <c:set var="price" value="${totalPoint}" />
+						<fmt:formatNumber type="number" maxFractionDigits="3"
+							value="${price}" /> 점
+					</span>
 				</div>
 				<div class="checkout__order__total">
-					사용 포인트 
-					<span>
-						<c:set var="price" value="${usedPoint }"/>
-						<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-                    점</span>
+					사용 포인트 <span> <c:set var="price" value="${usedPoint }" /> <fmt:formatNumber
+							type="number" maxFractionDigits="3" value="${price}" /> 점
+					</span>
 				</div>
 				<div class="checkout__order__total">
-					총 금액 
-					<span>
-						<c:set var="price" value="${totalPrice - usedPoint}"/>
-						<fmt:formatNumber type="number" maxFractionDigits="3" value="${price}"/>
-                    원</span>
+					총 금액 <span> <c:set var="price"
+							value="${totalPrice - usedPoint}" /> <fmt:formatNumber
+							type="number" maxFractionDigits="3" value="${price}" /> 원
+					</span>
 				</div>
-				<button type="button" name="submit" class="site-btn" id="order__btn" onclick="goHome()">홈으로
-					이동하기</button>
+				<button type="button" name="submit" class="site-btn" id="order__btn"
+					>이메일로 명세서 받기</button>
+				<button type="button" class="site-btn" id="order__btn"
+					onclick="goHome()">홈으로 이동하기</button>
 			</div>
 		</div>
 	</div>
@@ -191,14 +195,15 @@ function goHome() {
 $(document).ready(function() {
 	emailjs.init("BeCe_Kl2PZg0CGUoO");		
 
-    $('button[name=submit]').click(function(){       
-    	var message = "ㅇㅇ";
+    $('button[name=submit]').click(function(){     
+    	var message = "";
     	const firstProductName = document.getElementById('productName0').innerText;
 
     	const productListLength = document.getElementById('productCount').innerText;
+    	console.log(productListLength)
     	if(productListLength > 1) {
     		// 2종류 이상의 책을 구매
-    		message = firstProductName + `외 ` + (Number(productListLength) - 1) + `건 구매 완료되었습니다.`
+    		message = firstProductName + ` 외 ` + (Number(productListLength) - 1) + ` 건 구매 완료되었습니다.`
     	} else {
     		message = firstProductName + ` 구매 완료되었습니다.`
     	}
@@ -221,10 +226,12 @@ $(document).ready(function() {
    	  emailjs.send('service_dwb08qj', 'template_o71nji7', templateParams)
      	    .then(function(response) {
      	       console.log('SUCCESS!', response.status, response.text);
+     	       window.alert("이메일을 보냈습니다. 홈으로 이동합니다.");
+     	       goHome();
      	    }, function(error) {
      	       console.log('FAILED...', error);
      	    });
-          
+     
 
 
     });

@@ -173,7 +173,7 @@ if (productDetailWithReviews != null) {
 				<div class="breadcrumb__text">
 					<h2>${ productDetailWithReviews.getName() }</h2>
 					<div class="breadcrumb__option">
-						<a href=".index.jsp">Home</a> <a href="./category?view=${productDetailWithReviews.getMainCategorySequence() }">${productDetailWithReviews.getMainCategoryName() }</a>
+						<a href="./index.jsp">Home</a> <a href="./category?view=${productDetailWithReviews.getMainCategorySequence() }">${productDetailWithReviews.getMainCategoryName() }</a>
 						<a href="./category?view=${productDetailWithReviews.getSubCategorySequence() }">${productDetailWithReviews.getSubCategoryName() }</a>
 						<!-- TODO: 클릭시, 카테고리 검색으로 넘기기  -->
 					</div>

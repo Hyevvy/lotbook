@@ -97,8 +97,10 @@ function confirmDelete(sequence){
         if (form) {
             form.submit();
         } else {
+        	
         } 
     } else {
+    	
     }
 }
 
@@ -111,17 +113,50 @@ function cancelEdit(){
 }
 
 function submitEdit(sequence){
-	var confirmed = confirm("리뷰 수정을 완료하시겠습니까?");
+	/* var comments = form.find('.form-control').val();
 	
+	if(comments.length < 20){
+		form.find("#alert-2").css("display", "block");
+		return;
+	}
+	
+	var confirmed = confirm("리뷰 수정을 완료하시겠습니까?");
 	if(confirmed){
 		var form = document.getElementById("review-edit-"+sequence);
-        
-        if (form) {
+		
+        if (form && comments.length >= 20) {
+        	form.find("#alert-2").css("display", "none");
             form.submit();
+        }
+        else{
+        	form.find("#alert-2").css("display", "block");
         }
 	}else{
 		
+	} */
+	var textareaValue = $("#textarea-" + sequence).val();
+	console.log(textareaValue);
+	if (textareaValue.length >= 20) {
+		var confirmed = confirm("리뷰 수정을 완료하시겠습니까?");
+		
+		if(confirmed){
+			var form = document.getElementById("review-edit-"+sequence);
+			form.submit();
+		}
+		else{
+			return;
+		}
+	} 
+	else{
+		alert("텍스트는 최소 20자 이상이어야 합니다.");
+        return;
 	}
+}
+
+function goToReviewSection(){
+	// 리뷰 목록 섹션의 위치로 스크롤 이동
+    const reviewSection = document.getElementById('reviewSection');
+    reviewSection.scrollIntoView({ behavior: 'smooth' });
 }
 </script>
 <script>
@@ -148,22 +183,30 @@ $(document).ready(function(){
             var starRate = form.find('.rating-input').val();
             var comments = form.find('.form-control').val();
             
+            
             if (starRate !== "" && starRate >= 1 && comments !== "") {
-                form.find(".alert-danger").css("display", "none");
-                
-                var formData = form.serialize();
-                
-                $.ajax({
-                	type: "POST",
-                	url: form.attr("action"),
-                	data: formData,
-                	success: function(response){
-                        alert("리뷰가 성공적으로 반영되었습니다!");
-                        document.location.reload();
-                	},
-                    error: function(error) {
-                    }
-                });
+            	
+            	if (comments.length >= 20) {
+	                form.find("#alert-2").css("display", "none");
+	                
+	                var formData = form.serialize();
+	                
+	                $.ajax({
+	                	type: "POST",
+	                	url: form.attr("action"),
+	                	data: formData,
+	                	success: function(response){
+	                        alert("리뷰가 성공적으로 반영되었습니다!");
+	                        document.location.reload();
+	                	},
+	                    error: function(error) {
+	                    }
+	                });
+            	}
+            	else{
+            		form.find("#alert-2").css("display", "block");
+                    return false;
+            	}
             } else if(starRate == "" || starRate === 0){
                 form.find(".alert-danger").css("display", "block");
 	            return false;
@@ -174,7 +217,6 @@ $(document).ready(function(){
             	return false;
             } else{
 	            return true;
-            	
             }
         }
     });
@@ -357,7 +399,7 @@ $(document).ready(function(){
 			                          </div>
 			                          
 			                        </div>
-			                        <div class="d-flex flex-row align-items-center col-4">
+<!-- 			                        <div class="d-flex flex-row align-items-center col-4"> -->
 				                        <div class="d-flex flex-row align-items-center bg-light">
 				                          	<span id="countButtonDiv${product.sequence }" class="p-3 text-dark btn" onclick="reduceCount(${product.sequence}, ${product.productSequence}, ${logincust.sequence }, ${product.price }, ${product.discountRate }, ${product.pointAccumulationRate })">-</span>
 				                          	<h5 class="fw-normal mb-0 ml-2" id="product-count${product.sequence }">${product.count }</h5>
@@ -457,7 +499,12 @@ $(document).ready(function(){
 												</button>
 												<!-- 주문 상태 메시지 -->
 												<c:if test="${orderDetail.state eq 'CONFIRMED' && orderDetail.reviewState eq 'EXIST'}"> 
-													주문 확정됨
+													<button type="button"
+													class="py-2 col-sm-3 bg-info text-white border-0 rounded-sm review-toggle-btn"
+													style="display: inline-block;"
+													onclick="goToReviewSection();">
+													리뷰 보러가기
+													</button>
 												</c:if>
 												<button type="submit"
 													onclick="clickOrderDetailBtn('REFUNDED', ${orderDetail.sequence }, ${orderDetail.orderDetailProduct.sequence }, ${orderDetail.count })"
@@ -503,7 +550,9 @@ $(document).ready(function(){
 										<div class="alert alert-danger mt-4"
 											id="alert-${order.sequence}-${orderDetail.sequence}"
 											style="display: none;">별점을 클릭해주세요</div>
-		
+										<div class="alert alert-danger mt-4"
+											id="alert-2"
+											style="display: none;">리뷰를 20자 이상 작성해주세요</div>
 		
 										<textarea class="form-control" name="comment"
 											rows="3" placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200"
@@ -529,7 +578,7 @@ $(document).ready(function(){
 </section>
 <!-- Checkout Section End -->
 <!-- Review Section Begin -->
-<section class="checkout spad">
+<section class="checkout spad" id="reviewSection">
 	<div class="container">
 		<div class="row"></div>
 		<div class="checkout__form">
@@ -563,7 +612,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div id="reviewList-${review.sequence}">
-								<form id="review-edit-${review.sequence }" action="review.bit" method="post">
+								<form id="review-edit-${review.sequence }" action="review.bit" method="post" onsubmit="event.preventDefault();">
 									<input type="hidden" name="cmd" value="update"> 
 									<input type="hidden" name="sequence" value="${review.sequence }">
 									<input
@@ -592,8 +641,14 @@ $(document).ready(function(){
 			
 									<textarea id="textarea-${review.sequence}" name="comment" class="form-control"
 										rows="3" style="background-color: #f1f3f5; resize: none;"
-										placeholder="리뷰를 자유롭게 작성해주세요." maxlength="200" disabled required
+										placeholder="리뷰를 자유롭게 수정해주세요." maxlength="200" disabled required
 										>${review.comment } </textarea>
+										
+									<!-- <div class="alert alert-danger mt-4"
+											id="alert-2"
+											style="display: none;">리뷰를 20자 이상 작성해주세요</div> -->
+									<!-- <div class="alert alert-danger" id="alert-2">리뷰를 20자 이상 작성해주세요</div> -->
+									
 									<button type="button" id="editBtn-${review.sequence}"
 										class="site-btn edit-review-btn mx-1 text-white border-0 rounded-sm mt-2"
 										onclick="enableTextarea(${review.sequence })"

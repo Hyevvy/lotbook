@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import app.cust.CustServiceImpl;
 import app.dto.entity.Cart;
 import app.dto.entity.Member;
 import app.dto.entity.Order;
@@ -36,7 +35,6 @@ import app.impl.review.ReviewServiceImpl;
 @WebServlet({ "/main" })
 public class MainServlet implements ControllerFrame {
 	private static final long serialVersionUID = 1L;
-	CustServiceImpl custService;
 	ProductServiceImpl productService;
 	CartServiceImpl cartService;
 	PointServiceImpl pointService;
@@ -47,7 +45,6 @@ public class MainServlet implements ControllerFrame {
 
 	public MainServlet() {
 		super();
-		custService = new CustServiceImpl();
 		productService = new ProductServiceImpl();
 		cartService = new CartServiceImpl();
 		pointService = new PointServiceImpl();
